@@ -6,27 +6,13 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 public class PracticeArea {
     public static void main(String[] args) {
-//        javaOpenDoc();
-//        bigDecimalDemo();
-//
-//        float a =3;
-//        float b = 2.4f;
-//        System.out.println(a-b);
-//        String temp = "";
-//        List<String> list = new ArrayList<>();
-//        list.add("hello");
-//        System.out.println((temp=list.get(0)).equals("hello")?temp:"no");
-        int[] nums = {0,0,1,1,1,2,2,3,3,4};
-        int len=removeDuplicates(nums);
-        System.out.println();
-        for (int i=0;i<len;i++) {
-            System.out.print(nums[i]+" ");
-        }
+
     }
 
     public static int removeDuplicates(int[] nums) {
