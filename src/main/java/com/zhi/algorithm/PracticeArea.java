@@ -4,16 +4,16 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.math.RoundingMode;
 import java.util.*;
 import java.util.List;
 
 public class PracticeArea {
     public static void main(String[] args) {
-        int[] nums = {3, 2, 4};
-        int[] ints = twoSum(nums, 6);
-        for (int anInt : ints) {
-            System.out.println(anInt);
+       int[] nums1 = {1, 2, 2, 1}, nums2 = { 2};
+        for (int i : intersect(nums1, nums2)) {
+            System.out.print(i+" ");
         }
     }
 
@@ -86,9 +86,36 @@ public class PracticeArea {
         }
     }
 
-    public static boolean containsDuplicate(int[] nums) {
-        return true;
+    private static int singleNumber(int[] nums) {
+//        Arrays.sort(nums);
+//        for (int i = 0; i < nums.length-1; i++) {
+//            if (nums[i] != nums[i+1]) {
+//                return nums[i];
+//            }
+//            i++;
+//        }
+//        return nums[nums.length-1];
+        //answer
+        int n = 0;
+        for (int num : nums) {
+            n = n ^ num; //按位异或，如1^4 = (001)^(100)=4,举例，[4,2,2,1,1]，后面四个异或结果为0,4和0异或为4
+        }
+        return n;
+    }
 
+    /**
+     * 判断存在重复
+     * @param nums
+     * @return
+     */
+    private static boolean containsDuplicate(int[] nums) {
+        Arrays.sort(nums);
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] == nums[i - 1]) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -131,7 +158,7 @@ public class PracticeArea {
      * @param nums2
      * @return
      */
-    private int[] intersect(int[] nums1, int[] nums2) {
+    private static int[] intersect(int[] nums1, int[] nums2) {
         //使用排序的方法
 //        int l1 = nums1.length;
 //        int l2 = nums2.length;
