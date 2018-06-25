@@ -5,13 +5,85 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 public class PracticeArea {
     public static void main(String[] args) {
+        int[] nums = {3, 2, 4};
+        int[] ints = twoSum(nums, 6);
+        for (int anInt : ints) {
+            System.out.println(anInt);
+        }
+    }
+
+    /**
+     * 两数之和
+     * @param nums
+     * @param target
+     * @return
+     */
+    private static int[] twoSum(int[] nums, int target) {
+//        int[] res = new int[2];
+//        for (int i = 0; i < nums.length; i++) {
+//            for (int j = 0; j < nums.length; j++) {
+//                if (i == j) {
+//                    continue;
+//                }
+//                if (nums[i] + nums[j] == target) {
+//                    res[0]=i;
+//                    res[1]=j;
+//                    return res;
+//                }
+//            }
+//        }
+//        return res;
+        //answer
+        int[] answer = new int[2];
+        if(nums == null|| nums.length < 2){
+            return answer;
+        }
+        int min = nums[0];
+        int max = nums[0];
+
+        for(int i = 0 ;i< nums.length; i++){
+            if(nums[i] > max){
+                max = nums[i];
+            }
+            if(nums[i] < min){
+                min = nums[i];
+            }
+        }
+        int[] difference = new int[max - min +1];
+        for(int i = 0 ;i < nums.length; i++){
+
+            int other = target - nums[i];
+            if(other < min || other > max){
+                continue;
+            }
+            if(difference[other - min] > 0){
+                answer[0] = difference[other - min] -1;
+                answer[1] = i;
+                return answer;
+            }
+            difference[nums[i] - min] = i+1;
+        }
+        System.out.println("1");
+        return answer;
+    }
+
+    private static void moveZeroes(int[] nums) {
+        // 0,1,0,3,5,6
+        int i=0,j=0;
+        for (int num : nums) {
+            if (nums[i] != 0) {
+                nums[j] = (nums[i] + nums[j]) - (nums[i] = nums[j]);
+                i++;
+                j++;
+                continue;
+            }
+            i++;
+        }
     }
 
     public static boolean containsDuplicate(int[] nums) {
@@ -19,9 +91,97 @@ public class PracticeArea {
 
     }
 
+    /**
+     * 加一
+     * @param digits
+     * @return
+     */
+    private  static  int[] plusOne(int[] digits) {
+        int carrry=0;
+        List<Integer> fina = new ArrayList<>();
+        for (int i = digits.length-1; i >=0 ; i--) {
+            int res = 0;
+            if (i == digits.length - 1) {
+                res = digits[i]+1+carrry;
+            }else {
+                res = digits[i]+carrry;
+            }
+            int a = res%10;
+            fina.add(a);
+            carrry=res/10;
+        }
+        fina.add(carrry);
+        int[] finres = new int[fina.size()];
+        int c=0;
+        for (int i = finres.length-1; i >=0 ; i--) {
+            finres[c++] = fina.get(i);
+        }
+        if (finres[0] == 0) {
+            int[] b = new int[finres.length-1];
+            System.arraycopy(finres,1,b,0,b.length);
+            return b;
+        }
+
+        return finres;
+    }
+
+    /**
+     * 两个数组的交集
+     * @param nums1
+     * @param nums2
+     * @return
+     */
+    private int[] intersect(int[] nums1, int[] nums2) {
+        //使用排序的方法
+//        int l1 = nums1.length;
+//        int l2 = nums2.length;
+//        int[] res = new int[Math.max(l1, l2)];
+//        Arrays.sort(nums1);
+//        Arrays.sort(nums2);
+//        int i=0,j=0,c=0;
+//        while (i < l1 && j < l2) {
+//            if (nums1[i] == nums2[j]) {
+//                res[c++] = nums1[i];
+//                i++;
+//                j++;
+//            } else if (nums1[i] > nums2[j]) {
+//                j++;
+//            }else {
+//                i++;
+//            }
+//        }
+//        if (c > 0) {
+//            return Arrays.copyOf(res, c);
+//        }
+//        return new int[0];
+        //不使用排序的方法
+        HashMap<Integer,Integer> map=new HashMap<Integer,Integer>();
+        for (int aNums1 : nums1) {
+            if (map.containsKey(aNums1))
+                map.put(aNums1, map.get(aNums1) + 1);
+            else
+                map.put(aNums1, 1);
+        }
+
+        int[] res = new int[Math.max(nums1.length, nums2.length)];
+        int c=0;
+
+        for (int aNums2 : nums2) {
+            if (map.containsKey(aNums2) && map.get(aNums2) > 0) {
+                res[c++] = aNums2;
+                map.put(aNums2, map.get(aNums2) - 1);
+            }
+        }
+
+        if (c > 0) {
+            return Arrays.copyOf(res, c);
+        }
+        return new int[0];
+    }
 
     /**
      * 旋转数组
+     *
      * @param nums
      * @param k
      */
@@ -29,9 +189,9 @@ public class PracticeArea {
         int[] re = new int[nums.length];
         for (int i = 0; i < nums.length; i++) {
             int pos = (i + k) % nums.length;
-            re[pos]=nums[i];
+            re[pos] = nums[i];
         }
-        System.arraycopy(re,0,nums,0,re.length);
+        System.arraycopy(re, 0, nums, 0, re.length);
 
         //O(1) method
         /*
@@ -57,12 +217,13 @@ public class PracticeArea {
 
     /**
      * 股票最大收益
+     *
      * @param prices
      * @return
      */
     private static int maxProfit(int[] prices) {
         int max = 0;
-        for (int i=1; i < prices.length; i++) {
+        for (int i = 1; i < prices.length; i++) {
             int diff = prices[i] - prices[i - 1];
             if (diff > 0) {
                 max += diff;
@@ -74,6 +235,7 @@ public class PracticeArea {
 
     /**
      * 删除重复值
+     *
      * @param nums
      * @return
      */
