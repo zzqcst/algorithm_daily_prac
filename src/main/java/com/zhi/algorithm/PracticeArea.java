@@ -181,6 +181,7 @@ public class PracticeArea {
 //            return Arrays.copyOf(res, c);
 //        }
 //        return new int[0];
+
         //不使用排序的方法
         HashMap<Integer,Integer> map=new HashMap<Integer,Integer>();
         for (int aNums1 : nums1) {
