@@ -11,9 +11,9 @@ import java.util.List;
 
 public class PracticeArea {
     public static void main(String[] args) {
-       int[] nums1 = {1, 2, 2, 1}, nums2 = { 2};
-        for (int i : intersect(nums1, nums2)) {
-            System.out.print(i+" ");
+        int[] nums = {2, 7, 11, 15};
+        for (int i : twoSum(nums, 9)) {
+            System.out.println(i);
         }
     }
 
@@ -39,37 +39,17 @@ public class PracticeArea {
 //        }
 //        return res;
         //answer
-        int[] answer = new int[2];
-        if(nums == null|| nums.length < 2){
-            return answer;
+        HashMap<Integer, Integer> m = new HashMap<Integer, Integer>();
+        int[] res = new int[2];
+        for (int i = 0; i < nums.length; ++i) {
+            if (m.containsKey(target - nums[i])) {//判断是否有剩下值
+                res[0] = m.get(target - nums[i]);
+                res[1] = i;
+                break;
+            }
+            m.put(nums[i], i);
         }
-        int min = nums[0];
-        int max = nums[0];
-
-        for(int i = 0 ;i< nums.length; i++){
-            if(nums[i] > max){
-                max = nums[i];
-            }
-            if(nums[i] < min){
-                min = nums[i];
-            }
-        }
-        int[] difference = new int[max - min +1];
-        for(int i = 0 ;i < nums.length; i++){
-
-            int other = target - nums[i];
-            if(other < min || other > max){
-                continue;
-            }
-            if(difference[other - min] > 0){
-                answer[0] = difference[other - min] -1;
-                answer[1] = i;
-                return answer;
-            }
-            difference[nums[i] - min] = i+1;
-        }
-        System.out.println("1");
-        return answer;
+        return res;
     }
 
     private static void moveZeroes(int[] nums) {
