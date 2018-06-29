@@ -10,16 +10,401 @@ import java.util.List;
 
 public class PracticeArea {
     public static void main(String[] args) {
-        char[][] board = new char[9][9];
-        for (int i = 0; i < board[0].length; i++) {
-            for (int j = 0; j < board.length; j++) {
-                board[i][j]='.';
-            }
+        String a = "abc";
+        String b = "abd";
+        System.out.println(b.indexOf(a));
+    }
 
+    /**
+     * 最长公共前缀
+     *
+     * @param strs
+     * @return
+     */
+    private static String longestCommonPrefix(String[] strs) {
+//        if (strs.length == 0) {
+////            return "";
+////        }
+////        char last = '-';
+////        int index = 0;
+////        boolean running = true;
+////        StringBuilder sb = new StringBuilder();
+////        while (running) {
+////            for (String str : strs) {
+////                if (str.length() == 0) {
+////                    return "";
+////                }
+////                if (index >= str.length()) {
+////                    running = false;
+////                    last = ' ';
+////                    break;
+////                }
+////                if (last != '-' && str.charAt(index) != last) {
+////                    running = false;
+////                    last = ' ';
+////                    break;
+////                }
+////                last = str.charAt(index);
+////            }
+////            if (last != ' ')
+////                sb.append(last);
+////            last = '-';
+////            index++;
+////        }
+////        return sb.toString();
+        if(strs.length == 0){
+            return "";
         }
-        board[0][0]='1';
-        board[1][0]='1';
-        System.out.println(isValidSudoku(board));
+
+        String prefix = strs[0];
+
+        for(int i = 1; i < strs.length; i++){
+            while(strs[i].indexOf(prefix) != 0){//等于0时，表示匹配成功
+                prefix = prefix.substring(0, prefix.length()-1);//若不匹配，每次将prefix最后一个字符去掉
+                if(prefix.compareTo("") == 0)//没有匹配的
+                    return "";
+            }
+        }
+        return prefix;
+    }
+
+    /**
+     * 数数并说
+     *
+     * @param n
+     * @return
+     */
+    private static String countAndSay(int n) {
+        String current = "1";
+        for (int i = 0; i < n - 1; i++) {
+            current = count(current);
+        }
+        return current;
+    }
+
+    private static String count(String str) {
+        char[] chars = str.toCharArray();
+        int len = 0;
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < chars.length; i++) {
+            if (i + 1 < chars.length && chars[i] != chars[i + 1]) {//当前与下一个不同
+                len++;
+                sb.append(len).append(chars[i] - '0');
+                len = 0;
+                continue;
+            }
+            if (i + 1 == chars.length) {//最后一个
+                len++;
+                sb.append(len).append(chars[i] - '0');
+            }
+            len++;
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 实现strStr()
+     *
+     * @param haystack
+     * @param needle
+     * @return
+     */
+    private static int strStr(String haystack, String needle) {
+//        if (needle.isEmpty()) {
+//            return 0;
+//        }
+//        int i = 0;
+//        while (i < haystack.length()) {
+//            if (haystack.charAt(i) == needle.charAt(0)) {
+//                if (i + needle.length() > haystack.length()) {
+//                    return -1;
+//                } else if (haystack.substring(i, i + needle.length()).equals(needle)) {
+//                    return i;
+//                }
+//            }
+//            i++;
+//        }
+//        return -1;
+        return haystack.indexOf(needle);
+    }
+
+    private static int myAtoi(String str) {
+
+        if (str.isEmpty()) return 0;
+
+        double number = 0;
+        int sign = 1, i = 0, length = str.length();
+        while (i < length - 1 && str.charAt(i) == ' ') i++;
+        if (str.charAt(i) == '+' || str.charAt(i) == '-') {
+            sign = str.charAt(i++) == '+' ? 1 : -1;
+        }
+        while (i < length && str.charAt(i) <= '9' && str.charAt(i) >= '0') {
+            if (number > Integer.MAX_VALUE)
+                return (sign == 1) ? Integer.MAX_VALUE : Integer.MIN_VALUE;
+            number = number * 10 + str.charAt(i++) - '0';
+        }
+        return (int) (number * sign);
+
+//        str = str.trim();
+//        if (str.length() == 0) {
+//            return 0;
+//        }
+//        char[] chars = str.toCharArray();
+//        int len = 0;
+//
+//
+//        for (int i = 0; i < chars.length; i++) {
+//            if (i == 0 && isSign(chars[i])) {//判断第一个字符是不是符号
+//                if (str.length() == 1) {//第一个是符号且只有一位
+//                    return 0;
+//                }
+//                len++;
+//                continue;
+//            }
+//            if (i == 0 && isLetter(chars[0])) {
+//                return 0;
+//            }
+//
+//            if (i == 1 && isSign(chars[0]) && !isNum(chars[1])) {//第一位符号，第二位不是数字
+//                return 0;
+//            }
+//
+//
+//            if (i == 1 && isLetter(chars[i])) {//如果以字母开头
+//                if (!isNum(chars[0])) {
+//                    return 0;
+//                }
+//            }
+//
+//
+//
+//            if (isNum(chars[i]) || chars[i] == '.') {
+//                chars[len++] = chars[i];
+//            }else break;
+//        }
+//
+//        if (len == 0) {
+//            return 0;
+//        }
+//
+//        double res = Double.valueOf(new String(chars, 0, len));
+//        if (res > Integer.MAX_VALUE) {
+//            return Integer.MAX_VALUE;
+//        }
+//
+//        if (res < Integer.MIN_VALUE) {
+//            return Integer.MIN_VALUE;
+//        }
+//
+//        return (int) res;
+    }
+
+    private static boolean isSign(char a) {
+        return a == '-' || a == '+';
+    }
+
+    private static boolean isNum(char a) {
+        return a <= '9' && a >= '0';
+    }
+
+    private static boolean isLetter(char a) {
+        return a <= 'z' && a >= 'a' || a <= 'Z' && a >= 'A';
+    }
+
+    /**
+     * 验证回文字符串
+     *
+     * @param s
+     * @return
+     */
+    public static boolean isPalindrome(String s) {
+        char[] chars = s.toLowerCase().toCharArray();
+        int i = 0, j = chars.length - 1;
+        while (i < j) {
+            if (('z' - chars[i]) < 26 && ('z' - chars[i]) >= 0 || ('9' - chars[i]) < 10 && ('9' - chars[i]) >= 0) {
+                if (('z' - chars[j]) < 26 && ('z' - chars[j]) >= 0 || ('9' - chars[j]) < 10 && ('9' - chars[j]) >= 0) {
+                    if (chars[i] != chars[j]) {
+                        return false;
+                    }
+                    i++;
+                    j--;
+                } else j--;
+            } else i++;
+        }
+        return true;
+    }
+
+    /**
+     * 字母异构词
+     *
+     * @param s
+     * @param t
+     * @return
+     */
+    private static boolean isAnagram(String s, String t) {
+        //利用排序的方法
+        if (s.length() != t.length()) {
+            return false;
+        }
+        char[] chars = s.toCharArray();
+        char[] chars1 = t.toCharArray();
+        Arrays.sort(chars);
+        Arrays.sort(chars1);
+        for (int i = 0; i < chars.length; i++) {
+            if (chars[i] != chars1[i]) {
+                return false;
+            }
+        }
+        return true;
+        //利用字母出现次数的方法，较快
+//        int i;
+//        char[] arrs = s.toCharArray();
+//        char[] arrt = t.toCharArray();
+//
+//        int[] its = new int[26];
+//        int[] itt = new int[26];
+//
+//        for(i = 0; i < arrs.length; i++)
+//            its[arrs[i] - 'a']++;
+//        for(i = 0; i < arrt.length; i++)
+//            itt[arrt[i] - 'a']++;
+//        for(i=0;i<26;i++)
+//        {
+//            if(its[i] != itt[i])
+//                return false;
+//        }
+//        return true;
+    }
+
+    /**
+     * 第一个唯一字符
+     *
+     * @param s
+     * @return
+     */
+    private static int firstUniqChar(String s) {
+        //耗时长
+//        char[] chars = s.toCharArray();
+//        Hashtable<Character, Integer> times = new Hashtable<Character, Integer>();
+//        for (char aChar : chars) {
+//            if (times.containsKey(aChar)) {
+//                times.put(aChar, times.get(aChar) + 1);
+//            } else {
+//                times.put(aChar, 1);
+//            }
+//
+//        }
+//        for (int i = 0; i < chars.length; i++) {
+//            if (times.get(chars[i]) == 1) {
+//                return i;
+//            }
+//        }
+//        return -1;
+        //较快的解法
+        //最多循环26次
+        char c;
+        int start, end;
+
+        if (s.length() < 26) {
+            for (int i = 0; i < s.length(); i++) {
+                c = s.charAt(i);
+                start = s.indexOf(c);
+                end = s.lastIndexOf(c);
+                if (start == end && start != -1)
+                    return i;
+            }
+        } else {
+            int res = s.length();
+            for (char ch = 'a'; ch <= 'z'; ch++) {
+                start = s.indexOf(ch);
+                end = s.lastIndexOf(ch);
+
+                if (start == end && start != -1) {
+                    res = Math.min(res, start);
+                }
+            }
+            if (res != s.length())
+                return res;
+        }
+        return -1;
+    }
+
+    /**
+     * 颠倒整数
+     *
+     * @param x
+     * @return
+     */
+    private static int reverse(int x) {
+        if (x == 0) return x;
+        String s = String.valueOf(x);
+        char[] chars = s.toCharArray();
+        int i = 0, j = s.length() - 1;
+        while (i < j) {
+            if (chars[i] == '-') {
+                i++;
+                continue;
+            }
+            char temp = chars[i];
+            chars[i] = chars[j];
+            chars[j] = temp;
+            i++;
+            j--;
+        }
+        long res = Long.parseLong(new String(chars));
+        if (res < Integer.MIN_VALUE || res > Integer.MAX_VALUE) {
+            return 0;
+        }
+        return (int) res;
+        //方法二
+//        boolean negative = x < 0;
+//        if (negative) x = -x;
+//        long r = 0;
+//        while (x>0) {
+//            r = r * 10 + x % 10;
+//            x /= 10;
+//        }
+//        if (negative) r = -r;
+//        if (r > Integer.MAX_VALUE || r < Integer.MIN_VALUE) return 0;
+//        return (int)r;
+    }
+
+    /**
+     * 反转字符串
+     *
+     * @param s
+     * @return
+     */
+    private static String reverseString(String s) {
+        int i = 0, j = s.length() - 1;
+        char[] chars = s.toCharArray();
+        while (i < j) {
+            char temp = chars[i];
+            chars[i] = chars[j];
+            chars[j] = temp;
+            i++;
+            j--;
+        }
+        return new String(chars);
+    }
+
+    /**
+     * 旋转图像
+     *
+     * @param matrix
+     */
+    public void rotate(int[][] matrix) {
+        int n = matrix.length;
+        //由外向内旋转每一层
+        for (int i = 0; i < n / 2; ++i) {//行数
+            for (int j = i; j < n - 1 - i; ++j) {//列数
+                int tmp = matrix[i][j];//左上
+                matrix[i][j] = matrix[n - 1 - j][i];//左下赋给左上
+                matrix[n - 1 - j][i] = matrix[n - 1 - i][n - 1 - j];//右下赋给左下
+                matrix[n - 1 - i][n - 1 - j] = matrix[j][n - 1 - i];//右上赋给右下
+                matrix[j][n - 1 - i] = tmp;//左上赋给右上
+            }
+        }
     }
 
     /**
@@ -249,6 +634,7 @@ public class PracticeArea {
 //            return Arrays.copyOf(res, c);
 //        }
 //        return new int[0];
+
         //不使用排序的方法
         HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
         for (int aNums1 : nums1) {
