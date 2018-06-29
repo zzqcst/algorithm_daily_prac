@@ -5,20 +5,105 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Arrays;
-import java.math.RoundingMode;
 import java.util.*;
 import java.util.List;
 
 public class PracticeArea {
     public static void main(String[] args) {
-        int[] nums = {2, 7, 11, 15};
-        for (int i : twoSum(nums, 9)) {
-            System.out.println(i);
+        char[][] board = new char[9][9];
+        for (int i = 0; i < board[0].length; i++) {
+            for (int j = 0; j < board.length; j++) {
+                board[i][j]='.';
+            }
+
         }
+        board[0][0]='1';
+        board[1][0]='1';
+        System.out.println(isValidSudoku(board));
+    }
+
+    /**
+     * 有效的数独
+     *
+     * @param board
+     * @return
+     */
+    public static boolean isValidSudoku(char[][] board) {
+        //高效解法
+        int[][] signs = new int[3][9];
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (board[i][j] == '.')
+                    continue;
+                int n = 1 << (board[i][j] - '1');//1×2^(board[i][j]-'1'),二进制1左移当前数字对应的位数
+                int cubeIndex = i / 3 * 3 + j / 3;//当前格子位于第几块中
+                //按位与，若某数字再次出现，对应位上有相同的1，则与后结果不为0
+                //例如，9、8出现后，sign的二进制为110000000,再次出现9，n为100000000,这样，
+                //按位相与的结果不为0
+                if ((signs[0][i] & n) != 0 || (signs[1][j] & n) != 0 || (signs[2][cubeIndex] & n) != 0)
+                    return false;
+                //sign保存数字对应位数的1，比如9，则为100000000,下一个数字是8,则sign更新为，110000000,
+                //即，若某数字出现了，则对应位置上为1
+                signs[0][i] |= n;//对应i行的数字，检查一行的数字是否重复
+                signs[1][j] |= n;//对应j列的的数字,检查列上的数字是否重复
+                signs[2][cubeIndex] |= n;//对应第cubuIndex个块中的数字
+            }
+        }
+        return true;
+
+        //简单解法
+//        Set<Character> rowset = new HashSet<Character>();
+//        Set<Character> colset = new HashSet<Character>();
+//
+//        for(int i = 0; i < 9; i++)
+//        {
+//            rowset.clear();
+//            colset.clear();
+//            for(int j = 0; j < 9; j ++)
+//            {
+//                if(i % 3 == 0 && j % 3 == 0)  // 检查块是否有效
+//                {
+//                    if(!checkBlock(board, i, j))
+//                        return false;
+//                }
+//                if(board[i][j] != '.')  // 检查行是否有效
+//                {
+//                    if(rowset.contains(board[i][j]))
+//                        return false;
+//                    rowset.add(board[i][j]);
+//                }
+//                if(board[j][i] != '.')  // 检查列是否有效
+//                {
+//                    if(colset.contains(board[j][i]))
+//                        return false;
+//                    colset.add(board[j][i]);
+//                }
+//            }
+//        }
+//        return true;
+    }
+
+    public boolean checkBlock(char[][] board, int row, int col)  // 检查块是否有效,一个3×3的块中是否有重复数字
+    {
+        Set<Character> blockSet = new HashSet<Character>();
+        for(int i = row; i < row + 3; i++)
+        {
+            for(int j = col; j < col + 3; j++)
+            {
+                if(board[i][j] != '.')
+                {
+                    if(blockSet.contains(board[i][j]))
+                        return false;
+                    blockSet.add(board[i][j]);
+                }
+            }
+        }
+        return true;
     }
 
     /**
      * 两数之和
+     *
      * @param nums
      * @param target
      * @return
@@ -54,7 +139,7 @@ public class PracticeArea {
 
     private static void moveZeroes(int[] nums) {
         // 0,1,0,3,5,6
-        int i=0,j=0;
+        int i = 0, j = 0;
         for (int num : nums) {
             if (nums[i] != 0) {
                 nums[j] = (nums[i] + nums[j]) - (nums[i] = nums[j]);
@@ -85,6 +170,7 @@ public class PracticeArea {
 
     /**
      * 判断存在重复
+     *
      * @param nums
      * @return
      */
@@ -100,32 +186,33 @@ public class PracticeArea {
 
     /**
      * 加一
+     *
      * @param digits
      * @return
      */
-    private  static  int[] plusOne(int[] digits) {
-        int carrry=0;
+    private static int[] plusOne(int[] digits) {
+        int carrry = 0;
         List<Integer> fina = new ArrayList<>();
-        for (int i = digits.length-1; i >=0 ; i--) {
+        for (int i = digits.length - 1; i >= 0; i--) {
             int res = 0;
             if (i == digits.length - 1) {
-                res = digits[i]+1+carrry;
-            }else {
-                res = digits[i]+carrry;
+                res = digits[i] + 1 + carrry;
+            } else {
+                res = digits[i] + carrry;
             }
-            int a = res%10;
+            int a = res % 10;
             fina.add(a);
-            carrry=res/10;
+            carrry = res / 10;
         }
         fina.add(carrry);
         int[] finres = new int[fina.size()];
-        int c=0;
-        for (int i = finres.length-1; i >=0 ; i--) {
+        int c = 0;
+        for (int i = finres.length - 1; i >= 0; i--) {
             finres[c++] = fina.get(i);
         }
         if (finres[0] == 0) {
-            int[] b = new int[finres.length-1];
-            System.arraycopy(finres,1,b,0,b.length);
+            int[] b = new int[finres.length - 1];
+            System.arraycopy(finres, 1, b, 0, b.length);
             return b;
         }
 
@@ -134,6 +221,7 @@ public class PracticeArea {
 
     /**
      * 两个数组的交集
+     *
      * @param nums1
      * @param nums2
      * @return
@@ -162,7 +250,7 @@ public class PracticeArea {
 //        }
 //        return new int[0];
         //不使用排序的方法
-        HashMap<Integer,Integer> map=new HashMap<Integer,Integer>();
+        HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
         for (int aNums1 : nums1) {
             if (map.containsKey(aNums1))
                 map.put(aNums1, map.get(aNums1) + 1);
@@ -171,7 +259,7 @@ public class PracticeArea {
         }
 
         int[] res = new int[Math.max(nums1.length, nums2.length)];
-        int c=0;
+        int c = 0;
 
         for (int aNums2 : nums2) {
             if (map.containsKey(aNums2) && map.get(aNums2) > 0) {
