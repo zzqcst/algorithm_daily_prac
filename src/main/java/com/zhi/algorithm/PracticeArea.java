@@ -10,8 +10,25 @@ import java.util.List;
 
 public class PracticeArea {
     public static void main(String[] args) {
+    }
+
+    /**
+     * 删除链表中的节点
+     * @param node
+     */
+    private void deleteNode(ListNode node) {
+        node.val=node.next.val;
+        node.next=node.next.next;
+    }
+
+    public class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode(int x) {
+            val = x;
+        }
         ListNode node = new ListNode(1);
-        removeNthFromEnd(node, 1);
     }
 
     private static ListNode removeNthFromEnd(ListNode head, int n) {
@@ -31,15 +48,6 @@ public class PracticeArea {
         }
         temp.next=temp.next.next;
         return head;
-    }
-
-    public static class ListNode {
-        int val;
-        ListNode next;
-
-        ListNode(int x) {
-            val = x;
-        }
     }
 
     /**
