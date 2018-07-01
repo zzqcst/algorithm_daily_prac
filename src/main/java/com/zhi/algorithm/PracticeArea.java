@@ -10,43 +10,56 @@ import java.util.List;
 
 public class PracticeArea {
     public static void main(String[] args) {
+        ListNode node1 = new ListNode(1);
+//        ListNode node2 = new ListNode(2);
+//        node1.next=node2;
+        removeNthFromEnd(node1, 1);
     }
 
     /**
      * 删除链表中的节点
+     *
      * @param node
      */
     private void deleteNode(ListNode node) {
-        node.val=node.next.val;
-        node.next=node.next.next;
+        node.val = node.next.val;
+        node.next = node.next.next;
     }
 
-    public class ListNode {
+    public static class ListNode {
         int val;
         ListNode next;
 
         ListNode(int x) {
             val = x;
         }
-        ListNode node = new ListNode(1);
     }
 
+    /**
+     * 删除链表的倒数第N个节点
+     * @param head
+     * @param n
+     * @return
+     */
     private static ListNode removeNthFromEnd(ListNode head, int n) {
-        int size=1;
-        ListNode temp = head;
-        while (temp.next != null) {
-            size++;
-            temp=temp.next;
+        ListNode preNode = head;
+        ListNode curNode = head;
+
+        for (int i = 0; i < n; i++) {
+            curNode = curNode.next;
+            if (curNode == null) {
+                return preNode.next;
+            }
         }
-        int pos = size-n;
-        temp=head;
-        while (pos-- != 0) {
-            temp=temp.next;
+
+
+        while (curNode.next != null) {
+            preNode = preNode.next;
+            curNode = curNode.next;
         }
-        if (temp.next == null) {
-            return head;
-        }
-        temp.next=temp.next.next;
+
+        preNode.next = preNode.next.next;
+
         return head;
     }
 
