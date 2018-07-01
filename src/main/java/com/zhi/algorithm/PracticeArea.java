@@ -10,9 +10,36 @@ import java.util.List;
 
 public class PracticeArea {
     public static void main(String[] args) {
-        String a = "abc";
-        String b = "abd";
-        System.out.println(b.indexOf(a));
+        ListNode node = new ListNode(1);
+        removeNthFromEnd(node, 1);
+    }
+
+    private static ListNode removeNthFromEnd(ListNode head, int n) {
+        int size=1;
+        ListNode temp = head;
+        while (temp.next != null) {
+            size++;
+            temp=temp.next;
+        }
+        int pos = size-n;
+        temp=head;
+        while (pos-- != 0) {
+            temp=temp.next;
+        }
+        if (temp.next == null) {
+            return head;
+        }
+        temp.next=temp.next.next;
+        return head;
+    }
+
+    public static class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode(int x) {
+            val = x;
+        }
     }
 
     /**
@@ -52,16 +79,16 @@ public class PracticeArea {
 ////            index++;
 ////        }
 ////        return sb.toString();
-        if(strs.length == 0){
+        if (strs.length == 0) {
             return "";
         }
 
         String prefix = strs[0];
 
-        for(int i = 1; i < strs.length; i++){
-            while(strs[i].indexOf(prefix) != 0){//等于0时，表示匹配成功
-                prefix = prefix.substring(0, prefix.length()-1);//若不匹配，每次将prefix最后一个字符去掉
-                if(prefix.compareTo("") == 0)//没有匹配的
+        for (int i = 1; i < strs.length; i++) {
+            while (strs[i].indexOf(prefix) != 0) {//等于0时，表示匹配成功
+                prefix = prefix.substring(0, prefix.length() - 1);//若不匹配，每次将prefix最后一个字符去掉
+                if (prefix.compareTo("") == 0)//没有匹配的
                     return "";
             }
         }
@@ -471,13 +498,10 @@ public class PracticeArea {
     public boolean checkBlock(char[][] board, int row, int col)  // 检查块是否有效,一个3×3的块中是否有重复数字
     {
         Set<Character> blockSet = new HashSet<Character>();
-        for(int i = row; i < row + 3; i++)
-        {
-            for(int j = col; j < col + 3; j++)
-            {
-                if(board[i][j] != '.')
-                {
-                    if(blockSet.contains(board[i][j]))
+        for (int i = row; i < row + 3; i++) {
+            for (int j = col; j < col + 3; j++) {
+                if (board[i][j] != '.') {
+                    if (blockSet.contains(board[i][j]))
                         return false;
                     blockSet.add(board[i][j]);
                 }
