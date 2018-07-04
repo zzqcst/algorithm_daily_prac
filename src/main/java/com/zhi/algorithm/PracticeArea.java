@@ -12,18 +12,43 @@ public class PracticeArea {
     public static void main(String[] args) {
         ListNode node1 = new ListNode(1);
         ListNode node2 = new ListNode(2);
-        ListNode node3 = new ListNode(3);
-        ListNode node4 = new ListNode(4);
-        ListNode node5 = new ListNode(5);
+        ListNode node3 = new ListNode(4);
+        ListNode node4 = new ListNode(1);
+        ListNode node5 = new ListNode(3);
+        ListNode node6 = new ListNode(4);
         node1.next=node2;
         node2.next=node3;
-        node3.next=node4;
         node4.next = node5;
-        ListNode newNode=reverseList(node1);
-        while (newNode!= null) {
-            System.out.println(newNode.val);
-            newNode=newNode.next;
+        node5.next=node6;
+        ListNode node = mergeTwoLists(node1, node4);
+        while (node != null) {
+            System.out.println(node.val);
+            node=node.next;
         }
+    }
+
+    /**
+     * 合并两个有序链表
+     * @param l1
+     * @param l2
+     * @return
+     */
+    private static ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        ListNode head = null;
+        if (l1 == null) {
+            return l2;
+        }
+        if (l2 == null) {
+            return l1;
+        }
+        if (l1.val <= l2.val) {
+            head = l1;
+            head.next = mergeTwoLists(l1.next, l2);
+        } else {
+            head=l2;
+            head.next = mergeTwoLists(l1, l2.next);
+        }
+        return head;
     }
 
     /**
