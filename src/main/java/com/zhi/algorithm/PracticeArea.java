@@ -10,11 +10,48 @@ import java.util.List;
 
 public class PracticeArea {
     public static void main(String[] args) {
-        StringBuffer sb = new StringBuffer();
-        sb.append("hello world;");
-        sb.replace(sb.lastIndexOf(";"), sb.lastIndexOf(";")+1, "");
-        System.out.println(sb.toString());
+        ListNode node1 = new ListNode(1);
+        ListNode node2 = new ListNode(2);
+        ListNode node3 = new ListNode(3);
+        ListNode node4 = new ListNode(4);
+        ListNode node5 = new ListNode(5);
+        node1.next=node2;
+        node2.next=node3;
+        node3.next=node4;
+        node4.next = node5;
+        ListNode newNode=reverseList(node1);
+        while (newNode!= null) {
+            System.out.println(newNode.val);
+            newNode=newNode.next;
+        }
     }
+
+    /**
+     * 反转链表
+     * @param head
+     * @return
+     */
+    private  static ListNode reverseList(ListNode head) {
+        //递归方法
+//        if (head == null || head.next == null) {
+//            return head;
+//        }else {
+//            ListNode newHead = reverseList(head.next);
+//            head.next.next=head;
+//            head.next = null;
+//            return newHead;
+//        }
+        //非递归方法
+        ListNode preNode = null;
+        while (head != null) {
+            ListNode temp = head.next;
+            head.next=preNode;//将保存的上一个节点作为该节点的下一个节点
+            preNode=head;//然后当前节点成为下次循环的上一个节点
+            head=temp;
+        }
+        return preNode;
+    }
+
 
     /**
      * 删除链表中的节点
