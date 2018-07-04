@@ -12,23 +12,61 @@ public class PracticeArea {
     public static void main(String[] args) {
         ListNode node1 = new ListNode(1);
         ListNode node2 = new ListNode(2);
-        ListNode node3 = new ListNode(4);
-        ListNode node4 = new ListNode(1);
-        ListNode node5 = new ListNode(3);
-        ListNode node6 = new ListNode(4);
-        node1.next=node2;
-        node2.next=node3;
+        ListNode node3 = new ListNode(3);
+        ListNode node4 = new ListNode(4);
+        ListNode node5 = new ListNode(5);
+        ListNode node6 = new ListNode(6);
+        node1.next = node2;
+        node2.next = node3;
+        node3.next = node4;
         node4.next = node5;
-        node5.next=node6;
-        ListNode node = mergeTwoLists(node1, node4);
-        while (node != null) {
-            System.out.println(node.val);
-            node=node.next;
+        node5.next = node6;
+        System.out.println(isPalindrome(node1));
+    }
+
+    private static boolean isPalindrome(ListNode head) {
+        //借助反转链表的方法
+//        ListNode pre = null;
+//        List<Integer> origin = new ArrayList<>();
+//        while (head != null) {
+//            origin.add(head.val);
+//            ListNode temp = head.next;
+//            head.next=pre;
+//            pre = head;
+//            head=temp;
+//        }
+//
+//        int i=0;
+//        while (pre != null) {
+//            if (pre.val != origin.get(i++)) {
+//                return false;
+//            }
+//            pre=pre.next;
+//        }
+//        return true;
+        //另一种方法
+        ListNode fast = head, slow = head;
+        while (fast != null && fast.next != null) {//当fast遍历完时，slow正好遍历一半
+            fast = fast.next.next;
+            slow = slow.next;
         }
+
+        slow = reverseList(slow);
+        fast = head;
+
+        while (slow != null) {//将反转后的后一半和前一半比较
+            if (fast.val != slow.val) {
+                return false;
+            }
+            fast = fast.next;
+            slow = slow.next;
+        }
+        return true;
     }
 
     /**
      * 合并两个有序链表
+     *
      * @param l1
      * @param l2
      * @return
@@ -45,7 +83,7 @@ public class PracticeArea {
             head = l1;
             head.next = mergeTwoLists(l1.next, l2);
         } else {
-            head=l2;
+            head = l2;
             head.next = mergeTwoLists(l1, l2.next);
         }
         return head;
@@ -53,10 +91,11 @@ public class PracticeArea {
 
     /**
      * 反转链表
+     *
      * @param head
      * @return
      */
-    private  static ListNode reverseList(ListNode head) {
+    private static ListNode reverseList(ListNode head) {
         //递归方法
 //        if (head == null || head.next == null) {
 //            return head;
@@ -70,9 +109,9 @@ public class PracticeArea {
         ListNode preNode = null;
         while (head != null) {
             ListNode temp = head.next;
-            head.next=preNode;//将保存的上一个节点作为该节点的下一个节点
-            preNode=head;//然后当前节点成为下次循环的上一个节点
-            head=temp;
+            head.next = preNode;//将保存的上一个节点作为该节点的下一个节点
+            preNode = head;//然后当前节点成为下次循环的上一个节点
+            head = temp;
         }
         return preNode;
     }
@@ -99,6 +138,7 @@ public class PracticeArea {
 
     /**
      * 删除链表的倒数第N个节点
+     *
      * @param head
      * @param n
      * @return
