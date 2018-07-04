@@ -61,6 +61,7 @@ public class PracticeArea {
             fast = fast.next;
             slow = slow.next;
         }
+
         return true;
     }
 
