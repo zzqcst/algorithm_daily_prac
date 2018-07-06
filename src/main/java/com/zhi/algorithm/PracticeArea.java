@@ -10,18 +10,89 @@ import java.util.List;
 
 public class PracticeArea {
     public static void main(String[] args) {
-        ListNode node1 = new ListNode(1);
-        ListNode node2 = new ListNode(2);
-        ListNode node3 = new ListNode(3);
-        ListNode node4 = new ListNode(4);
-        ListNode node5 = new ListNode(5);
-        ListNode node6 = new ListNode(6);
-        node1.next = node2;
-        node2.next = node3;
-        node3.next = node4;
-        node4.next = node5;
-        node5.next = node6;
-        System.out.println(isPalindrome(node1));
+//        ListNode node1 = new ListNode(1);
+//        ListNode node2 = new ListNode(2);
+//        ListNode node3 = new ListNode(3);
+//        ListNode node4 = new ListNode(4);
+//        ListNode node5 = new ListNode(5);
+//        ListNode node6 = new ListNode(6);
+//        node1.next = node2;
+//        node2.next = node3;
+//        node3.next = node4;
+//        node4.next = node5;
+//        node5.next = node6;
+    }
+
+    /**
+     * 验证二叉搜索树
+     *
+     * @param root
+     * @return
+     */
+    private static boolean isValidBST(TreeNode root) {
+        if (root == null) return true;
+        return valid(root, Long.MIN_VALUE, Long.MAX_VALUE);
+    }
+
+    private static boolean valid(TreeNode root, long low, long high) {
+        if (root == null) return true;
+        if (root.val <= low || root.val >= high) return false;
+        return valid(root.left, low, root.val) && valid(root.right, root.val, high);
+    }
+
+    /**
+     * 二叉树最大深度
+     *
+     * @param root
+     * @return
+     */
+    public int maxDepth(TreeNode root) {
+        //递归
+        if (root == null) {
+            return 0;
+        }
+        return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
+    }
+
+    public class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode(int x) {
+            val = x;
+        }
+    }
+
+    /**
+     * 链表中是否有环
+     *
+     * @param head
+     * @return
+     */
+    private static boolean hasCycle(ListNode head) {
+        //own
+//        HashMap<Integer, Integer> map = new HashMap<>();
+//        while (head != null) {
+//            if (map.containsKey(head.hashCode())) {
+//                return true;
+//            }else {
+//                map.put(head.hashCode(), 1);
+//            }
+//            head = head.next;
+//        }
+//        return false;
+        //追赶法
+        if (head == null || head.next == null) return false;
+        ListNode slow = head;
+        ListNode fast = head.next;
+        while (slow != fast) {
+            if (fast == null || fast.next == null)
+                return false;
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return true;
     }
 
     private static boolean isPalindrome(ListNode head) {
