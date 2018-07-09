@@ -24,6 +24,56 @@ public class PracticeArea {
     }
 
     /**
+     * 对称二叉树
+     * @param root
+     * @return
+     */
+    private static boolean isSymmetric(TreeNode root) {
+        //递归
+//        if (root == null) {
+//            return true;
+//        }
+//        return symmetric(root.left, root.right);
+
+        //迭代
+        if (root == null) {
+            return true;
+        }
+        Stack<TreeNode> s = new Stack<>();
+        s.push(root.left);
+        s.push(root.right);
+        while (!s.empty()) {
+            TreeNode p = s.pop();
+            TreeNode q = s.pop();
+            if (p == null && q == null) {
+                continue;
+            }
+            if (p == null || q == null) {
+                return false;
+            }
+            if (p.val != q.val) {
+                return false;
+            }
+            s.push(p.left);
+            s.push(q.right);
+            s.push(p.right);
+            s.push(q.left);
+        }
+        return true;
+    }
+
+    private static boolean symmetric(TreeNode p, TreeNode q) {//也可用于判断两棵树是否相等
+        if (p == null && q == null) {
+            return true;
+        }
+        if (p == null || q == null) {
+            return false;
+        }
+
+        return p.val == q.val && symmetric(p.right, q.left) && symmetric(p.left, q.right);
+    }
+
+    /**
      * 验证二叉搜索树
      *
      * @param root
