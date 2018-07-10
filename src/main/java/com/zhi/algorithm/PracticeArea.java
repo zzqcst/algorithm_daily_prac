@@ -24,6 +24,27 @@ public class PracticeArea {
     }
 
     /**
+     * 二叉树的层次遍历
+     * @param root
+     * @return
+     */
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        if (root == null) {
+            return null;
+        }
+        List<Integer> lists = new ArrayList<>();
+        lists.add(root.val);
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root.left);
+        queue.offer(root.right);
+        while (!queue.isEmpty()) {
+            TreeNode q = queue.poll();
+            TreeNode p = queue.poll();
+        }
+
+    }
+
+    /**
      * 对称二叉树
      * @param root
      * @return
