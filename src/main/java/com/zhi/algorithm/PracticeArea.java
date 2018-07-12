@@ -25,6 +25,8 @@ public class PracticeArea {
 //                System.out.println(integer);
 //            }
 //        }
+        int[] a = new int[]{-10,-3,0,5,9};
+        sortedArrayToBST(a);
     }
 
     /**
@@ -32,18 +34,18 @@ public class PracticeArea {
      * @param nums
      * @return
      */
-    public TreeNode sortedArrayToBST(int[] nums) {
+    public static TreeNode sortedArrayToBST(int[] nums) {
         if (nums == null || nums.length == 0) return null;
 
         return sortedArrayToBST(nums, 0, nums.length-1);
     }
 
-    private TreeNode sortedArrayToBST(int[] nums, int start, int end) {
+    private static TreeNode sortedArrayToBST(int[] nums, int start, int end) {
         if (start > end) return null;
         int mid = (end + start) / 2;
         TreeNode root = new TreeNode(nums[mid]);
         root.left = sortedArrayToBST(nums, start, mid-1);
-        root.right = sortedArrayToBST(nums, mid + 1, end);
+        root.right = sortedArrayToBST(nums, mid+1, end);
         return root;
     }
 
