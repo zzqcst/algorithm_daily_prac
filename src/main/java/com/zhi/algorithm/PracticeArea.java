@@ -10,42 +10,78 @@ import java.util.List;
 
 public class PracticeArea {
     public static void main(String[] args) {
-//        ListNode node1 = new ListNode(1);
-//        ListNode node2 = new ListNode(2);
-//        ListNode node3 = new ListNode(3);
-//        ListNode node4 = new ListNode(4);
-//        ListNode node5 = new ListNode(5);
-//        ListNode node6 = new ListNode(6);
-//        node1.next = node2;
-//        node2.next = node3;
-//        node3.next = node4;
-//        node4.next = node5;
-//        node5.next = node6;
+//        TreeNode t1 = new TreeNode(3);
+//        TreeNode t2 = new TreeNode(9);
+//        TreeNode t3 = new TreeNode(20);
+//        TreeNode t4 = new TreeNode(15);
+//        TreeNode t5 = new TreeNode(7);
+//        t1.left = t2;
+//        t1.right = t3;
+//        t3.left = t4;
+//        t3.right = t5;
+//        List<List<Integer>> lists = levelOrder(t1);
+//        for (List<Integer> list : lists) {
+//            for (Integer integer : list) {
+//                System.out.println(integer);
+//            }
+//        }
+    }
+
+    /**
+     * 将有序数组转换为二叉搜索树
+     * @param nums
+     * @return
+     */
+    public TreeNode sortedArrayToBST(int[] nums) {
+        if (nums == null || nums.length == 0) return null;
+
+        return sortedArrayToBST(nums, 0, nums.length-1);
+    }
+
+    private TreeNode sortedArrayToBST(int[] nums, int start, int end) {
+        if (start > end) return null;
+        int mid = (end + start) / 2;
+        TreeNode root = new TreeNode(nums[mid]);
+        root.left = sortedArrayToBST(nums, start, mid-1);
+        root.right = sortedArrayToBST(nums, mid + 1, end);
+        return root;
     }
 
     /**
      * 二叉树的层次遍历
+     *
      * @param root
      * @return
      */
-    public List<List<Integer>> levelOrder(TreeNode root) {
-        if (root == null) {
-            return null;
-        }
-        List<Integer> lists = new ArrayList<>();
-        lists.add(root.val);
-        Queue<TreeNode> queue = new LinkedList<>();
-        queue.offer(root.left);
-        queue.offer(root.right);
-        while (!queue.isEmpty()) {
-            TreeNode q = queue.poll();
-            TreeNode p = queue.poll();
-        }
+    private static List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> result = new ArrayList<>();
 
+        Queue<TreeNode> queue = new LinkedList<>();
+        int size = 0, i = 0;
+        if (root != null) {
+            queue.offer(root);
+        }
+        while (!queue.isEmpty()) {
+            List<Integer> level = new ArrayList<>();
+            size = queue.size();
+            for (i = 0; i < size; i++) {
+                TreeNode t = queue.poll();
+                level.add(t.val);
+                if (t.left != null) {
+                    queue.offer(t.left);
+                }
+                if (t.right != null) {
+                    queue.offer(t.right);
+                }
+            }
+            result.add(level);
+        }
+        return result;
     }
 
     /**
      * 对称二叉树
+     *
      * @param root
      * @return
      */
@@ -125,7 +161,7 @@ public class PracticeArea {
         return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
     }
 
-    public class TreeNode {
+    public static class TreeNode {
         int val;
         TreeNode left;
         TreeNode right;
