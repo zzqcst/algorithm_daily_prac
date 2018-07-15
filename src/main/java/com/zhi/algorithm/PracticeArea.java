@@ -30,6 +30,38 @@ public class PracticeArea {
     }
 
     /**
+     * 合并两个有序数组
+     * 给定两个有序整数数组 nums1 和 nums2，将 nums2 合并到 nums1 中，使得 num1 成为一个有序数组。
+     * @param nums1
+     * @param m nums1大小
+     * @param nums2
+     * @param n nums2大小
+     */
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        //先复制再排序
+//        for (int i = m; i <m+n ; i++) {
+//            nums1[i]=nums2[i-m];
+//        }
+//        Arrays.sort(nums1);
+        //从后往前
+        while (m>0&&n>0){
+            if (nums1[m-1]<nums2[n-1]){
+                nums1[m+n-1]=nums2[n-1];//m+n-1从最后一位逐一向前移动
+                n--;
+            }else{
+                nums1[m+n-1]=nums1[m-1];
+                m--;
+            }
+            if (m==0){
+                while (n>0){
+                    nums1[n-1]=nums2[n-1];
+                    n--;
+                }
+            }
+        }
+    }
+
+    /**
      * 将有序数组转换为二叉搜索树
      * @param nums
      * @return
