@@ -4,6 +4,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.*;
 import java.util.List;
@@ -21,6 +22,15 @@ public class PracticeArea {
 //        node3.next = node4;
 //        node4.next = node5;
 //        node5.next = node6;
+        String file = "D:\\exportfiles\\"+String.valueOf(System.currentTimeMillis());
+        file=file+".xlsx";
+        File f = new File(file);
+        try {
+            f.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println(f.getName().substring(0, f.getName().lastIndexOf(".")));
     }
 
     /**
