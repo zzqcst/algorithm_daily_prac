@@ -10,7 +10,7 @@ import java.util.*;
 import java.util.List;
 
 public class PracticeArea {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 //        ListNode node1 = new ListNode(1);
 //        ListNode node2 = new ListNode(2);
 //        ListNode node3 = new ListNode(3);
@@ -22,15 +22,165 @@ public class PracticeArea {
 //        node3.next = node4;
 //        node4.next = node5;
 //        node5.next = node6;
-        String file = "D:\\exportfiles\\"+String.valueOf(System.currentTimeMillis());
-        file=file+".xlsx";
-        File f = new File(file);
-        try {
-            f.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
+//        TreeNode t1 = new TreeNode(3);
+//        TreeNode t2 = new TreeNode(9);
+//        TreeNode t3 = new TreeNode(20);
+//        TreeNode t4 = new TreeNode(15);
+//        TreeNode t5 = new TreeNode(7);
+//        t1.left = t2;
+//        t1.right = t3;
+//        t3.left = t4;
+//        t3.right = t5;
+//        List<List<Integer>> lists = levelOrder(t1);
+//        for (List<Integer> list : lists) {
+//            for (Integer integer : list) {
+//                System.out.println(integer);
+//            }
+//        }
+        Excel_reader test= new Excel_reader();
+        List<ArrayList<String>> arr=test.xlsx_reader("E:\\projects\\java\\algorithm_daily_prac\\src\\main\\java\\com\\zhi\\algorithm\\a.xlsx",0,1,2,3,4,5,6,7,8,9);  //后面的参数代表需要输出哪些列，参数个数可以任意
+        for(int i=0;i<arr.size();i++) {
+            ArrayList<String> row = arr.get(i);
+            for (int j = 0; j < row.size(); j++) {
+                System.out.print(row.get(j) + " ");
+            }
+            System.out.println("");
         }
-        System.out.println(f.getName().substring(0, f.getName().lastIndexOf(".")));
+    }
+
+    /**
+     * 合并两个有序数组
+     * 给定两个有序整数数组 nums1 和 nums2，将 nums2 合并到 nums1 中，使得 num1 成为一个有序数组。
+     * @param nums1
+     * @param m nums1大小
+     * @param nums2
+     * @param n nums2大小
+     */
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        //先复制再排序
+//        for (int i = m; i <m+n ; i++) {
+//            nums1[i]=nums2[i-m];
+//        }
+//        Arrays.sort(nums1);
+        //从后往前
+        while (m>0&&n>0){
+            if (nums1[m-1]<nums2[n-1]){
+                nums1[m+n-1]=nums2[n-1];//m+n-1从最后一位逐一向前移动
+                n--;
+            }else{
+                nums1[m+n-1]=nums1[m-1];
+                m--;
+            }
+            if (m==0){
+                while (n>0){
+                    nums1[n-1]=nums2[n-1];
+                    n--;
+                }
+            }
+        }
+    }
+
+    /**
+     * 将有序数组转换为二叉搜索树
+     * @param nums
+     * @return
+     */
+    public static TreeNode sortedArrayToBST(int[] nums) {
+        if (nums == null || nums.length == 0) return null;
+
+        return sortedArrayToBST(nums, 0, nums.length-1);
+    }
+
+    private static TreeNode sortedArrayToBST(int[] nums, int start, int end) {
+        if (start > end) return null;
+        int mid = (end + start) / 2;
+        TreeNode root = new TreeNode(nums[mid]);
+        root.left = sortedArrayToBST(nums, start, mid-1);
+        root.right = sortedArrayToBST(nums, mid+1, end);
+        return root;
+    }
+
+    /**
+     * 二叉树的层次遍历
+     *
+     * @param root
+     * @return
+     */
+    private static List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> result = new ArrayList<>();
+
+        Queue<TreeNode> queue = new LinkedList<>();
+        int size = 0, i = 0;
+        if (root != null) {
+            queue.offer(root);
+        }
+        while (!queue.isEmpty()) {
+            List<Integer> level = new ArrayList<>();
+            size = queue.size();
+            for (i = 0; i < size; i++) {
+                TreeNode t = queue.poll();
+                level.add(t.val);
+                if (t.left != null) {
+                    queue.offer(t.left);
+                }
+                if (t.right != null) {
+                    queue.offer(t.right);
+                }
+            }
+            result.add(level);
+        }
+        return result;
+    }
+
+    /**
+     * 对称二叉树
+     *
+     * @param root
+     * @return
+     */
+    private static boolean isSymmetric(TreeNode root) {
+        //递归
+//        if (root == null) {
+//            return true;
+//        }
+//        return symmetric(root.left, root.right);
+
+        //迭代
+        if (root == null) {
+            return true;
+        }
+        Stack<TreeNode> s = new Stack<>();
+        s.push(root.left);
+        s.push(root.right);
+        while (!s.empty()) {
+            TreeNode p = s.pop();
+            TreeNode q = s.pop();
+            if (p == null && q == null) {
+                continue;
+            }
+            if (p == null || q == null) {
+                return false;
+            }
+            if (p.val != q.val) {
+                return false;
+            }
+            s.push(p.left);
+            s.push(q.right);
+            s.push(p.right);
+            s.push(q.left);
+        }
+        return true;
+    }
+
+    private static boolean symmetric(TreeNode p, TreeNode q) {//也可用于判断两棵树是否相等
+        if (p == null && q == null) {
+            return true;
+        }
+        if (p == null || q == null) {
+            return false;
+        }
+
+        return p.val == q.val && symmetric(p.right, q.left) && symmetric(p.left, q.right);
     }
 
     /**
@@ -64,7 +214,7 @@ public class PracticeArea {
         return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
     }
 
-    public class TreeNode {
+    public static class TreeNode {
         int val;
         TreeNode left;
         TreeNode right;
