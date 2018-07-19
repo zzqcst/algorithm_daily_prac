@@ -37,24 +37,64 @@ public class PracticeArea {
 //                System.out.println(integer);
 //            }
 //        }
-        Excel_reader test= new Excel_reader();
-        List<ArrayList<String>> arr=test.xlsx_reader("E:\\projects\\java\\algorithm_daily_prac\\src\\main\\java\\com\\zhi\\algorithm\\a.xlsx",0,1,2,3,4,5,6,7,8,9);  //后面的参数代表需要输出哪些列，参数个数可以任意
-        for(int i=0;i<arr.size();i++) {
-            ArrayList<String> row = arr.get(i);
-            for (int j = 0; j < row.size(); j++) {
-                System.out.print(row.get(j) + " ");
-            }
-            System.out.println("");
+//        Excel_reader test= new Excel_reader();
+//        List<ArrayList<String>> arr=test.xlsx_reader("E:\\projects\\java\\algorithm_daily_prac\\src\\main\\java\\com\\zhi\\algorithm\\a.xlsx",0,1,2,3,4,5,6,7,8,9);  //后面的参数代表需要输出哪些列，参数个数可以任意
+//        for(int i=0;i<arr.size();i++) {
+//            ArrayList<String> row = arr.get(i);
+//            for (int j = 0; j < row.size(); j++) {
+//                System.out.print(row.get(j) + " ");
+//            }
+//            System.out.println("");
+//        }
+        System.out.println(firstBadVersion(2126753390));
+    }
+
+    /**
+     * 第一个错误的版本
+     * 二分查找
+     * 最后两个数为左边一个为false,右边一个为true,
+     * mid为左边一个数,加一后等于后边一个数,即结果
+     * @param n 最大版本数
+     * @return 第一个错误版本数
+     */
+    private static int firstBadVersion(int n) {
+        if (n <= 0)
+            return 0;
+        long l = 1, r = n;
+        while (l < r) {
+            long mid = (l + r) / 2;
+            if (isBadVersion((int) mid))//mid:true,往左边查找
+                r = mid;
+            else //mid:false,往右边查找
+                l = mid + 1;
         }
+        return (int) l;
+    }
+
+    private static int getBadVersion(long lo, long hi) {
+        if (isBadVersion((int) lo)) {//lo:true
+            return (int) lo;
+        }
+        long mid = (lo + hi) / 2;
+        if (!isBadVersion((int) mid)) {//mid:false
+            return getBadVersion(mid + 1, hi);
+        } else {//mid:true
+            return getBadVersion(lo, mid);
+        }
+    }
+
+    private static boolean isBadVersion(int version) {
+        return version == 1702766719;
     }
 
     /**
      * 合并两个有序数组
      * 给定两个有序整数数组 nums1 和 nums2，将 nums2 合并到 nums1 中，使得 num1 成为一个有序数组。
+     *
      * @param nums1
-     * @param m nums1大小
+     * @param m     nums1大小
      * @param nums2
-     * @param n nums2大小
+     * @param n     nums2大小
      */
     public void merge(int[] nums1, int m, int[] nums2, int n) {
         //先复制再排序
@@ -63,17 +103,17 @@ public class PracticeArea {
 //        }
 //        Arrays.sort(nums1);
         //从后往前
-        while (m>0&&n>0){
-            if (nums1[m-1]<nums2[n-1]){
-                nums1[m+n-1]=nums2[n-1];//m+n-1从最后一位逐一向前移动
+        while (m > 0 && n > 0) {
+            if (nums1[m - 1] < nums2[n - 1]) {
+                nums1[m + n - 1] = nums2[n - 1];//m+n-1从最后一位逐一向前移动
                 n--;
-            }else{
-                nums1[m+n-1]=nums1[m-1];
+            } else {
+                nums1[m + n - 1] = nums1[m - 1];
                 m--;
             }
-            if (m==0){
-                while (n>0){
-                    nums1[n-1]=nums2[n-1];
+            if (m == 0) {
+                while (n > 0) {
+                    nums1[n - 1] = nums2[n - 1];
                     n--;
                 }
             }
@@ -82,21 +122,22 @@ public class PracticeArea {
 
     /**
      * 将有序数组转换为二叉搜索树
+     *
      * @param nums
      * @return
      */
     public static TreeNode sortedArrayToBST(int[] nums) {
         if (nums == null || nums.length == 0) return null;
 
-        return sortedArrayToBST(nums, 0, nums.length-1);
+        return sortedArrayToBST(nums, 0, nums.length - 1);
     }
 
     private static TreeNode sortedArrayToBST(int[] nums, int start, int end) {
         if (start > end) return null;
         int mid = (end + start) / 2;
         TreeNode root = new TreeNode(nums[mid]);
-        root.left = sortedArrayToBST(nums, start, mid-1);
-        root.right = sortedArrayToBST(nums, mid+1, end);
+        root.left = sortedArrayToBST(nums, start, mid - 1);
+        root.right = sortedArrayToBST(nums, mid + 1, end);
         return root;
     }
 
