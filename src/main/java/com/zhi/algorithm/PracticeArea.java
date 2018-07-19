@@ -25,8 +25,11 @@ public class PracticeArea {
 //                System.out.println(integer);
 //            }
 //        }
-        int[] a = new int[]{-10,-3,0,5,9};
-        sortedArrayToBST(a);
+//        int[] a = new int[]{-10,-3,0,5,9};
+//        sortedArrayToBST(a);
+        String test = "a:0.4;b:90;c:1.2;";
+        String[] split = test.split(";");
+        System.out.println(split.length);
     }
 
     /**
