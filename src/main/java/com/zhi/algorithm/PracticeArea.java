@@ -4,12 +4,24 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.*;
 import java.util.List;
 
 public class PracticeArea {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+//        ListNode node1 = new ListNode(1);
+//        ListNode node2 = new ListNode(2);
+//        ListNode node3 = new ListNode(3);
+//        ListNode node4 = new ListNode(4);
+//        ListNode node5 = new ListNode(5);
+//        ListNode node6 = new ListNode(6);
+//        node1.next = node2;
+//        node2.next = node3;
+//        node3.next = node4;
+//        node4.next = node5;
+//        node5.next = node6;
 //        TreeNode t1 = new TreeNode(3);
 //        TreeNode t2 = new TreeNode(9);
 //        TreeNode t3 = new TreeNode(20);
@@ -25,11 +37,15 @@ public class PracticeArea {
 //                System.out.println(integer);
 //            }
 //        }
-//        int[] a = new int[]{-10,-3,0,5,9};
-//        sortedArrayToBST(a);
-        String test = "a:0.4;b:90;c:1.2;";
-        String[] split = test.split(";");
-        System.out.println(split.length);
+        Excel_reader test= new Excel_reader();
+        List<ArrayList<String>> arr=test.xlsx_reader("E:\\projects\\java\\algorithm_daily_prac\\src\\main\\java\\com\\zhi\\algorithm\\a.xlsx",0,1,2,3,4,5,6,7,8,9);  //后面的参数代表需要输出哪些列，参数个数可以任意
+        for(int i=0;i<arr.size();i++) {
+            ArrayList<String> row = arr.get(i);
+            for (int j = 0; j < row.size(); j++) {
+                System.out.print(row.get(j) + " ");
+            }
+            System.out.println("");
+        }
     }
 
     /**

@@ -1,7 +1,6 @@
 package com.zhi.algorithm;
 
 import javax.mail.Message;
-import javax.mail.NoSuchProviderException;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
@@ -32,7 +31,7 @@ public class App {
         ts.sendMessage(message, message.getAllRecipients());
         ts.close();
     }
-    public static MimeMessage createSimpleMail(Session session)
+    private static MimeMessage createSimpleMail(Session session)
             throws Exception {
         //创建邮件对象
         MimeMessage message = new MimeMessage(session);
