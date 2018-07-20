@@ -46,8 +46,30 @@ public class PracticeArea {
 //            }
 //            System.out.println("");
 //        }
-        System.out.println(firstBadVersion(2126753390));
+        System.out.println(climbStairs(44));
     }
+
+    /**
+     * 爬楼梯
+     * @param n
+     * @return
+     */
+    private static int climbStairs(int n) {
+        if (n==1){
+            return 1;
+        }
+        if (n==2){
+            return 2;
+        }
+        int a=1,b=2,temp=0;
+        for (int i = 3; i <=n ; i++) {
+            temp=a+b;
+            a=b;
+            b=temp;
+        }
+        return temp;
+    }
+
 
     /**
      * 第一个错误的版本
