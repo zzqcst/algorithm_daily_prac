@@ -46,13 +46,36 @@ public class PracticeArea {
 //            }
 //            System.out.println("");
 //        }
-        System.out.println(climbStairs(44));
+        int[] a={7,1,5,3,6,4};
+        System.out.println(maxProfit1(a));
+    }
+
+    /**
+     * 买股票的最佳时机
+     * @param prices 价格数组
+     * @return 最大利润
+     */
+    private static int maxProfit1(int[] prices) {
+        if (prices.length == 0) {
+            return 0;
+        }
+        int maxpf=0;
+        int starter = prices[0];
+        for (int i = 1; i < prices.length; i++) {
+            int temp = prices[i]-starter;
+            if (temp<0) {
+                starter=prices[i];
+                continue;
+            }
+            maxpf = Math.max(temp, maxpf);
+        }
+        return maxpf;
     }
 
     /**
      * 爬楼梯
-     * @param n
-     * @return
+     * @param n 楼梯阶数
+     * @return 方法数
      */
     private static int climbStairs(int n) {
         if (n==1){
