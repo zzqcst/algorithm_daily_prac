@@ -46,9 +46,31 @@ public class PracticeArea {
 //            }
 //            System.out.println("");
 //        }
-        int[] a={7,1,5,3,6,4};
-        System.out.println(maxProfit1(a));
+        int[] a={-2,1,-3,4,-1,2,1,-5,4};
+        System.out.println(maxSubArray(a));
     }
+
+    /**
+     * 最大子序和
+     * @param nums 数组
+     * @return 最大子序和
+     */
+    private static int maxSubArray(int[] nums) {
+        int max=nums[0],submax=nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            if (submax < 0) {//如果上一个子序列和小于零,丢弃,子序列从当前从新计算
+                submax = nums[i];
+            }else {
+                submax+=nums[i];//否则当前元素算入上个子序列
+            }
+
+            if (submax > max) {//和不为零的子序列中,和的最大值
+                max=submax;
+            }
+        }
+        return max;
+    }
+
 
     /**
      * 买股票的最佳时机
