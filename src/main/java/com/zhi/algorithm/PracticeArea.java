@@ -60,14 +60,14 @@ public class PracticeArea {
             return 0;
         }
         int maxpf=0;
-        int starter = prices[0];
+        int starter = prices[0];//最小的元素
         for (int i = 1; i < prices.length; i++) {
-            int temp = prices[i]-starter;
+            int temp = prices[i]-starter;//计算与最小元素的差值
             if (temp<0) {
-                starter=prices[i];
+                starter=prices[i];//遇到比当前最小元素更小的值,替换当前最小元素
                 continue;
             }
-            maxpf = Math.max(temp, maxpf);
+            maxpf = Math.max(temp, maxpf);//保存最大差值
         }
         return maxpf;
     }
