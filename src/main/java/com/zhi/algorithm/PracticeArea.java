@@ -3,6 +3,7 @@ package com.zhi.algorithm;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.lang.management.ManagementFactory;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -46,26 +47,65 @@ public class PracticeArea {
 //            }
 //            System.out.println("");
 //        }
-        int[] a={-2,1,-3,4,-1,2,1,-5,4};
-        System.out.println(maxSubArray(a));
+        int[] a = {2, 1, 1, 2};
+        System.out.println(rob(a));
     }
 
     /**
+     * 打家劫舍
+     *
+     * @param nums
+     * @return
+     */
+    private static int rob(int[] nums) {
+        //F(n)=max{a[n]+F(n-2),F(n-1)}
+        if (nums.length == 0) {
+            return 0;
+        }
+        int pre1 = 0, pre2 = nums[0],max;
+        for (int i = 1; i < nums.length; i++) {
+            max=nums[i] + pre1;//最优
+            max=max>pre2?max:pre2;//子结构
+            pre1=pre2;
+            pre2=max;
+        }
+        return pre2;
+    }
+//    private static int rob(int[] nums) {
+//        if (nums.length == 0) {
+//            return 0;
+//        }
+//        return getHighestRob(nums,nums.length-1);
+//    }
+//
+//    private static int getHighestRob(int[] nums, int i) {
+//        if (i == 1) {
+//            return Math.max(nums[0], nums[1]);
+//        }
+//        if (i == 0) {
+//            return nums[0];
+//        }
+//        //不抢劫i和抢劫i之间的最大值
+//        return Math.max(getHighestRob(nums, i - 1), getHighestRob(nums, i - 2)+nums[i]);
+//    }
+
+    /**
      * 最大子序和
+     *
      * @param nums 数组
      * @return 最大子序和
      */
     private static int maxSubArray(int[] nums) {
-        int max=nums[0],submax=nums[0];
+        int max = nums[0], submax = nums[0];
         for (int i = 1; i < nums.length; i++) {
             if (submax < 0) {//如果上一个子序列和小于零,丢弃,子序列从当前从新计算
                 submax = nums[i];
-            }else {
-                submax+=nums[i];//否则当前元素算入上个子序列
+            } else {
+                submax += nums[i];//否则当前元素算入上个子序列
             }
 
             if (submax > max) {//和不为零的子序列中,和的最大值
-                max=submax;
+                max = submax;
             }
         }
         return max;
@@ -74,6 +114,7 @@ public class PracticeArea {
 
     /**
      * 买股票的最佳时机
+     *
      * @param prices 价格数组
      * @return 最大利润
      */
@@ -81,12 +122,12 @@ public class PracticeArea {
         if (prices.length == 0) {
             return 0;
         }
-        int maxpf=0;
+        int maxpf = 0;
         int starter = prices[0];//最小的元素
         for (int i = 1; i < prices.length; i++) {
-            int temp = prices[i]-starter;//计算与最小元素的差值
-            if (temp<0) {
-                starter=prices[i];//遇到比当前最小元素更小的值,替换当前最小元素
+            int temp = prices[i] - starter;//计算与最小元素的差值
+            if (temp < 0) {
+                starter = prices[i];//遇到比当前最小元素更小的值,替换当前最小元素
                 continue;
             }
             maxpf = Math.max(temp, maxpf);//保存最大差值
@@ -96,21 +137,22 @@ public class PracticeArea {
 
     /**
      * 爬楼梯
+     *
      * @param n 楼梯阶数
      * @return 方法数
      */
     private static int climbStairs(int n) {
-        if (n==1){
+        if (n == 1) {
             return 1;
         }
-        if (n==2){
+        if (n == 2) {
             return 2;
         }
-        int a=1,b=2,temp=0;
-        for (int i = 3; i <=n ; i++) {
-            temp=a+b;
-            a=b;
-            b=temp;
+        int a = 1, b = 2, temp = 0;
+        for (int i = 3; i <= n; i++) {
+            temp = a + b;
+            a = b;
+            b = temp;
         }
         return temp;
     }
@@ -121,6 +163,7 @@ public class PracticeArea {
      * 二分查找
      * 最后两个数为左边一个为false,右边一个为true,
      * mid为左边一个数,加一后等于后边一个数,即结果
+     *
      * @param n 最大版本数
      * @return 第一个错误版本数
      */
