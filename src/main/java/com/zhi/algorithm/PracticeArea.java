@@ -11,6 +11,33 @@ import java.util.*;
 import java.util.List;
 
 public class PracticeArea {
+    public class Solution {
+        private int[] store;
+        private List<Integer> list;
+        public Solution(int[] nums) {
+            store=nums;
+            list = new ArrayList<>();
+            for (int num : nums) {
+                list.add(num);
+            }
+        }
+
+        /** Resets the array to its original configuration and return it. */
+        public int[] reset() {
+            return store;
+        }
+
+        /** Returns a random shuffling of the array. */
+        public int[] shuffle() {
+            Collections.shuffle(list);
+            int[] temp = new int[list.size()];
+            for (int i = 0; i < list.size(); i++) {
+                temp[i] = list.get(i);
+            }
+            return temp;
+        }
+    }
+
     public static void main(String[] args) throws IOException {
 //        ListNode node1 = new ListNode(1);
 //        ListNode node2 = new ListNode(2);
@@ -47,12 +74,12 @@ public class PracticeArea {
 //            }
 //            System.out.println("");
 //        }
-        int[] a = {2, 1, 1, 2};
-        System.out.println(rob(a));
+        Random random = new Random();
+        System.out.println(random.nextInt(10));
     }
 
     /**
-     * 打家劫舍
+     * 打家劫
      *
      * @param nums
      * @return
