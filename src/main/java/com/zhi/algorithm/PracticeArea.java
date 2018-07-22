@@ -3,9 +3,7 @@ package com.zhi.algorithm;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.lang.management.ManagementFactory;
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.*;
 import java.util.List;
@@ -35,6 +33,42 @@ public class PracticeArea {
                 temp[i] = list.get(i);
             }
             return temp;
+        }
+    }
+
+    static class MinStack {
+        private Stack<Integer> stack = new Stack<>();
+        private Stack<Integer> minstack = new Stack<>();
+        public MinStack() {
+
+        }
+
+        public void push(int x) {
+            if (!minstack.isEmpty()&&x <= minstack.peek()) {
+                minstack.push(x);
+            }
+            if (minstack.isEmpty()) {
+                minstack.push(x);
+            }
+            stack.push(x);
+        }
+
+        public void pop() {
+            if (stack.isEmpty()) {
+                return;
+            }
+            if (stack.peek().equals(minstack.peek())) {
+                minstack.pop();
+            }
+            stack.pop();
+        }
+
+        public int top() {
+            return stack.peek();
+        }
+
+        public int getMin() {
+            return minstack.peek();
         }
     }
 
@@ -74,8 +108,13 @@ public class PracticeArea {
 //            }
 //            System.out.println("");
 //        }
-        Random random = new Random();
-        System.out.println(random.nextInt(10));
+        MinStack obj = new MinStack();
+        obj.push(0);
+        obj.push(1);
+        obj.push(0);
+        System.out.println(obj.getMin());
+        obj.pop();
+        System.out.println(obj.getMin());
     }
 
     /**
