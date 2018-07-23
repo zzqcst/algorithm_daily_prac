@@ -9,7 +9,104 @@ import java.util.*;
 import java.util.List;
 
 public class PracticeArea {
-    public class Solution {
+    public static void main(String[] args) throws IOException {
+//        ListNode node1 = new ListNode(1);
+//        ListNode node2 = new ListNode(2);
+//        ListNode node3 = new ListNode(3);
+//        ListNode node4 = new ListNode(4);
+//        ListNode node5 = new ListNode(5);
+//        ListNode node6 = new ListNode(6);
+//        node1.next = node2;
+//        node2.next = node3;
+//        node3.next = node4;
+//        node4.next = node5;
+//        node5.next = node6;
+//        TreeNode t1 = new TreeNode(3);
+//        TreeNode t2 = new TreeNode(9);
+//        TreeNode t3 = new TreeNode(20);
+//        TreeNode t4 = new TreeNode(15);
+//        TreeNode t5 = new TreeNode(7);
+//        t1.left = t2;
+//        t1.right = t3;
+//        t3.left = t4;
+//        t3.right = t5;
+//        List<List<Integer>> lists = levelOrder(t1);
+//        for (List<Integer> list : lists) {
+//            for (Integer integer : list) {
+//                System.out.println(integer);
+//            }
+//        }
+//        Excel_reader test= new Excel_reader();
+//        List<ArrayList<String>> arr=test.xlsx_reader("E:\\projects\\java\\algorithm_daily_prac\\src\\main\\java\\com\\zhi\\algorithm\\a.xlsx",0,1,2,3,4,5,6,7,8,9);  //后面的参数代表需要输出哪些列，参数个数可以任意
+//        for(int i=0;i<arr.size();i++) {
+//            ArrayList<String> row = arr.get(i);
+//            for (int j = 0; j < row.size(); j++) {
+//                System.out.print(row.get(j) + " ");
+//            }
+//            System.out.println("");
+//        }
+        int n = 3;
+        double start=System.currentTimeMillis();
+        int primeNum = countPrimes(n);
+        double spent = (System.currentTimeMillis()-start)/1000;
+        System.out.println(spent);
+    }
+
+    public static int countPrimes(int n) {
+        if (n <3) {
+            return 0;
+        }
+        if (n == 3) {
+            return 1;
+        }
+
+        boolean[] isPrime = new boolean[n + 1];//标记是否是素数
+        int[] prime = new int[n / 2];//保存素数的数组
+        int totalPrimes=1;
+        for (int i = 3; i <=n ; i+=2) {//4,6,8,....,偶数过滤掉
+            isPrime[i]=true;
+        }
+        isPrime[2]=true;
+        prime[0]=2;
+        for (int i = 3; i <=n ; i+=2) {
+            if (isPrime[i]){
+                prime[totalPrimes++] = i;
+            }
+            for (int j = 1; i*prime[j] <=n&&j<totalPrimes ; j++) {//i*prime[j]是保证不超过上限n,j<totalPrimes是在prime数组已有质数内计算
+                isPrime[i*prime[j]]=false;//过滤素数的倍数
+                if (i % prime[j] == 0) {
+                    break;
+                }
+            }
+        }
+        return totalPrimes;
+    }
+
+
+
+    /**
+     * 3和5的倍数
+     * @param n
+     * @return
+     */
+    public List<String> fizzBuzz(int n) {
+        List<String> result = new ArrayList<>();
+        for (int i = 1; i <= n; i++) {
+            if (i % 5 == 0 && i % 3 == 0) {
+                result.add("FizzBuzz");
+                continue;
+            }
+            if (i % 5 == 0) {
+                result.add("Buzz");
+            }else
+            if (i % 3 == 0) {
+                result.add("Fizz");
+            } else result.add(String.valueOf(i));
+        }
+        return result;
+    }
+
+    class Solution {
         private int[] store;
         private List<Integer> list;
         public Solution(int[] nums) {
@@ -72,50 +169,6 @@ public class PracticeArea {
         }
     }
 
-    public static void main(String[] args) throws IOException {
-//        ListNode node1 = new ListNode(1);
-//        ListNode node2 = new ListNode(2);
-//        ListNode node3 = new ListNode(3);
-//        ListNode node4 = new ListNode(4);
-//        ListNode node5 = new ListNode(5);
-//        ListNode node6 = new ListNode(6);
-//        node1.next = node2;
-//        node2.next = node3;
-//        node3.next = node4;
-//        node4.next = node5;
-//        node5.next = node6;
-//        TreeNode t1 = new TreeNode(3);
-//        TreeNode t2 = new TreeNode(9);
-//        TreeNode t3 = new TreeNode(20);
-//        TreeNode t4 = new TreeNode(15);
-//        TreeNode t5 = new TreeNode(7);
-//        t1.left = t2;
-//        t1.right = t3;
-//        t3.left = t4;
-//        t3.right = t5;
-//        List<List<Integer>> lists = levelOrder(t1);
-//        for (List<Integer> list : lists) {
-//            for (Integer integer : list) {
-//                System.out.println(integer);
-//            }
-//        }
-//        Excel_reader test= new Excel_reader();
-//        List<ArrayList<String>> arr=test.xlsx_reader("E:\\projects\\java\\algorithm_daily_prac\\src\\main\\java\\com\\zhi\\algorithm\\a.xlsx",0,1,2,3,4,5,6,7,8,9);  //后面的参数代表需要输出哪些列，参数个数可以任意
-//        for(int i=0;i<arr.size();i++) {
-//            ArrayList<String> row = arr.get(i);
-//            for (int j = 0; j < row.size(); j++) {
-//                System.out.print(row.get(j) + " ");
-//            }
-//            System.out.println("");
-//        }
-        MinStack obj = new MinStack();
-        obj.push(0);
-        obj.push(1);
-        obj.push(0);
-        System.out.println(obj.getMin());
-        obj.pop();
-        System.out.println(obj.getMin());
-    }
 
     /**
      * 打家劫
