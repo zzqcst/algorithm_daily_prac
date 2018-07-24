@@ -45,36 +45,139 @@ public class PracticeArea {
 //            }
 //            System.out.println("");
 //        }
-        int n = 3;
-        double start=System.currentTimeMillis();
-        int primeNum = countPrimes(n);
-        double spent = (System.currentTimeMillis()-start)/1000;
-        System.out.println(spent);
+        System.out.println(isPowerOfThree(27));
     }
 
-    public static int countPrimes(int n) {
-        if (n <3) {
+    /**
+     * 罗马数字转整数
+     * @param s
+     * @return
+     */
+    public int romanToInt(String s) {
+        char[] chars = s.toCharArray();
+        Stack<Integer> stack = new Stack<>();
+        for (char aChar : chars) {
+            switch (aChar) {//将当前字符转化为数字
+                case 'I':
+                    stack.push(1);
+                    break;
+                case 'V':
+                    if (!stack.isEmpty()) {
+                        if (stack.peek() < 5) {//上一个数字比当前小
+                            int temp=stack.pop();
+                            stack.push(5 - temp);
+                            continue;
+                        }
+                    }
+                    stack.push(5);
+                    break;
+                case 'X':
+                    if (!stack.isEmpty()) {
+                        if (stack.peek() < 10) {//上一个数字比当前小
+                            int temp=stack.pop();
+                            stack.push(10 - temp);
+                            continue;
+                        }
+                    }
+                    stack.push(10);
+                    break;
+                case 'L':
+                    if (!stack.isEmpty()) {
+                        if (stack.peek() < 50) {//上一个数字比当前小
+                            int temp=stack.pop();
+                            stack.push(50 - temp);
+                            continue;
+                        }
+                    }
+                    stack.push(50);
+                    break;
+                case 'C':
+                    if (!stack.isEmpty()) {
+                        if (stack.peek() < 100) {//上一个数字比当前小
+                            int temp=stack.pop();
+                            stack.push(100 - temp);
+                            continue;
+                        }
+                    }
+                    stack.push(100);
+                    break;
+                case 'D':
+                    if (!stack.isEmpty()) {
+                        if (stack.peek() < 500) {//上一个数字比当前小
+                            int temp=stack.pop();
+                            stack.push(500 - temp);
+                            continue;
+                        }
+                    }
+                    stack.push(500);
+                    break;
+                case 'M':
+                    if (!stack.isEmpty()) {
+                        if (stack.peek() < 1000) {//上一个数字比当前小
+                            int temp=stack.pop();
+                            stack.push(1000 - temp);
+                            continue;
+                        }
+                    }
+                    stack.push(1000);
+                    break;
+            }
+        }
+        int result = 0;
+        for (Integer integer : stack) {
+            result += integer;
+        }
+        return result;
+    }
+
+    /**
+     * 3的幂
+     * @param n 要判断的数
+     * @return 结果
+     */
+    private static boolean isPowerOfThree(int n) {
+        //解法一
+        //return (n>0&&Math.pow(3,19)%n==0);3^19是int范围内最大的3的幂，那么3^19可以被任何3的幂整除。
+        //解法二
+        if (n < 0) {
+            return false;
+        }
+        while (n >0) {
+            if (n == 1) {
+                return true;
+            }
+            if (n % 3 != 0) {
+                return false;
+            }
+            n=n/3;
+        }
+        return false;
+    }
+    /**
+     * 计算质数
+     * @param n 上限
+     * @return 小于n的数中质数的个数
+     */
+    private static int countPrimes(int n) {
+        if (n < 3) {
             return 0;
         }
-        if (n == 3) {
-            return 1;
-        }
 
-        boolean[] isPrime = new boolean[n + 1];//标记是否是素数
-        int[] prime = new int[n / 2];//保存素数的数组
-        int totalPrimes=1;
-        for (int i = 3; i <=n ; i+=2) {//4,6,8,....,偶数过滤掉
-            isPrime[i]=true;
+        boolean[] isPrime = new boolean[n];//标记是否是素数
+        int[] prime = new int[n];//保存素数的数组
+        int totalPrimes = 1;
+        for (int i = 3; i <= n; i += 2) {//4,6,8,....,偶数过滤掉
+            isPrime[i] = true;
         }
-        isPrime[2]=true;
-        prime[0]=2;
-        for (int i = 3; i <=n ; i+=2) {
-            if (isPrime[i]){
+        isPrime[2] = true;
+        prime[0] = 2;
+        for (int i = 3; i < n; i += 2) {
+            if (isPrime[i]) {
                 prime[totalPrimes++] = i;
             }
-            for (int j = 1; i*prime[j] <=n&&j<totalPrimes ; j++) {//i*prime[j]是保证不超过上限n,j<totalPrimes是在prime数组已有质数内计算
-                isPrime[i*prime[j]]=false;//过滤素数的倍数
-                if (i % prime[j] == 0) {
+            for (int j = 1; i * prime[j] < n && j < totalPrimes; j++) {//i*prime[j]是保证不超过上限n,j<totalPrimes是在prime数组已有质数内计算
+                isPrime[i * prime[j]] = false;//过滤素数的倍数（奇数倍）
+                if (i % prime[j] == 0) {//此时i不是素数，比如9，若无此条件则例如，9*5=15*3，即i为15时，又将重复计算一次。 15*5=25*3
                     break;
                 }
             }
@@ -83,9 +186,9 @@ public class PracticeArea {
     }
 
 
-
     /**
      * 3和5的倍数
+     *
      * @param n
      * @return
      */
@@ -98,8 +201,7 @@ public class PracticeArea {
             }
             if (i % 5 == 0) {
                 result.add("Buzz");
-            }else
-            if (i % 3 == 0) {
+            } else if (i % 3 == 0) {
                 result.add("Fizz");
             } else result.add(String.valueOf(i));
         }
@@ -109,20 +211,25 @@ public class PracticeArea {
     class Solution {
         private int[] store;
         private List<Integer> list;
+
         public Solution(int[] nums) {
-            store=nums;
+            store = nums;
             list = new ArrayList<>();
             for (int num : nums) {
                 list.add(num);
             }
         }
 
-        /** Resets the array to its original configuration and return it. */
+        /**
+         * Resets the array to its original configuration and return it.
+         */
         public int[] reset() {
             return store;
         }
 
-        /** Returns a random shuffling of the array. */
+        /**
+         * Returns a random shuffling of the array.
+         */
         public int[] shuffle() {
             Collections.shuffle(list);
             int[] temp = new int[list.size()];
@@ -136,12 +243,13 @@ public class PracticeArea {
     static class MinStack {
         private Stack<Integer> stack = new Stack<>();
         private Stack<Integer> minstack = new Stack<>();
+
         public MinStack() {
 
         }
 
         public void push(int x) {
-            if (!minstack.isEmpty()&&x <= minstack.peek()) {
+            if (!minstack.isEmpty() && x <= minstack.peek()) {
                 minstack.push(x);
             }
             if (minstack.isEmpty()) {
@@ -181,12 +289,12 @@ public class PracticeArea {
         if (nums.length == 0) {
             return 0;
         }
-        int pre1 = 0, pre2 = nums[0],max;
+        int pre1 = 0, pre2 = nums[0], max;
         for (int i = 1; i < nums.length; i++) {
-            max=nums[i] + pre1;//最优
-            max=max>pre2?max:pre2;//子结构
-            pre1=pre2;
-            pre2=max;
+            max = nums[i] + pre1;//最优
+            max = max > pre2 ? max : pre2;//子结构
+            pre1 = pre2;
+            pre2 = max;
         }
         return pre2;
     }
