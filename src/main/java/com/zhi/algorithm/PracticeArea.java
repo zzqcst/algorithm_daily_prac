@@ -3,9 +3,7 @@ package com.zhi.algorithm;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.lang.management.ManagementFactory;
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.*;
 import java.util.List;
@@ -47,13 +45,133 @@ public class PracticeArea {
 //            }
 //            System.out.println("");
 //        }
-        String a = new String("1") + new String("1");
-        String b = "11";
-        System.out.println(a==a.intern());
+        int n = 3;
+        double start=System.currentTimeMillis();
+        int primeNum = countPrimes(n);
+        double spent = (System.currentTimeMillis()-start)/1000;
+        System.out.println(spent);
     }
 
+    public static int countPrimes(int n) {
+        if (n <3) {
+            return 0;
+        }
+        if (n == 3) {
+            return 1;
+        }
+
+        boolean[] isPrime = new boolean[n + 1];//标记是否是素数
+        int[] prime = new int[n / 2];//保存素数的数组
+        int totalPrimes=1;
+        for (int i = 3; i <=n ; i+=2) {//4,6,8,....,偶数过滤掉
+            isPrime[i]=true;
+        }
+        isPrime[2]=true;
+        prime[0]=2;
+        for (int i = 3; i <=n ; i+=2) {
+            if (isPrime[i]){
+                prime[totalPrimes++] = i;
+            }
+            for (int j = 1; i*prime[j] <=n&&j<totalPrimes ; j++) {//i*prime[j]是保证不超过上限n,j<totalPrimes是在prime数组已有质数内计算
+                isPrime[i*prime[j]]=false;//过滤素数的倍数
+                if (i % prime[j] == 0) {
+                    break;
+                }
+            }
+        }
+        return totalPrimes;
+    }
+
+
+
     /**
-     * 打家劫舍
+     * 3和5的倍数
+     * @param n
+     * @return
+     */
+    public List<String> fizzBuzz(int n) {
+        List<String> result = new ArrayList<>();
+        for (int i = 1; i <= n; i++) {
+            if (i % 5 == 0 && i % 3 == 0) {
+                result.add("FizzBuzz");
+                continue;
+            }
+            if (i % 5 == 0) {
+                result.add("Buzz");
+            }else
+            if (i % 3 == 0) {
+                result.add("Fizz");
+            } else result.add(String.valueOf(i));
+        }
+        return result;
+    }
+
+    class Solution {
+        private int[] store;
+        private List<Integer> list;
+        public Solution(int[] nums) {
+            store=nums;
+            list = new ArrayList<>();
+            for (int num : nums) {
+                list.add(num);
+            }
+        }
+
+        /** Resets the array to its original configuration and return it. */
+        public int[] reset() {
+            return store;
+        }
+
+        /** Returns a random shuffling of the array. */
+        public int[] shuffle() {
+            Collections.shuffle(list);
+            int[] temp = new int[list.size()];
+            for (int i = 0; i < list.size(); i++) {
+                temp[i] = list.get(i);
+            }
+            return temp;
+        }
+    }
+
+    static class MinStack {
+        private Stack<Integer> stack = new Stack<>();
+        private Stack<Integer> minstack = new Stack<>();
+        public MinStack() {
+
+        }
+
+        public void push(int x) {
+            if (!minstack.isEmpty()&&x <= minstack.peek()) {
+                minstack.push(x);
+            }
+            if (minstack.isEmpty()) {
+                minstack.push(x);
+            }
+            stack.push(x);
+        }
+
+        public void pop() {
+            if (stack.isEmpty()) {
+                return;
+            }
+            if (stack.peek().equals(minstack.peek())) {
+                minstack.pop();
+            }
+            stack.pop();
+        }
+
+        public int top() {
+            return stack.peek();
+        }
+
+        public int getMin() {
+            return minstack.peek();
+        }
+    }
+
+
+    /**
+     * 打家劫
      *
      * @param nums
      * @return
