@@ -47,8 +47,9 @@ public class PracticeArea {
 //            }
 //            System.out.println("");
 //        }
-        int[] a = {2, 1, 1, 2};
-        System.out.println(rob(a));
+        String a = new String("1") + new String("1");
+        String b = "11";
+        System.out.println(a==a.intern());
     }
 
     /**
