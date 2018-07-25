@@ -45,11 +45,68 @@ public class PracticeArea {
 //            }
 //            System.out.println("");
 //        }
-        System.out.println(isPowerOfThree(27));
+        System.out.println(Integer.toBinaryString(5));
+        System.out.println(Integer.toBinaryString(~5));
+    }
+
+
+    /**
+     * 颠倒二进制位
+     * @param n
+     * @return
+     */
+    public int reverseBits(int n) {
+        Stack<Integer> stack = new Stack<>();
+        while (n != 0) {
+            int temp = n&1;
+            n>>>=1;
+        }
+        return 0;
+    }
+
+    /**
+     * 汉明距离
+     * 参见位1的个数解法
+     *
+     * @param x
+     * @param y
+     * @return
+     */
+    public int hammingDistance(int x, int y) {
+        int count = 0;
+        while (x != 0 || y != 0) {
+            int tempx = x & 1;
+            int tempy = y & 1;
+            if (tempx != tempy) {
+                count++;
+            }
+            x >>>= 1;
+            y >>>= 1;
+        }
+        return count;
+    }
+
+    /**
+     * 位1的个数
+     *
+     * @param n
+     * @return
+     */
+    private static int hammingWeight(int n) {
+        int count = 0;
+        while (n != 0) {//将十进制转二进制的一个过程
+            int temp = n & 1;//例如5:101,5&1=1,无符号右移一位，2:10,2&1=0,...,1&1=1，最后往前就得到了101,即5的二进制表示
+            if (temp == 1) {
+                count++;
+            }
+            n >>>= 1;
+        }
+        return count;
     }
 
     /**
      * 罗马数字转整数
+     *
      * @param s
      * @return
      */
@@ -64,7 +121,7 @@ public class PracticeArea {
                 case 'V':
                     if (!stack.isEmpty()) {
                         if (stack.peek() < 5) {//上一个数字比当前小
-                            int temp=stack.pop();
+                            int temp = stack.pop();
                             stack.push(5 - temp);
                             continue;
                         }
@@ -74,7 +131,7 @@ public class PracticeArea {
                 case 'X':
                     if (!stack.isEmpty()) {
                         if (stack.peek() < 10) {//上一个数字比当前小
-                            int temp=stack.pop();
+                            int temp = stack.pop();
                             stack.push(10 - temp);
                             continue;
                         }
@@ -84,7 +141,7 @@ public class PracticeArea {
                 case 'L':
                     if (!stack.isEmpty()) {
                         if (stack.peek() < 50) {//上一个数字比当前小
-                            int temp=stack.pop();
+                            int temp = stack.pop();
                             stack.push(50 - temp);
                             continue;
                         }
@@ -94,7 +151,7 @@ public class PracticeArea {
                 case 'C':
                     if (!stack.isEmpty()) {
                         if (stack.peek() < 100) {//上一个数字比当前小
-                            int temp=stack.pop();
+                            int temp = stack.pop();
                             stack.push(100 - temp);
                             continue;
                         }
@@ -104,7 +161,7 @@ public class PracticeArea {
                 case 'D':
                     if (!stack.isEmpty()) {
                         if (stack.peek() < 500) {//上一个数字比当前小
-                            int temp=stack.pop();
+                            int temp = stack.pop();
                             stack.push(500 - temp);
                             continue;
                         }
@@ -114,7 +171,7 @@ public class PracticeArea {
                 case 'M':
                     if (!stack.isEmpty()) {
                         if (stack.peek() < 1000) {//上一个数字比当前小
-                            int temp=stack.pop();
+                            int temp = stack.pop();
                             stack.push(1000 - temp);
                             continue;
                         }
@@ -132,6 +189,7 @@ public class PracticeArea {
 
     /**
      * 3的幂
+     *
      * @param n 要判断的数
      * @return 结果
      */
@@ -142,19 +200,21 @@ public class PracticeArea {
         if (n < 0) {
             return false;
         }
-        while (n >0) {
+        while (n > 0) {
             if (n == 1) {
                 return true;
             }
             if (n % 3 != 0) {
                 return false;
             }
-            n=n/3;
+            n = n / 3;
         }
         return false;
     }
+
     /**
      * 计算质数
+     *
      * @param n 上限
      * @return 小于n的数中质数的个数
      */
