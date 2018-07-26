@@ -45,8 +45,23 @@ public class PracticeArea {
 //            }
 //            System.out.println("");
 //        }
-        String a = "(]";
-        System.out.println(a.substring(1,2));
+        int[] a = {1};
+        System.out.println(missingNumber(a));
+    }
+
+    /**
+     * 缺失数字
+     * @param nums
+     * @return
+     */
+    private static int missingNumber(int[] nums) {
+        int count=0,len=nums.length;
+        for (int num : nums) {
+            count += num;
+        }
+        int sum = len*(len+1)/2;//固定长度的连续序列的和是固定的，例如,0,1,2,3=6,则0,1,2,3中任少一个数，用6减去它们的和，就等于少的那个数
+
+        return sum-count;
     }
 
     /**
