@@ -45,23 +45,98 @@ public class PracticeArea {
 //            }
 //            System.out.println("");
 //        }
-        System.out.println(Integer.toBinaryString(5));
-        System.out.println(Integer.toBinaryString(~5));
+        String a = "(]";
+        System.out.println(a.substring(1,2));
     }
 
+    /**
+     * 有效的括号
+     *
+     * @param s
+     * @return
+     */
+    private static boolean isValid(String s) {
+        int len = s.length();
+        if (len == 0) {
+            return true;
+        }
+        if (len % 2 != 0) {
+            return false;
+        }
+        if (s.substring(0, len / 2 - 1).equals(s.substring(len / 2, len))) {
+            return true;
+        }
+        Stack<Character> stack = new Stack<>();
+        for (int i = 0; i < s.length(); i++) {
+            if (!stack.isEmpty()) {
+                if (isPair(s.charAt(i),stack.peek())) {
+                    stack.pop();
+                    continue;
+                }
+            }
+            stack.push(s.charAt(i));
+        }
+        return stack.isEmpty();
+    }
+
+    private static boolean isPair(char a, char b){
+        if (a == ')' && b == '(') {
+            return true;
+        }
+        if (a == '}' && b == '{') {
+            return true;
+        }
+        return a == ']' && b == '[';
+    }
+
+    /**
+     * 帕斯卡三角形
+     *
+     * @param numRows
+     * @return
+     */
+    private static List<List<Integer>> generate(int numRows) {
+        List<List<Integer>> result = new ArrayList<>();
+        for (int i = 0; i < numRows; i++) {
+            List<Integer> row = new ArrayList<>();
+            int number = 1;
+            for (int j = 0; j <= i; j++) {
+                row.add(number);
+                number = number * (i - j) / (j + 1);
+            }
+            result.add(row);
+        }
+        return result;
+    }
 
     /**
      * 颠倒二进制位
+     *
      * @param n
      * @return
      */
-    public int reverseBits(int n) {
-        Stack<Integer> stack = new Stack<>();
-        while (n != 0) {
-            int temp = n&1;
-            n>>>=1;
+    private static int reverseBits(int n) {
+//        Queue<Integer> queue = new LinkedList<>();
+//        int length = 32;
+//        while (length-- != 0) {
+//            int temp = n&1;
+//            queue.offer(temp);
+//            n>>>=1;
+//        }
+//        StringBuilder sb = new StringBuilder();
+//        while (!queue.isEmpty()) {
+//            sb.append(queue.poll());
+//        }
+//        return (int) Long.parseLong(sb.toString(), 2);
+        int result = 0;
+        int i = 0;
+        while (i < 32) {
+            int temp = n & 0x01;//temp是n的二进制数从右往左，每次取出一位
+            n = n >> 1;
+            result = (result << 1) | temp;//result是每次将temp放到二进制表示的最右边
+            i++;
         }
-        return 0;
+        return result;
     }
 
     /**
