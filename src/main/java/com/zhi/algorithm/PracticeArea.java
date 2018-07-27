@@ -46,22 +46,52 @@ public class PracticeArea {
 //            System.out.println("");
 //        }
         int[] a = {1};
-        System.out.println(missingNumber(a));
+        System.out.println(threeSum(new int[]{-2, 0, 1, 1, 2}));
+    }
+
+    private static List<List<Integer>> threeSum(int[] nums) {
+        Arrays.sort(nums);
+        List<List<Integer>> res = new ArrayList<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] > 0) {
+                break;
+            }
+            if (i > 0 && nums[i] == nums[i - 1]) continue;
+            int target = 0 - nums[i];
+            int j = i + 1, k = nums.length - 1;
+            while (j < k) {
+                if (nums[j] + nums[k] == target) {
+                    List<Integer> row = new ArrayList<>();
+                    row.add(nums[i]);
+                    row.add(nums[j]);
+                    row.add(nums[k]);
+                    res.add(row);
+                    while (j < k && nums[j] == nums[j + 1]) ++j;
+                    while (j < k && nums[k] == nums[k - 1]) --k;
+                    j++;
+                    k--;
+                } else if (nums[j] + nums[k] < target) {
+                    j++;
+                } else k--;
+            }
+        }
+        return res;
     }
 
     /**
      * 缺失数字
+     *
      * @param nums
      * @return
      */
     private static int missingNumber(int[] nums) {
-        int count=0,len=nums.length;
+        int count = 0, len = nums.length;
         for (int num : nums) {
             count += num;
         }
-        int sum = len*(len+1)/2;//固定长度的连续序列的和是固定的，例如,0,1,2,3=6,则0,1,2,3中任少一个数，用6减去它们的和，就等于少的那个数
+        int sum = len * (len + 1) / 2;//固定长度的连续序列的和是固定的，例如,0,1,2,3=6,则0,1,2,3中任少一个数，用6减去它们的和，就等于少的那个数
 
-        return sum-count;
+        return sum - count;
     }
 
     /**
@@ -84,7 +114,7 @@ public class PracticeArea {
         Stack<Character> stack = new Stack<>();
         for (int i = 0; i < s.length(); i++) {
             if (!stack.isEmpty()) {
-                if (isPair(s.charAt(i),stack.peek())) {
+                if (isPair(s.charAt(i), stack.peek())) {
                     stack.pop();
                     continue;
                 }
@@ -94,7 +124,7 @@ public class PracticeArea {
         return stack.isEmpty();
     }
 
-    private static boolean isPair(char a, char b){
+    private static boolean isPair(char a, char b) {
         if (a == ')' && b == '(') {
             return true;
         }
