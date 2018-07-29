@@ -49,6 +49,42 @@ public class PracticeArea {
         System.out.println(threeSum(new int[]{-2, 0, 1, 1, 2}));
     }
 
+    /**
+     * 矩阵置零
+     * <p>如果某个元素为零，将它所在行所在列置零</p>
+     * @param matrix 矩阵
+     */
+    private static void setZeroes(int[][] matrix) {
+        if (matrix.length == 0) {
+            return;
+        }
+        boolean[] rows = new boolean[matrix.length];
+        boolean[] cols = new boolean[matrix[0].length];
+
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
+                if (matrix[i][j] == 0) {
+                    rows[i] = true;
+                    cols[j] = true;
+                }
+            }
+        }
+
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
+                if (rows[i] || cols[j]) {
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+    }
+
+    /**
+     * 三数之和
+     *
+     * @param nums
+     * @return
+     */
     private static List<List<Integer>> threeSum(int[] nums) {
         Arrays.sort(nums);
         List<List<Integer>> res = new ArrayList<>();
