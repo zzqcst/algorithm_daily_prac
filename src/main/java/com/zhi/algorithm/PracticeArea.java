@@ -58,6 +58,7 @@ public class PracticeArea {
         if (matrix.length == 0) {
             return;
         }
+
         boolean[] rows = new boolean[matrix.length];
         boolean[] cols = new boolean[matrix[0].length];
 
