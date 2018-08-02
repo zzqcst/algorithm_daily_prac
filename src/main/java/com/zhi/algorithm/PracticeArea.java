@@ -45,8 +45,30 @@ public class PracticeArea {
 //            }
 //            System.out.println("");
 //        }
-        int[] a = {1};
-        System.out.println(threeSum(new int[]{-2, 0, 1, 1, 2}));
+//        int[] a = {1};
+//        System.out.println(threeSum(new int[]{-2, 0, 1, 1, 2}));
+        String[] strs = {"eat", "tea", "tan", "ate", "nat", "bat"};
+        System.out.println(groupAnagrams(strs));
+    }
+
+    /**
+     * 字谜分组
+     * <p>给定一个字符串数组，将字母异位词组合在一起。字母异位词指字母相同，但排列不同的字符串。
+     * @param strs 给定的字符串
+     * @return 结果
+     */
+    private static List<List<String>> groupAnagrams(String[] strs) {
+        Map<String, List<String>> map = new HashMap<>();
+        for (String str : strs) {
+            char[] chars = str.toCharArray();
+            Arrays.sort(chars);
+            String temp = String.valueOf(chars);
+            if (!map.containsKey(temp)) {
+                map.put(temp, new ArrayList<>());
+            }
+            map.get(temp).add(str);
+        }
+        return new ArrayList<List<String>>(map.values());
     }
 
     /**
