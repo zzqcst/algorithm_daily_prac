@@ -47,13 +47,32 @@ public class PracticeArea {
 //        }
 //        int[] a = {1};
 //        System.out.println(threeSum(new int[]{-2, 0, 1, 1, 2}));
-        String[] strs = {"eat", "tea", "tan", "ate", "nat", "bat"};
-        System.out.println(groupAnagrams(strs));
+        System.out.println(lengthOfLongestSubstring("abcabcbb"));
+    }
+
+    /**
+     * 无重复字符的最长子串
+     * <p>给定一个字符串，找出不含有重复字符的最长子串的长度。</p>
+     *
+     * @param s
+     * @return
+     */
+    private static int lengthOfLongestSubstring(String s) {
+        int n = s.length(), ans = 0;
+        int[] index = new int[128]; // 保存字符的位置
+        int i = 0;
+        for (int j = 0; j < n; j++) {
+            i = Math.max(index[s.charAt(j)], i);//若存在，则更新i为原字符起始位置加一
+            ans = Math.max(ans, j - i + 1);
+            index[s.charAt(j)] = j + 1;//字符其实位置加一
+        }
+        return ans;
     }
 
     /**
      * 字谜分组
      * <p>给定一个字符串数组，将字母异位词组合在一起。字母异位词指字母相同，但排列不同的字符串。
+     *
      * @param strs 给定的字符串
      * @return 结果
      */
@@ -74,6 +93,7 @@ public class PracticeArea {
     /**
      * 矩阵置零
      * <p>如果某个元素为零，将它所在行所在列置零</p>
+     *
      * @param matrix 矩阵
      */
     private static void setZeroes(int[][] matrix) {
