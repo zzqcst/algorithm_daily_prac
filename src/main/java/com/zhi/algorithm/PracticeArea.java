@@ -51,6 +51,16 @@ public class PracticeArea {
     }
 
     /**
+     * 最长回文子串
+     * <p>给定一个字符串 s，找到 s 中最长的回文子串。你可以假设 s 的最大长度为1000。</p>
+     * @param s
+     * @return
+     */
+    private static String longestPalindrome(String s) {
+        return null;
+    }
+
+    /**
      * 无重复字符的最长子串
      * <p>给定一个字符串，找出不含有重复字符的最长子串的长度。</p>
      *
