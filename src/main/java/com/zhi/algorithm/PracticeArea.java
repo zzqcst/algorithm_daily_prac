@@ -62,9 +62,9 @@ public class PracticeArea {
         int[] index = new int[128]; // 保存字符的位置,ascii码表长度为128
         int i = 0;
         for (int j = 0; j < n; j++) {
-            i = Math.max(index[s.charAt(j)], i);//若存在，则更新i为原字符起始位置加一
+            i = Math.max(index[s.charAt(j)], i);
             ans = Math.max(ans, j - i + 1);
-            index[s.charAt(j)] = j + 1;//字符其实位置加一
+            index[s.charAt(j)] = j + 1;
         }
         return ans;
     }
