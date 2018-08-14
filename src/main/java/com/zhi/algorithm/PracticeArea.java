@@ -4,6 +4,8 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.*;
 import java.util.List;
@@ -45,13 +47,16 @@ public class PracticeArea {
 //            }
 //            System.out.println("");
 //        }
-        int[] a = {1};
-        System.out.println(threeSum(new int[]{-2, 0, 1, 1, 2}));
+//        DecimalFormat decimalFormat = new DecimalFormat(".00");//构造方法的字符格式这里如果小数不足2位,会以0补足.
+//        decimalFormat.setRoundingMode(RoundingMode.DOWN);
+//        System.out.println(decimalFormat.format(13.15f));
+        System.out.println(String.valueOf(Double.valueOf("28.3") / Double.valueOf("2") - 1.0));
     }
 
     /**
      * 矩阵置零
      * <p>如果某个元素为零，将它所在行所在列置零</p>
+     *
      * @param matrix 矩阵
      */
     private static void setZeroes(int[][] matrix) {
