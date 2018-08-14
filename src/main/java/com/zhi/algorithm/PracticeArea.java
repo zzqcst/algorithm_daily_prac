@@ -4,8 +4,6 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.*;
 import java.util.List;
@@ -47,10 +45,60 @@ public class PracticeArea {
 //            }
 //            System.out.println("");
 //        }
-//        DecimalFormat decimalFormat = new DecimalFormat(".00");//构造方法的字符格式这里如果小数不足2位,会以0补足.
-//        decimalFormat.setRoundingMode(RoundingMode.DOWN);
-//        System.out.println(decimalFormat.format(13.15f));
-        System.out.println(String.valueOf(Double.valueOf("28.3") / Double.valueOf("2") - 1.0));
+//        int[] a = {1};
+//        System.out.println(threeSum(new int[]{-2, 0, 1, 1, 2}));
+        System.out.println(lengthOfLongestSubstring("abcabcbb"));
+    }
+
+    /**
+     * 最长回文子串
+     * <p>给定一个字符串 s，找到 s 中最长的回文子串。你可以假设 s 的最大长度为1000。</p>
+     * @param s
+     * @return
+     */
+    private static String longestPalindrome(String s) {
+
+        return null;
+    }
+
+    /**
+     * 无重复字符的最长子串
+     * <p>给定一个字符串，找出不含有重复字符的最长子串的长度。</p>
+     *
+     * @param s
+     * @return
+     */
+    private static int lengthOfLongestSubstring(String s) {
+        int n = s.length(), ans = 0;
+        int[] index = new int[128]; // 保存字符的位置,ascii码表长度为128
+        int i = 0;
+        for (int j = 0; j < n; j++) {
+            i = Math.max(index[s.charAt(j)], i);
+            ans = Math.max(ans, j - i + 1);
+            index[s.charAt(j)] = j + 1;
+        }
+        return ans;
+    }
+
+    /**
+     * 字谜分组
+     * <p>给定一个字符串数组，将字母异位词组合在一起。字母异位词指字母相同，但排列不同的字符串。
+     *
+     * @param strs 给定的字符串
+     * @return 结果
+     */
+    private static List<List<String>> groupAnagrams(String[] strs) {
+        Map<String, List<String>> map = new HashMap<>();
+        for (String str : strs) {
+            char[] chars = str.toCharArray();
+            Arrays.sort(chars);
+            String temp = String.valueOf(chars);
+            if (!map.containsKey(temp)) {
+                map.put(temp, new ArrayList<>());
+            }
+            map.get(temp).add(str);
+        }
+        return new ArrayList<List<String>>(map.values());
     }
 
     /**
@@ -63,6 +111,7 @@ public class PracticeArea {
         if (matrix.length == 0) {
             return;
         }
+
         boolean[] rows = new boolean[matrix.length];
         boolean[] cols = new boolean[matrix[0].length];
 
