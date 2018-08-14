@@ -47,18 +47,45 @@ public class PracticeArea {
 //        }
 //        int[] a = {1};
 //        System.out.println(threeSum(new int[]{-2, 0, 1, 1, 2}));
-        System.out.println(lengthOfLongestSubstring("abcabcbb"));
+        System.out.println(longestPalindrome("babad"));
     }
 
     /**
      * 最长回文子串
      * <p>给定一个字符串 s，找到 s 中最长的回文子串。你可以假设 s 的最大长度为1000。</p>
+     *
      * @param s
      * @return
      */
     private static String longestPalindrome(String s) {
-
-        return null;
+        StringBuilder newS = new StringBuilder();
+        newS.append('#');
+        for (int i = 0; i < s.length(); i++) {
+            newS.append(s.charAt(i));
+            newS.append('#');
+        }
+        int[] RL = new int[newS.length()];
+        int maxRight = 0;
+        int pos = 0;
+        int maxLen = 0;
+        for (int i = 0; i < newS.length(); i++) {
+            if (i < maxRight) {
+                RL[i] = Math.min(RL[2 * pos - i], maxRight - i);
+            } else RL[i] = 1;
+            while (i - RL[i] >= 0 && i + RL[i] < newS.length() && newS.charAt(i - RL[i]) == newS.charAt(i + RL[i])) {
+                RL[i] += 1;
+            }
+            if (RL[i] + i - 1 > maxRight) {
+                maxRight = RL[i] + i - 1;
+                pos = i;
+            }
+            if (RL[i] > maxLen) {
+                maxLen = RL[i];
+                s = newS.substring(i - RL[i] + 1, i + RL[i] - 1);
+            }
+//            maxLen = Math.max(maxLen, RL[i]);
+        }
+        return s.replace("#","");
     }
 
     /**
@@ -94,7 +121,7 @@ public class PracticeArea {
             Arrays.sort(chars);
             String temp = String.valueOf(chars);
             if (!map.containsKey(temp)) {
-                map.put(temp, new ArrayList<>());
+                map.put(temp, new ArrayList<String>());
             }
             map.get(temp).add(str);
         }
