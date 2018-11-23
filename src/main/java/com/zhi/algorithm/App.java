@@ -11,6 +11,7 @@ import java.util.Properties;
  * Hello world!
  */
 public class App {
+
     public static void main(String[] args) throws Exception {
         Properties prop = new Properties();
         prop.setProperty("mail.host", "smtp.163.com");
