@@ -58,6 +58,7 @@ public class PracticeArea {
      * @return
      */
     private static String longestPalindrome(String s) {
+
         StringBuilder newS = new StringBuilder();
         newS.append('#');
         for (int i = 0; i < s.length(); i++) {
