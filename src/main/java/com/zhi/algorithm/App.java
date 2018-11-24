@@ -13,6 +13,7 @@ import java.util.Properties;
 public class App {
 
     public static void main(String[] args) throws Exception {
+
         Properties prop = new Properties();
         prop.setProperty("mail.host", "smtp.163.com");
         prop.setProperty("mail.transport.protocol", "smtp");
