@@ -47,8 +47,40 @@ public class PracticeArea {
 //        }
 //        int[] a = {1};
 //        System.out.println(threeSum(new int[]{-2, 0, 1, 1, 2}));
-        System.out.println(longestPalindrome("babad"));
+        int[] nums = {5, 4, 3, 2, 1};
+        System.out.println(increasingTriplet(nums));
     }
+
+    /**
+     * 给定一个未排序的数组，判断这个数组中是否存在长度为 3 的递增子序列。子序列不一定连续
+     * 数学表达式如下:
+     * 如果存在这样的 i, j, k,  且满足 0 ≤ i < j < k ≤ n-1，
+     * 使得 arr[i] < arr[j] < arr[k] ，返回 true ; 否则返回 false 。
+     * 输入: [1,2,3,4,5]
+     * 输出: true
+     * <p>
+     * 输入: [5,4,3,2,1]
+     * 输出: false
+     * <p>
+     * 输入: [5,1,5,5,2,5,4]
+     * 输出: true
+     */
+    public static boolean increasingTriplet(int[] nums) {
+        if (nums.length == 0) {
+            return false;
+        }
+        int first = Integer.MAX_VALUE;
+        int second = Integer.MAX_VALUE;
+        for (int i = 0; i < nums.length; i++) {
+            if (first >= nums[i]) {//第一个数字总是最小的
+                first = nums[i];
+            } else if (second >= nums[i]) {//第一个数字小于nums[i],第二个数字如果大于nums[i],则nums[i]成为新的第二个数字
+                second = nums[i];
+            }else return true;
+        }
+        return false;
+    }
+
 
     /**
      * 最长回文子串
@@ -72,7 +104,9 @@ public class PracticeArea {
         for (int i = 0; i < newS.length(); i++) {
             if (i < maxRight) {
                 RL[i] = Math.min(RL[2 * pos - i], maxRight - i);
-            } else RL[i] = 1;
+            } else {
+                RL[i] = 1;
+            }
             while (i - RL[i] >= 0 && i + RL[i] < newS.length() && newS.charAt(i - RL[i]) == newS.charAt(i + RL[i])) {
                 RL[i] += 1;
             }
@@ -86,7 +120,7 @@ public class PracticeArea {
             }
 //            maxLen = Math.max(maxLen, RL[i]);
         }
-        return s.replace("#","");
+        return s.replace("#", "");
     }
 
     /**
@@ -174,7 +208,9 @@ public class PracticeArea {
             if (nums[i] > 0) {
                 break;
             }
-            if (i > 0 && nums[i] == nums[i - 1]) continue;
+            if (i > 0 && nums[i] == nums[i - 1]) {
+                continue;
+            }
             int target = 0 - nums[i];
             int j = i + 1, k = nums.length - 1;
             while (j < k) {
@@ -184,13 +220,19 @@ public class PracticeArea {
                     row.add(nums[j]);
                     row.add(nums[k]);
                     res.add(row);
-                    while (j < k && nums[j] == nums[j + 1]) ++j;
-                    while (j < k && nums[k] == nums[k - 1]) --k;
+                    while (j < k && nums[j] == nums[j + 1]) {
+                        ++j;
+                    }
+                    while (j < k && nums[k] == nums[k - 1]) {
+                        --k;
+                    }
                     j++;
                     k--;
                 } else if (nums[j] + nums[k] < target) {
                     j++;
-                } else k--;
+                } else {
+                    k--;
+                }
             }
         }
         return res;
@@ -501,7 +543,9 @@ public class PracticeArea {
                 result.add("Buzz");
             } else if (i % 3 == 0) {
                 result.add("Fizz");
-            } else result.add(String.valueOf(i));
+            } else {
+                result.add(String.valueOf(i));
+            }
         }
         return result;
     }
@@ -693,15 +737,19 @@ public class PracticeArea {
      * @return 第一个错误版本数
      */
     private static int firstBadVersion(int n) {
-        if (n <= 0)
+        if (n <= 0) {
             return 0;
+        }
         long l = 1, r = n;
         while (l < r) {
             long mid = (l + r) / 2;
             if (isBadVersion((int) mid))//mid:true,往左边查找
+            {
                 r = mid;
-            else //mid:false,往右边查找
+            } else //mid:false,往右边查找
+            {
                 l = mid + 1;
+            }
         }
         return (int) l;
     }
@@ -762,13 +810,17 @@ public class PracticeArea {
      * @return
      */
     public static TreeNode sortedArrayToBST(int[] nums) {
-        if (nums == null || nums.length == 0) return null;
+        if (nums == null || nums.length == 0) {
+            return null;
+        }
 
         return sortedArrayToBST(nums, 0, nums.length - 1);
     }
 
     private static TreeNode sortedArrayToBST(int[] nums, int start, int end) {
-        if (start > end) return null;
+        if (start > end) {
+            return null;
+        }
         int mid = (end + start) / 2;
         TreeNode root = new TreeNode(nums[mid]);
         root.left = sortedArrayToBST(nums, start, mid - 1);
@@ -866,13 +918,19 @@ public class PracticeArea {
      * @return
      */
     private static boolean isValidBST(TreeNode root) {
-        if (root == null) return true;
+        if (root == null) {
+            return true;
+        }
         return valid(root, Long.MIN_VALUE, Long.MAX_VALUE);
     }
 
     private static boolean valid(TreeNode root, long low, long high) {
-        if (root == null) return true;
-        if (root.val <= low || root.val >= high) return false;
+        if (root == null) {
+            return true;
+        }
+        if (root.val <= low || root.val >= high) {
+            return false;
+        }
         return valid(root.left, low, root.val) && valid(root.right, root.val, high);
     }
 
@@ -919,12 +977,15 @@ public class PracticeArea {
 //        }
 //        return false;
         //追赶法
-        if (head == null || head.next == null) return false;
+        if (head == null || head.next == null) {
+            return false;
+        }
         ListNode slow = head;
         ListNode fast = head.next;
         while (slow != fast) {
-            if (fast == null || fast.next == null)
+            if (fast == null || fast.next == null) {
                 return false;
+            }
             slow = slow.next;
             fast = fast.next.next;
         }
@@ -1120,7 +1181,9 @@ public class PracticeArea {
             while (strs[i].indexOf(prefix) != 0) {//等于0时，表示匹配成功
                 prefix = prefix.substring(0, prefix.length() - 1);//若不匹配，每次将prefix最后一个字符去掉
                 if (prefix.compareTo("") == 0)//没有匹配的
+                {
                     return "";
+                }
             }
         }
         return prefix;
@@ -1188,17 +1251,22 @@ public class PracticeArea {
 
     private static int myAtoi(String str) {
 
-        if (str.isEmpty()) return 0;
+        if (str.isEmpty()) {
+            return 0;
+        }
 
         double number = 0;
         int sign = 1, i = 0, length = str.length();
-        while (i < length - 1 && str.charAt(i) == ' ') i++;
+        while (i < length - 1 && str.charAt(i) == ' ') {
+            i++;
+        }
         if (str.charAt(i) == '+' || str.charAt(i) == '-') {
             sign = str.charAt(i++) == '+' ? 1 : -1;
         }
         while (i < length && str.charAt(i) <= '9' && str.charAt(i) >= '0') {
-            if (number > Integer.MAX_VALUE)
+            if (number > Integer.MAX_VALUE) {
                 return (sign == 1) ? Integer.MAX_VALUE : Integer.MIN_VALUE;
+            }
             number = number * 10 + str.charAt(i++) - '0';
         }
         return (int) (number * sign);
@@ -1286,8 +1354,12 @@ public class PracticeArea {
                     }
                     i++;
                     j--;
-                } else j--;
-            } else i++;
+                } else {
+                    j--;
+                }
+            } else {
+                i++;
+            }
         }
         return true;
     }
@@ -1368,8 +1440,9 @@ public class PracticeArea {
                 c = s.charAt(i);
                 start = s.indexOf(c);
                 end = s.lastIndexOf(c);
-                if (start == end && start != -1)
+                if (start == end && start != -1) {
                     return i;
+                }
             }
         } else {
             int res = s.length();
@@ -1381,8 +1454,9 @@ public class PracticeArea {
                     res = Math.min(res, start);
                 }
             }
-            if (res != s.length())
+            if (res != s.length()) {
                 return res;
+            }
         }
         return -1;
     }
@@ -1394,7 +1468,9 @@ public class PracticeArea {
      * @return
      */
     private static int reverse(int x) {
-        if (x == 0) return x;
+        if (x == 0) {
+            return x;
+        }
         String s = String.valueOf(x);
         char[] chars = s.toCharArray();
         int i = 0, j = s.length() - 1;
@@ -1476,15 +1552,17 @@ public class PracticeArea {
         int[][] signs = new int[3][9];
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                if (board[i][j] == '.')
+                if (board[i][j] == '.') {
                     continue;
+                }
                 int n = 1 << (board[i][j] - '1');//1×2^(board[i][j]-'1'),二进制1左移当前数字对应的位数
                 int cubeIndex = i / 3 * 3 + j / 3;//当前格子位于第几块中
                 //按位与，若某数字再次出现，对应位上有相同的1，则与后结果不为0
                 //例如，9、8出现后，sign的二进制为110000000,再次出现9，n为100000000,这样，
                 //按位相与的结果不为0
-                if ((signs[0][i] & n) != 0 || (signs[1][j] & n) != 0 || (signs[2][cubeIndex] & n) != 0)
+                if ((signs[0][i] & n) != 0 || (signs[1][j] & n) != 0 || (signs[2][cubeIndex] & n) != 0) {
                     return false;
+                }
                 //sign保存数字对应位数的1，比如9，则为100000000,下一个数字是8,则sign更新为，110000000,
                 //即，若某数字出现了，则对应位置上为1
                 signs[0][i] |= n;//对应i行的数字，检查一行的数字是否重复
@@ -1532,8 +1610,9 @@ public class PracticeArea {
         for (int i = row; i < row + 3; i++) {
             for (int j = col; j < col + 3; j++) {
                 if (board[i][j] != '.') {
-                    if (blockSet.contains(board[i][j]))
+                    if (blockSet.contains(board[i][j])) {
                         return false;
+                    }
                     blockSet.add(board[i][j]);
                 }
             }
@@ -1693,10 +1772,11 @@ public class PracticeArea {
         //不使用排序的方法
         HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
         for (int aNums1 : nums1) {
-            if (map.containsKey(aNums1))
+            if (map.containsKey(aNums1)) {
                 map.put(aNums1, map.get(aNums1) + 1);
-            else
+            } else {
                 map.put(aNums1, 1);
+            }
         }
 
         int[] res = new int[Math.max(nums1.length, nums2.length)];
