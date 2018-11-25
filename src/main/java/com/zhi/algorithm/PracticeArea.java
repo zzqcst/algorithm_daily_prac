@@ -9,6 +9,15 @@ import java.util.*;
 import java.util.List;
 
 public class PracticeArea {
+    public class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode(int x) {
+            val = x;
+        }
+    }
+
     public static void main(String[] args) throws IOException {
 //        ListNode node1 = new ListNode(1);
 //        ListNode node2 = new ListNode(2);
@@ -52,6 +61,38 @@ public class PracticeArea {
     }
 
     /**
+     * 给出两个 非空 的链表用来表示两个非负的整数。其中，它们各自的位数是按照 逆序 的方式存储的，并且它们的每个节点只能存储 一位 数字。
+     *
+     * 如果，我们将这两个数相加起来，则会返回一个新的链表来表示它们的和。
+     *
+     * 您可以假设除了数字 0 之外，这两个数都不会以 0 开头。
+     *
+     * 输入：(2 -> 4 -> 3) + (5 -> 6 -> 4)
+     * 输出：7 -> 0 -> 8
+     * 原因：342 + 465 = 807
+     * @param l1
+     * @param l2
+     * @return
+     */
+    public static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        //TODO
+        int num1 = 0,num2=0;
+        int n = 0;
+        while (l1.next != null) {
+            num1=l1.val*10^n+num1;
+        }
+        n=0;
+        while (l2.next != null) {
+            num2=l2.val*10^n+num2;
+        }
+        int res = num1+num2;
+        while (res % 10 != 0) {
+
+        }
+        return null;
+    }
+
+    /**
      * 给定一个未排序的数组，判断这个数组中是否存在长度为 3 的递增子序列。子序列不一定连续
      * 数学表达式如下:
      * 如果存在这样的 i, j, k,  且满足 0 ≤ i < j < k ≤ n-1，
@@ -76,7 +117,9 @@ public class PracticeArea {
                 first = nums[i];
             } else if (second >= nums[i]) {//第一个数字小于nums[i],第二个数字如果大于nums[i],则nums[i]成为新的第二个数字
                 second = nums[i];
-            }else return true;
+            } else {
+                return true;
+            }
         }
         return false;
     }
@@ -1094,15 +1137,6 @@ public class PracticeArea {
     private void deleteNode(ListNode node) {
         node.val = node.next.val;
         node.next = node.next.next;
-    }
-
-    public static class ListNode {
-        int val;
-        ListNode next;
-
-        ListNode(int x) {
-            val = x;
-        }
     }
 
     /**
