@@ -16,6 +16,7 @@ public class PracticeArea {
         ListNode(int x) {
             val = x;
         }
+
     }
 
     public static void main(String[] args) throws IOException {
