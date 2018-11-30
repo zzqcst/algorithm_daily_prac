@@ -4,12 +4,13 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.*;
 import java.util.List;
 
 public class PracticeArea {
-    public class ListNode {
+    public static class ListNode {
         int val;
         ListNode next;
 
@@ -20,17 +21,37 @@ public class PracticeArea {
     }
 
     public static void main(String[] args) throws IOException {
-//        ListNode node1 = new ListNode(1);
-//        ListNode node2 = new ListNode(2);
+        ListNode node1 = new ListNode(9);
+//        ListNode node2 = new ListNode(4);
 //        ListNode node3 = new ListNode(3);
-//        ListNode node4 = new ListNode(4);
-//        ListNode node5 = new ListNode(5);
-//        ListNode node6 = new ListNode(6);
+        ListNode node4 = new ListNode(1);
+        ListNode node5 = new ListNode(9);
+        ListNode node6 = new ListNode(9);
+        ListNode node7 = new ListNode(9);
+        ListNode node8 = new ListNode(9);
+        ListNode node9 = new ListNode(9);
+        ListNode node10 = new ListNode(9);
+        ListNode node11 = new ListNode(9);
+        ListNode node12 = new ListNode(9);
+        ListNode node13 = new ListNode(9);
 //        node1.next = node2;
 //        node2.next = node3;
 //        node3.next = node4;
-//        node4.next = node5;
-//        node5.next = node6;
+        node4.next = node5;
+        node5.next = node6;
+        node6.next = node7;
+        node7.next = node8;
+        node8.next = node9;
+        node9.next = node10;
+        node10.next = node11;
+        node11.next = node12;
+        node12.next = node13;
+        ListNode listNode = addTwoNumbers(node1, node4);
+        while (listNode != null) {
+            System.out.print(listNode.val+" ");
+            listNode = listNode.next;
+        }
+
 //        TreeNode t1 = new TreeNode(3);
 //        TreeNode t2 = new TreeNode(9);
 //        TreeNode t3 = new TreeNode(20);
@@ -57,40 +78,54 @@ public class PracticeArea {
 //        }
 //        int[] a = {1};
 //        System.out.println(threeSum(new int[]{-2, 0, 1, 1, 2}));
-        int[] nums = {5, 4, 3, 2, 1};
-        System.out.println(increasingTriplet(nums));
     }
 
     /**
      * 给出两个 非空 的链表用来表示两个非负的整数。其中，它们各自的位数是按照 逆序 的方式存储的，并且它们的每个节点只能存储 一位 数字。
-     *
+     * <p>
      * 如果，我们将这两个数相加起来，则会返回一个新的链表来表示它们的和。
-     *
+     * <p>
      * 您可以假设除了数字 0 之外，这两个数都不会以 0 开头。
-     *
+     * <p>
      * 输入：(2 -> 4 -> 3) + (5 -> 6 -> 4)
      * 输出：7 -> 0 -> 8
      * 原因：342 + 465 = 807
+     *
      * @param l1
      * @param l2
      * @return
      */
     public static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        //TODO
-        int num1 = 0,num2=0;
-        int n = 0;
-        while (l1.next != null) {
-            num1=l1.val*10^n+num1;
+        //own method
+        double num1 = 0, num2 = 0;
+        StringBuilder s = new StringBuilder();
+        while (l1 != null) {
+            s.append(l1.val);
+            l1 = l1.next;
         }
-        n=0;
-        while (l2.next != null) {
-            num2=l2.val*10^n+num2;
+        BigInteger b1 = new BigInteger(s.reverse().toString());
+        s = new StringBuilder();
+        while (l2 != null) {
+            s.append(l2.val);
+            l2 = l2.next;
         }
-        int res = num1+num2;
-        while (res % 10 != 0) {
+        BigInteger b2 = new BigInteger(s.reverse().toString());
+        BigInteger res = b1.add(b2);
+        System.out.println(res.toString());
+        if (res.toString().equals("0")) {
+            return new ListNode(0);
+        }
+        return strToList(new StringBuilder(res.toString()).reverse().toString());
+    }
 
+    private static ListNode strToList(String res) {
+
+        if (res.length() == 0) {
+            return null;
         }
-        return null;
+        ListNode head = new ListNode(Integer.valueOf(String.valueOf(res.charAt(0))));
+        head.next = strToList(res.substring(1,res.length()));
+        return head;
     }
 
     /**
