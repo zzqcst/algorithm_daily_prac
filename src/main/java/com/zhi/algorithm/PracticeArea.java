@@ -10,7 +10,6 @@ import java.util.List;
 
 public class PracticeArea {
     public class ListNode {
-
         int val;
         ListNode next;
 
