@@ -48,7 +48,7 @@ public class PracticeArea {
         node12.next = node13;
         ListNode listNode = addTwoNumbers(node1, node4);
         while (listNode != null) {
-            System.out.print(listNode.val+" ");
+            System.out.print(listNode.val + " ");
             listNode = listNode.next;
         }
 
@@ -97,34 +97,50 @@ public class PracticeArea {
      */
     public static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
         //own method
-        double num1 = 0, num2 = 0;
-        StringBuilder s = new StringBuilder();
-        while (l1 != null) {
-            s.append(l1.val);
-            l1 = l1.next;
+//        double num1 = 0, num2 = 0;
+//        StringBuilder s = new StringBuilder();
+//        while (l1 != null) {
+//            s.append(l1.val);
+//            l1 = l1.next;
+//        }
+//        BigInteger b1 = new BigInteger(s.reverse().toString());
+//        s = new StringBuilder();
+//        while (l2 != null) {
+//            s.append(l2.val);
+//            l2 = l2.next;
+//        }
+//        BigInteger b2 = new BigInteger(s.reverse().toString());
+//        BigInteger res = b1.add(b2);
+//        System.out.println(res.toString());
+//        if (res.toString().equals("0")) {
+//            return new ListNode(0);
+//        }
+//        return strToList(new StringBuilder(res.toString()).reverse().toString());
+
+        //直接相加法
+        ListNode dummyHead = new ListNode(0);
+        ListNode p=l1, q=l2,curr=dummyHead;
+        int carry = 0;
+        while(p!=null||q!=null){
+            int x = (p!= null)?p.val:0;
+            int y = (q!= null)?q.val:0;
+            int sum = carry+x+y;//求和
+            carry = sum/10;//进位
+            curr.next = new ListNode(sum%10);//取余
+            curr = curr.next;
+            if(p!=null) p=p.next;
+            if(q!=null) q=q.next;
         }
-        BigInteger b1 = new BigInteger(s.reverse().toString());
-        s = new StringBuilder();
-        while (l2 != null) {
-            s.append(l2.val);
-            l2 = l2.next;
-        }
-        BigInteger b2 = new BigInteger(s.reverse().toString());
-        BigInteger res = b1.add(b2);
-        System.out.println(res.toString());
-        if (res.toString().equals("0")) {
-            return new ListNode(0);
-        }
-        return strToList(new StringBuilder(res.toString()).reverse().toString());
+        if(carry>0) curr.next = new ListNode(carry);
+        return dummyHead.next;
     }
 
     private static ListNode strToList(String res) {
-
         if (res.length() == 0) {
             return null;
         }
         ListNode head = new ListNode(Integer.valueOf(String.valueOf(res.charAt(0))));
-        head.next = strToList(res.substring(1,res.length()));
+        head.next = strToList(res.substring(1, res.length()));
         return head;
     }
 
