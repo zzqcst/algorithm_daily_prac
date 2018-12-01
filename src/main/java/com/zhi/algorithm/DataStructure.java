@@ -5,9 +5,13 @@ package com.zhi.algorithm;
  */
 public class DataStructure {
     public static void main(String[] args) {
-        String t = "ctcaatcacaatcat";
-        String p = "caatncaatm";
-        new DataStructure().MP(p,t);
+
+//        //字符串匹配MP算法
+//        String t = "ctcaatcacaatcat";
+//        String p = "caatncaatm";
+//        new DataStructure().MP(p,t);
+
+
     }
 
     /**
