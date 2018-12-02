@@ -13,6 +13,18 @@ public class DataStructure {
 //        String p = "caatncaatm";
 //        new DataStructure().MP(p,t);
 
+        List list = new List();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        list.add(7);
+        list.add(90);
+        list.add(12);
+
+        list.deleteTail();
+        for (int i = 0; i < list.getSize(); i++) {
+            System.out.print(list.getAt(i)+" ");
+        }
     }
 
 
@@ -64,10 +76,6 @@ public class DataStructure {
             }
         }
     }
-}
-
-class Test {
-    int a;
 }
 
 class ListNode {
@@ -137,6 +145,7 @@ class List {
                     head = null;
                 } else {
                     preNode.next = null;
+                    break;
                 }
             } else {
                 preNode = temp;
@@ -156,8 +165,8 @@ class List {
         ListNode tempNode = head;
         while (tempNode != null) {
             if (temp == index) {
-                if (preNode == null) {//说明链表只有一个节点
-                    head = null;
+                if (preNode == null) {//说明要删除头结点
+                    head = head.next;
                     break;
                 } else {
                     preNode.next = tempNode.next;
