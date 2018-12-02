@@ -1,6 +1,8 @@
 package com.zhi.algorithm;
 
-import java.util.LinkedList;
+
+import java.util.Arrays;
+import java.util.Stack;
 
 /**
  * 数据结构
@@ -13,18 +15,31 @@ public class DataStructure {
 //        String p = "caatncaatm";
 //        new DataStructure().MP(p,t);
 
-        List list = new List();
-        list.add(1);
-        list.add(2);
-        list.add(3);
-        list.add(7);
-        list.add(90);
-        list.add(12);
+//        //单向链表
+//        List list = new List();
+//        list.add(1);
+//        list.add(2);
+//        list.add(3);
+//        list.add(7);
+//        list.add(90);
+//        list.add(12);
+//        list.removeAll();
+//        list.deleteAt(200);
 
-        list.deleteTail();
-        for (int i = 0; i < list.getSize(); i++) {
-            System.out.print(list.getAt(i)+" ");
-        }
+//        //栈
+//        ArrayStack a = new ArrayStack();
+//        a.push(1);
+//        a.push(2);
+//        a.push(3);
+//        a.push(4);
+//
+//        while (!a.isEmpty()) {
+//            System.out.println(a.pop());
+//        }
+//
+//        String s = "(((()((())()()()((((()))()()(()))))())";
+//        System.out.println(bracketsMatch(s));
+
     }
 
 
@@ -76,8 +91,69 @@ public class DataStructure {
             }
         }
     }
+
+    /**
+     * 括号匹配，判断输入的字符串中左右括号是否匹配
+     * @param s 输入字符串
+     * @return 是否匹配
+     */
+    private static boolean bracketsMatch(String s){
+        Stack<Character> stack = new Stack<>();
+        char[] chars = s.toCharArray();
+        for (char aChar : chars) {
+            if (aChar == '(') {
+                stack.push('(');
+            }
+            if (aChar == ')') {
+                if (stack.isEmpty()) {
+                    return false;
+                }
+                stack.pop();
+            }
+        }
+        return stack.isEmpty();
+    }
 }
 
+class ArrayStack {
+    private int[] elements=new int[3];
+    private int elementCount;//元素个数
+
+    void push(int v) {
+        checkCapacity(elementCount + 1);
+        elements[elementCount++]=v;
+    }
+
+    private void checkCapacity(int minCapacity) {//如果增加一个元素会超过数组长度，扩展存储数组
+        if (minCapacity - elements.length>0) {
+            grow(minCapacity);
+        }
+    }
+
+    private void grow(int minCapacity) {
+        elements = Arrays.copyOf(elements, elements.length * 2);
+    }
+
+    int pop() {
+        if (elementCount == 0) {
+            throw new RuntimeException("栈为空");
+        }
+        return elements[--elementCount];
+    }
+
+    boolean isEmpty(){
+        return elementCount==0;
+    }
+
+    void clear(){
+        elementCount=0;
+        elements = new int[10];
+    }
+}
+
+/**
+ * 链表节点类
+ */
 class ListNode {
     int data;
     ListNode next;
@@ -87,6 +163,9 @@ class ListNode {
     }
 }
 
+/**
+ * 链表类
+ */
 class List {
     private ListNode head;
     private ListNode tail;
@@ -157,8 +236,7 @@ class List {
 
     void deleteAt(int index) {
         if (index >= size) {
-            System.err.println("超过链表长度");
-            return;
+            throw new RuntimeException("超过链表长度");
         }
         int temp = 0;
         ListNode preNode = null;
@@ -182,7 +260,6 @@ class List {
 
     int getAt(int index) {
         if (index >= size) {
-            System.err.println("超过链表长度");
             return -1;
         }
         int temp = 0;
