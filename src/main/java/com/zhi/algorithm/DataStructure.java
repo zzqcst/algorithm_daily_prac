@@ -87,20 +87,137 @@ class List {
     void add(int val) {
         ListNode node = new ListNode(val);
         ListNode temp = tail;
-        tail = node;
+        tail = node;//插入的节点作为尾节点
         if (temp == null) {//尾节点为空，说明链表此时为空
             head = node;//此时插入的node，既是头结点，也是尾节点
         } else {
             temp.next = node;//尾节点不为空，直接将节点加到尾节点后面
         }
-        head.next = node;
+        size++;
     }
 
-    void insertAt(int index) {
+    void insertAt(int index, int value) {
+        if (index >= size) {
+            System.err.println("超过链表最大长度");
+            return;
+        }
+        int temp=0;
+        ListNode tempNode = head;
+        ListNode preNode = null;
+        ListNode newNode = new ListNode(value);
+        while (tempNode != null) {
+            if (temp == index) {//将新的节点链接到上一个节点后面，当前节点作为新节点的下一个节点
+                if (preNode == null) {//前一个节点为null，则插入链表头部
+                    head=newNode;
+                    newNode.next = tempNode;
+                    break;
+                }else {
+                    preNode.next=newNode;
+                    newNode.next=tempNode;
+                    break;
+                }
+            }
+            preNode=tempNode;
+            tempNode = tempNode.next;
+            temp++;
+        }
+        size++;
+    }
 
+    void deleteTail() {
+        if (size == 0) {
+            System.err.println("链表为空");
+            return;
+        }
+        ListNode temp = head;
+        ListNode preNode = null;
+        while (temp != null) {
+            if (temp.next == null) {//此时temp为最后一个节点
+                if (preNode == null) {//此时链表只有一个节点
+                    head=null;
+                }else {
+                    preNode.next=null;
+                }
+            }else {
+                preNode=temp;
+                temp=temp.next;
+            }
+        }
+        size--;
     }
 
     void deleteAt(int index) {
+        if (index >= size) {
+            System.err.println("超过链表长度");
+            return;
+        }
+        int temp = 0;
+        ListNode preNode = null;
+        ListNode tempNode = head;
+        while (tempNode != null) {
+            if (temp == index) {
+                if (preNode == null) {//说明链表只有一个节点
+                    head=null;
+                    break;
+                }else {
+                    preNode.next=tempNode.next;
+                    break;
+                }
+            }
+            preNode=tempNode;
+            tempNode = tempNode.next;
+            temp++;
+        }
+        size--;
+    }
 
+    int getAt(int index) {
+        if (index >= size) {
+            System.err.println("超过链表长度");
+            return -1;
+        }
+        int temp =0;
+        ListNode tempNode = head;
+        while (tempNode != null) {
+            if (temp == index) {
+                return tempNode.data;
+            }
+            tempNode=tempNode.next;
+            temp++;
+        }
+        return 0;
+    }
+
+    boolean isEmpty() {
+
+        return size==0;
+    }
+
+    int getSize() {
+        return size;
+    }
+
+    void removeAll() {
+        head=null;
+        tail=null;
+        size=0;
+    }
+
+    ListNode getNodeAt(int index) {
+        if (index >= size) {
+            System.err.println("超过链表长度");
+            return null;
+        }
+        int temp = 0;
+        ListNode tempNode = head;
+        while (tempNode != null) {
+            if (temp == index) {
+                return tempNode;
+            }else {
+                tempNode=tempNode.next;
+                temp++;
+            }
+        }
+        return null;
     }
 }
