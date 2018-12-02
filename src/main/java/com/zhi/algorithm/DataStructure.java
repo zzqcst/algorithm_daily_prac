@@ -74,7 +74,7 @@ class ListNode {
     int data;
     ListNode next;
 
-    public ListNode(int data) {
+    ListNode(int data) {
         this.data = data;
     }
 }
@@ -82,7 +82,7 @@ class ListNode {
 class List {
     private ListNode head;
     private ListNode tail;
-    int size;
+    private int size;
 
     void add(int val) {
         ListNode node = new ListNode(val);
@@ -101,23 +101,23 @@ class List {
             System.err.println("超过链表最大长度");
             return;
         }
-        int temp=0;
+        int temp = 0;
         ListNode tempNode = head;
         ListNode preNode = null;
         ListNode newNode = new ListNode(value);
         while (tempNode != null) {
             if (temp == index) {//将新的节点链接到上一个节点后面，当前节点作为新节点的下一个节点
                 if (preNode == null) {//前一个节点为null，则插入链表头部
-                    head=newNode;
+                    head = newNode;
                     newNode.next = tempNode;
                     break;
-                }else {
-                    preNode.next=newNode;
-                    newNode.next=tempNode;
+                } else {
+                    preNode.next = newNode;
+                    newNode.next = tempNode;
                     break;
                 }
             }
-            preNode=tempNode;
+            preNode = tempNode;
             tempNode = tempNode.next;
             temp++;
         }
@@ -134,13 +134,13 @@ class List {
         while (temp != null) {
             if (temp.next == null) {//此时temp为最后一个节点
                 if (preNode == null) {//此时链表只有一个节点
-                    head=null;
-                }else {
-                    preNode.next=null;
+                    head = null;
+                } else {
+                    preNode.next = null;
                 }
-            }else {
-                preNode=temp;
-                temp=temp.next;
+            } else {
+                preNode = temp;
+                temp = temp.next;
             }
         }
         size--;
@@ -157,14 +157,14 @@ class List {
         while (tempNode != null) {
             if (temp == index) {
                 if (preNode == null) {//说明链表只有一个节点
-                    head=null;
+                    head = null;
                     break;
-                }else {
-                    preNode.next=tempNode.next;
+                } else {
+                    preNode.next = tempNode.next;
                     break;
                 }
             }
-            preNode=tempNode;
+            preNode = tempNode;
             tempNode = tempNode.next;
             temp++;
         }
@@ -176,13 +176,13 @@ class List {
             System.err.println("超过链表长度");
             return -1;
         }
-        int temp =0;
+        int temp = 0;
         ListNode tempNode = head;
         while (tempNode != null) {
             if (temp == index) {
                 return tempNode.data;
             }
-            tempNode=tempNode.next;
+            tempNode = tempNode.next;
             temp++;
         }
         return 0;
@@ -190,7 +190,7 @@ class List {
 
     boolean isEmpty() {
 
-        return size==0;
+        return size == 0;
     }
 
     int getSize() {
@@ -198,9 +198,9 @@ class List {
     }
 
     void removeAll() {
-        head=null;
-        tail=null;
-        size=0;
+        head = null;
+        tail = null;
+        size = 0;
     }
 
     ListNode getNodeAt(int index) {
@@ -213,8 +213,8 @@ class List {
         while (tempNode != null) {
             if (temp == index) {
                 return tempNode;
-            }else {
-                tempNode=tempNode.next;
+            } else {
+                tempNode = tempNode.next;
                 temp++;
             }
         }
