@@ -2,6 +2,8 @@ package com.zhi.algorithm;
 
 
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 
 /**
@@ -40,6 +42,15 @@ public class DataStructure {
 //        String s = "(((()((())()()()((((()))()()(()))))())";
 //        System.out.println(bracketsMatch(s));
 
+        BinaryTree tree = new BinaryTree(20);
+        tree.insert(18);
+        tree.insert(25);
+        tree.insert(17);
+        tree.insert(19);
+        tree.insert(24);
+        tree.insert(26);
+
+        tree.levelOrderTraverse(tree.getRoot());
     }
 
 
@@ -94,10 +105,11 @@ public class DataStructure {
 
     /**
      * 括号匹配，判断输入的字符串中左右括号是否匹配
+     *
      * @param s 输入字符串
      * @return 是否匹配
      */
-    private static boolean bracketsMatch(String s){
+    private static boolean bracketsMatch(String s) {
         Stack<Character> stack = new Stack<>();
         char[] chars = s.toCharArray();
         for (char aChar : chars) {
@@ -115,17 +127,188 @@ public class DataStructure {
     }
 }
 
+class BinaryTree {
+    private BinaryTreeNode root;
+
+    public BinaryTree(int value) {
+        root = new BinaryTreeNode(value);
+    }
+
+    public int findMax() {
+        BinaryTreeNode temp = root;
+        BinaryTreeNode max = temp;
+        while (temp != null) {
+            max = temp;
+            temp = temp.rightNode;
+        }
+        return max.data;
+    }
+
+    public int findMin() {
+        BinaryTreeNode temp = root;
+        BinaryTreeNode min = temp;
+        while (temp != null) {
+            min = temp;
+            temp = temp.leftNode;
+        }
+        return min.data;
+    }
+
+    /**
+     * 层序遍历
+     * 采用队列的方式实现，输出节点值，然后按顺序将左右节点入队列
+     * @param root
+     */
+    public void levelOrderTraverse(BinaryTreeNode root) {
+        if (root == null) {
+            return;
+        }
+        Queue<BinaryTreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            BinaryTreeNode node = queue.poll();
+            System.out.println(node.data);//输出节点值
+            if (node.leftNode != null) {//左节点入队列
+                queue.offer(node.leftNode);
+            }
+            if (node.rightNode != null) {//右节点入队列
+                queue.offer(node.rightNode);
+            }
+        }
+    }
+
+    /**
+     * @param root 中序遍历
+     */
+    public void inOrderTraverse(BinaryTreeNode root) {
+        if (root != null) {
+            inOrderTraverse(root.leftNode);
+            System.out.println(root.data);
+            inOrderTraverse(root.rightNode);
+        }
+    }
+
+    /**
+     * 前序遍历
+     *
+     * @param root
+     */
+    public void preOrderTraverse(BinaryTreeNode root) {
+        if (root != null) {
+            System.out.println(root.data);
+            preOrderTraverse(root.leftNode);
+            preOrderTraverse(root.rightNode);
+        }
+    }
+
+    /**
+     * 后序遍历
+     * @param root
+     */
+    public void postOrderTraverse(BinaryTreeNode root) {
+        if (root != null) {
+            postOrderTraverse(root.leftNode);
+            postOrderTraverse(root.rightNode);
+            System.out.println(root.data);
+        }
+    }
+
+    public BinaryTreeNode find(int value) {
+        BinaryTreeNode temp = root;
+        while (temp != null) {
+            if (value > temp.data) {
+                temp = temp.rightNode;
+            } else if (value < temp.data) {
+                temp = temp.leftNode;
+            } else {
+                return temp;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 按照左子树<父节点<右子树的方式插入
+     *
+     * @param n
+     * @return
+     */
+    public boolean insert(int n) {
+        BinaryTreeNode newNode = new BinaryTreeNode(n);
+        if (root == null) {
+            root = newNode;
+            return true;
+        }
+        BinaryTreeNode temp = root;
+        BinaryTreeNode pre = null;
+        while (true) {
+            pre = temp;
+            if (n < temp.data) {
+                temp = temp.leftNode;
+                if (temp == null) {
+                    pre.leftNode = newNode;
+                    return true;
+                }
+            } else {
+                temp = temp.rightNode;
+                if (temp == null) {
+                    pre.rightNode = newNode;
+                    return true;
+                }
+            }
+        }
+    }
+
+    public BinaryTreeNode getRoot() {
+        return root;
+    }
+}
+
+class BinaryTreeNode {
+    int data;
+    BinaryTreeNode leftNode;
+    BinaryTreeNode rightNode;
+
+    public void setData(int data) {
+        this.data = data;
+    }
+
+    public void setLeftNode(BinaryTreeNode leftNode) {
+        this.leftNode = leftNode;
+    }
+
+    public void setRightNode(BinaryTreeNode rightNode) {
+        this.rightNode = rightNode;
+    }
+
+    public BinaryTreeNode(int data) {
+        this.data = data;
+    }
+
+    public int getData() {
+        return data;
+    }
+
+    public BinaryTreeNode getLeftNode() {
+        return leftNode;
+    }
+
+    public BinaryTreeNode getRightNode() {
+        return rightNode;
+    }
+}
+
 class ArrayStack {
-    private int[] elements=new int[3];
+    private int[] elements = new int[3];
     private int elementCount;//元素个数
 
     void push(int v) {
         checkCapacity(elementCount + 1);
-        elements[elementCount++]=v;
+        elements[elementCount++] = v;
     }
 
     private void checkCapacity(int minCapacity) {//如果增加一个元素会超过数组长度，扩展存储数组
-        if (minCapacity - elements.length>0) {
+        if (minCapacity - elements.length > 0) {
             grow(minCapacity);
         }
     }
@@ -141,12 +324,12 @@ class ArrayStack {
         return elements[--elementCount];
     }
 
-    boolean isEmpty(){
-        return elementCount==0;
+    boolean isEmpty() {
+        return elementCount == 0;
     }
 
-    void clear(){
-        elementCount=0;
+    void clear() {
+        elementCount = 0;
         elements = new int[10];
     }
 }
