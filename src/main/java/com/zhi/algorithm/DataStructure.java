@@ -42,15 +42,18 @@ public class DataStructure {
 //        String s = "(((()((())()()()((((()))()()(()))))())";
 //        System.out.println(bracketsMatch(s));
 
-        BinaryTree tree = new BinaryTree(20);
-        tree.insert(18);
-        tree.insert(25);
-        tree.insert(17);
-        tree.insert(19);
-        tree.insert(24);
-        tree.insert(26);
+//        //二叉树
+//        BinaryTree tree = new BinaryTree(20);
+//        tree.insert(18);
+//        tree.insert(25);
+//        tree.insert(17);
+//        tree.insert(19);
+//        tree.insert(24);
+//        tree.insert(26);
+//
+//        tree.levelOrderTraverse(tree.getRoot());
 
-        tree.levelOrderTraverse(tree.getRoot());
+
     }
 
 
@@ -125,6 +128,26 @@ public class DataStructure {
         }
         return stack.isEmpty();
     }
+}
+
+/**
+ * 一般树节点
+ */
+class TreeNode{
+    int data;
+    TreeNode leftChild;//左孩子节点
+    TreeNode rightSibling;//右兄弟节点
+
+    public TreeNode(int data) {
+        this.data = data;
+    }
+}
+
+/**
+ * 一般树
+ */
+class Tree{
+    TreeNode root;
 }
 
 class BinaryTree {
