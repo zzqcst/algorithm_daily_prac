@@ -21,36 +21,36 @@ public class PracticeArea {
     }
 
     public static void main(String[] args) throws IOException {
-        ListNode node1 = new ListNode(9);
+//        ListNode node1 = new ListNode(9);
 //        ListNode node2 = new ListNode(4);
 //        ListNode node3 = new ListNode(3);
-        ListNode node4 = new ListNode(1);
-        ListNode node5 = new ListNode(9);
-        ListNode node6 = new ListNode(9);
-        ListNode node7 = new ListNode(9);
-        ListNode node8 = new ListNode(9);
-        ListNode node9 = new ListNode(9);
-        ListNode node10 = new ListNode(9);
-        ListNode node11 = new ListNode(9);
-        ListNode node12 = new ListNode(9);
-        ListNode node13 = new ListNode(9);
+//        ListNode node4 = new ListNode(1);
+//        ListNode node5 = new ListNode(9);
+//        ListNode node6 = new ListNode(9);
+//        ListNode node7 = new ListNode(9);
+//        ListNode node8 = new ListNode(9);
+//        ListNode node9 = new ListNode(9);
+//        ListNode node10 = new ListNode(9);
+//        ListNode node11 = new ListNode(9);
+//        ListNode node12 = new ListNode(9);
+//        ListNode node13 = new ListNode(9);
 //        node1.next = node2;
 //        node2.next = node3;
 //        node3.next = node4;
-        node4.next = node5;
-        node5.next = node6;
-        node6.next = node7;
-        node7.next = node8;
-        node8.next = node9;
-        node9.next = node10;
-        node10.next = node11;
-        node11.next = node12;
-        node12.next = node13;
-        ListNode listNode = addTwoNumbers(node1, node4);
-        while (listNode != null) {
-            System.out.print(listNode.val + " ");
-            listNode = listNode.next;
-        }
+//        node4.next = node5;
+//        node5.next = node6;
+//        node6.next = node7;
+//        node7.next = node8;
+//        node8.next = node9;
+//        node9.next = node10;
+//        node10.next = node11;
+//        node11.next = node12;
+//        node12.next = node13;
+//        ListNode listNode = addTwoNumbers(node1, node4);
+//        while (listNode != null) {
+//            System.out.print(listNode.val + " ");
+//            listNode = listNode.next;
+//        }
 
 //        TreeNode t1 = new TreeNode(3);
 //        TreeNode t2 = new TreeNode(9);
@@ -78,6 +78,34 @@ public class PracticeArea {
 //        }
 //        int[] a = {1};
 //        System.out.println(threeSum(new int[]{-2, 0, 1, 1, 2}));
+
+        hannoi(3,"a","b","c");
+    }
+
+    /**
+     * 汉诺塔问题
+     * @param n 盘子的数量
+     * @param a 第一个柱子
+     * @param b 第二个柱子
+     * @param c 第三个柱子
+     */
+    private static void hannoi(int n, String a, String b, String c) {
+        if (n == 1) {
+            move(a, c);
+        }else {
+            hannoi(n-1,a,c,b);
+            move(a,c);
+            hannoi(n-1,b,a,c);
+        }
+    }
+
+    /**
+     * 将n个盘子从from移动到to
+     * @param from
+     * @param to
+     */
+    private static void move( String from, String to) {
+        System.out.println("从"+from+"移动盘子到"+to);
     }
 
     /**
@@ -119,19 +147,25 @@ public class PracticeArea {
 
         //直接相加法
         ListNode dummyHead = new ListNode(0);
-        ListNode p=l1, q=l2,curr=dummyHead;
+        ListNode p = l1, q = l2, curr = dummyHead;
         int carry = 0;
-        while(p!=null||q!=null){
-            int x = (p!= null)?p.val:0;
-            int y = (q!= null)?q.val:0;
-            int sum = carry+x+y;//求和
-            carry = sum/10;//进位
-            curr.next = new ListNode(sum%10);//取余
+        while (p != null || q != null) {
+            int x = (p != null) ? p.val : 0;
+            int y = (q != null) ? q.val : 0;
+            int sum = carry + x + y;//求和
+            carry = sum / 10;//进位
+            curr.next = new ListNode(sum % 10);//取余
             curr = curr.next;
-            if(p!=null) p=p.next;
-            if(q!=null) q=q.next;
+            if (p != null) {
+                p = p.next;
+            }
+            if (q != null) {
+                q = q.next;
+            }
         }
-        if(carry>0) curr.next = new ListNode(carry);
+        if (carry > 0) {
+            curr.next = new ListNode(carry);
+        }
         return dummyHead.next;
     }
 
