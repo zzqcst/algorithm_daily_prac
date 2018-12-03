@@ -51,7 +51,7 @@ public class DataStructure {
 //        tree.insert(24);
 //        tree.insert(26);
 //
-//        tree.levelOrderTraverse(tree.getRoot());
+//        tree.dfTraverse();
 
 
     }
@@ -133,7 +133,7 @@ public class DataStructure {
 /**
  * 一般树节点
  */
-class TreeNode{
+class TreeNode {
     int data;
     TreeNode leftChild;//左孩子节点
     TreeNode rightSibling;//右兄弟节点
@@ -147,7 +147,7 @@ class TreeNode{
 /**
  * 一般树
  */
-class Tree{
+class Tree {
     TreeNode root;
 }
 
@@ -179,8 +179,40 @@ class BinaryTree {
     }
 
     /**
+     * 深度优先遍历
+     * 利用栈结构实现，现将右子树入栈，再将左子树入栈
+     */
+    public void dfTraverse() {
+        Stack<BinaryTreeNode> stack = new Stack<>();
+        if (root == null) {
+            return;
+        }
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            BinaryTreeNode node = stack.pop();
+            System.out.println(node.data);
+            if (node.rightNode != null) {
+                stack.push(node.rightNode);
+            }
+
+            if (node.leftNode != null) {
+                stack.push(node.leftNode);
+            }
+        }
+
+    }
+
+    /**
+     * 广度优先遍历,跟层序遍历相同
+     */
+    public void bdfTraverse() {
+        levelOrderTraverse(root);
+    }
+
+    /**
      * 层序遍历
      * 采用队列的方式实现，输出节点值，然后按顺序将左右节点入队列
+     *
      * @param root
      */
     public void levelOrderTraverse(BinaryTreeNode root) {
@@ -227,6 +259,7 @@ class BinaryTree {
 
     /**
      * 后序遍历
+     *
      * @param root
      */
     public void postOrderTraverse(BinaryTreeNode root) {
