@@ -79,11 +79,12 @@ public class PracticeArea {
 //        int[] a = {1};
 //        System.out.println(threeSum(new int[]{-2, 0, 1, 1, 2}));
 
-        hannoi(3,"a","b","c");
+        hannoi(3, "a", "b", "c");
     }
 
     /**
      * 汉诺塔问题
+     *
      * @param n 盘子的数量
      * @param a 第一个柱子
      * @param b 第二个柱子
@@ -92,20 +93,21 @@ public class PracticeArea {
     private static void hannoi(int n, String a, String b, String c) {
         if (n == 1) {
             move(a, c);
-        }else {
-            hannoi(n-1,a,c,b);
-            move(a,c);
-            hannoi(n-1,b,a,c);
+        } else {
+            hannoi(n - 1, a, c, b);
+            move(a, c);
+            hannoi(n - 1, b, a, c);
         }
     }
 
     /**
      * 将n个盘子从from移动到to
+     *
      * @param from
      * @param to
      */
-    private static void move( String from, String to) {
-        System.out.println("从"+from+"移动盘子到"+to);
+    private static void move(String from, String to) {
+        System.out.println("从" + from + "移动盘子到" + to);
     }
 
     /**

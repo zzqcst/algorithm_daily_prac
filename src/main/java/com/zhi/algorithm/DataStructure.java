@@ -53,6 +53,11 @@ public class DataStructure {
 //
 //        tree.dfTraverse();
 
+        int[] a = {5, 3, 2, 7, 3, 8, 1};
+        HeapSort2.sort(a);
+        for (int i : a) {
+            System.out.print(i + " ");
+        }
 
     }
 
@@ -130,7 +135,40 @@ public class DataStructure {
     }
 }
 
+class HeapSort2 {
+    static void sort(int[] arr) {
+        for (int i = arr.length / 2 - 1; i >= 0; i--) {//遍历每一个非叶节点
+            adjustHeap(arr, i, arr.length);
+        }
 
+        for (int i = arr.length - 1; i > 0; i--) {
+            swap(arr, 0, i);
+            adjustHeap(arr, 0, i);
+        }
+    }
+
+    private static void swap(int[] arr, int i, int j) {//交换数组中两个数
+        arr[i] = arr[j] + arr[i];
+        arr[j] = arr[i] - arr[j];
+        arr[i] = arr[i] - arr[j];
+    }
+
+    private static void adjustHeap(int[] arr, int i, int length) {
+        int temp = arr[i];
+        for (int j = 2 * i + 1; j < length; j = j * 2 + 1) {//从左子节点开始
+            if (j + 1 < length && arr[j] < arr[j + 1]) {
+                j++;
+            }
+            if (arr[j] > temp) {
+                arr[i] = arr[j];
+                i = j;//当前子树调整完毕，将索引i指向子节点
+            } else {
+                break;//当前子树满足堆的结构
+            }
+        }
+        arr[i] = temp;
+    }
+}
 
 /**
  * 一般树节点
