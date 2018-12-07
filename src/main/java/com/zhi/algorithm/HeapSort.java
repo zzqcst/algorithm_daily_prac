@@ -12,7 +12,7 @@ public class HeapSort {
         sort(arr);
         System.out.println(Arrays.toString(arr));
     }
-    public static void sort(int []arr){
+    private static void sort(int[] arr){
         //1.构建大顶堆
         for(int i=arr.length/2-1;i>=0;i--){
             //从第一个非叶子结点从下至上，从右至左调整结构
@@ -32,7 +32,7 @@ public class HeapSort {
      * @param i
      * @param length
      */
-    public static void adjustHeap(int []arr,int i,int length){
+    private static void adjustHeap(int[] arr, int i, int length){
         int temp = arr[i];//先取出当前元素i
         for(int k=i*2+1;k<length;k=k*2+1){//从i结点的左子结点开始，也就是2i+1处开始
             if(k+1<length && arr[k]<arr[k+1]){//如果左子结点小于右子结点，k指向右子结点
@@ -54,7 +54,7 @@ public class HeapSort {
      * @param a
      * @param b
      */
-    public static void swap(int []arr,int a ,int b){
+    private static void swap(int[] arr, int a, int b){
         int temp=arr[a];
         arr[a] = arr[b];
         arr[b] = temp;
