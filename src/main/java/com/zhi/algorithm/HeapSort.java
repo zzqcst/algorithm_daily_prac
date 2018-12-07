@@ -3,7 +3,6 @@ package com.zhi.algorithm;
 import java.util.Arrays;
 
 /**
- * Created by chengxiao on 2016/12/17.
  * 堆排序demo
  */
 public class HeapSort {
@@ -22,7 +21,7 @@ public class HeapSort {
         //2.调整堆结构+交换堆顶元素与末尾元素
         for(int j=arr.length-1;j>0;j--){
             swap(arr,0,j);//将堆顶元素与末尾元素进行交换
-            adjustHeap(arr,0,j);//重新对堆进行调整
+            adjustHeap(arr,0,j);//重新对堆进行调整，此时是从第0个元素为止调整到第j个元素为止
         }
 
     }
