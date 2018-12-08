@@ -53,11 +53,13 @@ public class DataStructure {
 //
 //        tree.dfTraverse();
 
-        int[] a = {5, 3, 2, 7, 3, 8, 1};
-        HeapSort2.sort(a);
-        for (int i : a) {
-            System.out.print(i + " ");
-        }
+//        //堆排序
+//        int[] a = {5, 3, 2, 7, 3, 8, 1};
+//        HeapSort2.sort(a);
+//        for (int i : a) {
+//            System.out.print(i + " ");
+//        }
+
 
     }
 
@@ -135,6 +137,9 @@ public class DataStructure {
     }
 }
 
+/**
+ * 堆排序
+ */
 class HeapSort2 {
     static void sort(int[] arr) {
         for (int i = arr.length / 2 - 1; i >= 0; i--) {//遍历每一个非叶节点
