@@ -21,25 +21,25 @@ public class PracticeArea {
     }
 
     public static void main(String[] args) throws IOException {
-//        ListNode node1 = new ListNode(9);
-//        ListNode node2 = new ListNode(4);
-//        ListNode node3 = new ListNode(3);
-//        ListNode node4 = new ListNode(1);
-//        ListNode node5 = new ListNode(9);
-//        ListNode node6 = new ListNode(9);
-//        ListNode node7 = new ListNode(9);
+        ListNode node1 = new ListNode(2);
+        ListNode node2 = new ListNode(1);
+        ListNode node3 = new ListNode(3);
+        ListNode node4 = new ListNode(5);
+        ListNode node5 = new ListNode(6);
+        ListNode node6 = new ListNode(4);
+        ListNode node7 = new ListNode(7);
 //        ListNode node8 = new ListNode(9);
 //        ListNode node9 = new ListNode(9);
 //        ListNode node10 = new ListNode(9);
 //        ListNode node11 = new ListNode(9);
 //        ListNode node12 = new ListNode(9);
 //        ListNode node13 = new ListNode(9);
-//        node1.next = node2;
-//        node2.next = node3;
-//        node3.next = node4;
-//        node4.next = node5;
-//        node5.next = node6;
-//        node6.next = node7;
+        node1.next = node2;
+        node2.next = node3;
+        node3.next = node4;
+        node4.next = node5;
+        node5.next = node6;
+        node6.next = node7;
 //        node7.next = node8;
 //        node8.next = node9;
 //        node9.next = node10;
@@ -79,34 +79,72 @@ public class PracticeArea {
 //        int[] a = {1};
 //        System.out.println(threeSum(new int[]{-2, 0, 1, 1, 2}));
 
-        hannoi(3, "a", "b", "c");
+//        hannoi(3, "a", "b", "c");
+        ListNode res = oddEvenList(node1);
+        while (res != null) {
+            System.out.println(res.val);
+            res = res.next;
+        }
     }
 
 
     /**
      * 奇偶链表
-     *
+     * <p>
      * 给定一个单链表，把所有的奇数节点和偶数节点分别排在一起。请注意，这里的奇数节点和偶数节点指的是节点编号的奇偶性，而不是节点的值的奇偶性。
-     *
+     * <p>
      * 请尝试使用原地算法完成。你的算法的空间复杂度应为 O(1)，时间复杂度应为 O(nodes)，nodes 为节点总数。
      * 示例 1:
-     *
+     * <p>
      * 输入: 1->2->3->4->5->NULL
      * 输出: 1->3->5->2->4->NULL
      * 示例 2:
-     *
+     * <p>
      * 输入: 2->1->3->5->6->4->7->NULL
      * 输出: 2->3->6->7->1->5->4->NULL
-     *
+     * <p>
      * 说明:
-     *
+     * <p>
      * 应当保持奇数节点和偶数节点的相对顺序。
      * 链表的第一个节点视为奇数节点，第二个节点视为偶数节点，以此类推。
-     * @param head
-     * @return
+     *
+     * @param head 头结点
+     * @return 返回排序后的第一个节点
      */
-    public ListNode oddEvenList(ListNode head) {
-        return null;
+    public static ListNode oddEvenList(ListNode head) {
+//        //首先记录各个节点的值，然后遍历list，先将偶数节点的值重新按顺序赋值给链表，
+//        //再将奇数节点的值重新复制给链表
+//        List<Integer> nodes = new ArrayList<>();
+//        ListNode temp = head;
+//        while (temp != null) {
+//            nodes.add(temp.val);
+//            temp = temp.next;
+//        }
+//
+//        temp = head;
+//        for (int i = 0; i < nodes.size(); i = i + 2) {//将偶数节点的值重新赋值给链表
+//            temp.val = nodes.get(i);
+//            temp = temp.next;
+//        }
+//        for (int i = 1; i < nodes.size(); i = i + 2) {//将奇数节点的值重新赋值给链表
+//            temp.val = nodes.get(i);
+//            temp = temp.next;
+//        }
+//
+//        return head;
+        if (head != null) {
+            ListNode odd = head, even = head.next, evenhead = even;
+
+            //分为两部分进行，链接奇数节点和链接偶数节点
+            while (even != null && even.next != null) {
+                odd.next = odd.next.next;
+                even.next = even.next.next;
+                odd = odd.next;
+                even = even.next;
+            }
+            odd.next = evenhead;//最后将奇偶连个链表链接在一起
+        }
+        return head;
     }
 
 
