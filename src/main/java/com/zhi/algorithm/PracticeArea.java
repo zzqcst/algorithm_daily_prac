@@ -106,11 +106,63 @@ public class PracticeArea {
         List<List<Integer>> integers = zigzagLevelOrder(node1);
         for (List<Integer> integer : integers) {
             for (Integer integer1 : integer) {
-                System.out.print(integer1+" ");
+                System.out.print(integer1 + " ");
             }
             System.out.println();
         }
 
+    }
+
+    /**
+     * 从前序与中序遍历序列构造二叉树
+     * <p>
+     * 根据一棵树的前序遍历与中序遍历构造二叉树。
+     * <p>
+     * 注意:
+     * 你可以假设树中没有重复的元素。
+     *
+     * @param preorder
+     * @param inorder
+     * @return
+     */
+    public static TreeNode buildTree(int[] preorder, int[] inorder) {
+        return construct(preorder, 0, preorder.length - 1, inorder, 0, inorder.length - 1);
+    }
+
+    /**
+     *
+     * 前序序列的第一个节点是根节点，然后在中序序列中找到该节点，位于该节点左侧的是根节点的左子树，位于该节点右侧的是根节点的右子树。
+     * 然后中序序列该节点左侧是左子树节点数量，右侧是右子树节点数量
+     * 根据左右子树节点数量，可从前序序列中得到左子树的前序序列，和右子树的前序序列
+     *
+     * 例如：
+     * 前序遍历 preorder = [3,9,20,15,7]
+     * 中序遍历 inorder = [9,3,15,20,7]
+     * 从前序遍历知道3是根节点，中序遍历中，3之前的9是左子树的中序遍历，3之后的15,20,7是右子树的中序遍历
+     * 前序遍历中，3之后的一个数，即9是左子树的前序遍历，剩下的20,15,7是右子树的前序遍历
+     * 一直递归下去
+     *
+     * @param preorder
+     * @param pl
+     * @param pr
+     * @param inorder
+     * @param il
+     * @param ir
+     * @return
+     */
+    public static TreeNode construct(int[] preorder,int pl,int pr,int[] inorder,int il,int ir){
+        if (pl > pr || il > ir) {
+            return null;
+        }
+        TreeNode root = new TreeNode(preorder[pl]);//前序的一个值是根节点
+        for(int i=il;i<=ir;i++){//到中序序列中找该根节点值
+            if(preorder[pl]==inorder[i]){//中序序列中，i前面是i的左子树的中序序列，i后面是i的右子树的中序序列
+                //左子树的前序序列为pl后的il到i个数，中序序列为i前面的数
+                root.left = construct(preorder,pl+1,pl+i-il,inorder,il,i-1);
+                root.right = construct(preorder,pl+i-il+1,pr,inorder,i+1,ir);
+            }
+        }
+        return root;
     }
 
     /**
