@@ -4,7 +4,6 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.*;
 import java.util.List;
@@ -20,30 +19,40 @@ public class PracticeArea {
 
     }
 
+    public static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode(int x) {
+            val = x;
+        }
+    }
+
     public static void main(String[] args) throws IOException {
-        ListNode node1 = new ListNode(4);
-        ListNode node2 = new ListNode(1);
-        ListNode node3 = new ListNode(8);
-        ListNode node4 = new ListNode(4);
-        ListNode node5 = new ListNode(5);
-        ListNode node6 = new ListNode(5);
-        ListNode node7 = new ListNode(0);
-        ListNode node8 = new ListNode(1);
-        ListNode node9 = new ListNode(8);
-        ListNode node10 = new ListNode(4);
-        ListNode node11 = new ListNode(5);
+//        ListNode node1 = new ListNode(4);
+//        ListNode node2 = new ListNode(1);
+//        ListNode node3 = new ListNode(8);
+//        ListNode node4 = new ListNode(4);
+//        ListNode node5 = new ListNode(5);
+//        ListNode node6 = new ListNode(5);
+//        ListNode node7 = new ListNode(0);
+//        ListNode node8 = new ListNode(1);
+//        ListNode node9 = new ListNode(8);
+//        ListNode node10 = new ListNode(4);
+//        ListNode node11 = new ListNode(5);
 //        ListNode node12 = new ListNode(9);
 //        ListNode node13 = new ListNode(9);
-        node1.next = node2;
-        node2.next = node3;
-        node3.next = node4;
-        node4.next = node5;
-
-        node6.next = node7;
-        node7.next = node8;
-        node8.next = node9;
-        node9.next = node10;
-        node10.next = node11;
+//        node1.next = node2;
+//        node2.next = node3;
+//        node3.next = node4;
+//        node4.next = node5;
+//
+//        node6.next = node7;
+//        node7.next = node8;
+//        node8.next = node9;
+//        node9.next = node10;
+//        node10.next = node11;
 //        node11.next = node12;
 //        node12.next = node13;
 //        ListNode listNode = addTwoNumbers(node1, node4);
@@ -80,13 +89,112 @@ public class PracticeArea {
 //        System.out.println(threeSum(new int[]{-2, 0, 1, 1, 2}));
 
 //        hannoi(3, "a", "b", "c");
-        ListNode res = getIntersectionNode(node1, node6);
-        while (res != null) {
-            System.out.println(res.val);
-            res = res.next;
+//        ListNode res = getIntersectionNode(node1, node6);
+//        while (res != null) {
+//            System.out.println(res.val);
+//            res = res.next;
+//        }
+        TreeNode node1 = new TreeNode(3);
+        TreeNode node2 = new TreeNode(9);
+        TreeNode node3 = new TreeNode(20);
+        TreeNode node4 = new TreeNode(15);
+        TreeNode node5 = new TreeNode(7);
+        node1.left = node2;
+        node1.right = node3;
+        node3.left = node4;
+        node3.right = node5;
+        List<List<Integer>> integers = zigzagLevelOrder(node1);
+        for (List<Integer> integer : integers) {
+            for (Integer integer1 : integer) {
+                System.out.print(integer1+" ");
+            }
+            System.out.println();
         }
+
     }
 
+    /**
+     * 二叉树的锯齿形层次遍历
+     * 给定一个二叉树，返回其节点值的锯齿形层次遍历。（即先从左往右，再从右往左进行下一层遍历，以此类推，层与层之间交替进行）。
+     *
+     * @param root
+     * @return
+     */
+    public static List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        List<List<Integer>> result = new ArrayList<>();
+
+        Queue<TreeNode> queue = new LinkedList<>();
+        int size = 0, i = 0;
+        boolean left = true;
+        if (root != null) {
+            queue.offer(root);
+        }
+        while (!queue.isEmpty()) {
+            List<Integer> level = new ArrayList<>();
+            size = queue.size();
+
+            for (i = 0; i < size; i++) {//size是每一层节点的数量
+                TreeNode t = queue.poll();
+                level.add(t.val);
+                //将该层的第i个几点的左右子节点入队列
+                if (t.left != null) {
+                    queue.offer(t.left);
+                }
+                if (t.right != null) {
+                    queue.offer(t.right);
+                }
+            }
+            if (!left) {//颠倒该层输出顺序
+                List<Integer> level2 = new ArrayList<>();
+                for (int j = level.size() - 1; j >= 0; j--) {
+                    level2.add(level.get(j));
+                }
+                level = level2;
+            }
+            left = !left;
+            result.add(level);
+        }
+        return result;
+    }
+
+    /**
+     * 树中序遍历
+     *
+     * @param root
+     * @return
+     */
+    public static List<Integer> inorderTraversal(TreeNode root) {
+        //迭代实现
+//        List<Integer> res = new ArrayList<>();
+//        Stack<TreeNode> stack = new Stack<>();
+//        TreeNode temp = root;
+//        while (temp!=null||!stack.isEmpty()) {
+//            if (temp != null) {//当前节点不为空，入栈，左子树
+//                stack.push(temp);
+//                temp = temp.left;
+//            }
+//            if (temp == null) {//当前节点为空，左子树已经遍历完，右子树
+//                temp = stack.pop();
+//                res.add(temp.val);
+//                temp=temp.right;
+//            }
+//        }
+//        return res;
+
+        //递归实现
+        List<Integer> res = new ArrayList<>();
+        inorder(root, res);
+        return res;
+    }
+
+    public static void inorder(TreeNode root, List<Integer> res) {
+        if (root == null) {
+            return;
+        }
+        inorder(root.left, res);
+        res.add(root.val);
+        inorder(root.right, res);
+    }
 
     /**
      * 编写一个程序，找到两个单链表相交的起始节点。
@@ -110,24 +218,24 @@ public class PracticeArea {
         int headBLength = 0;
 
         ListNode p = headA;
-        while (p != null){
-            ++ headALength;
+        while (p != null) {
+            ++headALength;
             p = p.next;
         }
         p = headB;
-        while (p != null){
-            ++ headBLength;
+        while (p != null) {
+            ++headBLength;
             p = p.next;
         }
 
         while (headALength > headBLength) {
             headA = headA.next;
-            headALength --;
+            headALength--;
         }
 
         while (headBLength > headALength) {
             headB = headB.next;
-            headBLength --;
+            headBLength--;
         }
 
         while (headA != null) {
@@ -1194,16 +1302,6 @@ public class PracticeArea {
             return 0;
         }
         return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
-    }
-
-    public static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode(int x) {
-            val = x;
-        }
     }
 
     /**
