@@ -21,29 +21,29 @@ public class PracticeArea {
     }
 
     public static void main(String[] args) throws IOException {
-        ListNode node1 = new ListNode(2);
+        ListNode node1 = new ListNode(4);
         ListNode node2 = new ListNode(1);
-        ListNode node3 = new ListNode(3);
-        ListNode node4 = new ListNode(5);
-        ListNode node5 = new ListNode(6);
-        ListNode node6 = new ListNode(4);
-        ListNode node7 = new ListNode(7);
-//        ListNode node8 = new ListNode(9);
-//        ListNode node9 = new ListNode(9);
-//        ListNode node10 = new ListNode(9);
-//        ListNode node11 = new ListNode(9);
+        ListNode node3 = new ListNode(8);
+        ListNode node4 = new ListNode(4);
+        ListNode node5 = new ListNode(5);
+        ListNode node6 = new ListNode(5);
+        ListNode node7 = new ListNode(0);
+        ListNode node8 = new ListNode(1);
+        ListNode node9 = new ListNode(8);
+        ListNode node10 = new ListNode(4);
+        ListNode node11 = new ListNode(5);
 //        ListNode node12 = new ListNode(9);
 //        ListNode node13 = new ListNode(9);
         node1.next = node2;
         node2.next = node3;
         node3.next = node4;
         node4.next = node5;
-        node5.next = node6;
+
         node6.next = node7;
-//        node7.next = node8;
-//        node8.next = node9;
-//        node9.next = node10;
-//        node10.next = node11;
+        node7.next = node8;
+        node8.next = node9;
+        node9.next = node10;
+        node10.next = node11;
 //        node11.next = node12;
 //        node12.next = node13;
 //        ListNode listNode = addTwoNumbers(node1, node4);
@@ -80,13 +80,64 @@ public class PracticeArea {
 //        System.out.println(threeSum(new int[]{-2, 0, 1, 1, 2}));
 
 //        hannoi(3, "a", "b", "c");
-        ListNode res = oddEvenList(node1);
+        ListNode res = getIntersectionNode(node1, node6);
         while (res != null) {
             System.out.println(res.val);
             res = res.next;
         }
     }
 
+
+    /**
+     * 编写一个程序，找到两个单链表相交的起始节点。
+     * <p>
+     * 注意：
+     * <p>
+     * 如果两个链表没有交点，返回 null.
+     * 在返回结果后，两个链表仍须保持原有的结构。
+     * 可假定整个链表结构中没有循环。
+     * 程序尽量满足 O(n) 时间复杂度，且仅用 O(1) 内存。
+     *
+     * @param headA
+     * @param headB
+     * @return
+     */
+    public static ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        if (headA == null || headB == null)
+            return null;
+
+        int headALength = 0;
+        int headBLength = 0;
+
+        ListNode p = headA;
+        while (p != null){
+            ++ headALength;
+            p = p.next;
+        }
+        p = headB;
+        while (p != null){
+            ++ headBLength;
+            p = p.next;
+        }
+
+        while (headALength > headBLength) {
+            headA = headA.next;
+            headALength --;
+        }
+
+        while (headBLength > headALength) {
+            headB = headB.next;
+            headBLength --;
+        }
+
+        while (headA != null) {
+            if (headA.val == headB.val)
+                return headA;
+            headA = headA.next;
+            headB = headB.next;
+        }
+        return null;
+    }
 
     /**
      * 奇偶链表
