@@ -29,6 +29,15 @@ public class PracticeArea {
         }
     }
 
+    public static class TreeLinkNode {
+        int val;
+        TreeLinkNode left, right, next;
+
+        TreeLinkNode(int x) {
+            val = x;
+        }
+    }
+
     public static void main(String[] args) throws IOException {
 //        ListNode node1 = new ListNode(4);
 //        ListNode node2 = new ListNode(1);
@@ -94,23 +103,104 @@ public class PracticeArea {
 //            System.out.println(res.val);
 //            res = res.next;
 //        }
-        TreeNode node1 = new TreeNode(3);
-        TreeNode node2 = new TreeNode(9);
-        TreeNode node3 = new TreeNode(20);
-        TreeNode node4 = new TreeNode(15);
-        TreeNode node5 = new TreeNode(7);
-        node1.left = node2;
-        node1.right = node3;
-        node3.left = node4;
-        node3.right = node5;
-        List<List<Integer>> integers = zigzagLevelOrder(node1);
-        for (List<Integer> integer : integers) {
-            for (Integer integer1 : integer) {
-                System.out.print(integer1 + " ");
-            }
-            System.out.println();
+//        TreeNode node1 = new TreeNode(3);
+//        TreeNode node2 = new TreeNode(9);
+//        TreeNode node3 = new TreeNode(20);
+//        TreeNode node4 = new TreeNode(15);
+//        TreeNode node5 = new TreeNode(7);
+//        node1.left = node2;
+//        node1.right = node3;
+//        node3.left = node4;
+//        node3.right = node5;
+//        List<List<Integer>> integers = zigzagLevelOrder(node1);
+//        for (List<Integer> integer : integers) {
+//            for (Integer integer1 : integer) {
+//                System.out.print(integer1 + " ");
+//            }
+//            System.out.println();
+//        }
+
+//        TreeLinkNode node1 = new TreeLinkNode(1);
+//        TreeLinkNode node2 = new TreeLinkNode(2);
+//        TreeLinkNode node3 = new TreeLinkNode(3);
+//        TreeLinkNode node4 = new TreeLinkNode(4);
+//        TreeLinkNode node5 = new TreeLinkNode(5);
+//        TreeLinkNode node6 = new TreeLinkNode(6);
+//        TreeLinkNode node7 = new TreeLinkNode(7);
+//        node1.left = node2;
+//        node1.right = node3;
+//        node2.left = node4;
+//        node2.right = node5;
+//        node3.left = node6;
+//        node3.right = node7;
+//
+//        connect(node1);
+
+    }
+
+    /**
+     * 每个节点的右向指针
+     * <p>
+     * 给定一个二叉树
+     * 填充它的每个 next 指针，让这个指针指向其下一个右侧节点。如果找不到下一个右侧节点，则将 next 指针设置为 NULL。
+     * 初始状态下，所有 next 指针都被设置为 NULL。
+     * 示例:
+     * <p>
+     * 给定完美二叉树，
+     * 1
+     * /  \
+     * 2    3
+     * / \  / \
+     * 4  5  6  7
+     * 调用你的函数后，该完美二叉树变为：
+     * 1 -> NULL
+     * /  \
+     * 2 -> 3 -> NULL
+     * / \  / \
+     * 4->5->6->7 -> NULL
+     *
+     * @param root
+     */
+    public static void connect(TreeLinkNode root) {
+        //层序遍历的方法
+//        Queue<TreeLinkNode> queue = new LinkedList<>();
+//        TreeLinkNode temp = root;
+//        if (temp != null) {
+//            queue.offer(temp);
+//        }
+//        while (!queue.isEmpty()) {
+//            int size = queue.size();
+//            int i = 0;
+//            List<TreeLinkNode> level = new ArrayList<>();
+//            for (i = 0; i < size; i++) {
+//                temp = queue.poll();
+//                level.add(temp);
+//                if (temp.left != null) {
+//                    queue.offer(temp.left);
+//                }
+//                if (temp.right != null) {
+//                    queue.offer(temp.right);
+//                }
+//            }
+//            for (int i1 = 0; i1 < level.size()-1; i1++) {
+//                temp=level.get(i1);
+//                temp.next = level.get(i1 + 1);
+//            }
+//        }
+
+        //递归的方法
+        if (root == null) {
+            return;
+        }
+        if (root.left != null) {
+            root.left.next = root.right;
         }
 
+        if (root.right != null) {
+            root.right.next=root.next==null?null:root.next.left;
+        }
+        connect(root.left);
+        connect(root.right);
     }
 
     /**
@@ -130,11 +220,10 @@ public class PracticeArea {
     }
 
     /**
-     *
      * 前序序列的第一个节点是根节点，然后在中序序列中找到该节点，位于该节点左侧的是根节点的左子树，位于该节点右侧的是根节点的右子树。
      * 然后中序序列该节点左侧是左子树节点数量，右侧是右子树节点数量
      * 根据左右子树节点数量，可从前序序列中得到左子树的前序序列，和右子树的前序序列
-     *
+     * <p>
      * 例如：
      * 前序遍历 preorder = [3,9,20,15,7]
      * 中序遍历 inorder = [9,3,15,20,7]
@@ -150,16 +239,16 @@ public class PracticeArea {
      * @param ir
      * @return
      */
-    public static TreeNode construct(int[] preorder,int pl,int pr,int[] inorder,int il,int ir){
+    public static TreeNode construct(int[] preorder, int pl, int pr, int[] inorder, int il, int ir) {
         if (pl > pr || il > ir) {
             return null;
         }
         TreeNode root = new TreeNode(preorder[pl]);//前序的一个值是根节点
-        for(int i=il;i<=ir;i++){//到中序序列中找该根节点值
-            if(preorder[pl]==inorder[i]){//中序序列中，i前面是i的左子树的中序序列，i后面是i的右子树的中序序列
+        for (int i = il; i <= ir; i++) {//到中序序列中找该根节点值
+            if (preorder[pl] == inorder[i]) {//中序序列中，i前面是i的左子树的中序序列，i后面是i的右子树的中序序列
                 //左子树的前序序列为pl后的il到i个数，中序序列为i前面的数
-                root.left = construct(preorder,pl+1,pl+i-il,inorder,il,i-1);
-                root.right = construct(preorder,pl+i-il+1,pr,inorder,i+1,ir);
+                root.left = construct(preorder, pl + 1, pl + i - il, inorder, il, i - 1);
+                root.right = construct(preorder, pl + i - il + 1, pr, inorder, i + 1, ir);
             }
         }
         return root;
