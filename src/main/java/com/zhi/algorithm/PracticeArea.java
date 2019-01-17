@@ -135,7 +135,80 @@ public class PracticeArea {
 //        node3.right = node7;
 //
 //        connect(node1);
+        TreeNode node = new TreeNode(1);
+        System.out.println(kthSmallest(node, 1));
+    }
 
+    /**
+     * 二叉搜索树中第K小的元素
+     * 给定一个二叉搜索树，编写一个函数 kthSmallest 来查找其中第 k 个最小的元素。
+     * <p>
+     * 说明：
+     * 你可以假设 k 总是有效的，1 ≤ k ≤ 二叉搜索树元素个数。
+     * 示例 1:
+     * <p>
+     * 输入: root = [3,1,4,null,2], k = 1
+     * 3
+     * / \
+     * 1   4
+     * \
+     * 2
+     * 输出: 1
+     * 示例 2:
+     * <p>
+     * 输入: root = [5,3,6,2,4,null,null,1], k = 3
+     * 5
+     * / \
+     * 3   6
+     * / \
+     * 2   4
+     * /
+     * 1
+     * 输出: 3
+     *
+     * @param root
+     * @param k
+     * @return
+     */
+    public static int kthSmallest(TreeNode root, int k) {
+        //二叉搜索树中序遍历是从小到大有序的
+//        List<Integer> nums = new ArrayList<Integer>();
+//        Queue<TreeNode> queue = new LinkedList<>();
+//        if (root != null) {
+//            queue.offer(root);
+//        }
+//        TreeNode temp;
+//        while (!queue.isEmpty()) {
+//            int size = queue.size();
+//            int i =0;
+//            for (i = 0; i < size; i++) {
+//                temp=queue.poll();
+//                nums.add(temp.val);
+//                if (temp.left != null) {
+//                    queue.offer(temp.left);
+//                }
+//                if (temp.right != null) {
+//                    queue.offer(temp.right);
+//                }
+//            }
+//        }
+//        Object[] objects = nums.toArray();
+//        Arrays.sort(objects);
+//        return (int) objects[k-1];
+
+        //使用递归，计算节点数量
+        int num = count(root.left);//左子树节点数量
+        if (num == k - 1)
+            return root.val;
+        if (num > k - 1)//说明要找的数在左子树中
+            return kthSmallest(root.left, k);
+        return kthSmallest(root.right, k - num - 1);//否则在右子数中查找
+    }
+
+    public static int count(TreeNode root) {//计算一棵树的节点数
+        if (root == null)
+            return 0;
+        return 1 + count(root.left) + count(root.right);
     }
 
     /**
@@ -197,7 +270,7 @@ public class PracticeArea {
         }
 
         if (root.right != null) {
-            root.right.next=root.next==null?null:root.next.left;
+            root.right.next = root.next == null ? null : root.next.left;
         }
         connect(root.left);
         connect(root.right);
