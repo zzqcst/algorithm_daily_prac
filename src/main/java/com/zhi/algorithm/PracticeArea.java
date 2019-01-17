@@ -140,6 +140,66 @@ public class PracticeArea {
     }
 
     /**
+     * 岛屿的个数
+     * 给定一个由 '1'（陆地）和 '0'（水）组成的的二维网格，计算岛屿的数量。
+     * 一个岛被水包围，并且它是通过水平方向或垂直方向上相邻的陆地连接而成的。你可以假设网格的四个边均被水包围。
+     * <p>
+     * 示例 1:
+     * <p>
+     * 输入:
+     * 11110
+     * 11010
+     * 11000
+     * 00000
+     * <p>
+     * 输出: 1
+     * 示例 2:
+     * <p>
+     * 输入:
+     * 11000
+     * 11000
+     * 00100
+     * 00011
+     * <p>
+     * 输出: 3
+     *
+     * @param grid
+     * @return
+     */
+    public static int numIslands(char[][] grid) {
+        //遍历grid,遇到1则计数加一，同时将其上下左右相邻的1置为0
+        if (grid.length == 0 || grid[0].length == 0) {
+            return 0;
+        }
+        int rows = grid.length;
+        int cols = grid[0].length;
+        int res = 0;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (grid[i][j] == '1') {
+                    res++;
+                    toZero(grid, i, j, rows, cols);
+                }
+            }
+        }
+        return res;
+    }
+
+    private static void toZero(char[][] grid, int i, int j, int rows, int cols) {
+        if (i < 0 || i >= rows || j < 0 || j >= cols) {//超出边界了
+            return;
+        }
+        if (grid[i][j] != '1') {//遇到相邻的不是1
+            return;
+        }
+        grid[i][j] = '0';
+        toZero(grid, i - 1, j, rows, cols);
+        toZero(grid, i + 1, j, rows, cols);
+        toZero(grid, i, j - 1, rows, cols);
+        toZero(grid, i, j + 1, rows, cols);
+    }
+
+    /**
      * 二叉搜索树中第K小的元素
      * 给定一个二叉搜索树，编写一个函数 kthSmallest 来查找其中第 k 个最小的元素。
      * <p>
