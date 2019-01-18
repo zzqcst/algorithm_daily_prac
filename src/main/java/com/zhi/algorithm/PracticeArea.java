@@ -38,7 +38,7 @@ public class PracticeArea {
         }
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 //        ListNode node1 = new ListNode(4);
 //        ListNode node2 = new ListNode(1);
 //        ListNode node3 = new ListNode(8);
@@ -135,8 +135,38 @@ public class PracticeArea {
 //        node3.right = node7;
 //
 //        connect(node1);
-        TreeNode node = new TreeNode(1);
-        System.out.println(kthSmallest(node, 1));
+
+    }
+
+    private static String[] maps = {" ", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+
+    /**
+     * 电话号码的字母组合
+     * 给定一个仅包含数字 2-9 的字符串，返回所有它能表示的字母组合。
+     *
+     * 给出数字到字母的映射如下（与电话按键相同）。注意 1 不对应任何字母。
+     * @param digits
+     * @return
+     */
+    public static List<String> letterCombinations(String digits) {
+        List<String> res = new ArrayList<>();
+        if (digits.length() == 0) {
+            return res;
+        }
+        findCombinations(digits, 0, "", res);
+        return res;
+    }
+
+    private static void findCombinations(String digits, int index, String s, List<String> res) {
+        if (index == digits.length()) {
+            res.add(s);
+            return;
+        }
+        char letter =digits.charAt(index);
+        String letters = maps[letter-'0'];
+        for (int i = 0; i < letters.length(); i++) {
+            findCombinations(digits,index+1,s+letters.charAt(i),res);
+        }
     }
 
     /**
