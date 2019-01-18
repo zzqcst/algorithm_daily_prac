@@ -135,27 +135,48 @@ public class PracticeArea {
 //        node3.right = node7;
 //
 //        connect(node1);
-
+        List<String> strings = generateParenthesis(3);
+        for (String string : strings) {
+            System.out.println(string);
+        }
     }
 
     /**
+     * 生成括号
+     * 给出 n 代表生成括号的对数，请你写出一个函数，使其能够生成所有可能的并且有效的括号组合。
+     * <p>
+     * 例如，给出 n = 3，生成结果为：
+     * <p>
+     * [
+     * "((()))",
+     * "(()())",
+     * "(())()",
+     * "()(())",
+     * "()()()"
+     * ]
      *
-     给出 n 代表生成括号的对数，请你写出一个函数，使其能够生成所有可能的并且有效的括号组合。
-
-     例如，给出 n = 3，生成结果为：
-
-     [
-     "((()))",
-     "(()())",
-     "(())()",
-     "()(())",
-     "()()()"
-     ]
      * @param n
      * @return
      */
     public static List<String> generateParenthesis(int n) {
-        return null;
+        List<String> res = new ArrayList<>();
+        gen("", res, n, n);
+        return res;
+    }
+
+    private static void gen(String s, List<String> res, int left, int right) {
+        if (left > right) {
+            return;
+        }
+        if (left > 0) {
+            gen(s+"(",res,left-1,right);
+        }
+        if (right > 0) {
+            gen(s + ")", res, left, right - 1);
+        }
+        if (left == 0 && right == 0) {
+            res.add(s);
+        }
     }
 
     private static String[] maps = {" ", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
@@ -163,8 +184,9 @@ public class PracticeArea {
     /**
      * 电话号码的字母组合
      * 给定一个仅包含数字 2-9 的字符串，返回所有它能表示的字母组合。
-     *
+     * <p>
      * 给出数字到字母的映射如下（与电话按键相同）。注意 1 不对应任何字母。
+     *
      * @param digits
      * @return
      */
@@ -182,10 +204,10 @@ public class PracticeArea {
             res.add(s);
             return;
         }
-        char letter =digits.charAt(index);
-        String letters = maps[letter-'0'];
+        char letter = digits.charAt(index);
+        String letters = maps[letter - '0'];
         for (int i = 0; i < letters.length(); i++) {
-            findCombinations(digits,index+1,s+letters.charAt(i),res);
+            findCombinations(digits, index + 1, s + letters.charAt(i), res);
         }
     }
 
