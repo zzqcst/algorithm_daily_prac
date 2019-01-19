@@ -168,9 +168,31 @@ public class PracticeArea {
      * @return
      */
     public static List<List<Integer>> subsets(int[] nums) {
-        List<List<Integer>> res = new ArrayList<>();
-        getsubset(nums,0, new ArrayList<Integer>(), res);
-        return res;
+//        List<List<Integer>> res = new ArrayList<>();
+//        getsubset(nums,0, new ArrayList<Integer>(), res);
+//        res.add(new ArrayList<Integer>());
+//        return res;
+
+        //另一种解法
+        /*
+        *
+        * 初始：result:[]
+        * 遍历到1，result:[],[1]
+        * 遍历到2：之前result的结果中都加入2，[],[1],[2].[1,2]
+        * 遍历到3：之前result的结果中都加入3,......
+        *
+        * */
+        List<List<Integer>> result = new ArrayList<>();
+        result.add(new ArrayList<Integer>());
+        for(int n : nums){
+            int size = result.size();
+            for(int i=0; i<size; i++){
+                List<Integer> subset = new ArrayList<>(result.get(i));//每次在已有结果上加上新的数字
+                subset.add(n);
+                result.add(subset);
+            }
+        }
+        return result;
     }
 
     private static void getsubset(int[] nums,int from, ArrayList<Integer> level, List<List<Integer>> res) {
