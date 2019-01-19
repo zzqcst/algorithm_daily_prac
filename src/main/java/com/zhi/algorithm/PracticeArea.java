@@ -39,106 +39,151 @@ public class PracticeArea {
     }
 
     public static void main(String[] args) {
-//        ListNode node1 = new ListNode(4);
-//        ListNode node2 = new ListNode(1);
-//        ListNode node3 = new ListNode(8);
-//        ListNode node4 = new ListNode(4);
-//        ListNode node5 = new ListNode(5);
-//        ListNode node6 = new ListNode(5);
-//        ListNode node7 = new ListNode(0);
-//        ListNode node8 = new ListNode(1);
-//        ListNode node9 = new ListNode(8);
-//        ListNode node10 = new ListNode(4);
-//        ListNode node11 = new ListNode(5);
-//        ListNode node12 = new ListNode(9);
-//        ListNode node13 = new ListNode(9);
-//        node1.next = node2;
-//        node2.next = node3;
-//        node3.next = node4;
-//        node4.next = node5;
-//
-//        node6.next = node7;
-//        node7.next = node8;
-//        node8.next = node9;
-//        node9.next = node10;
-//        node10.next = node11;
-//        node11.next = node12;
-//        node12.next = node13;
-//        ListNode listNode = addTwoNumbers(node1, node4);
-//        while (listNode != null) {
-//            System.out.print(listNode.val + " ");
-//            listNode = listNode.next;
-//        }
+        //        ListNode node1 = new ListNode(4);
+        //        ListNode node2 = new ListNode(1);
+        //        ListNode node3 = new ListNode(8);
+        //        ListNode node4 = new ListNode(4);
+        //        ListNode node5 = new ListNode(5);
+        //        ListNode node6 = new ListNode(5);
+        //        ListNode node7 = new ListNode(0);
+        //        ListNode node8 = new ListNode(1);
+        //        ListNode node9 = new ListNode(8);
+        //        ListNode node10 = new ListNode(4);
+        //        ListNode node11 = new ListNode(5);
+        //        ListNode node12 = new ListNode(9);
+        //        ListNode node13 = new ListNode(9);
+        //        node1.next = node2;
+        //        node2.next = node3;
+        //        node3.next = node4;
+        //        node4.next = node5;
+        //
+        //        node6.next = node7;
+        //        node7.next = node8;
+        //        node8.next = node9;
+        //        node9.next = node10;
+        //        node10.next = node11;
+        //        node11.next = node12;
+        //        node12.next = node13;
+        //        ListNode listNode = addTwoNumbers(node1, node4);
+        //        while (listNode != null) {
+        //            System.out.print(listNode.val + " ");
+        //            listNode = listNode.next;
+        //        }
 
-//        TreeNode t1 = new TreeNode(3);
-//        TreeNode t2 = new TreeNode(9);
-//        TreeNode t3 = new TreeNode(20);
-//        TreeNode t4 = new TreeNode(15);
-//        TreeNode t5 = new TreeNode(7);
-//        t1.left = t2;
-//        t1.right = t3;
-//        t3.left = t4;
-//        t3.right = t5;
-//        List<List<Integer>> lists = levelOrder(t1);
-//        for (List<Integer> list : lists) {
-//            for (Integer integer : list) {
-//                System.out.println(integer);
-//            }
-//        }
-//        Excel_reader test= new Excel_reader();
-//        List<ArrayList<String>> arr=test.xlsx_reader("E:\\projects\\java\\algorithm_daily_prac\\src\\main\\java\\com\\zhi\\algorithm\\a.xlsx",0,1,2,3,4,5,6,7,8,9);  //后面的参数代表需要输出哪些列，参数个数可以任意
-//        for(int i=0;i<arr.size();i++) {
-//            ArrayList<String> row = arr.get(i);
-//            for (int j = 0; j < row.size(); j++) {
-//                System.out.print(row.get(j) + " ");
-//            }
-//            System.out.println("");
-//        }
-//        int[] a = {1};
-//        System.out.println(threeSum(new int[]{-2, 0, 1, 1, 2}));
+        //        TreeNode t1 = new TreeNode(3);
+        //        TreeNode t2 = new TreeNode(9);
+        //        TreeNode t3 = new TreeNode(20);
+        //        TreeNode t4 = new TreeNode(15);
+        //        TreeNode t5 = new TreeNode(7);
+        //        t1.left = t2;
+        //        t1.right = t3;
+        //        t3.left = t4;
+        //        t3.right = t5;
+        //        List<List<Integer>> lists = levelOrder(t1);
+        //        for (List<Integer> list : lists) {
+        //            for (Integer integer : list) {
+        //                System.out.println(integer);
+        //            }
+        //        }
+        //        Excel_reader test= new Excel_reader();
+        //        List<ArrayList<String>> arr=test.xlsx_reader("E:\\projects\\java\\algorithm_daily_prac\\src\\main\\java\\com\\zhi\\algorithm\\a.xlsx",0,1,2,3,4,5,6,7,8,9);  //后面的参数代表需要输出哪些列，参数个数可以任意
+        //        for(int i=0;i<arr.size();i++) {
+        //            ArrayList<String> row = arr.get(i);
+        //            for (int j = 0; j < row.size(); j++) {
+        //                System.out.print(row.get(j) + " ");
+        //            }
+        //            System.out.println("");
+        //        }
+        //        int[] a = {1};
+        //        System.out.println(threeSum(new int[]{-2, 0, 1, 1, 2}));
 
-//        hannoi(3, "a", "b", "c");
-//        ListNode res = getIntersectionNode(node1, node6);
-//        while (res != null) {
-//            System.out.println(res.val);
-//            res = res.next;
-//        }
-//        TreeNode node1 = new TreeNode(3);
-//        TreeNode node2 = new TreeNode(9);
-//        TreeNode node3 = new TreeNode(20);
-//        TreeNode node4 = new TreeNode(15);
-//        TreeNode node5 = new TreeNode(7);
-//        node1.left = node2;
-//        node1.right = node3;
-//        node3.left = node4;
-//        node3.right = node5;
-//        List<List<Integer>> integers = zigzagLevelOrder(node1);
-//        for (List<Integer> integer : integers) {
-//            for (Integer integer1 : integer) {
-//                System.out.print(integer1 + " ");
-//            }
-//            System.out.println();
-//        }
+        //        hannoi(3, "a", "b", "c");
+        //        ListNode res = getIntersectionNode(node1, node6);
+        //        while (res != null) {
+        //            System.out.println(res.val);
+        //            res = res.next;
+        //        }
+        //        TreeNode node1 = new TreeNode(3);
+        //        TreeNode node2 = new TreeNode(9);
+        //        TreeNode node3 = new TreeNode(20);
+        //        TreeNode node4 = new TreeNode(15);
+        //        TreeNode node5 = new TreeNode(7);
+        //        node1.left = node2;
+        //        node1.right = node3;
+        //        node3.left = node4;
+        //        node3.right = node5;
+        //        List<List<Integer>> integers = zigzagLevelOrder(node1);
+        //        for (List<Integer> integer : integers) {
+        //            for (Integer integer1 : integer) {
+        //                System.out.print(integer1 + " ");
+        //            }
+        //            System.out.println();
+        //        }
 
-//        TreeLinkNode node1 = new TreeLinkNode(1);
-//        TreeLinkNode node2 = new TreeLinkNode(2);
-//        TreeLinkNode node3 = new TreeLinkNode(3);
-//        TreeLinkNode node4 = new TreeLinkNode(4);
-//        TreeLinkNode node5 = new TreeLinkNode(5);
-//        TreeLinkNode node6 = new TreeLinkNode(6);
-//        TreeLinkNode node7 = new TreeLinkNode(7);
-//        node1.left = node2;
-//        node1.right = node3;
-//        node2.left = node4;
-//        node2.right = node5;
-//        node3.left = node6;
-//        node3.right = node7;
-//
-//        connect(node1);
-        List<String> strings = generateParenthesis(3);
-        for (String string : strings) {
-            System.out.println(string);
+        //        TreeLinkNode node1 = new TreeLinkNode(1);
+        //        TreeLinkNode node2 = new TreeLinkNode(2);
+        //        TreeLinkNode node3 = new TreeLinkNode(3);
+        //        TreeLinkNode node4 = new TreeLinkNode(4);
+        //        TreeLinkNode node5 = new TreeLinkNode(5);
+        //        TreeLinkNode node6 = new TreeLinkNode(6);
+        //        TreeLinkNode node7 = new TreeLinkNode(7);
+        //        node1.left = node2;
+        //        node1.right = node3;
+        //        node2.left = node4;
+        //        node2.right = node5;
+        //        node3.left = node6;
+        //        node3.right = node7;
+        //
+        //        connect(node1);
+        //        List<String> strings = generateParenthesis(3);
+        //        for (String string : strings) {
+        //            System.out.println(string);
+        //        }
+        int[] nums = { 1, 2, 3 };
+        List<List<Integer>> permute = permute(nums);
+        for (List<Integer> integers : permute) {
+            System.out.println(integers.toString());
         }
+    }
+
+    /**
+     * 全排列
+     * 给定一个没有重复数字的序列，返回其所有可能的全排列。
+     * 示例:
+     * 输入: [1,2,3]
+     * 输出:
+     * [
+     * [1,2,3],
+     * [1,3,2],
+     * [2,1,3],
+     * [2,3,1],
+     * [3,1,2],
+     * [3,2,1]
+     * ]
+     *
+     * @param nums 给定的数字序列
+     * @return 返回全排列结果
+     */
+    private static List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        findAll(nums, 0, new ArrayList<Integer>(), res);
+        return res;
+    }
+
+    private static void findAll(int[] nums, int count, List<Integer> level,
+            List<List<Integer>> res) {
+        if (count == nums.length) {
+            res.add(level);
+            return;
+        }
+        for (int num : nums) {
+            List<Integer> t = new ArrayList<>(level);
+            if (!t.contains(num)) {
+                t.add(num);
+                findAll(nums, count + 1, t, res);
+            }
+        }
+
     }
 
     /**
@@ -169,7 +214,7 @@ public class PracticeArea {
             return;
         }
         if (left > 0) {
-            gen(s+"(",res,left-1,right);
+            gen(s + "(", res, left - 1, right);
         }
         if (right > 0) {
             gen(s + ")", res, left, right - 1);
@@ -179,7 +224,9 @@ public class PracticeArea {
         }
     }
 
-    private static String[] maps = {" ", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+    private static String[]
+            maps =
+            { " ", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz" };
 
     /**
      * 电话号码的字母组合
@@ -204,8 +251,8 @@ public class PracticeArea {
             res.add(s);
             return;
         }
-        char letter = digits.charAt(index);
-        String letters = maps[letter - '0'];
+        char letter = digits.charAt(index);//获取数字
+        String letters = maps[letter - '0'];//获取数字对应的字母们
         for (int i = 0; i < letters.length(); i++) {
             findCombinations(digits, index + 1, s + letters.charAt(i), res);
         }
@@ -304,42 +351,40 @@ public class PracticeArea {
      */
     public static int kthSmallest(TreeNode root, int k) {
         //二叉搜索树中序遍历是从小到大有序的
-//        List<Integer> nums = new ArrayList<Integer>();
-//        Queue<TreeNode> queue = new LinkedList<>();
-//        if (root != null) {
-//            queue.offer(root);
-//        }
-//        TreeNode temp;
-//        while (!queue.isEmpty()) {
-//            int size = queue.size();
-//            int i =0;
-//            for (i = 0; i < size; i++) {
-//                temp=queue.poll();
-//                nums.add(temp.val);
-//                if (temp.left != null) {
-//                    queue.offer(temp.left);
-//                }
-//                if (temp.right != null) {
-//                    queue.offer(temp.right);
-//                }
-//            }
-//        }
-//        Object[] objects = nums.toArray();
-//        Arrays.sort(objects);
-//        return (int) objects[k-1];
+        //        List<Integer> nums = new ArrayList<Integer>();
+        //        Queue<TreeNode> queue = new LinkedList<>();
+        //        if (root != null) {
+        //            queue.offer(root);
+        //        }
+        //        TreeNode temp;
+        //        while (!queue.isEmpty()) {
+        //            int size = queue.size();
+        //            int i =0;
+        //            for (i = 0; i < size; i++) {
+        //                temp=queue.poll();
+        //                nums.add(temp.val);
+        //                if (temp.left != null) {
+        //                    queue.offer(temp.left);
+        //                }
+        //                if (temp.right != null) {
+        //                    queue.offer(temp.right);
+        //                }
+        //            }
+        //        }
+        //        Object[] objects = nums.toArray();
+        //        Arrays.sort(objects);
+        //        return (int) objects[k-1];
 
         //使用递归，计算节点数量
         int num = count(root.left);//左子树节点数量
-        if (num == k - 1)
-            return root.val;
+        if (num == k - 1) return root.val;
         if (num > k - 1)//说明要找的数在左子树中
             return kthSmallest(root.left, k);
         return kthSmallest(root.right, k - num - 1);//否则在右子数中查找
     }
 
     public static int count(TreeNode root) {//计算一棵树的节点数
-        if (root == null)
-            return 0;
+        if (root == null) return 0;
         return 1 + count(root.left) + count(root.right);
     }
 
@@ -368,30 +413,30 @@ public class PracticeArea {
      */
     public static void connect(TreeLinkNode root) {
         //层序遍历的方法
-//        Queue<TreeLinkNode> queue = new LinkedList<>();
-//        TreeLinkNode temp = root;
-//        if (temp != null) {
-//            queue.offer(temp);
-//        }
-//        while (!queue.isEmpty()) {
-//            int size = queue.size();
-//            int i = 0;
-//            List<TreeLinkNode> level = new ArrayList<>();
-//            for (i = 0; i < size; i++) {
-//                temp = queue.poll();
-//                level.add(temp);
-//                if (temp.left != null) {
-//                    queue.offer(temp.left);
-//                }
-//                if (temp.right != null) {
-//                    queue.offer(temp.right);
-//                }
-//            }
-//            for (int i1 = 0; i1 < level.size()-1; i1++) {
-//                temp=level.get(i1);
-//                temp.next = level.get(i1 + 1);
-//            }
-//        }
+        //        Queue<TreeLinkNode> queue = new LinkedList<>();
+        //        TreeLinkNode temp = root;
+        //        if (temp != null) {
+        //            queue.offer(temp);
+        //        }
+        //        while (!queue.isEmpty()) {
+        //            int size = queue.size();
+        //            int i = 0;
+        //            List<TreeLinkNode> level = new ArrayList<>();
+        //            for (i = 0; i < size; i++) {
+        //                temp = queue.poll();
+        //                level.add(temp);
+        //                if (temp.left != null) {
+        //                    queue.offer(temp.left);
+        //                }
+        //                if (temp.right != null) {
+        //                    queue.offer(temp.right);
+        //                }
+        //            }
+        //            for (int i1 = 0; i1 < level.size()-1; i1++) {
+        //                temp=level.get(i1);
+        //                temp.next = level.get(i1 + 1);
+        //            }
+        //        }
 
         //递归的方法
         if (root == null) {
@@ -444,7 +489,8 @@ public class PracticeArea {
      * @param ir
      * @return
      */
-    public static TreeNode construct(int[] preorder, int pl, int pr, int[] inorder, int il, int ir) {
+    public static TreeNode construct(int[] preorder, int pl, int pr, int[] inorder, int il,
+            int ir) {
         if (pl > pr || il > ir) {
             return null;
         }
@@ -511,21 +557,21 @@ public class PracticeArea {
      */
     public static List<Integer> inorderTraversal(TreeNode root) {
         //迭代实现
-//        List<Integer> res = new ArrayList<>();
-//        Stack<TreeNode> stack = new Stack<>();
-//        TreeNode temp = root;
-//        while (temp!=null||!stack.isEmpty()) {
-//            if (temp != null) {//当前节点不为空，入栈，左子树
-//                stack.push(temp);
-//                temp = temp.left;
-//            }
-//            if (temp == null) {//当前节点为空，左子树已经遍历完，右子树
-//                temp = stack.pop();
-//                res.add(temp.val);
-//                temp=temp.right;
-//            }
-//        }
-//        return res;
+        //        List<Integer> res = new ArrayList<>();
+        //        Stack<TreeNode> stack = new Stack<>();
+        //        TreeNode temp = root;
+        //        while (temp!=null||!stack.isEmpty()) {
+        //            if (temp != null) {//当前节点不为空，入栈，左子树
+        //                stack.push(temp);
+        //                temp = temp.left;
+        //            }
+        //            if (temp == null) {//当前节点为空，左子树已经遍历完，右子树
+        //                temp = stack.pop();
+        //                res.add(temp.val);
+        //                temp=temp.right;
+        //            }
+        //        }
+        //        return res;
 
         //递归实现
         List<Integer> res = new ArrayList<>();
@@ -557,8 +603,7 @@ public class PracticeArea {
      * @return
      */
     public static ListNode getIntersectionNode(ListNode headA, ListNode headB) {
-        if (headA == null || headB == null)
-            return null;
+        if (headA == null || headB == null) return null;
 
         int headALength = 0;
         int headBLength = 0;
@@ -585,8 +630,7 @@ public class PracticeArea {
         }
 
         while (headA != null) {
-            if (headA.val == headB.val)
-                return headA;
+            if (headA.val == headB.val) return headA;
             headA = headA.next;
             headB = headB.next;
         }
@@ -617,26 +661,26 @@ public class PracticeArea {
      * @return 返回排序后的第一个节点
      */
     public static ListNode oddEvenList(ListNode head) {
-//        //首先记录各个节点的值，然后遍历list，先将偶数节点的值重新按顺序赋值给链表，
-//        //再将奇数节点的值重新复制给链表
-//        List<Integer> nodes = new ArrayList<>();
-//        ListNode temp = head;
-//        while (temp != null) {
-//            nodes.add(temp.val);
-//            temp = temp.next;
-//        }
-//
-//        temp = head;
-//        for (int i = 0; i < nodes.size(); i = i + 2) {//将偶数节点的值重新赋值给链表
-//            temp.val = nodes.get(i);
-//            temp = temp.next;
-//        }
-//        for (int i = 1; i < nodes.size(); i = i + 2) {//将奇数节点的值重新赋值给链表
-//            temp.val = nodes.get(i);
-//            temp = temp.next;
-//        }
-//
-//        return head;
+        //        //首先记录各个节点的值，然后遍历list，先将偶数节点的值重新按顺序赋值给链表，
+        //        //再将奇数节点的值重新复制给链表
+        //        List<Integer> nodes = new ArrayList<>();
+        //        ListNode temp = head;
+        //        while (temp != null) {
+        //            nodes.add(temp.val);
+        //            temp = temp.next;
+        //        }
+        //
+        //        temp = head;
+        //        for (int i = 0; i < nodes.size(); i = i + 2) {//将偶数节点的值重新赋值给链表
+        //            temp.val = nodes.get(i);
+        //            temp = temp.next;
+        //        }
+        //        for (int i = 1; i < nodes.size(); i = i + 2) {//将奇数节点的值重新赋值给链表
+        //            temp.val = nodes.get(i);
+        //            temp = temp.next;
+        //        }
+        //
+        //        return head;
         if (head != null) {
             ListNode odd = head, even = head.next, evenhead = even;
 
@@ -651,7 +695,6 @@ public class PracticeArea {
         }
         return head;
     }
-
 
     /**
      * 汉诺塔问题
@@ -698,25 +741,25 @@ public class PracticeArea {
      */
     public static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
         //own method
-//        double num1 = 0, num2 = 0;
-//        StringBuilder s = new StringBuilder();
-//        while (l1 != null) {
-//            s.append(l1.val);
-//            l1 = l1.next;
-//        }
-//        BigInteger b1 = new BigInteger(s.reverse().toString());
-//        s = new StringBuilder();
-//        while (l2 != null) {
-//            s.append(l2.val);
-//            l2 = l2.next;
-//        }
-//        BigInteger b2 = new BigInteger(s.reverse().toString());
-//        BigInteger res = b1.add(b2);
-//        System.out.println(res.toString());
-//        if (res.toString().equals("0")) {
-//            return new ListNode(0);
-//        }
-//        return strToList(new StringBuilder(res.toString()).reverse().toString());
+        //        double num1 = 0, num2 = 0;
+        //        StringBuilder s = new StringBuilder();
+        //        while (l1 != null) {
+        //            s.append(l1.val);
+        //            l1 = l1.next;
+        //        }
+        //        BigInteger b1 = new BigInteger(s.reverse().toString());
+        //        s = new StringBuilder();
+        //        while (l2 != null) {
+        //            s.append(l2.val);
+        //            l2 = l2.next;
+        //        }
+        //        BigInteger b2 = new BigInteger(s.reverse().toString());
+        //        BigInteger res = b1.add(b2);
+        //        System.out.println(res.toString());
+        //        if (res.toString().equals("0")) {
+        //            return new ListNode(0);
+        //        }
+        //        return strToList(new StringBuilder(res.toString()).reverse().toString());
 
         //直接相加法
         ListNode dummyHead = new ListNode(0);
@@ -783,7 +826,6 @@ public class PracticeArea {
         return false;
     }
 
-
     /**
      * 最长回文子串
      * <p>给定一个字符串 s，找到 s 中最长的回文子串。你可以假设 s 的最大长度为1000。</p>
@@ -809,7 +851,8 @@ public class PracticeArea {
             } else {
                 RL[i] = 1;
             }
-            while (i - RL[i] >= 0 && i + RL[i] < newS.length() && newS.charAt(i - RL[i]) == newS.charAt(i + RL[i])) {
+            while (i - RL[i] >= 0 && i + RL[i] < newS.length() && newS.charAt(i - RL[i]) == newS
+                    .charAt(i + RL[i])) {
                 RL[i] += 1;
             }
             if (RL[i] + i - 1 > maxRight) {
@@ -820,7 +863,7 @@ public class PracticeArea {
                 maxLen = RL[i];
                 s = newS.substring(i - RL[i] + 1, i + RL[i] - 1);
             }
-//            maxLen = Math.max(maxLen, RL[i]);
+            //            maxLen = Math.max(maxLen, RL[i]);
         }
         return s.replace("#", "");
     }
@@ -951,7 +994,9 @@ public class PracticeArea {
         for (int num : nums) {
             count += num;
         }
-        int sum = len * (len + 1) / 2;//固定长度的连续序列的和是固定的，例如,0,1,2,3=6,则0,1,2,3中任少一个数，用6减去它们的和，就等于少的那个数
+        int
+                sum =
+                len * (len + 1) / 2;//固定长度的连续序列的和是固定的，例如,0,1,2,3=6,则0,1,2,3中任少一个数，用6减去它们的和，就等于少的那个数
 
         return sum - count;
     }
@@ -1023,18 +1068,18 @@ public class PracticeArea {
      * @return
      */
     private static int reverseBits(int n) {
-//        Queue<Integer> queue = new LinkedList<>();
-//        int length = 32;
-//        while (length-- != 0) {
-//            int temp = n&1;
-//            queue.offer(temp);
-//            n>>>=1;
-//        }
-//        StringBuilder sb = new StringBuilder();
-//        while (!queue.isEmpty()) {
-//            sb.append(queue.poll());
-//        }
-//        return (int) Long.parseLong(sb.toString(), 2);
+        //        Queue<Integer> queue = new LinkedList<>();
+        //        int length = 32;
+        //        while (length-- != 0) {
+        //            int temp = n&1;
+        //            queue.offer(temp);
+        //            n>>>=1;
+        //        }
+        //        StringBuilder sb = new StringBuilder();
+        //        while (!queue.isEmpty()) {
+        //            sb.append(queue.poll());
+        //        }
+        //        return (int) Long.parseLong(sb.toString(), 2);
         int result = 0;
         int i = 0;
         while (i < 32) {
@@ -1097,69 +1142,69 @@ public class PracticeArea {
         Stack<Integer> stack = new Stack<>();
         for (char aChar : chars) {
             switch (aChar) {//将当前字符转化为数字
-                case 'I':
-                    stack.push(1);
-                    break;
-                case 'V':
-                    if (!stack.isEmpty()) {
-                        if (stack.peek() < 5) {//上一个数字比当前小
-                            int temp = stack.pop();
-                            stack.push(5 - temp);
-                            continue;
-                        }
+            case 'I':
+                stack.push(1);
+                break;
+            case 'V':
+                if (!stack.isEmpty()) {
+                    if (stack.peek() < 5) {//上一个数字比当前小
+                        int temp = stack.pop();
+                        stack.push(5 - temp);
+                        continue;
                     }
-                    stack.push(5);
-                    break;
-                case 'X':
-                    if (!stack.isEmpty()) {
-                        if (stack.peek() < 10) {//上一个数字比当前小
-                            int temp = stack.pop();
-                            stack.push(10 - temp);
-                            continue;
-                        }
+                }
+                stack.push(5);
+                break;
+            case 'X':
+                if (!stack.isEmpty()) {
+                    if (stack.peek() < 10) {//上一个数字比当前小
+                        int temp = stack.pop();
+                        stack.push(10 - temp);
+                        continue;
                     }
-                    stack.push(10);
-                    break;
-                case 'L':
-                    if (!stack.isEmpty()) {
-                        if (stack.peek() < 50) {//上一个数字比当前小
-                            int temp = stack.pop();
-                            stack.push(50 - temp);
-                            continue;
-                        }
+                }
+                stack.push(10);
+                break;
+            case 'L':
+                if (!stack.isEmpty()) {
+                    if (stack.peek() < 50) {//上一个数字比当前小
+                        int temp = stack.pop();
+                        stack.push(50 - temp);
+                        continue;
                     }
-                    stack.push(50);
-                    break;
-                case 'C':
-                    if (!stack.isEmpty()) {
-                        if (stack.peek() < 100) {//上一个数字比当前小
-                            int temp = stack.pop();
-                            stack.push(100 - temp);
-                            continue;
-                        }
+                }
+                stack.push(50);
+                break;
+            case 'C':
+                if (!stack.isEmpty()) {
+                    if (stack.peek() < 100) {//上一个数字比当前小
+                        int temp = stack.pop();
+                        stack.push(100 - temp);
+                        continue;
                     }
-                    stack.push(100);
-                    break;
-                case 'D':
-                    if (!stack.isEmpty()) {
-                        if (stack.peek() < 500) {//上一个数字比当前小
-                            int temp = stack.pop();
-                            stack.push(500 - temp);
-                            continue;
-                        }
+                }
+                stack.push(100);
+                break;
+            case 'D':
+                if (!stack.isEmpty()) {
+                    if (stack.peek() < 500) {//上一个数字比当前小
+                        int temp = stack.pop();
+                        stack.push(500 - temp);
+                        continue;
                     }
-                    stack.push(500);
-                    break;
-                case 'M':
-                    if (!stack.isEmpty()) {
-                        if (stack.peek() < 1000) {//上一个数字比当前小
-                            int temp = stack.pop();
-                            stack.push(1000 - temp);
-                            continue;
-                        }
+                }
+                stack.push(500);
+                break;
+            case 'M':
+                if (!stack.isEmpty()) {
+                    if (stack.peek() < 1000) {//上一个数字比当前小
+                        int temp = stack.pop();
+                        stack.push(1000 - temp);
+                        continue;
                     }
-                    stack.push(1000);
-                    break;
+                }
+                stack.push(1000);
+                break;
             }
         }
         int result = 0;
@@ -1217,7 +1262,8 @@ public class PracticeArea {
             if (isPrime[i]) {
                 prime[totalPrimes++] = i;
             }
-            for (int j = 1; i * prime[j] < n && j < totalPrimes; j++) {//i*prime[j]是保证不超过上限n,j<totalPrimes是在prime数组已有质数内计算
+            for (int j = 1; i * prime[j] < n
+                    && j < totalPrimes; j++) {//i*prime[j]是保证不超过上限n,j<totalPrimes是在prime数组已有质数内计算
                 isPrime[i * prime[j]] = false;//过滤素数的倍数（奇数倍）
                 if (i % prime[j] == 0) {//此时i不是素数，比如9，若无此条件则例如，9*5=15*3，即i为15时，又将重复计算一次。 15*5=25*3
                     break;
@@ -1226,7 +1272,6 @@ public class PracticeArea {
         }
         return totalPrimes;
     }
-
 
     /**
      * 3和5的倍数
@@ -1321,7 +1366,6 @@ public class PracticeArea {
         }
     }
 
-
     /**
      * 打家劫
      *
@@ -1342,23 +1386,23 @@ public class PracticeArea {
         }
         return pre2;
     }
-//    private static int rob(int[] nums) {
-//        if (nums.length == 0) {
-//            return 0;
-//        }
-//        return getHighestRob(nums,nums.length-1);
-//    }
-//
-//    private static int getHighestRob(int[] nums, int i) {
-//        if (i == 1) {
-//            return Math.max(nums[0], nums[1]);
-//        }
-//        if (i == 0) {
-//            return nums[0];
-//        }
-//        //不抢劫i和抢劫i之间的最大值
-//        return Math.max(getHighestRob(nums, i - 1), getHighestRob(nums, i - 2)+nums[i]);
-//    }
+    //    private static int rob(int[] nums) {
+    //        if (nums.length == 0) {
+    //            return 0;
+    //        }
+    //        return getHighestRob(nums,nums.length-1);
+    //    }
+    //
+    //    private static int getHighestRob(int[] nums, int i) {
+    //        if (i == 1) {
+    //            return Math.max(nums[0], nums[1]);
+    //        }
+    //        if (i == 0) {
+    //            return nums[0];
+    //        }
+    //        //不抢劫i和抢劫i之间的最大值
+    //        return Math.max(getHighestRob(nums, i - 1), getHighestRob(nums, i - 2)+nums[i]);
+    //    }
 
     /**
      * 最大子序和
@@ -1381,7 +1425,6 @@ public class PracticeArea {
         }
         return max;
     }
-
 
     /**
      * 买股票的最佳时机
@@ -1427,7 +1470,6 @@ public class PracticeArea {
         }
         return temp;
     }
-
 
     /**
      * 第一个错误的版本
@@ -1483,10 +1525,10 @@ public class PracticeArea {
      */
     public void merge(int[] nums1, int m, int[] nums2, int n) {
         //先复制再排序
-//        for (int i = m; i <m+n ; i++) {
-//            nums1[i]=nums2[i-m];
-//        }
-//        Arrays.sort(nums1);
+        //        for (int i = m; i <m+n ; i++) {
+        //            nums1[i]=nums2[i-m];
+        //        }
+        //        Arrays.sort(nums1);
         //从后往前
         while (m > 0 && n > 0) {
             if (nums1[m - 1] < nums2[n - 1]) {
@@ -1570,10 +1612,10 @@ public class PracticeArea {
      */
     private static boolean isSymmetric(TreeNode root) {
         //递归
-//        if (root == null) {
-//            return true;
-//        }
-//        return symmetric(root.left, root.right);
+        //        if (root == null) {
+        //            return true;
+        //        }
+        //        return symmetric(root.left, root.right);
 
         //迭代
         if (root == null) {
@@ -1658,16 +1700,16 @@ public class PracticeArea {
      */
     private static boolean hasCycle(ListNode head) {
         //own
-//        HashMap<Integer, Integer> map = new HashMap<>();
-//        while (head != null) {
-//            if (map.containsKey(head.hashCode())) {
-//                return true;
-//            }else {
-//                map.put(head.hashCode(), 1);
-//            }
-//            head = head.next;
-//        }
-//        return false;
+        //        HashMap<Integer, Integer> map = new HashMap<>();
+        //        while (head != null) {
+        //            if (map.containsKey(head.hashCode())) {
+        //                return true;
+        //            }else {
+        //                map.put(head.hashCode(), 1);
+        //            }
+        //            head = head.next;
+        //        }
+        //        return false;
         //追赶法
         if (head == null || head.next == null) {
             return false;
@@ -1686,24 +1728,24 @@ public class PracticeArea {
 
     private static boolean isPalindrome(ListNode head) {
         //借助反转链表的方法
-//        ListNode pre = null;
-//        List<Integer> origin = new ArrayList<>();
-//        while (head != null) {
-//            origin.add(head.val);
-//            ListNode temp = head.next;
-//            head.next=pre;
-//            pre = head;
-//            head=temp;
-//        }
-//
-//        int i=0;
-//        while (pre != null) {
-//            if (pre.val != origin.get(i++)) {
-//                return false;
-//            }
-//            pre=pre.next;
-//        }
-//        return true;
+        //        ListNode pre = null;
+        //        List<Integer> origin = new ArrayList<>();
+        //        while (head != null) {
+        //            origin.add(head.val);
+        //            ListNode temp = head.next;
+        //            head.next=pre;
+        //            pre = head;
+        //            head=temp;
+        //        }
+        //
+        //        int i=0;
+        //        while (pre != null) {
+        //            if (pre.val != origin.get(i++)) {
+        //                return false;
+        //            }
+        //            pre=pre.next;
+        //        }
+        //        return true;
         //另一种方法
         ListNode fast = head, slow = head;
         while (fast != null && fast.next != null) {//当fast遍历完时，slow正好遍历一半
@@ -1758,14 +1800,14 @@ public class PracticeArea {
      */
     private static ListNode reverseList(ListNode head) {
         //递归方法
-//        if (head == null || head.next == null) {
-//            return head;
-//        }else {
-//            ListNode newHead = reverseList(head.next);
-//            head.next.next=head;
-//            head.next = null;
-//            return newHead;
-//        }
+        //        if (head == null || head.next == null) {
+        //            return head;
+        //        }else {
+        //            ListNode newHead = reverseList(head.next);
+        //            head.next.next=head;
+        //            head.next = null;
+        //            return newHead;
+        //        }
         //非递归方法
         ListNode preNode = null;
         while (head != null) {
@@ -1776,7 +1818,6 @@ public class PracticeArea {
         }
         return preNode;
     }
-
 
     /**
      * 删除链表中的节点
@@ -1806,7 +1847,6 @@ public class PracticeArea {
             }
         }
 
-
         while (curNode.next != null) {
             preNode = preNode.next;
             curNode = curNode.next;
@@ -1824,36 +1864,36 @@ public class PracticeArea {
      * @return
      */
     private static String longestCommonPrefix(String[] strs) {
-//        if (strs.length == 0) {
-////            return "";
-////        }
-////        char last = '-';
-////        int index = 0;
-////        boolean running = true;
-////        StringBuilder sb = new StringBuilder();
-////        while (running) {
-////            for (String str : strs) {
-////                if (str.length() == 0) {
-////                    return "";
-////                }
-////                if (index >= str.length()) {
-////                    running = false;
-////                    last = ' ';
-////                    break;
-////                }
-////                if (last != '-' && str.charAt(index) != last) {
-////                    running = false;
-////                    last = ' ';
-////                    break;
-////                }
-////                last = str.charAt(index);
-////            }
-////            if (last != ' ')
-////                sb.append(last);
-////            last = '-';
-////            index++;
-////        }
-////        return sb.toString();
+        //        if (strs.length == 0) {
+        ////            return "";
+        ////        }
+        ////        char last = '-';
+        ////        int index = 0;
+        ////        boolean running = true;
+        ////        StringBuilder sb = new StringBuilder();
+        ////        while (running) {
+        ////            for (String str : strs) {
+        ////                if (str.length() == 0) {
+        ////                    return "";
+        ////                }
+        ////                if (index >= str.length()) {
+        ////                    running = false;
+        ////                    last = ' ';
+        ////                    break;
+        ////                }
+        ////                if (last != '-' && str.charAt(index) != last) {
+        ////                    running = false;
+        ////                    last = ' ';
+        ////                    break;
+        ////                }
+        ////                last = str.charAt(index);
+        ////            }
+        ////            if (last != ' ')
+        ////                sb.append(last);
+        ////            last = '-';
+        ////            index++;
+        ////        }
+        ////        return sb.toString();
         if (strs.length == 0) {
             return "";
         }
@@ -1914,21 +1954,21 @@ public class PracticeArea {
      * @return
      */
     private static int strStr(String haystack, String needle) {
-//        if (needle.isEmpty()) {
-//            return 0;
-//        }
-//        int i = 0;
-//        while (i < haystack.length()) {
-//            if (haystack.charAt(i) == needle.charAt(0)) {
-//                if (i + needle.length() > haystack.length()) {
-//                    return -1;
-//                } else if (haystack.substring(i, i + needle.length()).equals(needle)) {
-//                    return i;
-//                }
-//            }
-//            i++;
-//        }
-//        return -1;
+        //        if (needle.isEmpty()) {
+        //            return 0;
+        //        }
+        //        int i = 0;
+        //        while (i < haystack.length()) {
+        //            if (haystack.charAt(i) == needle.charAt(0)) {
+        //                if (i + needle.length() > haystack.length()) {
+        //                    return -1;
+        //                } else if (haystack.substring(i, i + needle.length()).equals(needle)) {
+        //                    return i;
+        //                }
+        //            }
+        //            i++;
+        //        }
+        //        return -1;
         return haystack.indexOf(needle);
     }
 
@@ -1954,58 +1994,58 @@ public class PracticeArea {
         }
         return (int) (number * sign);
 
-//        str = str.trim();
-//        if (str.length() == 0) {
-//            return 0;
-//        }
-//        char[] chars = str.toCharArray();
-//        int len = 0;
-//
-//
-//        for (int i = 0; i < chars.length; i++) {
-//            if (i == 0 && isSign(chars[i])) {//判断第一个字符是不是符号
-//                if (str.length() == 1) {//第一个是符号且只有一位
-//                    return 0;
-//                }
-//                len++;
-//                continue;
-//            }
-//            if (i == 0 && isLetter(chars[0])) {
-//                return 0;
-//            }
-//
-//            if (i == 1 && isSign(chars[0]) && !isNum(chars[1])) {//第一位符号，第二位不是数字
-//                return 0;
-//            }
-//
-//
-//            if (i == 1 && isLetter(chars[i])) {//如果以字母开头
-//                if (!isNum(chars[0])) {
-//                    return 0;
-//                }
-//            }
-//
-//
-//
-//            if (isNum(chars[i]) || chars[i] == '.') {
-//                chars[len++] = chars[i];
-//            }else break;
-//        }
-//
-//        if (len == 0) {
-//            return 0;
-//        }
-//
-//        double res = Double.valueOf(new String(chars, 0, len));
-//        if (res > Integer.MAX_VALUE) {
-//            return Integer.MAX_VALUE;
-//        }
-//
-//        if (res < Integer.MIN_VALUE) {
-//            return Integer.MIN_VALUE;
-//        }
-//
-//        return (int) res;
+        //        str = str.trim();
+        //        if (str.length() == 0) {
+        //            return 0;
+        //        }
+        //        char[] chars = str.toCharArray();
+        //        int len = 0;
+        //
+        //
+        //        for (int i = 0; i < chars.length; i++) {
+        //            if (i == 0 && isSign(chars[i])) {//判断第一个字符是不是符号
+        //                if (str.length() == 1) {//第一个是符号且只有一位
+        //                    return 0;
+        //                }
+        //                len++;
+        //                continue;
+        //            }
+        //            if (i == 0 && isLetter(chars[0])) {
+        //                return 0;
+        //            }
+        //
+        //            if (i == 1 && isSign(chars[0]) && !isNum(chars[1])) {//第一位符号，第二位不是数字
+        //                return 0;
+        //            }
+        //
+        //
+        //            if (i == 1 && isLetter(chars[i])) {//如果以字母开头
+        //                if (!isNum(chars[0])) {
+        //                    return 0;
+        //                }
+        //            }
+        //
+        //
+        //
+        //            if (isNum(chars[i]) || chars[i] == '.') {
+        //                chars[len++] = chars[i];
+        //            }else break;
+        //        }
+        //
+        //        if (len == 0) {
+        //            return 0;
+        //        }
+        //
+        //        double res = Double.valueOf(new String(chars, 0, len));
+        //        if (res > Integer.MAX_VALUE) {
+        //            return Integer.MAX_VALUE;
+        //        }
+        //
+        //        if (res < Integer.MIN_VALUE) {
+        //            return Integer.MIN_VALUE;
+        //        }
+        //
+        //        return (int) res;
     }
 
     private static boolean isSign(char a) {
@@ -2030,8 +2070,10 @@ public class PracticeArea {
         char[] chars = s.toLowerCase().toCharArray();
         int i = 0, j = chars.length - 1;
         while (i < j) {
-            if (('z' - chars[i]) < 26 && ('z' - chars[i]) >= 0 || ('9' - chars[i]) < 10 && ('9' - chars[i]) >= 0) {
-                if (('z' - chars[j]) < 26 && ('z' - chars[j]) >= 0 || ('9' - chars[j]) < 10 && ('9' - chars[j]) >= 0) {
+            if (('z' - chars[i]) < 26 && ('z' - chars[i]) >= 0
+                    || ('9' - chars[i]) < 10 && ('9' - chars[i]) >= 0) {
+                if (('z' - chars[j]) < 26 && ('z' - chars[j]) >= 0
+                        || ('9' - chars[j]) < 10 && ('9' - chars[j]) >= 0) {
                     if (chars[i] != chars[j]) {
                         return false;
                     }
@@ -2070,23 +2112,23 @@ public class PracticeArea {
         }
         return true;
         //利用字母出现次数的方法，较快
-//        int i;
-//        char[] arrs = s.toCharArray();
-//        char[] arrt = t.toCharArray();
-//
-//        int[] its = new int[26];
-//        int[] itt = new int[26];
-//
-//        for(i = 0; i < arrs.length; i++)
-//            its[arrs[i] - 'a']++;
-//        for(i = 0; i < arrt.length; i++)
-//            itt[arrt[i] - 'a']++;
-//        for(i=0;i<26;i++)
-//        {
-//            if(its[i] != itt[i])
-//                return false;
-//        }
-//        return true;
+        //        int i;
+        //        char[] arrs = s.toCharArray();
+        //        char[] arrt = t.toCharArray();
+        //
+        //        int[] its = new int[26];
+        //        int[] itt = new int[26];
+        //
+        //        for(i = 0; i < arrs.length; i++)
+        //            its[arrs[i] - 'a']++;
+        //        for(i = 0; i < arrt.length; i++)
+        //            itt[arrt[i] - 'a']++;
+        //        for(i=0;i<26;i++)
+        //        {
+        //            if(its[i] != itt[i])
+        //                return false;
+        //        }
+        //        return true;
     }
 
     /**
@@ -2097,22 +2139,22 @@ public class PracticeArea {
      */
     private static int firstUniqChar(String s) {
         //耗时长
-//        char[] chars = s.toCharArray();
-//        Hashtable<Character, Integer> times = new Hashtable<Character, Integer>();
-//        for (char aChar : chars) {
-//            if (times.containsKey(aChar)) {
-//                times.put(aChar, times.get(aChar) + 1);
-//            } else {
-//                times.put(aChar, 1);
-//            }
-//
-//        }
-//        for (int i = 0; i < chars.length; i++) {
-//            if (times.get(chars[i]) == 1) {
-//                return i;
-//            }
-//        }
-//        return -1;
+        //        char[] chars = s.toCharArray();
+        //        Hashtable<Character, Integer> times = new Hashtable<Character, Integer>();
+        //        for (char aChar : chars) {
+        //            if (times.containsKey(aChar)) {
+        //                times.put(aChar, times.get(aChar) + 1);
+        //            } else {
+        //                times.put(aChar, 1);
+        //            }
+        //
+        //        }
+        //        for (int i = 0; i < chars.length; i++) {
+        //            if (times.get(chars[i]) == 1) {
+        //                return i;
+        //            }
+        //        }
+        //        return -1;
         //较快的解法
         //最多循环26次
         char c;
@@ -2174,16 +2216,16 @@ public class PracticeArea {
         }
         return (int) res;
         //方法二
-//        boolean negative = x < 0;
-//        if (negative) x = -x;
-//        long r = 0;
-//        while (x>0) {
-//            r = r * 10 + x % 10;
-//            x /= 10;
-//        }
-//        if (negative) r = -r;
-//        if (r > Integer.MAX_VALUE || r < Integer.MIN_VALUE) return 0;
-//        return (int)r;
+        //        boolean negative = x < 0;
+        //        if (negative) x = -x;
+        //        long r = 0;
+        //        while (x>0) {
+        //            r = r * 10 + x % 10;
+        //            x /= 10;
+        //        }
+        //        if (negative) r = -r;
+        //        if (r > Integer.MAX_VALUE || r < Integer.MIN_VALUE) return 0;
+        //        return (int)r;
     }
 
     /**
@@ -2243,7 +2285,8 @@ public class PracticeArea {
                 //按位与，若某数字再次出现，对应位上有相同的1，则与后结果不为0
                 //例如，9、8出现后，sign的二进制为110000000,再次出现9，n为100000000,这样，
                 //按位相与的结果不为0
-                if ((signs[0][i] & n) != 0 || (signs[1][j] & n) != 0 || (signs[2][cubeIndex] & n) != 0) {
+                if ((signs[0][i] & n) != 0 || (signs[1][j] & n) != 0
+                        || (signs[2][cubeIndex] & n) != 0) {
                     return false;
                 }
                 //sign保存数字对应位数的1，比如9，则为100000000,下一个数字是8,则sign更新为，110000000,
@@ -2256,35 +2299,35 @@ public class PracticeArea {
         return true;
 
         //简单解法
-//        Set<Character> rowset = new HashSet<Character>();
-//        Set<Character> colset = new HashSet<Character>();
-//
-//        for(int i = 0; i < 9; i++)
-//        {
-//            rowset.clear();
-//            colset.clear();
-//            for(int j = 0; j < 9; j ++)
-//            {
-//                if(i % 3 == 0 && j % 3 == 0)  // 检查块是否有效
-//                {
-//                    if(!checkBlock(board, i, j))
-//                        return false;
-//                }
-//                if(board[i][j] != '.')  // 检查行是否有效
-//                {
-//                    if(rowset.contains(board[i][j]))
-//                        return false;
-//                    rowset.add(board[i][j]);
-//                }
-//                if(board[j][i] != '.')  // 检查列是否有效
-//                {
-//                    if(colset.contains(board[j][i]))
-//                        return false;
-//                    colset.add(board[j][i]);
-//                }
-//            }
-//        }
-//        return true;
+        //        Set<Character> rowset = new HashSet<Character>();
+        //        Set<Character> colset = new HashSet<Character>();
+        //
+        //        for(int i = 0; i < 9; i++)
+        //        {
+        //            rowset.clear();
+        //            colset.clear();
+        //            for(int j = 0; j < 9; j ++)
+        //            {
+        //                if(i % 3 == 0 && j % 3 == 0)  // 检查块是否有效
+        //                {
+        //                    if(!checkBlock(board, i, j))
+        //                        return false;
+        //                }
+        //                if(board[i][j] != '.')  // 检查行是否有效
+        //                {
+        //                    if(rowset.contains(board[i][j]))
+        //                        return false;
+        //                    rowset.add(board[i][j]);
+        //                }
+        //                if(board[j][i] != '.')  // 检查列是否有效
+        //                {
+        //                    if(colset.contains(board[j][i]))
+        //                        return false;
+        //                    colset.add(board[j][i]);
+        //                }
+        //            }
+        //        }
+        //        return true;
     }
 
     public boolean checkBlock(char[][] board, int row, int col)  // 检查块是否有效,一个3×3的块中是否有重复数字
@@ -2311,20 +2354,20 @@ public class PracticeArea {
      * @return
      */
     private static int[] twoSum(int[] nums, int target) {
-//        int[] res = new int[2];
-//        for (int i = 0; i < nums.length; i++) {
-//            for (int j = 0; j < nums.length; j++) {
-//                if (i == j) {
-//                    continue;
-//                }
-//                if (nums[i] + nums[j] == target) {
-//                    res[0]=i;
-//                    res[1]=j;
-//                    return res;
-//                }
-//            }
-//        }
-//        return res;
+        //        int[] res = new int[2];
+        //        for (int i = 0; i < nums.length; i++) {
+        //            for (int j = 0; j < nums.length; j++) {
+        //                if (i == j) {
+        //                    continue;
+        //                }
+        //                if (nums[i] + nums[j] == target) {
+        //                    res[0]=i;
+        //                    res[1]=j;
+        //                    return res;
+        //                }
+        //            }
+        //        }
+        //        return res;
         //answer
         HashMap<Integer, Integer> m = new HashMap<Integer, Integer>();
         int[] res = new int[2];
@@ -2354,14 +2397,14 @@ public class PracticeArea {
     }
 
     private static int singleNumber(int[] nums) {
-//        Arrays.sort(nums);
-//        for (int i = 0; i < nums.length-1; i++) {
-//            if (nums[i] != nums[i+1]) {
-//                return nums[i];
-//            }
-//            i++;
-//        }
-//        return nums[nums.length-1];
+        //        Arrays.sort(nums);
+        //        for (int i = 0; i < nums.length-1; i++) {
+        //            if (nums[i] != nums[i+1]) {
+        //                return nums[i];
+        //            }
+        //            i++;
+        //        }
+        //        return nums[nums.length-1];
         //answer
         int n = 0;
         for (int num : nums) {
@@ -2430,27 +2473,27 @@ public class PracticeArea {
      */
     private static int[] intersect(int[] nums1, int[] nums2) {
         //使用排序的方法
-//        int l1 = nums1.length;
-//        int l2 = nums2.length;
-//        int[] res = new int[Math.max(l1, l2)];
-//        Arrays.sort(nums1);
-//        Arrays.sort(nums2);
-//        int i=0,j=0,c=0;
-//        while (i < l1 && j < l2) {
-//            if (nums1[i] == nums2[j]) {
-//                res[c++] = nums1[i];
-//                i++;
-//                j++;
-//            } else if (nums1[i] > nums2[j]) {
-//                j++;
-//            }else {
-//                i++;
-//            }
-//        }
-//        if (c > 0) {
-//            return Arrays.copyOf(res, c);
-//        }
-//        return new int[0];
+        //        int l1 = nums1.length;
+        //        int l2 = nums2.length;
+        //        int[] res = new int[Math.max(l1, l2)];
+        //        Arrays.sort(nums1);
+        //        Arrays.sort(nums2);
+        //        int i=0,j=0,c=0;
+        //        while (i < l1 && j < l2) {
+        //            if (nums1[i] == nums2[j]) {
+        //                res[c++] = nums1[i];
+        //                i++;
+        //                j++;
+        //            } else if (nums1[i] > nums2[j]) {
+        //                j++;
+        //            }else {
+        //                i++;
+        //            }
+        //        }
+        //        if (c > 0) {
+        //            return Arrays.copyOf(res, c);
+        //        }
+        //        return new int[0];
 
         //不使用排序的方法
         HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
@@ -2513,7 +2556,6 @@ public class PracticeArea {
          */
     }
 
-
     /**
      * 股票最大收益
      *
@@ -2530,7 +2572,6 @@ public class PracticeArea {
         }
         return max;
     }
-
 
     /**
      * 删除重复值
@@ -2563,7 +2604,8 @@ public class PracticeArea {
      */
     private static void javaOpenDoc() {
         try {
-            Desktop.getDesktop().open(new File("F:\\IdeaProjects\\algorithm_daily_prac\\src\\main\\java\\com\\zhi\\algorithm\\a.docx"));
+            Desktop.getDesktop().open(new File(
+                    "F:\\IdeaProjects\\algorithm_daily_prac\\src\\main\\java\\com\\zhi\\algorithm\\a.docx"));
         } catch (IOException e) {
             e.printStackTrace();
         }
