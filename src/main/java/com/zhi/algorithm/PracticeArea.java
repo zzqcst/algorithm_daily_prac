@@ -195,6 +195,16 @@ public class PracticeArea {
         return result;
     }
 
+    /**
+     * from参数表示只向后添加数字
+     * 第一层循环中，各自添加了1,2,3
+     * 在它们各自的递归中，from参数变为从下一个数开始，例如：
+     * 上一层是2，下一层则从3开始添加，避免了2添加之后又添加1的重复情况
+     * @param nums
+     * @param from
+     * @param level
+     * @param res
+     */
     private static void getsubset(int[] nums,int from, ArrayList<Integer> level, List<List<Integer>> res) {
         for (int i = from; i < nums.length ; i++) {
             ArrayList<Integer> list = new ArrayList<>(level);
