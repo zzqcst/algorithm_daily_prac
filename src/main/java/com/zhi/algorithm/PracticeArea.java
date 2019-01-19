@@ -139,11 +139,68 @@ public class PracticeArea {
         //        for (String string : strings) {
         //            System.out.println(string);
         //        }
-        int[] nums = { 1, 2, 3 };
-        List<List<Integer>> permute = subsets(nums);
-        for (List<Integer> integers : permute) {
-            System.out.println(integers.toString());
+        //        int[] nums = { 1, 2, 3 };
+        //        List<List<Integer>> permute = subsets(nums);
+        //        for (List<Integer> integers : permute) {
+        //            System.out.println(integers.toString());
+        //        }
+//        char[][] board = { { 'A', 'B', 'C', 'E' }, { 'S', 'F', 'C', 'S' }, { 'A', 'D', 'E', 'E' } };
+//        System.out.println(exist(board, "SEE"));
+    }
+
+
+    /**
+     * 单词搜索
+     * 给定一个二维网格和一个单词，找出该单词是否存在于网格中。
+     * 单词必须是连续的，通过相邻的单元格内的字母构成，其中“相邻”单元格是那些水平相邻或垂直相邻的单元格。同一个单元格内的字母不允许被重复使用。
+     * 示例:
+     * board =
+     * [
+     * ['A','B','C','E'],
+     * ['S','F','C','S'],
+     * ['A','D','E','E']
+     * ]
+     * 给定 word = "ABCCED", 返回 true.
+     * 给定 word = "SEE", 返回 true.
+     * 给定 word = "ABCB", 返回 false.
+     *
+     * @param board
+     * @param word
+     * @return
+     */
+    public static boolean exist(char[][] board, String word) {
+        if (board.length == 0) {
+            return false;
         }
+        char[] chars = word.toCharArray();
+        int rows = board.length;
+        int cols = board[0].length;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (board[i][j] == chars[0]) {
+                   boolean res= findLetter(board, chars, i, j, 0);
+                   if (res) return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private static boolean findLetter(char[][] board, char[] chars, int row, int col, int i) {
+        if (row < 0 || row >= board.length || col < 0 || col >= board[0].length
+                || i >= chars.length||board[row][col]!=chars[i]) {
+            return false;
+        }
+        if (i == chars.length - 1) {//匹配到最后一个也相同
+            return true;
+        }
+        board[row][col] = '#';//访问过的标记，避免重复访问
+        boolean res=findLetter(board, chars, row + 1, col, i + 1)||
+        findLetter(board, chars, row, col + 1, i + 1)||
+        findLetter(board, chars, row - 1, col, i + 1)||
+        findLetter(board, chars, row, col - 1, i + 1);
+        board[row][col] = chars[i];//恢复原值，避免影响从其它地方开始的比较
+        return res;
     }
 
     /**
@@ -168,25 +225,25 @@ public class PracticeArea {
      * @return
      */
     public static List<List<Integer>> subsets(int[] nums) {
-//        List<List<Integer>> res = new ArrayList<>();
-//        getsubset(nums,0, new ArrayList<Integer>(), res);
-//        res.add(new ArrayList<Integer>());
-//        return res;
+        //        List<List<Integer>> res = new ArrayList<>();
+        //        getsubset(nums,0, new ArrayList<Integer>(), res);
+        //        res.add(new ArrayList<Integer>());
+        //        return res;
 
         //另一种解法
         /*
-        *
-        * 初始：result:[]
-        * 遍历到1，result:[],[1]
-        * 遍历到2：之前result的结果中都加入2，[],[1],[2].[1,2]
-        * 遍历到3：之前result的结果中都加入3,......
-        *
-        * */
+         *
+         * 初始：result:[]
+         * 遍历到1，result:[],[1]
+         * 遍历到2：之前result的结果中都加入2，[],[1],[2].[1,2]
+         * 遍历到3：之前result的结果中都加入3,......
+         *
+         * */
         List<List<Integer>> result = new ArrayList<>();
         result.add(new ArrayList<Integer>());
-        for(int n : nums){
+        for (int n : nums) {
             int size = result.size();
-            for(int i=0; i<size; i++){
+            for (int i = 0; i < size; i++) {
                 List<Integer> subset = new ArrayList<>(result.get(i));//每次在已有结果上加上新的数字
                 subset.add(n);
                 result.add(subset);
@@ -200,13 +257,15 @@ public class PracticeArea {
      * 第一层循环中，各自添加了1,2,3
      * 在它们各自的递归中，from参数变为从下一个数开始，例如：
      * 上一层是2，下一层则从3开始添加，避免了2添加之后又添加1的重复情况
+     *
      * @param nums
      * @param from
      * @param level
      * @param res
      */
-    private static void getsubset(int[] nums,int from, ArrayList<Integer> level, List<List<Integer>> res) {
-        for (int i = from; i < nums.length ; i++) {
+    private static void getsubset(int[] nums, int from, ArrayList<Integer> level,
+            List<List<Integer>> res) {
+        for (int i = from; i < nums.length; i++) {
             ArrayList<Integer> list = new ArrayList<>(level);
             list.add(nums[i]);
             res.add(list);
