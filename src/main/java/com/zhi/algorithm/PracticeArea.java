@@ -146,6 +146,47 @@ public class PracticeArea {
         //        }
 //        char[][] board = { { 'A', 'B', 'C', 'E' }, { 'S', 'F', 'C', 'S' }, { 'A', 'D', 'E', 'E' } };
 //        System.out.println(exist(board, "SEE"));
+        int[] nums={1,7,3,5,2,9,6,3};
+        sortColors(nums);
+        for (int num : nums) {
+            System.out.println(num);
+        }
+    }
+
+    /**
+     * 颜色分类
+     * 给定一个包含红色、白色和蓝色，一共 n 个元素的数组，原地对它们进行排序，使得相同颜色的元素相邻，并按照红色、白色、蓝色顺序排列。
+     * <p>
+     * 此题中，我们使用整数 0、 1 和 2 分别表示红色、白色和蓝色。
+     * <p>
+     * 注意:
+     * 不能使用代码库中的排序函数来解决这道题。
+     * <p>
+     * 示例:
+     * <p>
+     * 输入: [2,0,2,1,1,0]
+     * 输出: [0,0,1,1,2,2]
+     *
+     * @param nums
+     */
+    public static void sortColors(int[] nums) {
+//        //插入排序
+//        for (int i = 0; i < nums.length-1; i++) {
+//            for (int j = i+1; j < nums.length ; j++) {
+//                if (nums[j] < nums[i]) {
+//                    nums[j] = nums[i] + nums[j] - (nums[i]=nums[j]);
+//                }
+//            }
+//        }
+
+        //冒泡排序
+        for (int i = 0; i < nums.length - 1; i++) {
+            for (int j = 0; j < nums.length - i - 1; j++) {
+                if (nums[j] > nums[j + 1]) {
+                    nums[j] = nums[j] + nums[j + 1] - (nums[j + 1] = nums[j]);
+                }
+            }
+        }
     }
 
 
@@ -178,8 +219,10 @@ public class PracticeArea {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 if (board[i][j] == chars[0]) {
-                   boolean res= findLetter(board, chars, i, j, 0);
-                   if (res) return true;
+                    boolean res = findLetter(board, chars, i, j, 0);
+                    if (res) {
+                        return true;
+                    }
                 }
             }
         }
@@ -188,17 +231,17 @@ public class PracticeArea {
 
     private static boolean findLetter(char[][] board, char[] chars, int row, int col, int i) {
         if (row < 0 || row >= board.length || col < 0 || col >= board[0].length
-                || i >= chars.length||board[row][col]!=chars[i]) {
+                || i >= chars.length || board[row][col] != chars[i]) {
             return false;
         }
         if (i == chars.length - 1) {//匹配到最后一个也相同
             return true;
         }
         board[row][col] = '#';//访问过的标记，避免重复访问
-        boolean res=findLetter(board, chars, row + 1, col, i + 1)||
-        findLetter(board, chars, row, col + 1, i + 1)||
-        findLetter(board, chars, row - 1, col, i + 1)||
-        findLetter(board, chars, row, col - 1, i + 1);
+        boolean res = findLetter(board, chars, row + 1, col, i + 1) ||
+                findLetter(board, chars, row, col + 1, i + 1) ||
+                findLetter(board, chars, row - 1, col, i + 1) ||
+                findLetter(board, chars, row, col - 1, i + 1);
         board[row][col] = chars[i];//恢复原值，避免影响从其它地方开始的比较
         return res;
     }
@@ -264,7 +307,7 @@ public class PracticeArea {
      * @param res
      */
     private static void getsubset(int[] nums, int from, ArrayList<Integer> level,
-            List<List<Integer>> res) {
+                                  List<List<Integer>> res) {
         for (int i = from; i < nums.length; i++) {
             ArrayList<Integer> list = new ArrayList<>(level);
             list.add(nums[i]);
@@ -298,7 +341,7 @@ public class PracticeArea {
     }
 
     private static void findAll(int[] nums, int count, List<Integer> level,
-            List<List<Integer>> res) {
+                                List<List<Integer>> res) {
         if (count == nums.length) {
             res.add(level);
             return;
@@ -353,7 +396,7 @@ public class PracticeArea {
 
     private static String[]
             maps =
-            { " ", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz" };
+            {" ", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
 
     /**
      * 电话号码的字母组合
@@ -504,14 +547,20 @@ public class PracticeArea {
 
         //使用递归，计算节点数量
         int num = count(root.left);//左子树节点数量
-        if (num == k - 1) return root.val;
+        if (num == k - 1) {
+            return root.val;
+        }
         if (num > k - 1)//说明要找的数在左子树中
+        {
             return kthSmallest(root.left, k);
+        }
         return kthSmallest(root.right, k - num - 1);//否则在右子数中查找
     }
 
     public static int count(TreeNode root) {//计算一棵树的节点数
-        if (root == null) return 0;
+        if (root == null) {
+            return 0;
+        }
         return 1 + count(root.left) + count(root.right);
     }
 
@@ -617,7 +666,7 @@ public class PracticeArea {
      * @return
      */
     public static TreeNode construct(int[] preorder, int pl, int pr, int[] inorder, int il,
-            int ir) {
+                                     int ir) {
         if (pl > pr || il > ir) {
             return null;
         }
@@ -730,7 +779,9 @@ public class PracticeArea {
      * @return
      */
     public static ListNode getIntersectionNode(ListNode headA, ListNode headB) {
-        if (headA == null || headB == null) return null;
+        if (headA == null || headB == null) {
+            return null;
+        }
 
         int headALength = 0;
         int headBLength = 0;
@@ -757,7 +808,9 @@ public class PracticeArea {
         }
 
         while (headA != null) {
-            if (headA.val == headB.val) return headA;
+            if (headA.val == headB.val) {
+                return headA;
+            }
             headA = headA.next;
             headB = headB.next;
         }
@@ -1269,69 +1322,69 @@ public class PracticeArea {
         Stack<Integer> stack = new Stack<>();
         for (char aChar : chars) {
             switch (aChar) {//将当前字符转化为数字
-            case 'I':
-                stack.push(1);
-                break;
-            case 'V':
-                if (!stack.isEmpty()) {
-                    if (stack.peek() < 5) {//上一个数字比当前小
-                        int temp = stack.pop();
-                        stack.push(5 - temp);
-                        continue;
+                case 'I':
+                    stack.push(1);
+                    break;
+                case 'V':
+                    if (!stack.isEmpty()) {
+                        if (stack.peek() < 5) {//上一个数字比当前小
+                            int temp = stack.pop();
+                            stack.push(5 - temp);
+                            continue;
+                        }
                     }
-                }
-                stack.push(5);
-                break;
-            case 'X':
-                if (!stack.isEmpty()) {
-                    if (stack.peek() < 10) {//上一个数字比当前小
-                        int temp = stack.pop();
-                        stack.push(10 - temp);
-                        continue;
+                    stack.push(5);
+                    break;
+                case 'X':
+                    if (!stack.isEmpty()) {
+                        if (stack.peek() < 10) {//上一个数字比当前小
+                            int temp = stack.pop();
+                            stack.push(10 - temp);
+                            continue;
+                        }
                     }
-                }
-                stack.push(10);
-                break;
-            case 'L':
-                if (!stack.isEmpty()) {
-                    if (stack.peek() < 50) {//上一个数字比当前小
-                        int temp = stack.pop();
-                        stack.push(50 - temp);
-                        continue;
+                    stack.push(10);
+                    break;
+                case 'L':
+                    if (!stack.isEmpty()) {
+                        if (stack.peek() < 50) {//上一个数字比当前小
+                            int temp = stack.pop();
+                            stack.push(50 - temp);
+                            continue;
+                        }
                     }
-                }
-                stack.push(50);
-                break;
-            case 'C':
-                if (!stack.isEmpty()) {
-                    if (stack.peek() < 100) {//上一个数字比当前小
-                        int temp = stack.pop();
-                        stack.push(100 - temp);
-                        continue;
+                    stack.push(50);
+                    break;
+                case 'C':
+                    if (!stack.isEmpty()) {
+                        if (stack.peek() < 100) {//上一个数字比当前小
+                            int temp = stack.pop();
+                            stack.push(100 - temp);
+                            continue;
+                        }
                     }
-                }
-                stack.push(100);
-                break;
-            case 'D':
-                if (!stack.isEmpty()) {
-                    if (stack.peek() < 500) {//上一个数字比当前小
-                        int temp = stack.pop();
-                        stack.push(500 - temp);
-                        continue;
+                    stack.push(100);
+                    break;
+                case 'D':
+                    if (!stack.isEmpty()) {
+                        if (stack.peek() < 500) {//上一个数字比当前小
+                            int temp = stack.pop();
+                            stack.push(500 - temp);
+                            continue;
+                        }
                     }
-                }
-                stack.push(500);
-                break;
-            case 'M':
-                if (!stack.isEmpty()) {
-                    if (stack.peek() < 1000) {//上一个数字比当前小
-                        int temp = stack.pop();
-                        stack.push(1000 - temp);
-                        continue;
+                    stack.push(500);
+                    break;
+                case 'M':
+                    if (!stack.isEmpty()) {
+                        if (stack.peek() < 1000) {//上一个数字比当前小
+                            int temp = stack.pop();
+                            stack.push(1000 - temp);
+                            continue;
+                        }
                     }
-                }
-                stack.push(1000);
-                break;
+                    stack.push(1000);
+                    break;
             }
         }
         int result = 0;
