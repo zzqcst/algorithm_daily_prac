@@ -146,11 +146,162 @@ public class PracticeArea {
         //        }
 //        char[][] board = { { 'A', 'B', 'C', 'E' }, { 'S', 'F', 'C', 'S' }, { 'A', 'D', 'E', 'E' } };
 //        System.out.println(exist(board, "SEE"));
-        int[] nums={1,7,3,5,2,9,6,3};
-        sortColors(nums);
-        for (int num : nums) {
-            System.out.println(num);
+        int[] nums = {1, 2, 3, 5, 2, 5, 6, 3};
+        List<Integer> integers = topKFrequent(nums, nums.length);
+        for (Integer integer : integers) {
+            System.out.println(integer);
         }
+    }
+
+    /**
+     * 寻找峰值
+     * 峰值元素是指其值大于左右相邻值的元素。
+     * <p>
+     * 给定一个输入数组 nums，其中 nums[i] ≠ nums[i+1]，找到峰值元素并返回其索引。
+     * <p>
+     * 数组可能包含多个峰值，在这种情况下，返回任何一个峰值所在位置即可。
+     * <p>
+     * 你可以假设 nums[-1] = nums[n] = -∞。
+     * <p>
+     * 示例 1:
+     * <p>
+     * 输入: nums = [1,2,3,1]
+     * 输出: 2
+     * 解释: 3 是峰值元素，你的函数应该返回其索引 2。
+     * 示例 2:
+     * <p>
+     * 输入: nums = [1,2,1,3,5,6,4]
+     * 输出: 1 或 5
+     * 解释: 你的函数可以返回索引 1，其峰值元素为 2；
+     * 或者返回索引 5， 其峰值元素为 6。
+     *
+     * @param nums
+     * @return
+     */
+    public static int findPeakElement(int[] nums) {
+        for (int i = 0; i < nums.length; i++) {
+            int pre = i - 1 < 0 ? Integer.MIN_VALUE : nums[i - 1];
+            int next = i + 1 > nums.length - 1 ? Integer.MIN_VALUE : nums[i + 1];
+            if (nums[i] > pre && nums[i] > next) {
+                return i;
+            }
+        }
+        return 0;
+    }
+
+    /**
+     * 数组中的第K个最大元素
+     * 在未排序的数组中找到第 k 个最大的元素。请注意，你需要找的是数组排序后的第 k 个最大的元素，而不是第 k 个不同的元素。
+     * <p>
+     * 示例 1:
+     * <p>
+     * 输入: [3,2,1,5,6,4] 和 k = 2
+     * 输出: 5
+     * 示例 2:
+     * <p>
+     * 输入: [3,2,3,1,2,4,5,5,6] 和 k = 4
+     * 输出: 4
+     * 说明:
+     * <p>
+     * 你可以假设 k 总是有效的，且 1 ≤ k ≤ 数组的长度。
+     *
+     * @param nums
+     * @param k
+     * @return
+     */
+    public static int findKthLargest(int[] nums, int k) {
+        Arrays.sort(nums);
+        for (int i = nums.length - 1; i >= 0; i--) {
+            if (k == 1) {
+                return nums[i];
+            }
+            k--;
+        }
+        return 0;
+    }
+
+    /**
+     * 前K个高频元素
+     * 给定一个非空的整数数组，返回其中出现频率前 k 高的元素。
+     * <p>
+     * 示例 1:
+     * <p>
+     * 输入: nums = [1,1,1,2,2,3], k = 2
+     * 输出: [1,2]
+     * 示例 2:
+     * <p>
+     * 输入: nums = [1], k = 1
+     * 输出: [1]
+     *
+     * @param nums
+     * @param k
+     * @return
+     */
+    public static List<Integer> topKFrequent(int[] nums, int k) {
+//        List<Integer> res = new ArrayList<>();
+//        Map<Integer, Integer> freq = new HashMap<>();
+//        //统计频率
+//        for (int num : nums) {
+//            if (freq.containsKey(num)) {
+//                freq.put(num, freq.get(num) + 1);
+//                continue;
+//            }
+//            freq.put(num, 0);
+//        }
+//
+//        int i = 0;
+//        //根据频率排序，将数字按降序放回原数组
+//        for (Map.Entry<Integer, Integer> entry : freq.entrySet()) {
+//            if (i == 0) {
+//                nums[i] = entry.getKey();
+//                i++;
+//                continue;
+//            }
+//            int j = i - 1;
+//            while (j>=0&&entry.getValue() > freq.get(nums[j])) {
+//                nums[j + 1] = nums[j];
+//                j--;
+//            }
+//            nums[j+1]=entry.getKey();
+//            i++;
+//        }
+//        for (int j = 0; j < k; j++) {
+//            res.add(nums[j]);
+//        }
+//        return res;
+        List<Integer> list = new ArrayList<>();
+
+        //使用优先队列自动排序
+        PriorityQueue<Map.Entry<Integer, Integer>> pq = new PriorityQueue<>(new Comparator<Map.Entry<Integer, Integer>>() {
+            @Override
+            public int compare(Map.Entry<Integer, Integer> o1, Map.Entry<Integer, Integer> o2) {
+                return o2.getValue() - o1.getValue();
+            }
+        });
+
+        Map<Integer, Integer> map = new HashMap<>();
+
+        for (int i = 0; i < nums.length; i++) {
+            if (map.containsKey(nums[i])) {
+                map.put(nums[i], map.get(nums[i]) + 1);
+            } else {
+                map.put(nums[i], 1);
+            }
+        }
+
+        Set<Map.Entry<Integer, Integer>> set = map.entrySet();
+
+        for (Map.Entry<Integer, Integer> entry : set) {
+            pq.add(entry);
+        }
+
+
+        for (int i = 0; i < k; i++) {
+            list.add(pq.poll().getKey());
+        }
+
+        return list;
+
     }
 
     /**
@@ -170,22 +321,43 @@ public class PracticeArea {
      * @param nums
      */
     public static void sortColors(int[] nums) {
-//        //插入排序
-//        for (int i = 0; i < nums.length-1; i++) {
-//            for (int j = i+1; j < nums.length ; j++) {
-//                if (nums[j] < nums[i]) {
-//                    nums[j] = nums[i] + nums[j] - (nums[i]=nums[j]);
+        //选择排序
+        //原理：每一趟从待排序的记录中选出最小的元素，顺序放在已排好序的序列最后，直到全部记录排序完毕。
+//        for (int i = 0; i < nums.length - 1; i++) {
+//            int k = i;
+//            for (int j = i + 1; j < nums.length; j++) {
+//                if (nums[j] < nums[k]) {
+//                    k = j;//记下目前找到的最小值所在的位置
+//
+//                }
+//            }
+//            if (i != k) {
+//                nums[i] = nums[i] + nums[k] - (nums[k] = nums[i]);//和最小位置处的数字交换
+//            }
+//        }
+
+//        //冒泡排序
+//        冒泡排序的基本思想是，对相邻的元素进行两两比较，顺序相反则进行交换，
+//         这样，每一趟会将最小或最大的元素“浮”到顶端，最终达到完全有序
+//        for (int i = 0; i < nums.length - 1; i++) {
+//            for (int j = 0; j < nums.length - i - 1; j++) {
+//                if (nums[j] > nums[j + 1]) {
+//                    nums[j] = nums[j] + nums[j + 1] - (nums[j + 1] = nums[j]);
 //                }
 //            }
 //        }
 
-        //冒泡排序
-        for (int i = 0; i < nums.length - 1; i++) {
-            for (int j = 0; j < nums.length - i - 1; j++) {
-                if (nums[j] > nums[j + 1]) {
-                    nums[j] = nums[j] + nums[j + 1] - (nums[j + 1] = nums[j]);
-                }
+        //插入排序
+        //每一步将一个待排序的记录，插入到前面已经排好序的有序序列中去，直到插完所有元素为止。
+        int j, current;
+        for (int i = 1; i < nums.length; i++) {//i之前的是有序序列
+            j = i - 1;
+            current = nums[i];//current是待排元素
+            while (j >= 0 && nums[j] > current) {//与有序序列中比较
+                nums[j + 1] = nums[j];//若有序序列中j所指向的数字大于current，后移
+                j--;
             }
+            nums[j + 1] = current;//最后将待排元素放到正确位置
         }
     }
 
