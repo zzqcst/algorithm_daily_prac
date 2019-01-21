@@ -38,6 +38,29 @@ public class PracticeArea {
         }
     }
 
+    public static class Interval {
+        int start;
+        int end;
+
+        @Override
+        public String toString() {
+            return "Interval{" +
+                    "start=" + start +
+                    ", end=" + end +
+                    '}';
+        }
+
+        Interval() {
+            start = 0;
+            end = 0;
+        }
+
+        Interval(int s, int e) {
+            start = s;
+            end = e;
+        }
+    }
+
     public static void main(String[] args) {
         //        ListNode node1 = new ListNode(4);
         //        ListNode node2 = new ListNode(1);
@@ -146,11 +169,68 @@ public class PracticeArea {
         //        }
 //        char[][] board = { { 'A', 'B', 'C', 'E' }, { 'S', 'F', 'C', 'S' }, { 'A', 'D', 'E', 'E' } };
 //        System.out.println(exist(board, "SEE"));
-        int[] nums = {1, 2, 3, 5, 2, 5, 6, 3};
-        List<Integer> integers = topKFrequent(nums, nums.length);
-        for (Integer integer : integers) {
-            System.out.println(integer);
+        Interval interval = new Interval(1, 3);
+        Interval interval1 = new Interval(2, 6);
+        Interval interval2 = new Interval(8, 10);
+        Interval interval3 = new Interval(15, 18);
+        List<Interval> list = new ArrayList<>();
+        list.add(interval);
+        list.add(interval1);
+        list.add(interval2);
+        list.add(interval3);
+        for (Interval interval4 : merge(list)) {
+            System.out.println(interval4);
         }
+    }
+
+    /**
+     * 合并区间
+     * 给出一个区间的集合，请合并所有重叠的区间。
+     * <p>
+     * 示例 1:
+     * <p>
+     * 输入: [[1,3],[2,6],[8,10],[15,18]]
+     * 输出: [[1,6],[8,10],[15,18]]
+     * 解释: 区间 [1,3] 和 [2,6] 重叠, 将它们合并为 [1,6].
+     * 示例 2:
+     * <p>
+     * 输入: [[1,4],[4,5]]
+     * 输出: [[1,5]]
+     * 解释: 区间 [1,4] 和 [4,5] 可被视为重叠区间。
+     *
+     * @param intervals
+     * @return
+     */
+    public static List<Interval> merge(List<Interval> intervals) {
+        //简单粗暴法，先根据start值排序，再从前往后两两合并
+        int size = intervals.size();
+        List<Interval> res = new ArrayList<>();
+        if (size == 0) {
+            return res;
+        }
+        if (size == 1) {
+            return intervals;
+        }
+        intervals.sort(new Comparator<Interval>() {
+            @Override
+            public int compare(Interval o1, Interval o2) {
+                return o1.start - o2.start;
+            }
+        });
+        for (int i = 1; i < size; i++) {//从第二个开始
+            Interval current = intervals.get(i);
+            Interval pre = intervals.get(i - 1);
+            if (pre.end >= current.start) {//如果前一个跟当前能合并，则将当前区间改为合并后的区间
+                current.end = Math.max(current.end, pre.end);
+                current.start = pre.start;
+                //此处不需要立即添加到res中，因为下一个有可能可以继续合并，当不能合并时，再添加到res中
+            } else {
+                //当前的跟上一个不能合并,将上一个添加到结果中
+                res.add(pre);
+            }
+        }
+        res.add(intervals.get(size - 1));
+        return res;
     }
 
     /**
@@ -174,7 +254,7 @@ public class PracticeArea {
      * @param target
      * @return
      */
-    public int[] searchRange(int[] nums, int target) {
+    public static int[] searchRange(int[] nums, int target) {
         int[] res = {-1, -1};
         for (int i = 0; i < nums.length; i++) {
             if (nums[i] == target && res[0] == -1) {//res[0]==-1表示第一次出现
