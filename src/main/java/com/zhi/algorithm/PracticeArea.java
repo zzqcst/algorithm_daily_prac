@@ -169,18 +169,99 @@ public class PracticeArea {
         //        }
 //        char[][] board = { { 'A', 'B', 'C', 'E' }, { 'S', 'F', 'C', 'S' }, { 'A', 'D', 'E', 'E' } };
 //        System.out.println(exist(board, "SEE"));
-        Interval interval = new Interval(1, 3);
-        Interval interval1 = new Interval(2, 6);
-        Interval interval2 = new Interval(8, 10);
-        Interval interval3 = new Interval(15, 18);
-        List<Interval> list = new ArrayList<>();
-        list.add(interval);
-        list.add(interval1);
-        list.add(interval2);
-        list.add(interval3);
-        for (Interval interval4 : merge(list)) {
-            System.out.println(interval4);
+//        Interval interval = new Interval(1, 3);
+//        Interval interval1 = new Interval(2, 6);
+//        Interval interval2 = new Interval(8, 10);
+//        Interval interval3 = new Interval(15, 18);
+//        List<Interval> list = new ArrayList<>();
+//        list.add(interval);
+//        list.add(interval1);
+//        list.add(interval2);
+//        list.add(interval3);
+//        for (Interval interval4 : merge(list)) {
+//            System.out.println(interval4);
+//        }
+        int[][] matrix = {{1,4,7,11,15},{2,5,8,12,19},{3,6,9,16,22},{10,13,14,17,24},{18,21,23,26,30}};
+        searchMatrix(matrix, 5);
+    }
+
+    /**
+     * 搜索二维矩阵 II
+     * 编写一个高效的算法来搜索 m x n 矩阵 matrix 中的一个目标值 target。该矩阵具有以下特性：
+     * <p>
+     * 每行的元素从左到右升序排列。
+     * 每列的元素从上到下升序排列。
+     * 示例:
+     * <p>
+     * 现有矩阵 matrix 如下：
+     * <p>
+     * [
+     * [1,   4,  7, 11, 15],
+     * [2,   5,  8, 12, 19],
+     * [3,   6,  9, 16, 22],
+     * [10, 13, 14, 17, 24],
+     * [18, 21, 23, 26, 30]
+     * ]
+     * 给定 target = 5，返回 true。
+     * <p>
+     * 给定 target = 20，返回 false。
+     *
+     * @param matrix
+     * @param target
+     * @return
+     */
+    private static boolean searchMatrix(int[][] matrix, int target) {
+        int rows = matrix.length;
+        if (rows == 0) {
+            return false;
         }
+        int cols = matrix[0].length;
+        int j = cols-1,i=0;//j控制列数，i控制行数
+        while (j >= 0 && i < rows) {//从右上角开始搜索，较大往下，较小往左
+            if (matrix[i][j] == target) {
+                return true;
+            }
+            if (matrix[i][j] < target) {
+                i++;
+            }else {
+                j--;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 搜索旋转排序数组
+     * 假设按照升序排序的数组在预先未知的某个点上进行了旋转。
+     * <p>
+     * ( 例如，数组 [0,1,2,4,5,6,7] 可能变为 [4,5,6,7,0,1,2] )。
+     * <p>
+     * 搜索一个给定的目标值，如果数组中存在这个目标值，则返回它的索引，否则返回 -1 。
+     * <p>
+     * 你可以假设数组中不存在重复的元素。
+     * <p>
+     * 你的算法时间复杂度必须是 O(log n) 级别。
+     * <p>
+     * 示例 1:
+     * <p>
+     * 输入: nums = [4,5,6,7,0,1,2], target = 0
+     * 输出: 4
+     * 示例 2:
+     * <p>
+     * 输入: nums = [4,5,6,7,0,1,2], target = 3
+     * 输出: -1
+     *
+     * @param nums
+     * @param target
+     * @return
+     */
+    public static int search(int[] nums, int target) {
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] == target) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     /**
