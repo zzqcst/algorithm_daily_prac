@@ -181,9 +181,47 @@ public class PracticeArea {
 //        for (Interval interval4 : merge(list)) {
 //            System.out.println(interval4);
 //        }
-
-        System.out.println(uniquePaths(7, 3));
+        int[] coins = {1, 2, 5};
+        System.out.println(coinChange(coins, 11));
     }
+
+    /**
+     * 零钱兑换
+     * 给定不同面额的硬币 coins 和一个总金额 amount。编写一个函数来计算可以凑成总金额所需的最少的硬币个数。如果没有任何一种硬币组合能组成总金额，返回 -1。
+     * <p>
+     * 示例 1:
+     * <p>
+     * 输入: coins = [1, 2, 5], amount = 11
+     * 输出: 3
+     * 解释: 11 = 5 + 5 + 1
+     * 示例 2:
+     * <p>
+     * 输入: coins = [2], amount = 3
+     * 输出: -1
+     * 说明:
+     * 你可以认为每种硬币的数量是无限的。
+     */
+    public static int coinChange(int[] coins, int amount) {
+        //从金额数是1，一直往金额数为amount上计算
+        if (amount == 0 || coins.length <= 0) {
+            return 0;
+        }
+        int[] dp = new int[amount + 1];//dp[i]表示金额为i时，需要的硬币数
+        Arrays.fill(dp, amount + 1);
+        Arrays.sort(coins);
+        for (int i = 1; i <= amount; i++) {//金额从1开始
+            for (int j = 0; j < coins.length; j++) {//对于每个硬币coins[j]
+                if (i - coins[j] == 0) {//正好等于金额i时
+                    dp[i] = 1;
+                } else if (i - coins[j] > 0) {//当该枚硬币可选时
+                    dp[i] = Math.min(dp[i], dp[i - coins[j]] + 1);//硬币数为，不选coin[j]和选了coins[j]中硬币数最少的
+                }
+            }
+        }
+        //没有能组合的硬币时，dp[amount]为初始值amount+1
+        return dp[amount] > amount ? -1 : dp[amount];
+    }
+
 
     /**
      * 不同路径
@@ -213,7 +251,7 @@ public class PracticeArea {
      * @param n
      * @return
      */
-    public static int uniquePaths(int m, int n) {
+    private static int uniquePaths(int m, int n) {
         //递归方法
 //        Map<String, Integer> map = new HashMap<>();
 //        return nextStep(1, 1, m, n, 0, map);
