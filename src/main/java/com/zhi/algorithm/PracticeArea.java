@@ -215,9 +215,8 @@ public class PracticeArea {
      */
     public static int uniquePaths(int m, int n) {
         //递归方法
-        int poss = 0;
         Map<String, Integer> map = new HashMap<>();
-        return nextStep(1, 1, m, n, poss, map);
+        return nextStep(1, 1, m, n, 0, map);
     }
 
     private static int nextStep(int right, int down, int m, int n, int poss, Map<String, Integer> map) {
