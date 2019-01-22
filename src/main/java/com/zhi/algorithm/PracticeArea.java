@@ -181,8 +181,73 @@ public class PracticeArea {
 //        for (Interval interval4 : merge(list)) {
 //            System.out.println(interval4);
 //        }
-        int[] coins = {1, 2, 5};
-        System.out.println(coinChange(coins, 11));
+        int[] nums = {10, 9, 2, 5, 3, 7, 101, 18};
+        System.out.println(lengthOfLIS(nums));
+    }
+
+    /**
+     * 最长增长子序列
+     * 给定一个无序的整数数组，找到其中最长上升子序列的长度。
+     * <p>
+     * 示例:
+     * <p>
+     * 输入: [10,9,2,5,3,7,101,18]
+     * 输出: 4
+     * 解释: 最长的上升子序列是 [2,3,7,101]，它的长度是 4。
+     *
+     * @param nums
+     * @return
+     */
+    public static int lengthOfLIS(int[] nums) {
+//        int len = 0;
+//        if (nums == null || nums.length == 0) {
+//            return 0;
+//        }
+//        int[] dp = new int[nums.length];
+//        dp[0] = 1;
+//        //dp[i] 表示到i为止是最长递增子序列的长度
+//        for (int i = 1; i < nums.length; i++) {
+//            dp[i] = 1;
+//            for (int j = 0; j < i; j++) {
+//                if (nums[i] > nums[j]) {
+//                    //求dp[i]时遍历，dp[0...i-1],找出arr[j]<arr[i]小且dp[j]是最大的
+//                    //dp[i]=dp[j]+1;
+//                    dp[i] = Math.max(dp[i], dp[j] + 1);
+//                }
+//            }
+//        }
+//        for (int i = 0; i < nums.length; i++) {
+//            len = Math.max(dp[i], len);
+//        }
+//        return len;
+        //-------------------------
+        //输入: [10,9,2,5,3,7,101,18]
+        //输出: 4
+        if (nums.length == 0) {
+            return 0;
+        }
+        //s[i],所有长度为i+1的递增子序列中, 最小的那个序列尾数
+        int[] s = new int[nums.length];
+        int top = 0;
+        s[top] = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] > s[top]) {
+                s[++top] = nums[i];
+            } else {
+                //对数组进行迭代, 判断数字num将其插入s数组相应的位置:
+                int lo = 0, hi = top;
+                while (lo <= hi) {
+                    int mid = (lo + hi) / 2;
+                    if (s[mid] < nums[i]) {
+                        lo = mid + 1;
+                    } else {
+                        hi = mid - 1;
+                    }
+                }
+                s[lo] = nums[i];
+            }
+        }
+        return top + 1;
     }
 
     /**
