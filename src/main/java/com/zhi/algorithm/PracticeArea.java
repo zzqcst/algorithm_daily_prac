@@ -181,7 +181,7 @@ public class PracticeArea {
 //        for (Interval interval4 : merge(list)) {
 //            System.out.println(interval4);
 //        }
-        int[] nums = {10, 9, 2, 5, 3, 7, 101, 18};
+        int[] nums = {10, 9, 3, 5, 2, 7, 101, 18};
         System.out.println(lengthOfLIS(nums));
     }
 
@@ -191,7 +191,7 @@ public class PracticeArea {
      * <p>
      * 示例:
      * <p>
-     * 输入: [10,9,2,5,3,7,101,18]
+     * 输入: [10,9,3,5,2,7,101,18]
      * 输出: 4
      * 解释: 最长的上升子序列是 [2,3,7,101]，它的长度是 4。
      *
@@ -226,7 +226,7 @@ public class PracticeArea {
         if (nums.length == 0) {
             return 0;
         }
-        //s[i],所有长度为i+1的递增子序列中, 最小的那个序列尾数
+        //s[i],所有长度为i+1的递增子序列中, 最小的那个序列尾数,不存储实际的最长递增子序列，只是最后一个值有用
         int[] s = new int[nums.length];
         int top = 0;
         s[top] = nums[0];
