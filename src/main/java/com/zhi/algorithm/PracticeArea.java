@@ -181,7 +181,7 @@ public class PracticeArea {
 //        for (Interval interval4 : merge(list)) {
 //            System.out.println(interval4);
 //        }
-        int[] nums={3,2,1,0,4};
+        int[] nums = {3, 2, 1, 0, 4};
         System.out.println(canJump(nums));
     }
 
@@ -213,6 +213,7 @@ public class PracticeArea {
 //        Map<Integer, Boolean> map = new HashMap<>();
 //        return preStep(nums,nums.length-1,map);
         //-------------------
+        //贪心算法
 //        int lastStep = nums.length - 1;
 //        for (int i = nums.length - 2; i >= 0; i--) {
 //            if (i + nums[i] >= lastStep) {//从第i步能到达第lastStep
@@ -221,30 +222,31 @@ public class PracticeArea {
 //        }
 //        return lastStep == 0;
         //-----------------
+        //动态规划
         int max = 0;//能到达的最大距离
 
-        for(int i = 0;i<nums.length;i++){
-            if(i > max){//最大距离到不了i
+        for (int i = 0; i < nums.length; i++) {
+            if (i > max) {//最大距离到不了i
                 return false;
             }
 
-            max = Math.max(nums[i] + i,max);
+            max = Math.max(nums[i] + i, max);
         }
 
         return true;
     }
 
-    private static boolean preStep(int[] nums,int to,Map<Integer,Boolean> map){
+    private static boolean preStep(int[] nums, int to, Map<Integer, Boolean> map) {
         if (map.containsKey(to)) {
             return map.get(to);
         }
         boolean res = false;
         if (to == 0) {
-            res=true;
+            res = true;
         }
-        for (int i = to-1; i >=0 ; i--) {
+        for (int i = to - 1; i >= 0; i--) {
             if (to - i <= nums[i]) {//第i步能到to
-                res=preStep(nums, i,map);//则检查第i步是否能到达
+                res = preStep(nums, i, map);//则检查第i步是否能到达
                 if (res) {//如果第i步能到达，则to也能到达,直接返回结果
                     return true;
                 }
