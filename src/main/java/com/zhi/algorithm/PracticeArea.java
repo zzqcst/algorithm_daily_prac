@@ -215,8 +215,48 @@ public class PracticeArea {
      */
     public static int uniquePaths(int m, int n) {
         //递归方法
-        Map<String, Integer> map = new HashMap<>();
-        return nextStep(1, 1, m, n, 0, map);
+//        Map<String, Integer> map = new HashMap<>();
+//        return nextStep(1, 1, m, n, 0, map);
+        //----------------
+        //数组方法
+//        int[][] steps = new int[m][n];
+//        steps[0][0] = 1;
+//        int up = 0;
+//        int left = 0;
+//        for (int i = 0; i < m; i++) {
+//            for (int j = 0; j < n; j++) {
+//                if (i == 0 && j == 0) {
+//                    continue;
+//                }
+//                up = 0;
+//                left = 0;
+//                if (i > 0) {
+//                    up = steps[i - 1][j];
+//                }
+//                if (j > 0) {
+//                    left = steps[i][j - 1];
+//                }
+//                steps[i][j] = up + left;
+//            }
+//        }
+//        return steps[m - 1][n - 1];
+        //-----------
+        //只保留上一行结果的数组方法
+        int[] up = new int[n];
+        for (int i = 0; i < n; i++) {
+            up[i] = 1;
+        }
+        int left = 1;
+        int current = 1;
+        for (int i = 1; i < m; i++) {
+            left = 1;
+            for (int j = 1; j < n; j++) {
+                current = up[j] + left;
+                left = current;
+                up[j] = current;
+            }
+        }
+        return current;
     }
 
     private static int nextStep(int right, int down, int m, int n, int poss, Map<String, Integer> map) {
