@@ -93,15 +93,15 @@ public class PracticeArea {
         //            listNode = listNode.next;
         //        }
 
-        //        TreeNode t1 = new TreeNode(3);
-        //        TreeNode t2 = new TreeNode(9);
-        //        TreeNode t3 = new TreeNode(20);
-        //        TreeNode t4 = new TreeNode(15);
-        //        TreeNode t5 = new TreeNode(7);
-        //        t1.left = t2;
-        //        t1.right = t3;
-        //        t3.left = t4;
-        //        t3.right = t5;
+        TreeNode t1 = new TreeNode(3);
+        TreeNode t2 = new TreeNode(9);
+        TreeNode t3 = new TreeNode(20);
+        TreeNode t4 = new TreeNode(15);
+        TreeNode t5 = new TreeNode(7);
+        t1.left = t2;
+        t1.right = t3;
+        t3.left = t4;
+        t3.right = t5;
         //        List<List<Integer>> lists = levelOrder(t1);
         //        for (List<Integer> list : lists) {
         //            for (Integer integer : list) {
@@ -181,8 +181,65 @@ public class PracticeArea {
 //        for (Interval interval4 : merge(list)) {
 //            System.out.println(interval4);
 //        }
-        int[] nums = {10, 9, 3, 5, 2, 7, 101, 18};
-        System.out.println(lengthOfLIS(nums));
+        System.out.println(serialize(t1));
+
+    }
+
+    /**
+     * 二叉树的序列化与反序列化
+     * 序列化是将一个数据结构或者对象转换为连续的比特位的操作，进而可以将转换后的数据存储在一个文件或者内存中，同时也可以通过网络传输到另一个计算机环境，采取相反方式重构得到原数据。
+     * <p>
+     * 请设计一个算法来实现二叉树的序列化与反序列化。这里不限定你的序列 / 反序列化算法执行逻辑，你只需要保证一个二叉树可以被序列化为一个字符串并且将这个字符串反序列化为原始的树结构。
+     * <p>
+     * 示例:
+     * <p>
+     * 你可以将以下二叉树：
+     * <p>
+     * 1
+     * / \
+     * 2   3
+     * / \
+     * 4   5
+     * <p>
+     * 序列化为 "[1,2,3,null,null,4,5]"
+     *
+     * @param root
+     * @return
+     */
+    // Encodes a tree to a single string.
+    private static String serialize(TreeNode root) {
+        StringBuilder res = new StringBuilder("[");
+        Queue<TreeNode> queue = new LinkedList<>();
+        if (root != null) {
+            queue.offer(root);
+        } else {
+            return null;
+        }
+        int size = 0;
+        while (!queue.isEmpty()) {
+            size = queue.size();
+            TreeNode node = null;
+            for (int i = 0; i < size; i++) {
+                node = queue.poll();
+                if (node == null) {
+                    res.append("null,");
+                    continue;
+                }
+                res.append(node.val).append(",");
+                queue.offer(node.left);
+                queue.offer(node.right);
+            }
+            System.out.println();
+        }
+        res.replace(res.length() - 1, res.length(), "]");
+        return res.toString();
+    }
+
+    // Decodes your encoded data to tree.
+    public TreeNode deserialize(String data) {
+        data.replace('[', ' ');
+        data.replace(']', ' ');
+        return null;
     }
 
     /**
