@@ -181,7 +181,8 @@ public class PracticeArea {
 //        for (Interval interval4 : merge(list)) {
 //            System.out.println(interval4);
 //        }
-        System.out.println(serialize(t1));
+        TreeNode deserialize = deserialize(serialize(null));
+        System.out.println(deserialize);
 
     }
 
@@ -208,38 +209,45 @@ public class PracticeArea {
      */
     // Encodes a tree to a single string.
     private static String serialize(TreeNode root) {
-        StringBuilder res = new StringBuilder("[");
-        Queue<TreeNode> queue = new LinkedList<>();
-        if (root != null) {
-            queue.offer(root);
-        } else {
-            return null;
-        }
-        int size = 0;
-        while (!queue.isEmpty()) {
-            size = queue.size();
-            TreeNode node = null;
-            for (int i = 0; i < size; i++) {
-                node = queue.poll();
-                if (node == null) {
-                    res.append("null,");
-                    continue;
-                }
-                res.append(node.val).append(",");
-                queue.offer(node.left);
-                queue.offer(node.right);
-            }
-            System.out.println();
-        }
-        res.replace(res.length() - 1, res.length(), "]");
-        return res.toString();
+        List<Integer> inorder = inorderTraversal(root);
+        List<Integer> preorder = preorderTraversal(root);
+        return preorder.toString()+"-"+inorder.toString();
     }
 
     // Decodes your encoded data to tree.
-    public TreeNode deserialize(String data) {
-        data.replace('[', ' ');
-        data.replace(']', ' ');
-        return null;
+    public static TreeNode deserialize(String data) {
+        String[] split = data.split("-");
+        if (split[0].length() == 2 && split[1].length() == 2) {
+            return null;
+        }
+        split[0]=split[0].replace('[',' ').replace(']',' ').trim();
+        split[1]=split[1].replace('[',' ').replace(']',' ').trim();
+        String[] split1 = split[0].split(",");
+        String[] split2 = split[1].split(",");
+        int[] pre = new int[split1.length];
+        int[] inor = new int[split2.length];
+        for (int i = 0; i < pre.length; i++) {
+            pre[i] = Integer.parseInt(split1[i].trim());
+        }
+        for (int i = 0; i < inor.length; i++) {
+            inor[i] = Integer.parseInt(split2[i].trim());
+        }
+        return buildTree(pre, inor);
+    }
+
+    private static List<Integer> preorderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        preorder(root, res);
+        return res;
+    }
+
+    private static void preorder(TreeNode root, List<Integer> res) {
+        if (root == null) {
+            return;
+        }
+        res.add(root.val);
+        preorder(root.left, res);
+        preorder(root.right, res);
     }
 
     /**
