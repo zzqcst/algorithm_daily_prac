@@ -19,7 +19,99 @@ public class JZofferPrac {
 
     public static void main(String[] args) {
         JZofferPrac p = new JZofferPrac();
-        System.out.println(p.power4(3, 4));
+        int[] array = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+        p.reOrderArray(array);
+        for (int i : array) {
+            System.out.println(i);
+        }
+    }
+
+    /**
+     * 输入一个链表，输出该链表中倒数第k个结点。
+     *
+     * @param head
+     * @param k
+     * @return
+     */
+    public ListNode FindKthToTail(ListNode head, int k) {
+        //使用栈的方式
+//        if (head == null) {
+//            return null;
+//        }
+//        Stack<ListNode> stack = new Stack<>();
+//        while (head != null) {
+//            stack.push(head);
+//            head = head.next;
+//        }
+//        while (true) {
+//            if (stack.isEmpty()) {
+//                return null;
+//            }
+//            if (k-- == 1) {
+//                return stack.pop();
+//            }
+//            stack.pop();
+//        }
+
+        //双指针的方式，
+        // 第一个指针比第二个指针多走k-1步，这样当第一个指针指向末尾节点时，
+        // 第二个指针正好指向倒数第k个节点
+        if (head == null || k == 0) {
+            return null;
+        }
+        ListNode first = head;
+        ListNode second = head;
+        for (int i = 0; i < k - 1; i++) {
+            if (first.next != null) {//防止k大于链表的长度而产生异常
+                first = first.next;
+            } else {
+                return null;
+            }
+        }
+        while (first.next != null) {
+            first = first.next;
+            second = second.next;
+        }
+        return second;
+    }
+
+    /**
+     * 输入一个整数数组，实现一个函数来调整该数组中数字的顺序，
+     * 使得所有的奇数位于数组的前半部分，所有的偶数位于数组的后半部分，
+     * 并保证奇数和奇数，偶数和偶数之间的相对位置不变。
+     *
+     * @param array
+     */
+    public void reOrderArray(int[] array) {
+        //O(n)方法
+        int len = array.length;
+        int[] res = new int[len];
+        boolean[] flag = new boolean[len];
+        int oddcount = 0;
+        for (int i = 0; i < len; i++) {
+            if (array[i] % 2 == 0) {
+                flag[i] = true;
+            } else {
+                oddcount++;
+            }
+        }
+        int m = 0, n = 0;
+        for (int i = 0; i < len; i++) {
+            if (flag[i]) {//如果是偶数
+                res[oddcount + (m++)] = array[i];
+            } else {
+                res[n++] = array[i];
+            }
+        }
+        System.arraycopy(res, 0, array, 0, len);
+        //O(n^2)
+//        for (int i = 0; i < array.length - 1; i++) {
+//            for (int j = 0; j < array.length - 1 - i; j++) {
+//                if (array[j] % 2 == 0 && array[j + 1] % 2 == 1) {
+//                    array[j] = array[j] + array[j + 1] - (array[j + 1] = array[j]);
+//                }
+//            }
+//        }
     }
 
     /**
