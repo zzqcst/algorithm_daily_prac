@@ -18,8 +18,8 @@ public class JZofferPrac {
 
     public static void main(String[] args) {
         JZofferPrac p = new JZofferPrac();
-        int[] pre = {1,2,3,4,5,6,7};
-        int[] in = {3,2,4,1,6,5,7};
+        int[] pre = {1, 2, 3, 4, 5, 6, 7};
+        int[] in = {3, 2, 4, 1, 6, 5, 7};
         p.reConstructBinaryTree(pre, in);
     }
 
@@ -32,29 +32,45 @@ public class JZofferPrac {
      * @return
      */
     public TreeNode reConstructBinaryTree(int[] pre, int[] in) {
-        //前序遍历第一个是根节点，中序遍历中根节点之前是左子树，根节点之后是右子树
+//        //前序遍历第一个是根节点，中序遍历中根节点之前是左子树，根节点之后是右子树
+//        return construct(pre, in, 0, pre.length - 1, 0, in.length - 1);
         return construct(pre, in, 0, pre.length - 1, 0, in.length - 1);
     }
 
     /**
      * @param pre
      * @param in
-     * @param lfrom 前序遍历中左子树起始位置
-     * @param lto   前序遍历中左子树结束位置
-     * @param rfrom 中序遍历中右子树起始位置
-     * @param rto   中序遍历中右子树结束位置
+     * @param prefrom 前序遍历中子树起始位置
+     * @param preto   前序遍历中子树结束位置
+     * @param infrom  中序遍历中子树起始位置
+     * @param into    中序遍历中子树结束位置
      * @return
      */
-    private TreeNode construct(int[] pre, int[] in, int lfrom, int lto, int rfrom, int rto) {
-        if (lfrom > lto || rfrom > rto) {
+    private TreeNode construct(int[] pre, int[] in, int prefrom, int preto, int infrom, int into) {
+//        if (prefrom > preto || infrom > into) {
+//            return null;
+//        }
+//        TreeNode root = new TreeNode(pre[prefrom]);//根节点是前序遍历中第一个元素
+//        for (int i = infrom; i <= into; i++) {
+//            if (pre[prefrom] == in[i]) {
+//                //i是从rfrom开始的，所以左子树的元素个数为i-from
+//                int leftlen = i - infrom;//左子树长度
+//                //左子树的前序遍历是根节点后的leftlen个元素，即从prefrom+1到prefrom+leftlen
+//                //左子树的中序遍历是根节点i之前，从infrom到i-1的元素
+//                root.left = construct(pre, in, prefrom + 1, prefrom + leftlen, infrom, i - 1);
+//                root.right = construct(pre, in, prefrom + leftlen + 1, preto, i + 1, into);
+//            }
+//        }
+//        return root;
+        if (prefrom > preto || infrom > into) {
             return null;
         }
-        TreeNode root = new TreeNode(pre[lfrom]);
-        for (int i = rfrom; i <= rto; i++) {
-            if (pre[lfrom] == in[i]) {
-                //i是从rfrom开始的，所以左子树的元素个数为i-from
-                root.left = construct(pre, in, lfrom + 1, lfrom + (i - rfrom), rfrom, i - 1);
-                root.right = construct(pre, in, lfrom + (i - rfrom) + 1, lto, i + 1, rto);
+        TreeNode root = new TreeNode(pre[prefrom]);
+        for (int i = infrom; i <= into; i++) {
+            if (pre[prefrom] == in[i]) {
+                int leftlen = i - infrom;
+                root.left = construct(pre, in, prefrom + 1, prefrom + leftlen, infrom, i - 1);
+                root.right = construct(pre, in, prefrom + 1 + leftlen, preto, i + 1, into);
             }
         }
         return root;
