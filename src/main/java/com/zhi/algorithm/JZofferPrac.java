@@ -1,6 +1,9 @@
 package com.zhi.algorithm;
 
+import com.zhi.algorithm.PracticeArea.ListNode;
+
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 /**
@@ -24,6 +27,181 @@ public class JZofferPrac {
         for (int i : array) {
             System.out.println(i);
         }
+    }
+
+    /**
+     * 输入一个矩阵，按照从外向里以顺时针的顺序依次打印出每一个数字，
+     * 例如，如果输入如下4 X 4矩阵： 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16
+     * 则依次打印出数字1,2,3,4,8,12,16,15,14,13,9,5,6,7,11,10.
+     *
+     * @param matrix
+     * @return
+     */
+    public ArrayList<Integer> printMatrix(int[][] matrix) {
+        ArrayList<Integer> res = new ArrayList<>();
+        int row = matrix.length;
+        if (row == 0) {
+            return null;
+        }
+        int col = matrix[0].length;
+        int start = 0;
+        while (col > start * 2 && row > start * 2) {
+            printInCircle(matrix, start, res, col, row);
+            start++;
+        }
+        return res;
+    }
+
+    private void printInCircle(int[][] matrix, int start, ArrayList<Integer> res, int col, int row) {
+        int endcol = col - 1 - start;//该圈的终止列
+        int endrow = row - 1 - start;//该圈的终止行
+        for (int i = start; i <= endcol; i++) {//从左到右打印
+            res.add(matrix[start][i]);
+        }
+
+        if (start < endrow) {//从上到下打印，条件为终止行大于起始行
+            for (int i = start + 1; i <= endrow; i++) {
+                res.add(matrix[i][endcol]);
+            }
+        }
+        if (start < endcol && start < endrow) {//从右向左打印，条件为终止列大于起始列，终止行大于起始行
+            for (int i = endcol - 1; i >= start; i--) {
+                res.add(matrix[endrow][i]);
+            }
+        }
+
+        if (start < endrow - 1 && start < endcol) {//从下到上打印，条件：终止行比起始行至少大2；终止列大于起始列
+            for (int i = endrow - 1; i > start; i--) {
+                res.add(matrix[i][start]);
+            }
+        }
+    }
+
+    /**
+     * 操作给定的二叉树，将其变换为源二叉树的镜像。
+     *
+     * @param root
+     */
+    public void Mirror(TreeNode root) {
+        if (root != null) {
+            TreeNode temp = root.left;
+            root.left = root.right;
+            root.right = temp;
+            Mirror(root.right);
+            Mirror(root.left);
+        }
+    }
+
+    /**
+     * 输入两棵二叉树A，B，判断B是不是A的子结构。（ps：我们约定空树不是任意一个树的子结构）
+     *
+     * @param root1
+     * @param root2
+     * @return
+     */
+    public boolean HasSubtree(TreeNode root1, TreeNode root2) {
+        if (root1 == null || root2 == null) {
+            return false;
+        }
+        boolean res = false;
+        if (root1.val == root2.val) {
+            res = DoesHasSubtree(root1, root2);
+        }
+        if (!res) {
+            res = HasSubtree(root1.left, root2);
+        }
+        if (!res) {
+            res = HasSubtree(root1.right, root2);
+        }
+        return res;
+    }
+
+    private boolean DoesHasSubtree(TreeNode root1, TreeNode root2) {
+        if (root2 == null) {//说明root2已经完整遍历完了，是root1的子树
+            return true;
+        }
+        if (root1 == null) {//root2还没遍历完，root1已经没了，说明不是子树
+            return false;
+        }
+        if (root1.val != root2.val) {
+            return false;
+        }
+        return DoesHasSubtree(root1.left, root2.left) && DoesHasSubtree(root1.right, root2.right);
+    }
+
+
+    /**
+     * 输入两个单调递增的链表，输出两个链表合成后的链表，当然我们需要合成后的链表满足单调不减规则。
+     *
+     * @param list1
+     * @param list2
+     * @return
+     */
+    public ListNode Merge(ListNode list1, ListNode list2) {
+//        List<Integer> res = new ArrayList<>();
+//        while (list1 != null && list2 != null) {
+//            if (list1.val <= list2.val) {
+//                res.add(list1.val);
+//                list1 = list1.next;
+//            } else {
+//                res.add(list2.val);
+//                list2 = list2.next;
+//            }
+//        }
+//        while (list1 != null) {
+//            res.add(list1.val);
+//            list1 = list1.next;
+//        }
+//        while (list2 != null) {
+//            res.add(list2.val);
+//            list2 = list2.next;
+//        }
+//        ListNode node = null;
+//        ListNode temp = null;
+//        for (int i = 0; i < res.size(); i++) {
+//            if (node == null) {
+//                node = new ListNode(res.get(i));
+//                temp = node;
+//                continue;
+//            }
+//            ListNode l = new ListNode(res.get(i));
+//            temp.next = l;
+//            temp = temp.next;
+//
+//        }
+//        return node;
+        if (list1 == null) {
+            return list2;
+        }
+        if (list2 == null) {
+            return list1;
+        }
+        ListNode res = null;
+        if (list1.val < list2.val) {
+            res = list1;
+            res.next = Merge(list1.next, list2);
+        } else {
+            res = list2;
+            res.next = Merge(list1, list2.next);
+        }
+        return res;
+    }
+
+    /**
+     * 输入一个链表，反转链表后，输出新链表的表头。
+     *
+     * @param head
+     * @return
+     */
+    public ListNode ReverseList(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode newHead = ReverseList(head.next);
+        //原本当前节点的下一个节点设为当前节点，即调换指向
+        head.next.next = head;
+        head.next = null;
+        return newHead;
     }
 
     /**
@@ -423,7 +601,7 @@ public class JZofferPrac {
         if (listNode.next != null) {
             getRes(listNode.next, res);
         }
-        res.add(listNode.data);
+        res.add(listNode.val);
     }
 
     /**

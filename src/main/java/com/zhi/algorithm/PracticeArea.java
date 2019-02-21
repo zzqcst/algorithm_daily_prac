@@ -62,46 +62,51 @@ public class PracticeArea {
     }
 
     public static void main(String[] args) {
-        //        ListNode node1 = new ListNode(4);
-        //        ListNode node2 = new ListNode(1);
-        //        ListNode node3 = new ListNode(8);
-        //        ListNode node4 = new ListNode(4);
-        //        ListNode node5 = new ListNode(5);
-        //        ListNode node6 = new ListNode(5);
-        //        ListNode node7 = new ListNode(0);
-        //        ListNode node8 = new ListNode(1);
-        //        ListNode node9 = new ListNode(8);
-        //        ListNode node10 = new ListNode(4);
-        //        ListNode node11 = new ListNode(5);
-        //        ListNode node12 = new ListNode(9);
-        //        ListNode node13 = new ListNode(9);
-        //        node1.next = node2;
-        //        node2.next = node3;
-        //        node3.next = node4;
-        //        node4.next = node5;
-        //
-        //        node6.next = node7;
-        //        node7.next = node8;
-        //        node8.next = node9;
-        //        node9.next = node10;
-        //        node10.next = node11;
-        //        node11.next = node12;
-        //        node12.next = node13;
+        ListNode node1 = new ListNode(4);
+        ListNode node2 = new ListNode(5);
+        ListNode node3 = new ListNode(8);
+        ListNode node4 = new ListNode(12);
+        ListNode node5 = new ListNode(15);
+        ListNode node6 = new ListNode(1);
+        ListNode node7 = new ListNode(3);
+        ListNode node8 = new ListNode(4);
+        ListNode node9 = new ListNode(7);
+        ListNode node10 = new ListNode(8);
+        ListNode node11 = new ListNode(9);
+        ListNode node12 = new ListNode(20);
+        ListNode node13 = new ListNode(21);
+        node1.next = node2;
+        node2.next = node3;
+        node3.next = node4;
+        node4.next = node5;
+
+        node6.next = node7;
+        node7.next = node8;
+        node8.next = node9;
+        node9.next = node10;
+        node10.next = node11;
+        node11.next = node12;
+        node12.next = node13;
+        ListNode listNode = mergeTwoLists(node1, node6);
+        while (listNode != null) {
+            System.out.print(listNode.val + " ");
+            listNode = listNode.next;
+        }
         //        ListNode listNode = addTwoNumbers(node1, node4);
         //        while (listNode != null) {
         //            System.out.print(listNode.val + " ");
         //            listNode = listNode.next;
         //        }
 
-        TreeNode t1 = new TreeNode(3);
-        TreeNode t2 = new TreeNode(9);
-        TreeNode t3 = new TreeNode(20);
-        TreeNode t4 = new TreeNode(15);
-        TreeNode t5 = new TreeNode(7);
-        t1.left = t2;
-        t1.right = t3;
-        t3.left = t4;
-        t3.right = t5;
+//        TreeNode t1 = new TreeNode(3);
+//        TreeNode t2 = new TreeNode(9);
+//        TreeNode t3 = new TreeNode(20);
+//        TreeNode t4 = new TreeNode(15);
+//        TreeNode t5 = new TreeNode(7);
+//        t1.left = t2;
+//        t1.right = t3;
+//        t3.left = t4;
+//        t3.right = t5;
         //        List<List<Integer>> lists = levelOrder(t1);
         //        for (List<Integer> list : lists) {
         //            for (Integer integer : list) {
@@ -181,7 +186,6 @@ public class PracticeArea {
 //        for (Interval interval4 : merge(list)) {
 //            System.out.println(interval4);
 //        }
-        System.out.println(serialize(t1));
 
     }
 
@@ -2643,26 +2647,26 @@ public class PracticeArea {
     /**
      * 合并两个有序链表
      *
-     * @param l1
-     * @param l2
+     * @param list1
+     * @param list2
      * @return
      */
-    private static ListNode mergeTwoLists(ListNode l1, ListNode l2) {
-        ListNode head = null;
-        if (l1 == null) {
-            return l2;
+    private static ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+        ListNode res = null;
+        if (list1 == null) {
+            return list2;
         }
-        if (l2 == null) {
-            return l1;
+        if (list2 == null) {
+            return list1;
         }
-        if (l1.val <= l2.val) {
-            head = l1;
-            head.next = mergeTwoLists(l1.next, l2);
+        if (list1.val <= list2.val) {
+            res = list1;
+            res.next = mergeTwoLists(list1.next, list2);
         } else {
-            head = l2;
-            head.next = mergeTwoLists(l1, l2.next);
+            res = list2;
+            res.next = mergeTwoLists(list1, list2.next);
         }
-        return head;
+        return res;
     }
 
     /**
