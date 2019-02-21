@@ -2,9 +2,8 @@ package com.zhi.algorithm;
 
 import com.zhi.algorithm.PracticeArea.ListNode;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
+
 
 /**
  * 剑指offer
@@ -22,11 +21,67 @@ public class JZofferPrac {
 
     public static void main(String[] args) {
         JZofferPrac p = new JZofferPrac();
-        int[] array = {1, 2, 3, 4, 5, 6, 7, 8, 9};
-        p.reOrderArray(array);
-        for (int i : array) {
-            System.out.println(i);
+        p.push2(8);
+        p.push2(6);
+        p.push2(3);
+        p.push2(9);
+        p.push2(1);
+        p.push2(1);
+        p.push2(2);
+        p.pop2();
+        p.pop2();
+
+        System.out.println(p.top());
+
+    }
+
+
+    /**
+     * 定义栈的数据结构，请在该类型中实现一个能够得到栈中所含最小元素的min函数（时间复杂度应为O（1））。
+     *
+     * @param node
+     */
+    //使用优先队列保存有序数列
+    PriorityQueue<Integer> queue = new PriorityQueue<Integer>(new Comparator<Integer>() {
+        @Override
+        public int compare(Integer o1, Integer o2) {
+            return o1 - o2;
         }
+    });
+
+    Stack<Integer> stack = new Stack<>();
+    Stack<Integer> minstack = new Stack<>();
+
+    //    public void push2(int node) {
+//        queue.add(node);
+//        stack.push(node);
+//    }
+    public void push2(int node) {
+        stack.push(node);
+        if (minstack.size() == 0 || node < minstack.peek()) {
+            minstack.push(node);
+        } else {
+            minstack.push(minstack.peek());
+        }
+    }
+
+    //    public void pop2() {
+//        queue.remove(stack.pop());
+//    }
+    public void pop2() {
+        stack.pop();
+        minstack.pop();
+    }
+
+    public int top() {
+        return stack.peek();
+    }
+
+    //    public int min() {
+//        return queue.peek();
+//    }
+    public int min() {
+        return minstack.peek();
     }
 
     /**
