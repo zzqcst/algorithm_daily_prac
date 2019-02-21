@@ -19,7 +19,60 @@ public class JZofferPrac {
 
     public static void main(String[] args) {
         JZofferPrac p = new JZofferPrac();
-        System.out.println(p.NumberOf1(1));
+        System.out.println(p.power4(3, 4));
+    }
+
+    /**
+     * 快速幂
+     *
+     * @param a
+     * @param b
+     * @return
+     */
+    public double power4(int a, int b) {
+        //3^5 = 3^(2^2+2^0)=3^(2^2)×3^(2^0)
+        int r = 1, base = a;
+        while (b != 0) {
+            if ((b & 1) != 0) {//从b二进制最右边开始判断是否有1
+                r *= base;
+            }
+            base *= base;
+            b >>= 1;
+        }
+        return r;
+    }
+
+    /**
+     * 给定一个double类型的浮点数base和int类型的整数exponent。求base的exponent次方。
+     *
+     * @param base
+     * @param exponent
+     * @return
+     */
+    public double Power(double base, int exponent) {
+        if (base == 0 && exponent < 0) {
+            return 0;
+        }
+        if (exponent < 0) {
+            return 1 / powerwithzex(base, -exponent);
+        }
+        return powerwithzex(base, exponent);
+    }
+
+    private double powerwithzex(double base, int exponent) {
+        if (exponent == 0) {
+            return 1;
+        }
+        if (exponent == 1) {
+            return base;
+        }
+        //a^n = {a^(n/2) * a^(n/2) n为偶数时；a^[(n-1）/2] * a^[(n-1）/2])*a n位奇数时}
+        double res = powerwithzex(base, exponent >> 1);
+        res *= res;
+        if ((exponent & 1) == 1) {
+            res *= base;
+        }
+        return res;
     }
 
     /**
