@@ -1,6 +1,7 @@
 package com.zhi.algorithm;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 /**
  * 剑指offer
@@ -21,6 +22,24 @@ public class JZofferPrac {
         int[] pre = {1, 2, 3, 4, 5, 6, 7};
         int[] in = {3, 2, 4, 1, 6, 5, 7};
         p.reConstructBinaryTree(pre, in);
+    }
+
+    //用两个栈来实现一个队列，完成队列的Push和Pop操作。 队列中的元素为int类型。
+    Stack<Integer> stack1 = new Stack<Integer>();
+    Stack<Integer> stack2 = new Stack<Integer>();
+
+    public void push(int node) {
+        stack1.push(node);
+    }
+
+    public int pop() {
+        //stack2为空时，将stack1中所有元素弹出到stack2中，stack2的栈顶元素即为队列首
+        if (stack2.isEmpty()) {
+            while (!stack1.isEmpty()) {
+                stack2.push(stack1.pop());
+            }
+        }
+        return stack2.pop();
     }
 
     /**
