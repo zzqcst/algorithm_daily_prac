@@ -1,11 +1,36 @@
 package com.zhi.algorithm;
 
+import java.util.ArrayList;
+
 /**
  * 剑指offer
  */
 public class JZofferPrac {
     public static void main(String[] args) {
         JZofferPrac p = new JZofferPrac();
+    }
+
+    /**
+     * 输入一个链表，按链表值从尾到头的顺序返回一个ArrayList。
+     *
+     * @param listNode
+     * @return
+     */
+    public ArrayList<Integer> printListFromTailToHead(ListNode listNode) {
+        //递归或栈都能实现
+        ArrayList<Integer> res = new ArrayList<Integer>();
+        getRes(listNode, res);
+        return res;
+    }
+
+    private void getRes(ListNode listNode, ArrayList<Integer> res) {
+        if (listNode == null) {
+            return;
+        }
+        if (listNode.next != null) {
+            getRes(listNode.next, res);
+        }
+        res.add(listNode.data);
     }
 
     /**
