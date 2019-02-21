@@ -1366,9 +1366,9 @@ public class PracticeArea {
         TreeNode root = new TreeNode(preorder[pl]);//前序的一个值是根节点
         for (int i = il; i <= ir; i++) {//到中序序列中找该根节点值
             if (preorder[pl] == inorder[i]) {//中序序列中，i前面是i的左子树的中序序列，i后面是i的右子树的中序序列
-                //左子树的前序序列为pl后的il到i个数，中序序列为i前面的数
-                root.left = construct(preorder, pl + 1, pl + i - il, inorder, il, i - 1);
-                root.right = construct(preorder, pl + i - il + 1, pr, inorder, i + 1, ir);
+                //左子树的前序序列为pl后的i-il个数，中序序列为i前面的数
+                root.left = construct(preorder, pl + 1, pl + (i - il), inorder, il, i - 1);
+                root.right = construct(preorder, pl + (i - il) + 1, pr, inorder, i + 1, ir);
             }
         }
         return root;

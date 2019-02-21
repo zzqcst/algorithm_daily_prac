@@ -6,8 +6,58 @@ import java.util.ArrayList;
  * 剑指offer
  */
 public class JZofferPrac {
+    public class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode(int x) {
+            val = x;
+        }
+    }
+
     public static void main(String[] args) {
         JZofferPrac p = new JZofferPrac();
+        int[] pre = {1,2,3,4,5,6,7};
+        int[] in = {3,2,4,1,6,5,7};
+        p.reConstructBinaryTree(pre, in);
+    }
+
+    /**
+     * 输入某二叉树的前序遍历和中序遍历的结果，请重建出该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。
+     * 例如输入前序遍历序列{1,2,4,7,3,5,6,8}和中序遍历序列{4,7,2,1,5,3,8,6}，则重建二叉树并返回。
+     *
+     * @param pre
+     * @param in
+     * @return
+     */
+    public TreeNode reConstructBinaryTree(int[] pre, int[] in) {
+        //前序遍历第一个是根节点，中序遍历中根节点之前是左子树，根节点之后是右子树
+        return construct(pre, in, 0, pre.length - 1, 0, in.length - 1);
+    }
+
+    /**
+     * @param pre
+     * @param in
+     * @param lfrom 前序遍历中左子树起始位置
+     * @param lto   前序遍历中左子树结束位置
+     * @param rfrom 中序遍历中右子树起始位置
+     * @param rto   中序遍历中右子树结束位置
+     * @return
+     */
+    private TreeNode construct(int[] pre, int[] in, int lfrom, int lto, int rfrom, int rto) {
+        if (lfrom > lto || rfrom > rto) {
+            return null;
+        }
+        TreeNode root = new TreeNode(pre[lfrom]);
+        for (int i = rfrom; i <= rto; i++) {
+            if (pre[lfrom] == in[i]) {
+                //i是从rfrom开始的，所以左子树的元素个数为i-from
+                root.left = construct(pre, in, lfrom + 1, lfrom + (i - rfrom), rfrom, i - 1);
+                root.right = construct(pre, in, lfrom + (i - rfrom) + 1, lto, i + 1, rto);
+            }
+        }
+        return root;
     }
 
     /**
