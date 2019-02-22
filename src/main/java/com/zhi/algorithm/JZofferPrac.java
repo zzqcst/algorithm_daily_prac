@@ -9,7 +9,7 @@ import java.util.*;
  * 剑指offer
  */
 public class JZofferPrac {
-    public class TreeNode {
+    public static class TreeNode {
         int val;
         TreeNode left;
         TreeNode right;
@@ -19,20 +19,197 @@ public class JZofferPrac {
         }
     }
 
+    public class RandomListNode {
+        int label;
+        RandomListNode next = null;
+        RandomListNode random = null;
+
+        RandomListNode(int label) {
+            this.label = label;
+        }
+    }
+
     public static void main(String[] args) {
         JZofferPrac p = new JZofferPrac();
-        p.push2(8);
-        p.push2(6);
-        p.push2(3);
-        p.push2(9);
-        p.push2(1);
-        p.push2(1);
-        p.push2(2);
-        p.pop2();
-        p.pop2();
+        TreeNode t1 = new TreeNode(1);
+        TreeNode t2 = new TreeNode(2);
+        TreeNode t3 = new TreeNode(3);
+        TreeNode t4 = new TreeNode(4);
+        TreeNode t5 = new TreeNode(4);
+        TreeNode t6 = new TreeNode(6);
+        t1.left = t2;
+        t1.right = t3;
+        t2.left = t4;
+        t2.right = t5;
+        t3.left = t6;
+        ArrayList<ArrayList<Integer>> lists = p.FindPath(t1, 7);
+        for (ArrayList<Integer> list : lists) {
+            for (Integer integer : list) {
+                System.out.print(integer + " ");
+            }
+            System.out.println();
+        }
+    }
 
-        System.out.println(p.top());
+    /**
+     * 输入一个复杂链表（每个节点中有节点值，以及两个指针，一个指向下一个节点，另一个特殊指针指向任意一个节点），
+     * 返回结果为复制后复杂链表的head。（注意，输出结果中请不要返回参数中的节点引用，否则判题程序会直接返回空）
+     * @param pHead
+     * @return
+     */
+    public RandomListNode Clone(RandomListNode pHead) {
+        return null;
+    }
 
+    /**
+     * 输入一颗二叉树的跟节点和一个整数，打印出二叉树中结点值的和为输入整数的所有路径。
+     * 路径定义为从树的根结点开始往下一直到叶结点所经过的结点形成一条路径。(注意: 在返回值的list中，数组长度大的数组靠前)
+     *
+     * @param root
+     * @param target
+     * @return
+     */
+    public ArrayList<ArrayList<Integer>> FindPath(TreeNode root, int target) {
+        ArrayList<ArrayList<Integer>> res = new ArrayList<>();
+        ArrayList<Integer> p = new ArrayList<>();
+        if (root != null) {
+            getPath(root, target, p, res);
+        }
+        res.sort(new Comparator<ArrayList<Integer>>() {
+            @Override
+            public int compare(ArrayList<Integer> o1, ArrayList<Integer> o2) {
+
+                return o1.size() - o2.size();
+            }
+        });
+        return res;
+    }
+
+    private void getPath(TreeNode root, int target, ArrayList<Integer> p, ArrayList<ArrayList<Integer>> res) {
+        p.add(root.val);
+        boolean isLeaf = root.left == null && root.right == null;
+        if (root.val == target && isLeaf) {
+            ArrayList<Integer> temp = new ArrayList<>();
+            for (Integer integer : p) {
+                temp.add(integer);
+            }
+            res.add(temp);
+        }
+        if (root.val < target) {
+            if (root.left != null) {
+                getPath(root.left, target - root.val, p, res);
+            }
+            if (root.right != null) {
+                getPath(root.right, target - root.val, p, res);
+            }
+        }
+        p.remove(p.size() - 1);
+    }
+
+    /**
+     * 输入一个整数数组，判断该数组是不是某二叉搜索树的后序遍历的结果。
+     * 如果是则输出Yes,否则输出No。假设输入的数组的任意两个数字都互不相同。
+     *
+     * @param sequence
+     * @return
+     */
+    public boolean VerifySquenceOfBST(int[] sequence) {
+        if (sequence.length == 0) {
+            return false;
+        }
+        return isBST(sequence, 0, sequence.length - 1);
+    }
+
+    /**
+     * @param sequence 树的后序遍历序列
+     * @param start    开始下标
+     * @param end      终止下标
+     * @return
+     */
+    private boolean isBST(int[] sequence, int start, int end) {
+        int root = sequence[end];
+        int i = start;//i是右子树第一个元素下标
+        //找到比根节点值大的元素
+        for (; i < end; i++) {
+            if (sequence[i] > root) {
+                break;
+            }
+        }
+        int j = i;//没有右子树时，i的值为end,下面判断不会进行
+        for (; j < end; j++) {//如果右子树某个元素小于根节点，说明不是二叉搜索树
+            if (sequence[j] < root) {
+                return false;
+            }
+        }
+        boolean left = true;
+        if (i > start) {
+            left = isBST(sequence, start, i - 1);
+        }
+        boolean right = true;
+        if (i < end) {
+            right = isBST(sequence, i, end - 1);
+        }
+        return left && right;
+    }
+
+    /**
+     * 从上往下打印出二叉树的每个节点，同层节点从左至右打印。
+     *
+     * @param root
+     * @return
+     */
+    public ArrayList<Integer> PrintFromTopToBottom(TreeNode root) {
+        //使用队列实现层序遍历
+        Queue<TreeNode> queue = new LinkedList<>();
+        ArrayList<Integer> res = new ArrayList<>();
+        if (root != null) {
+            queue.offer(root);
+        }
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                TreeNode temp = queue.poll();
+                res.add(temp.val);
+                if (temp.left != null) {
+                    queue.offer(temp.left);
+                }
+                if (temp.right != null) {
+                    queue.offer(temp.right);
+                }
+            }
+        }
+        return res;
+    }
+
+    /**
+     * 输入两个整数序列，第一个序列表示栈的压入顺序，请判断第二个序列是否可能为该栈的弹出顺序。
+     * 假设压入栈的所有数字均不相等。例如序列1,2,3,4,5是某栈的压入顺序，序列4,5,3,2,1是该压栈序列对应的一个弹出序列，
+     * 但4,3,5,1,2就不可能是该压栈序列的弹出序列。（注意：这两个序列的长度是相等的）
+     *
+     * @param pushA
+     * @param popA
+     * @return
+     */
+    public boolean IsPopOrder(int[] pushA, int[] popA) {
+        if (pushA.length == 0 || popA.length == 0) {
+            return false;
+        }
+        Stack<Integer> stack = new Stack<>();
+        int j = 0;
+        stack.push(pushA[j++]);//初始时栈内需要一个数
+        for (int i1 : popA) {//从弹出序列遍历
+            while (i1 != stack.peek()) {//如果要弹出的数字不在栈顶
+                if (j < pushA.length) {
+                    stack.push(pushA[j++]);//则向栈内压入数字，直到栈顶数字为要弹出的数字，或者数字已经全部进栈
+                } else {//已经全部进栈，则停止压入
+                    break;
+                }
+            }
+            if (i1 != stack.pop()) {//栈顶数字与要弹出的数字不一样，则返回false
+                return false;
+            }
+        }
+        return true;
     }
 
 
