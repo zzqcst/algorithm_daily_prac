@@ -32,33 +32,78 @@ public class JZofferPrac {
     public static void main(String[] args) {
         JZofferPrac p = new JZofferPrac();
         TreeNode t1 = new TreeNode(1);
-        TreeNode t2 = new TreeNode(2);
-        TreeNode t3 = new TreeNode(3);
-        TreeNode t4 = new TreeNode(4);
-        TreeNode t5 = new TreeNode(4);
-        TreeNode t6 = new TreeNode(6);
-        t1.left = t2;
-        t1.right = t3;
-        t2.left = t4;
-        t2.right = t5;
-        t3.left = t6;
-        ArrayList<ArrayList<Integer>> lists = p.FindPath(t1, 7);
-        for (ArrayList<Integer> list : lists) {
-            for (Integer integer : list) {
-                System.out.print(integer + " ");
-            }
-            System.out.println();
-        }
+//        TreeNode t2 = new TreeNode(2);
+//        TreeNode t3 = new TreeNode(3);
+//        TreeNode t4 = new TreeNode(4);
+//        TreeNode t5 = new TreeNode(4);
+//        TreeNode t6 = new TreeNode(6);
+//        t1.left = t2;
+//        t1.right = t3;
+//        t2.left = t4;
+//        t2.right = t5;
+//        t3.left = t6;
+//        ArrayList<ArrayList<Integer>> lists = p.FindPath(t1, 7);
+//        for (ArrayList<Integer> list : lists) {
+//            for (Integer integer : list) {
+//                System.out.print(integer + " ");
+//            }
+//            System.out.println();
+//        }
+
     }
 
     /**
      * 输入一个复杂链表（每个节点中有节点值，以及两个指针，一个指向下一个节点，另一个特殊指针指向任意一个节点），
      * 返回结果为复制后复杂链表的head。（注意，输出结果中请不要返回参数中的节点引用，否则判题程序会直接返回空）
+     *
      * @param pHead
      * @return
      */
     public RandomListNode Clone(RandomListNode pHead) {
-        return null;
+        CloneNodes(pHead);
+        ConnectRandomNodes(pHead);
+        return ReconnectNodes(pHead);
+    }
+
+    public void CloneNodes(RandomListNode head) {
+        //克隆每一个节点，并接在原节点后面
+        RandomListNode node = head;
+        while (node != null) {
+            RandomListNode cloned = new RandomListNode(node.label);
+            cloned.next = node.next;
+            cloned.random = null;
+            node.next = cloned;
+            node = cloned.next;
+        }
+    }
+
+    public void ConnectRandomNodes(RandomListNode head) {
+        RandomListNode node = head;
+        while (node != null) {
+            RandomListNode cloned = node.next;
+            if (node.random != null) {
+                cloned.random = node.random.next;
+            }
+            node = cloned.next;
+        }
+    }
+
+    public RandomListNode ReconnectNodes(RandomListNode head) {
+        RandomListNode node = head;
+        RandomListNode clonedHead = null;
+        RandomListNode clonedNode = null;
+        if (node != null) {
+            clonedHead = clonedNode = node.next;
+            node.next = clonedNode.next;
+            node = node.next;
+        }
+        while (node != null) {
+            clonedNode.next = node.next;
+            clonedNode = clonedNode.next;
+            node.next = clonedNode.next;
+            node = node.next;
+        }
+        return clonedHead;
     }
 
     /**
