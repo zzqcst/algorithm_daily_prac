@@ -65,21 +65,52 @@ public class JZofferPrac {
      */
     public TreeNode Convert(TreeNode pRootOfTree) {
         //通过中序遍历得到升序的节点队列
-        if (pRootOfTree != null) {
-            TreeNode head = null;
-            Queue<TreeNode> queue = new LinkedList<>();
-            getNodes(pRootOfTree, queue);
-            head = queue.poll();
-            TreeNode temp = head;
-            while (!queue.isEmpty()) {//将队列中的节点重新连接
-                TreeNode curr = queue.poll();
-                temp.right = curr;
-                curr.left = temp;
-                temp = temp.right;
-            }
-            return head;
+//        if (pRootOfTree != null) {
+//            TreeNode head = null;
+//            Queue<TreeNode> queue = new LinkedList<>();
+//            getNodes(pRootOfTree, queue);
+//            head = queue.poll();
+//            TreeNode temp = head;
+//            while (!queue.isEmpty()) {//将队列中的节点重新连接
+//                TreeNode curr = queue.poll();
+//                temp.right = curr;
+//                curr.left = temp;
+//                temp = temp.right;
+//            }
+//            return head;
+//        }
+//        return null;
+        //递归的方法
+        if (pRootOfTree == null) {
+            return null;
         }
-        return null;
+        TreeNode last = null;//last是双向链表最后一个节点
+        last = convertNodes(pRootOfTree, last);
+        while (last != null && last.left != null) {
+            last = last.left;
+        }
+        return last;
+    }
+
+    private TreeNode convertNodes(TreeNode pRootOfTree, TreeNode last) {
+        if (pRootOfTree != null) {
+            if (pRootOfTree.left != null) {//找到左子树双向链表的最后一个节点
+                last = convertNodes(pRootOfTree.left, last);
+            }
+
+            //然后将左子树链表最后一个节点与当前节点互相连接
+            if (last != null) {
+                last.right = pRootOfTree;
+            }
+            pRootOfTree.left = last;
+
+            last = pRootOfTree;//当前节点成为新的链表最后节点
+
+            if (pRootOfTree.right != null) {//将目前最后一个节点与右子树连接
+                last = convertNodes(pRootOfTree.right, last);
+            }
+        }
+        return last;
     }
 
     private void getNodes(TreeNode pRootOfTree, Queue<TreeNode> queue) {
@@ -98,6 +129,7 @@ public class JZofferPrac {
      * @return
      */
     public RandomListNode Clone(RandomListNode pHead) {
+        //分三步，克隆原来的节点；连接随机节点；连接克隆节点
         CloneNodes(pHead);
         ConnectRandomNodes(pHead);
         return ReconnectNodes(pHead);
