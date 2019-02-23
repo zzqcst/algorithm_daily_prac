@@ -31,20 +31,20 @@ public class JZofferPrac {
 
     public static void main(String[] args) {
         JZofferPrac p = new JZofferPrac();
-        TreeNode t1 = new TreeNode(10);
-        TreeNode t2 = new TreeNode(6);
-        TreeNode t3 = new TreeNode(4);
-        TreeNode t4 = new TreeNode(8);
-        TreeNode t5 = new TreeNode(14);
-        TreeNode t6 = new TreeNode(16);
-        TreeNode t7 = new TreeNode(12);
-        t1.left = t2;
-        t1.right = t5;
-        t2.left = t3;
-        t2.right = t4;
-        t5.left = t7;
-        t5.right = t6;
-        p.Convert(t1);
+//        TreeNode t1 = new TreeNode(10);
+//        TreeNode t2 = new TreeNode(6);
+//        TreeNode t3 = new TreeNode(4);
+//        TreeNode t4 = new TreeNode(8);
+//        TreeNode t5 = new TreeNode(14);
+//        TreeNode t6 = new TreeNode(16);
+//        TreeNode t7 = new TreeNode(12);
+//        t1.left = t2;
+//        t1.right = t5;
+//        t2.left = t3;
+//        t2.right = t4;
+//        t5.left = t7;
+//        t5.right = t6;
+//        p.Convert(t1);
 
 //        ArrayList<ArrayList<Integer>> lists = p.FindPath(t1, 7);
 //        for (ArrayList<Integer> list : lists) {
@@ -53,7 +53,253 @@ public class JZofferPrac {
 //            }
 //            System.out.println();
 //        }
+        int[] temp = {9, 8, 7, 6, 5, 4, 2, 8, 2};
+        p.quickSort(temp, 0, temp.length - 1);
+        for (int i : temp) {
+            System.out.print(i + " ");
+        }
+    }
 
+    /**
+     * 求出1~13的整数中1出现的次数,并算出100~1300的整数中1出现的次数？
+     * 为此他特别数了一下1~13中包含1的数字有1、10、11、12、13因此共出现6次,但是对于后面问题他就没辙了。
+     * ACMer希望你们帮帮他,并把问题更加普遍化,可以很快的求出任意非负整数区间中1出现的次数（从1 到 n 中1出现的次数）。
+     *
+     * @param n
+     * @return
+     */
+    public int NumberOf1Between1AndN_Solution(int n) {
+        int count = 0;
+        for (int i = 1; i <= n; i *= 10) {
+            int a = n / i, b = n % i;
+            //之所以补8，是因为当百位为0，则a/10==(a+8)/10，
+            //当百位>=2，补8会产生进位位，效果等同于(a/10+1)
+            count += (a + 8) / 10 * i + ((a % 10 == 1) ? b + 1 : 0);
+        }
+        return count;
+    }
+
+    /**
+     * HZ偶尔会拿些专业问题来忽悠那些非计算机专业的同学。
+     * 今天测试组开完会后,他又发话了:在古老的一维模式识别中,常常需要计算连续子向量的最大和,当向量全为正数的时候,问题很好解决。
+     * 但是,如果向量中包含负数,是否应该包含某个负数,并期望旁边的正数会弥补它呢？
+     * 例如:{6,-3,-2,7,-15,1,2,2},连续子向量的最大和为8(从第0个开始,到第3个为止)。
+     * 一个数组，返回它的最大连续子序列的和，你会不会被他忽悠住？(子向量的长度至少是1)
+     *
+     * @param array
+     * @return
+     */
+    public int FindGreatestSumOfSubArray(int[] array) {
+        int len = array.length;
+        if (len == 0) {
+            return 0;
+        }
+        int currentSum = 0;//累加的子数组和
+        int maxSum = Integer.MIN_VALUE;//最大的子数组和
+        for (int i = 0; i < len; i++) {
+            currentSum += array[i];
+            if (currentSum < array[i]) {
+                currentSum = array[i];
+            }
+            if (currentSum > maxSum) {
+                maxSum = currentSum;
+            }
+        }
+        return maxSum;
+    }
+
+    /**
+     * 输入n个整数，找出其中最小的K个数。例如输入4,5,1,6,2,7,3,8这8个数字，则最小的4个数字是1,2,3,4,。
+     *
+     * @param input
+     * @param k
+     * @return
+     */
+    public ArrayList<Integer> GetLeastNumbers_Solution(int[] input, int k) {
+        ArrayList<Integer> res = new ArrayList<>();
+//        if (input.length != 0 && k <= input.length) {
+//            Arrays.sort(input);
+//            for (int i = 0; i < k; i++) {
+//                res.add(input[i]);
+//            }
+//        }
+//        return res;
+        int len = input.length;
+        if (k > len || k <= 0) {
+            return res;
+        }
+
+        int start = 0;
+        int end = len - 1;
+        int index = partition(input, start, end);
+        while (index != k - 1) {
+            if (index > k - 1) {
+                index = partition(input, start, index - 1);
+            } else {
+                index = partition(input, index + 1, end);
+            }
+        }
+        for (int i = 0; i < k; i++) {
+            res.add(input[i]);
+        }
+        return res;
+    }
+
+    public void quickSort(int[] data, int start, int end) {
+        if (start == end) {
+            return;
+        }
+        int index = partition(data, start, end);
+        if (index > start) {
+            quickSort(data, start, index - 1);
+        }
+        if (index < end) {
+            quickSort(data, index + 1, end);
+        }
+    }
+
+    private int partition(int[] input, int start, int end) {
+        int len = input.length;
+        if (len == 0 || start < 0 || end >= len) {
+            return -1;
+        }
+        int index = start;//选择第一个数作为比较的数
+        swap(input, end, index);
+
+        int small = start - 1;
+        for (index = start; index < end; index++) {
+            if (input[index] < input[end]) {
+                small++;
+                if (small != index) {//这时small指向比end处大的数
+                    swap(input, small, index);
+                }
+            }
+        }
+        ++small;
+        swap(input, small, end);
+        return small;
+    }
+
+    private void swap(int[] input, int end, int index) {
+        int temp = input[index];
+        input[index] = input[end];
+        input[end] = temp;
+    }
+
+    /**
+     * 数组中有一个数字出现的次数超过数组长度的一半，请找出这个数字。
+     * 例如输入一个长度为9的数组{1,2,3,2,2,2,5,4,2}。
+     * 由于数字2在数组中出现了5次，超过数组长度的一半，因此输出2。如果不存在则输出0。
+     *
+     * @param array
+     * @return
+     */
+    public int MoreThanHalfNum_Solution(int[] array) {
+        //哈希表保存每个数字的次数
+//        int count = array.length / 2;
+//        HashMap<Integer, Integer> record = new HashMap<>();
+//        for (int i = 0; i < array.length; i++) {
+//            if (!record.containsKey(array[i])) {
+//                record.put(array[i], 1);
+//            } else {
+//                record.put(array[i], record.get(array[i]) + 1);
+//                int sum = record.get(array[i]);
+//                if (sum > count) {
+//                    return array[i];
+//                }
+//            }
+//        }
+//        for (Map.Entry<Integer, Integer> entry : record.entrySet()) {
+//            if (entry.getValue() > count) {
+//                return entry.getKey();
+//            }
+//        }
+//        return 0;
+
+        //result是最后将count赋值1的数字
+        if (array.length == 0) {
+            return 0;
+        }
+        int half = array.length / 2;
+        //result初始值为第一个元素
+        int result = array[0];
+        int count = 1;
+        for (int i = 1; i < array.length; i++) {
+            if (array[i] == result) {//如果相同，次数加1
+                count++;
+            } else if (count == 0) {//次数归零了，重新赋值
+                result = array[i];
+                count = 1;
+            } else {
+                count--;
+            }
+        }
+        count = 0;
+        for (int i = 0; i < array.length; i++) {
+            if (result == array[i]) {
+                count++;
+            }
+        }
+        //如果result次数大于一半，则即为要找的数字
+        if (count > half) {
+            return result;
+        }
+        return 0;
+    }
+
+    /**
+     * 输入一个字符串,按字典序打印出该字符串中字符的所有排列。
+     * 例如输入字符串abc,则打印出由字符a,b,c所能排列出来的所有字符串abc,acb,bac,bca,cab和cba。
+     *
+     * @param str
+     * @return
+     */
+    public ArrayList<String> Permutation(String str) {
+        int len = str.length();
+        ArrayList<String> res = new ArrayList<>();
+        if (len == 0) {
+            return res;
+        }
+//        getPermutation(str, len, res, "");
+        getPermutation2(str, 0, res);
+        res.sort(new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                return o1.compareTo(o2);
+            }
+        });
+        return res;
+    }
+
+    private void getPermutation2(String str, int pos, ArrayList<String> res) {
+        if (!res.contains(str)) {
+            res.add(str);
+        }
+        for (int i = pos; i < str.length(); i++) {
+            char[] chars = str.toCharArray();
+            char current = chars[pos];
+            chars[pos] = chars[i];
+            chars[i] = current;
+            getPermutation2(new String(chars), pos + 1, res);
+        }
+    }
+
+    private void getPermutation(String str, int len, ArrayList<String> res, String current) {
+
+        if (current.length() == len) {
+            if (!res.contains(current)) {
+                res.add(current);
+            }
+            return;
+        }
+        for (int i = 0; i < str.length(); i++) {
+            char[] chars = str.toCharArray();
+            char curr = chars[i];
+            if ('#' != curr) {
+                chars[i] = '#';
+                getPermutation(new String(chars), len, res, current + curr);
+            }
+        }
     }
 
     /**

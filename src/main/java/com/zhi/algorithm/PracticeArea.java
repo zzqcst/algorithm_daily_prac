@@ -1120,15 +1120,15 @@ public class PracticeArea {
         return res;
     }
 
-    private static void findCombinations(String digits, int index, String s, List<String> res) {
-        if (index == digits.length()) {
+    private static void findCombinations(String digits, int curlen, String s, List<String> res) {
+        if (curlen == digits.length()) {
             res.add(s);
             return;
         }
-        char letter = digits.charAt(index);//获取数字
+        char letter = digits.charAt(curlen);//获取数字
         String letters = maps[letter - '0'];//获取数字对应的字母们
         for (int i = 0; i < letters.length(); i++) {
-            findCombinations(digits, index + 1, s + letters.charAt(i), res);
+            findCombinations(digits, curlen + 1, s + letters.charAt(i), res);
         }
     }
 
