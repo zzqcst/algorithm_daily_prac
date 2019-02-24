@@ -53,7 +53,284 @@ public class JZofferPrac {
 //            }
 //            System.out.println();
 //        }
-        p.NumberOf1(100000000);
+//        System.out.println(p.isUgly(10));
+
+        System.out.println(p.GetNumberOfK(new int[]{1, 2, 3, 3, 3, 3}, 3));
+    }
+
+    /**
+     * 统计一个数字在排序数组中出现的次数。
+     *
+     * @param array
+     * @param k
+     * @return
+     */
+    public int GetNumberOfK(int[] array, int k) {
+        int first = getFirstIndex(array, 0, array.length - 1, k);
+        int last = getLastIndex(array, 0, array.length - 1, k);
+        if (first != -1 && last != -1) {
+            return last - first + 1;
+        }
+        return 0;
+    }
+
+    private int getFirstIndex(int[] array, int start, int end, int k) {
+        if (start > end) {
+            return -1;
+        }
+        int mid = (start + end) / 2;
+        if (array[mid] == k) {
+            if (mid - 1 > 0 && array[mid - 1] != k || mid == 0) {
+                return mid;
+            } else {
+                return getFirstIndex(array, start, mid - 1, k);
+            }
+        } else if (k > array[mid]) {
+            return getFirstIndex(array, mid + 1, end, k);
+        } else {
+            return getFirstIndex(array, start, mid - 1, k);
+        }
+    }
+
+    private int getLastIndex(int[] array, int start, int end, int k) {
+        if (start > end) {
+            return -1;
+        }
+        int mid = (start + end) / 2;
+        if (array[mid] == k) {
+            if (mid + 1 < array.length && array[mid + 1] != k || mid == array.length - 1) {
+                return mid;
+            } else {
+                return getLastIndex(array, mid + 1, end, k);
+            }
+        } else if (k > array[mid]) {
+            return getLastIndex(array, mid + 1, end, k);
+        } else {
+            return getLastIndex(array, start, mid - 1, k);
+        }
+    }
+
+    /**
+     * 输入两个链表，找出它们的第一个公共结点。
+     *
+     * @param pHead1
+     * @param pHead2
+     * @return
+     */
+    public ListNode FindFirstCommonNode(ListNode pHead1, ListNode pHead2) {
+        if (pHead1 == null || pHead2 == null) {
+            return null;
+        }
+        int len1 = getLen(pHead1);
+        int len2 = getLen(pHead2);
+        int steps = Math.abs(len1 - len2);
+        if (len1 > len2) {
+            while (steps-- != 0) {
+                pHead1 = pHead1.next;
+            }
+        } else {
+            while (steps-- != 0) {
+                pHead2 = pHead2.next;
+            }
+        }
+        while (pHead1 != null && pHead2 != null) {
+            if (pHead1 == pHead2) {
+                return pHead1;
+            }
+            pHead1 = pHead1.next;
+            pHead2 = pHead2.next;
+        }
+        return null;
+    }
+
+    private int getLen(ListNode pHead2) {
+        ListNode temp = pHead2;
+        int count = 0;
+        while (temp != null) {
+            count++;
+            temp = temp.next;
+        }
+        return count;
+    }
+
+
+    /**
+     * 在数组中的两个数字，如果前面一个数字大于后面的数字，则这两个数字组成一个逆序对。
+     * 输入一个数组,求出这个数组中的逆序对的总数P。并将P对1000000007取模的结果输出。 即输出P%1000000007
+     *
+     * @param array
+     * @return
+     */
+    public int InversePairs(int[] array) {
+        if (array == null || array.length == 0) {
+            return 0;
+        }
+        int[] copy = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            copy[i] = array[i];
+        }
+        int count = InversePairsCore(array, copy, 0, array.length - 1);//数值过大求余
+        return count;
+    }
+
+    /**
+     * @param array
+     * @return
+     */
+    private int InversePairsCore(int[] array, int[] copy, int low, int high) {
+        if (low == high) {
+            return 0;
+        }
+        int mid = (low + high) >> 1;
+        int leftCount = InversePairsCore(array, copy, low, mid) % 1000000007;
+        int rightCount = InversePairsCore(array, copy, mid + 1, high) % 1000000007;
+        int count = 0;
+        int i = mid;
+        int j = high;
+        int locCopy = high;
+        while (i >= low && j > mid) {
+            if (array[i] > array[j]) {
+                count += j - mid;
+                copy[locCopy--] = array[i--];
+                if (count >= 1000000007)//数值过大求余
+                {
+                    count %= 1000000007;
+                }
+            } else {
+                copy[locCopy--] = array[j--];
+            }
+        }
+        for (; i >= low; i--) {
+            copy[locCopy--] = array[i];
+        }
+        for (; j > mid; j--) {
+            copy[locCopy--] = array[j];
+        }
+        for (int s = low; s <= high; s++) {
+            array[s] = copy[s];
+        }
+        return (leftCount + rightCount + count) % 1000000007;
+    }
+
+    /**
+     * 在一个字符串(0<=字符串长度<=10000，全部由字母组成)中找到第一个只出现一次的字符,
+     * 并返回它的位置, 如果没有则返回 -1（需要区分大小写）.
+     *
+     * @param str
+     * @return
+     */
+    public int FirstNotRepeatingChar(String str) {
+        if (str.length() != 0) {
+            char[] chars = str.toCharArray();
+            int[] flag = new int[52];
+            for (int i = 0; i < chars.length; i++) {
+                int pos = 0;
+                if (chars[i] > 'Z') {//小写字母
+                    pos = chars[i] - 'A' - 6;
+                } else {
+                    pos = chars[i] - 'A';
+                }
+                flag[pos] += 1;
+            }
+            for (int i = 0; i < chars.length; i++) {
+                int pos = 0;
+                if (chars[i] > 'Z') {//小写字母
+                    pos = chars[i] - 'A' - 6;
+                } else {
+                    pos = chars[i] - 'A';
+                }
+                if (flag[pos] == 1) {
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
+
+    public boolean isUgly(int num) {
+        if (num <= 0) {
+            return false;
+        }
+        while (num % 2 == 0) {
+            num /= 2;
+        }
+        while (num % 3 == 0) {
+            num /= 3;
+        }
+        while (num % 5 == 0) {
+            num /= 5;
+        }
+        return num == 1;
+    }
+
+    /**
+     * 把只包含质因子2、3和5的数称作丑数（Ugly Number）。
+     * 例如6、8都是丑数，但14不是，因为它包含质因子7。 习惯上我们把1当做是第一个丑数。求按从小到大的顺序的第N个丑数。
+     *
+     * @param index
+     * @return
+     */
+    public int GetUglyNumber_Solution(int index) {
+        if (index <= 0) {
+            return 0;
+        }
+        int[] uglyNums = new int[index];
+        uglyNums[0] = 1;
+        int currUgIndex = 1;
+        int preIndex2 = 0, preIndex3 = 0, preIndex5 = 0;//下标
+        while (currUgIndex < index) {
+            int min = minInThree(uglyNums[preIndex2] * 2, uglyNums[preIndex3] * 3, uglyNums[preIndex5] * 5);
+            uglyNums[currUgIndex] = min;
+
+            while (uglyNums[preIndex2] * 2 <= uglyNums[currUgIndex]) {
+                preIndex2++;
+            }
+            while (uglyNums[preIndex3] * 3 <= uglyNums[currUgIndex]) {
+                preIndex3++;
+            }
+            while (uglyNums[preIndex5] * 5 <= uglyNums[currUgIndex]) {
+                preIndex5++;
+            }
+            ++currUgIndex;
+        }
+
+
+        return uglyNums[currUgIndex - 1];
+    }
+
+    private int minInThree(int uglyNum, int uglyNum1, int uglyNum2) {
+        int min = uglyNum < uglyNum1 ? uglyNum : uglyNum1;
+        min = min < uglyNum2 ? min : uglyNum2;
+        return min;
+    }
+
+    /**
+     * 输入一个正整数数组，把数组里所有数字拼接起来排成一个数，打印能拼接出的所有数字中最小的一个。
+     * 例如输入数组{3，32，321}，则打印出这三个数字能排成的最小数字为321323。
+     *
+     * @param numbers
+     * @return
+     */
+    public String PrintMinNumber(int[] numbers) {
+        StringBuilder res = new StringBuilder();
+        if (numbers.length == 0) {
+            return res.toString();
+        }
+        String[] strs = new String[numbers.length];
+        for (int i = 0; i < numbers.length; i++) {
+            strs[i] = String.valueOf(numbers[i]);
+        }
+        Arrays.sort(strs, new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                return (o1 + o2).compareTo(o2 + o1);
+            }
+        });
+
+        for (String str : strs) {
+            res.append(str);
+        }
+        return res.toString();
     }
 
 
