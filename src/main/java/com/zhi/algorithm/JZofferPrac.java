@@ -53,12 +53,9 @@ public class JZofferPrac {
 //            }
 //            System.out.println();
 //        }
-        int[] temp = {9, 8, 7, 6, 5, 4, 2, 8, 2};
-        p.quickSort(temp, 0, temp.length - 1);
-        for (int i : temp) {
-            System.out.print(i + " ");
-        }
+        p.NumberOf1(100000000);
     }
+
 
     /**
      * 求出1~13的整数中1出现的次数,并算出100~1300的整数中1出现的次数？
@@ -72,21 +69,21 @@ public class JZofferPrac {
         int count = 0;
         int factor = 1;
         int lowerNum = 0;
-        int currNum = 0;
+        int currNum = 0;//当前位的数字
         int higherNum = 0;
         while (n / factor != 0) {
-            lowerNum = n - (n / factor) * factor;
-            currNum = (n / factor) % 10;
-            higherNum = n / (factor * 10);
+            lowerNum = n - (n / factor) * factor;//低位的数字，例如1234，factor=100时，计算出lowerNum=34
+            currNum = (n / factor) % 10;//当前位数字，例如1234，factor=100,currNum=2
+            higherNum = n / (factor * 10);//更高位数字，例如1234，factor=100,higerNum = 1
             switch (currNum) {
-                case 0:
+                case 0://当前位数字为0时，该位上出现1的次数由更高位决定，等于higherNum*factor
                     count += higherNum * factor;
                     break;
-                case 1:
+                case 1://当前位数字为1时，受高位和低位影响，等于higherNum * factor + lowerNum + 1;
                     count += higherNum * factor + lowerNum + 1;
                     break;
-                default:
-                    count = (higherNum + 1) * factor;
+                default://当前位数字大于1，该位数字1个数由更高位决定等于(higherNum + 1) * factor
+                    count += (higherNum + 1) * factor;
                     break;
             }
             factor *= 10;
