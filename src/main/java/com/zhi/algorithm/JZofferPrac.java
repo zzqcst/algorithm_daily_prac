@@ -53,8 +53,67 @@ public class JZofferPrac {
 //            }
 //            System.out.println();
 //        }
-        System.out.println(p.match("a".toCharArray(), ".".toCharArray()));
+        System.out.println(p.isNumeric("12e".toCharArray()));
 
+    }
+
+    /**
+     * 请实现一个函数用来判断字符串是否表示数值（包括整数和小数）。
+     * 例如，字符串"+100","5e2","-123","3.1416"和"-1E-16"都表示数值。
+     * 但是"12e","1a3.14","1.2.3","+-5"和"12e+4.3"都不是。
+     *
+     * @param str
+     * @return
+     */
+    public boolean isNumeric(char[] str) {
+        //A[.[B]][e|EC] 逐步分扫描
+        if (str.length == 0) {
+            return false;
+        }
+        return isNumeric(str, 0);
+
+    }
+
+    private boolean isNumeric(char[] str, int pos) {
+        boolean numberic = false;
+        pos = scanInteger(str, pos);
+        numberic = pos > 0;
+        if (!numberic) {
+            pos = -pos;
+        }
+        if (pos < str.length && str[pos] == '.') {
+            pos++;
+            pos = scanUnsignInteger(str, pos);
+            numberic = pos != -1 || numberic;
+        }
+
+        if (pos < str.length && (str[pos] == 'e' || str[pos] == 'E')) {
+            pos++;
+            pos = scanInteger(str, pos);
+            numberic = numberic && pos > 0;
+            if (pos < 0) {
+                pos = -pos;
+            }
+        }
+        return numberic && pos == str.length;
+    }
+
+    private int scanInteger(char[] str, int pos) {
+        if (pos < str.length && (str[pos] == '-' || str[pos] == '+')) {
+            pos++;
+        }
+        return scanUnsignInteger(str, pos);
+    }
+
+    private int scanUnsignInteger(char[] str, int pos) {
+        int start = pos;
+        while (pos != str.length && str[pos] >= '0' && str[pos] <= '9') {
+            pos++;
+        }
+        if (pos > start) {
+            return pos;
+        }
+        return -pos;
     }
 
     /**
