@@ -53,8 +53,162 @@ public class JZofferPrac {
 //            }
 //            System.out.println();
 //        }
-        System.out.println(p.ReverseSentence("I am a student."));
+        System.out.println(p.duplicate(new int[]{2, 3, 1, 0, 2, 5, 3}, 7, new int[1]));
 
+    }
+
+    /**
+     * 在一个长度为n的数组里的所有数字都在0到n-1的范围内。
+     * 数组中某些数字是重复的，但不知道有几个数字是重复的。
+     * 也不知道每个数字重复几次。请找出数组中任意一个重复的数字。
+     * 例如，如果输入长度为7的数组{2,3,1,0,2,5,3}，那么对应的输出是第一个重复的数字2。
+     *
+     * @param numbers
+     * @param length
+     * @param duplication
+     * @return
+     */
+    public boolean duplicate(int numbers[], int length, int[] duplication) {
+        //因为每个数都是0-n-1范围的，没有重复数字时，数字m的下标也是m，所以从前往后遍历，将m放在下标m处，则下次遇见m时，与下标m处数字对比可知，m重复
+        for (int i = 0; i < length; i++) {
+            while (numbers[i] != i) {//将num[i]放回他的位置
+                if (numbers[i] == numbers[numbers[i]]) {
+                    duplication[0] = numbers[i];
+                    return true;
+                }
+                int temp = numbers[i];
+                numbers[i] = numbers[temp];
+                numbers[temp] = temp;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 将一个字符串转换成一个整数(实现Integer.valueOf(string)的功能，
+     * 但是string不符合数字要求时返回0)，要求不能使用字符串转换整数的库函数。
+     * 数值为0或者字符串不是一个合法的数值则返回0。
+     *
+     * @param str
+     * @return
+     */
+    public int StrToInt(String str) {
+        int len = str.length();
+        if (len == 0) {
+            return 0;
+        }
+        double res = 0;
+        boolean flag = true;
+        int jw = len;
+        int i = 0;
+        if (str.charAt(i) == '-') {
+            flag = false;
+            i++;
+            jw--;
+        } else if (str.charAt(i) == '+') {
+            i++;
+            jw--;
+        }
+
+        for (; i < len; i++) {
+            if (str.charAt(i) < 48 || str.charAt(i) > 57) {//ascii码
+                return 0;
+            }
+            int num = str.charAt(i) - '0';
+            res += num * Math.pow(10, --jw);
+        }
+        return (int) (flag ? res : -res);
+    }
+
+    /**
+     * 写一个函数，求两个整数之和，要求在函数体内不得使用+、-、*、/四则运算符号。
+     *
+     * @param num1
+     * @param num2
+     * @return
+     */
+    public int Add(int num1, int num2) {
+        while (num2 != 0) {
+            int sum = num1 ^ num2;//异或操作相当于二进制对应位相加，但没有进位
+            int carry = (num1 & num2) >> 1;//与操作得到每位相加的进位，并左移一位下次循环加到高位
+            num1 = sum;
+            num2 = carry;
+        }
+        return num1;
+    }
+
+    /**
+     * 求1+2+3+...+n，要求不能使用乘除法、for、while、if、else、switch、case等关键字及条件判断语句（A?B:C）
+     *
+     * @param n
+     * @return
+     */
+    public int Sum_Solution(int n) {
+        int sum = n;
+        //利用与操作的短路特性
+        boolean flag = (n > 0) && ((sum += Sum_Solution(n - 1)) > 0);
+        return sum;
+    }
+
+    /**
+     * 每年六一儿童节,牛客都会准备一些小礼物去看望孤儿院的小朋友,今年亦是如此。
+     * HF作为牛客的资深元老,自然也准备了一些小游戏。
+     * 其中,有个游戏是这样的:首先,让小朋友们围成一个大圈。
+     * 然后,他随机指定一个数m,让编号为0的小朋友开始报数。
+     * 每次喊到m-1的那个小朋友要出列唱首歌,然后可以在礼品箱中任意的挑选礼物,并且不再回到圈中,
+     * 从他的下一个小朋友开始,继续0...m-1报数....这样下去....直到剩下最后一个小朋友,
+     * 可以不用表演,并且拿到牛客名贵的“名侦探柯南”典藏版(名额有限哦!!^_^)。
+     * 请你试着想下,哪个小朋友会得到这份礼品呢？(注：小朋友的编号是从0到n-1)
+     *
+     * @param n
+     * @param m
+     * @return
+     */
+    public int LastRemaining_Solution(int n, int m) {
+        if (n < 1 || m < 1) {
+            return -1;
+        }
+        int last = 0;
+        for (int i = 2; i <= n; i++) {
+            last = (last + m) % i;
+        }
+        return last;
+    }
+
+    /**
+     * LL今天心情特别好,因为他去买了一副扑克牌,发现里面居然有2个大王,2个小王(一副牌原本是54张^_^)...
+     * 他随机从中抽出了5张牌,想测测自己的手气,看看能不能抽到顺子,如果抽到的话,他决定去买体育彩票,嘿嘿！！
+     * “红心A,黑桃3,小王,大王,方片5”,“Oh My God!”不是顺子.....
+     * LL不高兴了,他想了想,决定大\小 王可以看成任何数字,并且A看作1,J为11,Q为12,K为13。
+     * 上面的5张牌就可以变成“1,2,3,4,5”(大小王分别看作2和4),“So Lucky!”。LL决定去买体育彩票啦。
+     * 现在,要求你使用这幅牌模拟上面的过程,然后告诉我们LL的运气如何，如果牌能组成顺子就输出true，否则就输出false。
+     * 为了方便起见,你可以认为大小王是0。
+     *
+     * @param numbers
+     * @return
+     */
+    public boolean isContinuous(int[] numbers) {
+        if (numbers.length == 0) {
+            return false;
+        }
+        int pre = 0;
+        int zerocount = 0;
+        int needed = 0;
+        Arrays.sort(numbers);
+        for (int i = 0; i < numbers.length; i++) {
+            if (numbers[i] == pre && pre != 0) {
+                return false;
+            }
+            if (numbers[i] == 0) {
+                zerocount++;
+                continue;
+            }
+            if (pre != 0) {
+                needed += numbers[i] - pre - 1;
+            }
+            pre = numbers[i];
+        }
+        return needed <= zerocount;
     }
 
     /**
