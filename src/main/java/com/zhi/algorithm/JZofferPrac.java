@@ -53,9 +53,202 @@ public class JZofferPrac {
 //            }
 //            System.out.println();
 //        }
-//        System.out.println(p.isUgly(10));
+        System.out.println(p.LeftRotateString("abcdefg", 7));
 
-        System.out.println(p.GetNumberOfK(new int[]{1, 2, 3, 3, 3, 3}, 3));
+    }
+
+    /**
+     * 汇编语言中有一种移位指令叫做循环左移（ROL），现在有个简单的任务，就是用字符串模拟这个指令的运算结果。
+     * 对于一个给定的字符序列S，请你把其循环左移K位后的序列输出。
+     * 例如，字符序列S=”abcXYZdef”,要求输出循环左移3位后的结果，即“XYZdefabc”。是不是很简单？OK，搞定它！
+     *
+     * @param str
+     * @param n
+     * @return
+     */
+    public String LeftRotateString(String str, int n) {
+        int len = str.length();
+        if (len == 0 || n <= 0) {
+            return str;
+        }
+        char[] chars = str.toCharArray();
+        char[] res = new char[len];
+        for (int i = 0; i < len; i++) {
+            int newpos;
+            if (i - n < 0) {
+                newpos = len + (i - n) % (len + 1);
+            } else {
+                newpos = i - n;
+            }
+            res[newpos] = chars[i];
+        }
+        return new String(res);
+    }
+
+    /**
+     * 输入一个递增排序的数组和一个数字S，在数组中查找两个数，使得他们的和正好是S，如果有多对数字的和等于S，输出两个数的乘积最小的。
+     *
+     * @param array
+     * @param sum
+     * @return
+     */
+    public ArrayList<Integer> FindNumbersWithSum(int[] array, int sum) {
+        ArrayList<Integer> res = new ArrayList<>();
+        int mul = Integer.MAX_VALUE;
+        int n1 = 0, n2 = 0;
+        if (array.length > 1) {
+            int p1 = 0, p2 = array.length - 1;
+            while (p1 < p2) {
+                int cursum = array[p1] + array[p2];
+                if (cursum == sum) {
+                    if (array[p1] * array[p2] < mul) {
+                        n1 = p1;
+                        n2 = p2;
+                        mul = array[p1] * array[p2];
+                    }
+                    p1++;
+                    p2--;
+                }
+
+                if (cursum < sum) {
+                    p1++;
+                }
+                if (cursum > sum) {
+                    p2--;
+                }
+            }
+            if (n1 != n2) {
+                res.add(array[n1]);
+                res.add(array[n2]);
+            }
+
+        }
+        return res;
+    }
+
+    /**
+     * 小明很喜欢数学,有一天他在做数学作业时,要求计算出9~16的和,他马上就写出了正确答案是100。
+     * 但是他并不满足于此,他在想究竟有多少种连续的正数序列的和为100(至少包括两个数)。
+     * 没多久,他就得到另一组连续正数和为100的序列:18,19,20,21,22。
+     * 现在把问题交给你,你能不能也很快的找出所有和为S的连续正数序列?
+     *
+     * @param sum
+     * @return
+     */
+    public ArrayList<ArrayList<Integer>> FindContinuousSequence(int sum) {
+        ArrayList<ArrayList<Integer>> res = new ArrayList<>();
+        if (sum <= 2) {
+            return res;
+        }
+        int p1 = 1, p2 = 2;
+        int count = 3;
+        while (p1 <= (sum - 1) / 2 && p2 <= (sum + 1) / 2) {
+
+            if (count < sum) {
+                p2++;
+                count += p2;
+            }
+            if (count > sum) {
+                count -= p1;
+                p1++;
+            }
+            if (count == sum) {
+                ArrayList<Integer> seq = new ArrayList<>();
+                for (int i = p1; i <= p2; i++) {
+                    seq.add(i);
+                }
+                res.add(seq);
+                p2++;
+                count += p2;
+            }
+        }
+
+        return res;
+    }
+
+
+    /**
+     * 一个整型数组里除了两个数字之外，其他的数字都出现了偶数次。请写程序找出这两个只出现一次的数字
+     * num1,num2分别为长度为1的数组。传出参数
+     * 将num1[0],num2[0]设置为返回结果
+     *
+     * @param array
+     * @param num1
+     * @param num2
+     */
+    public void FindNumsAppearOnce(int[] array, int num1[], int num2[]) {
+        if (array.length == 0) {
+            return;
+        }
+        num1[0] = 0;
+        num2[0] = 0;
+        int xorres = 0;
+        for (int i = 0; i < array.length; i++) {
+            xorres ^= array[i];
+        }
+        int index = first1(xorres);
+
+        for (int i = 0; i < array.length; i++) {
+            if (((array[i] >> index) & 1) == 1) {
+                num1[0] ^= array[i];
+            } else {
+                num2[0] ^= array[i];
+            }
+        }
+
+    }
+
+    private int first1(int xorres) {
+        int res = 0;
+        while ((xorres & 1) != 1) {
+            res++;
+            xorres >>= 1;
+        }
+        return res;
+    }
+
+    /**
+     * 输入一棵二叉树，判断该二叉树是否是平衡二叉树。
+     *
+     * @param root
+     * @return
+     */
+    public boolean IsBalanced_Solution(TreeNode root) {
+        return isBalance(root);
+    }
+
+    private boolean isBalance(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+        int left = TreeDepth(root.left);
+        int right = TreeDepth(root.right);
+        if (Math.abs(left - right) <= 1) {
+            return isBalance(root.left) && isBalance(root.right);
+        }
+        return false;
+    }
+
+    /**
+     * 输入一棵二叉树，求该树的深度。从根结点到叶结点依次经过的结点（含根、叶结点）形成树的一条路径，最长路径的长度为树的深度。
+     *
+     * @param root
+     * @return
+     */
+    public int TreeDepth(TreeNode root) {
+        return getMaxDepth(root, 0);
+    }
+
+    private int getMaxDepth(TreeNode root, int depth) {
+        int temp = 0;
+        if (root == null) {
+            return depth;
+        }
+
+        temp = getMaxDepth(root.left, depth + 1);
+        depth = getMaxDepth(root.right, depth + 1);
+
+        return temp > depth ? temp : depth;
     }
 
     /**
