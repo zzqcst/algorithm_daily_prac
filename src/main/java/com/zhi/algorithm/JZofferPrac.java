@@ -53,8 +53,58 @@ public class JZofferPrac {
 //            }
 //            System.out.println();
 //        }
-        System.out.println(p.multiply(new int[]{1, 2, 3, 4, 5}));
+        System.out.println(p.match("a".toCharArray(), ".".toCharArray()));
 
+    }
+
+    /**
+     * 请实现一个函数用来匹配包括'.'和'*'的正则表达式。模式中的字符'.'表示任意一个字符，
+     * 而'*'表示它前面的字符可以出现任意次（包含0次）。
+     * 在本题中，匹配是指字符串的所有字符匹配整个模式。
+     * 例如，字符串"aaa"与模式"a.a"和"ab*ac*a"匹配，但是与"aa.a"和"ab*a"均不匹配
+     *
+     * @param str
+     * @param pattern
+     * @return
+     */
+    public boolean match(char[] str, char[] pattern) {
+        int p1 = 0;
+        int p2 = 0;
+        if (str.length == 0 && pattern.length == 0) {
+            return true;
+        }
+
+        return matchCore(str, pattern, p1, p2);
+    }
+
+    private boolean matchCore(char[] str, char[] pattern, int p1, int p2) {
+        //主要是处理*,.当做普通字符处理
+        if (p1 == str.length && p2 == pattern.length) {
+            return true;
+        }
+
+        if (p1 != str.length && p2 == pattern.length) {
+            return false;
+        }
+
+        //下一个字符为*时
+        if (p2 < pattern.length - 1 && pattern[p2 + 1] == '*') {
+            //当前字符和*之前的字符相同时，例如：ab a*b；或者：ab .*b
+            if (p1 < str.length && pattern[p2] == str[p1] || pattern[p2] == '.' && p1 != str.length) {
+                return matchCore(str, pattern, p1 + 1, p2 + 2)//匹配一次*
+                        || matchCore(str, pattern, p1, p2 + 2)//不匹配*
+                        || matchCore(str, pattern, p1 + 1, p2);//匹配多次*
+            } else {
+                //例如ab b*b ，直接跳过b*，当做没有处理
+                return matchCore(str, pattern, p1, p2 + 2);//不匹配
+            }
+        }
+        //下一个字符不为*,当前字符匹配时，例如：ab aab*，匹配下一个字符
+        if (p1 < str.length && p2 < pattern.length && str[p1] == pattern[p2]
+                || p2 < pattern.length && pattern[p2] == '.' && p1 != str.length) {
+            return matchCore(str, pattern, p1 + 1, p2 + 1);
+        }
+        return false;
     }
 
     /**
