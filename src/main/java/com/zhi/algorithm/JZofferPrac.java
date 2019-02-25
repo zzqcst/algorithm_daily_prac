@@ -53,8 +53,39 @@ public class JZofferPrac {
 //            }
 //            System.out.println();
 //        }
-        System.out.println(p.LeftRotateString("abcdefg", 7));
+        System.out.println(p.ReverseSentence("I am a student."));
 
+    }
+
+    /**
+     * 牛客最近来了一个新员工Fish，每天早晨总是会拿着一本英文杂志，写些句子在本子上。
+     * 同事Cat对Fish写的内容颇感兴趣，有一天他向Fish借来翻看，但却读不懂它的意思。
+     * 例如，“student. a am I”。后来才意识到，这家伙原来把句子单词的顺序翻转了，正确的句子应该是“I am a student.”。
+     * Cat对一一的翻转这些单词顺序可不在行，你能帮助他么？
+     *
+     * @param str
+     * @return
+     */
+    public String ReverseSentence(String str) {
+        int len = str.length();
+        if (len == 0) {
+            return str;
+        }
+        char[] chars = str.toCharArray();
+        int start = 0, end = 0;
+        reverse(chars, 0, len - 1);
+        while (start < len) {
+            if (chars[start] == ' ') {
+                start++;
+                end++;
+            } else if (end == len || chars[end] == ' ') {
+                reverse(chars, start, end - 1);
+                start = ++end;
+            } else {
+                end++;
+            }
+        }
+        return new String(chars);
     }
 
     /**
@@ -67,22 +98,43 @@ public class JZofferPrac {
      * @return
      */
     public String LeftRotateString(String str, int n) {
+        //借助O(n)空间
+//        int len = str.length();
+//        if (len == 0 || n <= 0) {
+//            return str;
+//        }
+//        char[] chars = str.toCharArray();
+//        char[] res = new char[len];
+//        for (int i = 0; i < len; i++) {
+//            int newpos;
+//            if (i - n < 0) {
+//                newpos = len + (i - n) % (len + 1);
+//            } else {
+//                newpos = i - n;
+//            }
+//            res[newpos] = chars[i];
+//        }
+//        return new String(res);
+        //翻转法，abcdefg,左移两位，相当于先将ab,cdefg分别翻转，得到bagfedc,再将整体翻转，得到cdefgab
         int len = str.length();
         if (len == 0 || n <= 0) {
             return str;
         }
         char[] chars = str.toCharArray();
-        char[] res = new char[len];
-        for (int i = 0; i < len; i++) {
-            int newpos;
-            if (i - n < 0) {
-                newpos = len + (i - n) % (len + 1);
-            } else {
-                newpos = i - n;
-            }
-            res[newpos] = chars[i];
+        reverse(chars, 0, n - 1);
+        reverse(chars, n, len - 1);
+        reverse(chars, 0, len - 1);
+        return new String(chars);
+    }
+
+    private void reverse(char[] chars, int start, int end) {
+        while (start < end) {
+            char temp = chars[start];
+            chars[start] = chars[end];
+            chars[end] = temp;
+            start++;
+            end--;
         }
-        return new String(res);
     }
 
     /**
