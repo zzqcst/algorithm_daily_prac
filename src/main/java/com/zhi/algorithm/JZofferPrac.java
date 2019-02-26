@@ -29,12 +29,23 @@ public class JZofferPrac {
         }
     }
 
+    public class TreeLinkNode {
+        int val;
+        TreeLinkNode left = null;
+        TreeLinkNode right = null;
+        TreeLinkNode next = null;
+
+        TreeLinkNode(int val) {
+            this.val = val;
+        }
+    }
+
     public static void main(String[] args) {
         JZofferPrac p = new JZofferPrac();
         TreeNode t1 = new TreeNode(8);
         TreeNode t2 = new TreeNode(6);
-        TreeNode t3 = new TreeNode(6);
-        TreeNode t4 = new TreeNode(5);
+        TreeNode t3 = new TreeNode(3);
+        TreeNode t4 = new TreeNode(1);
         TreeNode t5 = new TreeNode(7);
         TreeNode t6 = new TreeNode(7);
         TreeNode t7 = new TreeNode(5);
@@ -53,10 +64,134 @@ public class JZofferPrac {
 //            }
 //            System.out.println();
 //        }
-        String a = "BabyBaby";
-        for (int i = 0; i < a.length(); i++) {
-            p.Insert(a.charAt(i));
-            System.out.print(p.FirstAppearingOnce());
+//        ListNode n1 = new ListNode(1);
+//        ListNode n2 = new ListNode(1);
+//        ListNode n3 = new ListNode(3);
+//        ListNode n4 = new ListNode(3);
+//        ListNode n5 = new ListNode(4);
+//        ListNode n6 = new ListNode(4);
+//        ListNode n7 = new ListNode(5);
+//        n1.next = n2;
+//        n2.next = n3;
+//        n3.next = n4;
+//        n4.next = n5;
+//        n5.next = n6;
+//        n6.next = n7;
+//        n1 = p.deleteDuplication(n1);
+        for (ArrayList<Integer> integers : p.Print(t1)) {
+            for (Integer integer : integers) {
+                System.out.print(integer + " ");
+            }
+        }
+    }
+
+    /**
+     * 从上到下按层打印二叉树，同一层结点从左至右输出。每一层输出一行。
+     *
+     * @param pRoot
+     * @return
+     */
+    ArrayList<ArrayList<Integer>> Print2(TreeNode pRoot) {
+
+        ArrayList<ArrayList<Integer>> res = new ArrayList<>();
+        Queue<TreeNode> queue = new LinkedList<>();
+        if (pRoot != null) {
+            queue.offer(pRoot);
+            while (!queue.isEmpty()) {
+                int size = queue.size();
+                ArrayList<Integer> temp = new ArrayList<>();
+                for (int i = 0; i < size; i++) {
+                    TreeNode t = queue.poll();
+                    temp.add(t.val);
+                    if (t.left != null) {
+                        queue.offer(t.left);
+                    }
+                    if (t.right != null) {
+                        queue.offer(t.right);
+                    }
+                }
+                res.add(temp);
+            }
+        }
+        return res;
+    }
+
+    /**
+     * 请实现一个函数按照之字形打印二叉树，即第一行按照从左到右的顺序打印，第二层按照从右至左的顺序打印，第三行按照从左到右的顺序打印，其他行以此类推。
+     *
+     * @param pRoot
+     * @return
+     */
+    public ArrayList<ArrayList<Integer>> Print(TreeNode pRoot) {
+        boolean left = true;
+
+        ArrayList<ArrayList<Integer>> res = new ArrayList<>();
+        Queue<TreeNode> queue = new LinkedList<>();
+        if (pRoot != null) {
+            queue.offer(pRoot);
+            while (!queue.isEmpty()) {
+                int size = queue.size();
+                ArrayList<Integer> temp = new ArrayList<>();
+                for (int i = 0; i < size; i++) {
+                    TreeNode t = queue.poll();
+                    temp.add(t.val);
+                    if (t.left != null) {
+                        queue.offer(t.left);
+                    }
+                    if (t.right != null) {
+                        queue.offer(t.right);
+                    }
+                }
+                if (!left) {
+                    ArrayList<Integer> temp2 = new ArrayList<>();
+                    for (int i = temp.size() - 1; i >= 0; i--) {
+                        temp2.add(temp.get(i));
+                    }
+                    res.add(temp2);
+                    left = true;
+                } else {
+                    res.add(temp);
+                    left = false;
+                }
+            }
+        }
+        return res;
+    }
+
+    /**
+     * 给定一个二叉树和其中的一个结点，请找出中序遍历顺序的下一个结点并且返回。注意，树中的结点不仅包含左右子结点，同时包含指向父结点的指针。
+     *
+     * @param pNode
+     * @return
+     */
+    public TreeLinkNode GetNext(TreeLinkNode pNode) {
+        if (pNode != null) {
+            if (pNode.right == null) {
+                if (pNode.next == null) {
+                    return null;
+                } else {
+                    while (pNode.next != null) {
+                        if (pNode == pNode.next.left) {//如果该节点是父节点的左节点
+                            return pNode.next;
+                        } else {
+                            pNode = pNode.next;//如果该节点是父节点的右节点，向上寻找，找到一个左节点是父节点的节点
+                        }
+                    }
+                    return null;
+                }
+            } else {
+                return zxbl(pNode.right);
+            }
+
+        }
+        return null;
+    }
+
+    private TreeLinkNode zxbl(TreeLinkNode right) {
+        if (right.left == null) {
+            return right;
+        } else {
+            return zxbl(right.left);
         }
     }
 
@@ -68,14 +203,19 @@ public class JZofferPrac {
      * @return
      */
     public ListNode deleteDuplication(ListNode pHead) {
-        if (pHead != null) {
-            ListNode temp = pHead;
-            int prev = 0;
-            while (temp != null) {
-                prev = temp.val;
-            }
+        if (pHead == null || pHead.next == null) {//0个或1个节点
+            return pHead;
         }
-        return null;
+        if (pHead.val == pHead.next.val) {
+            ListNode node = pHead;
+            while (node != null && node.val == pHead.val) {//找到与当前节点不同的节点
+                node = node.next;
+            }
+            return deleteDuplication(node);
+        } else {
+            pHead.next = deleteDuplication(pHead.next);
+            return pHead;
+        }
     }
 
     /**
