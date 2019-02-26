@@ -61,6 +61,24 @@ public class JZofferPrac {
     }
 
     /**
+     * 在一个排序的链表中，存在重复的结点，请删除该链表中重复的结点，重复的结点不保留，返回链表头指针。
+     * 例如，链表1->2->3->3->4->4->5 处理后为 1->2->5
+     *
+     * @param pHead
+     * @return
+     */
+    public ListNode deleteDuplication(ListNode pHead) {
+        if (pHead != null) {
+            ListNode temp = pHead;
+            int prev = 0;
+            while (temp != null) {
+                prev = temp.val;
+            }
+        }
+        return null;
+    }
+
+    /**
      * 给一个链表，若其中包含环，请找出该链表的环的入口结点，否则，输出null。
      *
      * @param pHead
