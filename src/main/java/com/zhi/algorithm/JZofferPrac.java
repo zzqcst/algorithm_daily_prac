@@ -60,6 +60,65 @@ public class JZofferPrac {
         }
     }
 
+    /**
+     * 给一个链表，若其中包含环，请找出该链表的环的入口结点，否则，输出null。
+     *
+     * @param pHead
+     * @return
+     */
+    public ListNode EntryNodeOfLoop(ListNode pHead) {
+        if (pHead != null) {
+            ListNode mnode = getMeetNode(pHead);
+            ListNode temp = mnode;
+            int count = 0;//环的节点数
+            if (temp != null) {//有环时
+                while (true) {
+                    temp = temp.next;
+                    count++;
+                    if (temp == mnode) {
+                        break;
+                    }
+                }
+                mnode = pHead;
+                temp = pHead;
+                while (count-- != 0) {
+                    mnode = mnode.next;
+                }
+                while (true) {
+                    if (mnode == temp) {
+                        return mnode;
+                    }
+                    mnode = mnode.next;
+                    temp = temp.next;
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @param pHead
+     * @return
+     */
+    private ListNode getMeetNode(ListNode pHead) {
+        ListNode fast = pHead;
+        ListNode slow = pHead;
+        while (true) {
+            if (slow != null) {
+                slow = slow.next;
+            }
+            if (fast.next != null) {
+                fast = fast.next.next;
+            }
+            if (fast.next == null) {//fast到链表尾了，说明无环
+                return null;
+            }
+            if (fast == slow) {
+                return fast;
+            }
+        }
+    }
+
 
     ArrayList<Character> queue2 = new ArrayList<>();
     int[] mark = new int[127];
