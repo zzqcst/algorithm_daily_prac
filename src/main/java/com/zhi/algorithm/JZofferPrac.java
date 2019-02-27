@@ -42,20 +42,20 @@ public class JZofferPrac {
 
     public static void main(String[] args) {
         JZofferPrac p = new JZofferPrac();
-        TreeNode t1 = new TreeNode(8);
-        TreeNode t2 = new TreeNode(6);
-        TreeNode t3 = new TreeNode(3);
-        TreeNode t4 = new TreeNode(1);
-        TreeNode t5 = new TreeNode(7);
-        TreeNode t6 = new TreeNode(7);
-        TreeNode t7 = new TreeNode(5);
-        t1.left = t2;
-        t1.right = t3;
-        t2.left = t4;
-        t2.right = t5;
-        t3.left = t6;
-        t3.right = t7;
-        System.out.println(p.Serialize(t1));
+//        TreeNode t1 = new TreeNode(8);
+//        TreeNode t2 = new TreeNode(6);
+//        TreeNode t3 = new TreeNode(3);
+//        TreeNode t4 = new TreeNode(1);
+//        TreeNode t5 = new TreeNode(7);
+//        TreeNode t6 = new TreeNode(7);
+//        TreeNode t7 = new TreeNode(5);
+//        t1.left = t2;
+//        t1.right = t3;
+//        t2.left = t4;
+//        t2.right = t5;
+//        t3.left = t6;
+//        t3.right = t7;
+//        System.out.println(p.Serialize(t1));
 //        p.Convert(t1);
 
 //        ArrayList<ArrayList<Integer>> lists = p.FindPath(t1, 7);
@@ -84,6 +84,35 @@ public class JZofferPrac {
 //                System.out.print(integer + " ");
 //            }
 //        }
+        System.out.println(p.maxInWindows(new int[]{2, 3, 4, 2, 6, 2, 5, 1}, 3));
+
+    }
+
+    /**
+     * @param num
+     * @param size
+     * @return
+     */
+    public ArrayList<Integer> maxInWindows(int[] num, int size) {
+        ArrayList<Integer> res = new ArrayList<>();
+        if (size > 0) {
+            for (int i = 0; i <= num.length - size; i++) {
+                int max = getMaxHere(num, i, size);
+                res.add(max);
+            }
+        }
+
+        return res;
+    }
+
+    private int getMaxHere(int[] num, int start, int size) {
+        int max = num[start];
+        for (int i = start + 1; i < start + size; i++) {
+            if (max < num[i]) {
+                max = num[i];
+            }
+        }
+        return max;
     }
 
     /**
@@ -94,27 +123,29 @@ public class JZofferPrac {
      *
      * @param num
      */
-    PriorityQueue<Double> queue3 = new PriorityQueue<>(new Comparator<Double>() {
-        @Override
-        public int compare(Double o1, Double o2) {
-            return (int) (o1 - o2);
-        }
-    });
+    ArrayList<Double> queue3 = new ArrayList<>();
 
     public void Insert(Integer num) {
         queue3.add(Double.valueOf(num));
     }
 
     public Double GetMedian() {
-        int size = queue3.size();
-        if (size % 2 != 0) {
-            int temp = size / 2 + 1;
-            while (temp != 0) {
-                queue3.poll();
-                temp--;
+        queue3.sort(new Comparator<Double>() {
+            @Override
+            public int compare(Double o1, Double o2) {
+                return (int) (o1 - o2);
             }
+        });
+        int size = queue3.size();
+        int mid = size / 2;
+        if (size % 2 != 0) {//奇数
+            return queue3.get(mid);
+        } else {
+            int temp1 = mid - 1;
+            if (temp1 >= 0) {
+                return (double) ((queue3.get(mid) + queue3.get(temp1)) / 2);
+            } else return queue3.get(mid);
         }
-        return 0.0;
     }
 
     /**
