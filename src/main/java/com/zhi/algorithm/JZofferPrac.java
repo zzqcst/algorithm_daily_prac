@@ -84,9 +84,113 @@ public class JZofferPrac {
 //                System.out.print(integer + " ");
 //            }
 //        }
-        System.out.println(p.maxInWindows(new int[]{2, 3, 4, 2, 6, 2, 5, 1}, 3));
+        System.out.println(p.movingCount(2, 3, 3));
 
     }
+
+
+    /**
+     * 地上有一个m行和n列的方格。一个机器人从坐标0,0的格子开始移动，每一次只能向左，右，上，下四个方向移动一格，
+     * 但是不能进入行坐标和列坐标的数位之和大于k的格子。 例如，当k为18时，机器人能够进入方格（35,37），
+     * 因为3+5+3+7 = 18。但是，它不能进入方格（35,38），因为3+5+3+8 = 19。请问该机器人能够达到多少个格子？
+     *
+     * @param threshold
+     * @param rows
+     * @param cols
+     * @return
+     */
+    public int movingCount(int threshold, int rows, int cols) {
+        if (threshold < 0 || rows <= 0 || cols <= 0) {
+            return 0;
+        }
+        boolean[][] visited = new boolean[rows][cols];
+        return getSteps(0, 0, rows, cols, threshold, 0, visited);
+    }
+
+    private int getSteps(int i, int j, int rows, int cols, int threshold, int currentstep, boolean[][] visited) {
+        if (i < 0 || i >= rows || j < 0 || j >= cols) {
+            return currentstep;
+        }
+        if (visited[i][j]) {
+            return currentstep;
+        }
+
+        int ditsum = 0;
+        int temp = i;
+        while (temp != 0) {
+            ditsum += temp % 10;
+            temp = temp / 10;
+        }
+        temp = j;
+        while (temp != 0) {
+            ditsum += temp % 10;
+            temp = temp / 10;
+        }
+        if (ditsum <= threshold) {
+            visited[i][j] = true;
+            int a = getSteps(i + 1, j, rows, cols, threshold, currentstep, visited);
+            int b = getSteps(i - 1, j, rows, cols, threshold, currentstep, visited);
+            int c = getSteps(i, j + 1, rows, cols, threshold, currentstep, visited);
+            int d = getSteps(i, j - 1, rows, cols, threshold, currentstep, visited);
+            return a + b + c + d + 1;
+        }
+        return currentstep;
+    }
+
+
+    /**
+     * 请设计一个函数，用来判断在一个矩阵中是否存在一条包含某字符串所有字符的路径。
+     * 路径可以从矩阵中的任意一个格子开始，每一步可以在矩阵中向左，向右，向上，向下移动一个格子。
+     * 如果一条路径经过了矩阵中的某一个格子，则之后不能再次进入这个格子。
+     * 例如 a b c e s f c s a d e e 这样的3 X 4 矩阵中包含一条字符串"bcced"的路径，但是矩阵中不包含"abcb"路径，
+     * 因为字符串的第一个字符b占据了矩阵中的第一行第二个格子之后，路径不能再次进入该格子。
+     *
+     * @param matrix
+     * @param rows
+     * @param cols
+     * @param str
+     * @return
+     */
+    public boolean hasPath(char[] matrix, int rows, int cols, char[] str) {
+        int n = 0;
+        if (str.length == 0) {
+            return false;
+        }
+        boolean res = false;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (matrix[i * cols + j] == str[n]) {
+                    res = get(matrix, rows, cols, str, i, j, 0);
+                    if (res) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean get(char[] matrix, int row, int col, char[] str, int i, int j, int n) {
+        if (n == str.length) {
+            return true;
+        }
+        if (i < 0 || i >= row || j < 0 || j >= col) {
+            return false;
+        }
+
+        if (matrix[i * col + j] == str[n]) {
+            char temp = matrix[i * col + j];
+            matrix[i * col + j] = '$';
+            boolean res = get(matrix, row, col, str, i - 1, j, n + 1) || get(matrix, row, col, str, i + 1, j, n + 1)
+                    || get(matrix, row, col, str, i, j - 1, n + 1) || get(matrix, row, col, str, i, j + 1, n + 1);
+            if (!res) {
+                matrix[i * col + j] = temp;//恢复
+            }
+            return res;
+        }
+        return false;
+    }
+
 
     /**
      * @param num
@@ -94,14 +198,38 @@ public class JZofferPrac {
      * @return
      */
     public ArrayList<Integer> maxInWindows(int[] num, int size) {
+//        ArrayList<Integer> res = new ArrayList<>();
+//        if (size > 0) {
+//            for (int i = 0; i <= num.length - size; i++) {
+//                int max = getMaxHere(num, i, size);
+//                res.add(max);
+//            }
+//        }
+//
+//        return res;
         ArrayList<Integer> res = new ArrayList<>();
-        if (size > 0) {
-            for (int i = 0; i <= num.length - size; i++) {
-                int max = getMaxHere(num, i, size);
-                res.add(max);
+        Queue<Integer> m = new LinkedList<>();
+        if (num.length > 0 && size > 0 && size <= num.length) {
+            m.offer(0);
+            for (int i = 1; i < size; i++) {
+                while (!m.isEmpty() && num[i] >= num[((LinkedList<Integer>) m).peekLast()]) {
+                    ((LinkedList<Integer>) m).pollLast();
+                }
+                m.offer(i);
             }
+            for (int i = size; i < num.length; i++) {
+                res.add(num[m.peek()]);
+                while (!m.isEmpty() && num[i] >= num[((LinkedList<Integer>) m).peekLast()]) {//当前数字比队里最后一个数字大
+                    ((LinkedList<Integer>) m).pollLast();
+                }
+                if (!m.isEmpty() && m.peek() <= (i - size)) {//队列第一个下标脱离窗口了
+                    m.poll();
+                }
+                m.offer(i);
+            }
+            res.add(num[m.peek()]);
+            return res;
         }
-
         return res;
     }
 
