@@ -18,8 +18,8 @@ public class Test {
         int newlen=oldlen+blankCount*2;
         str.setLength(newlen);
         //从后向前移动字符
-        int indexnew = oldlen-1;
-        int indexold = newlen-1;
+        int indexnew = newlen-1;
+        int indexold = oldlen-1;
         while(indexnew>=0&&indexold>=0){
             if(str.charAt(indexold)==' '){
                 str.setCharAt(indexnew--,'0');
