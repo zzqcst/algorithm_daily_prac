@@ -5,41 +5,61 @@ import java.util.*;
 public class Test {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        while (scanner.hasNext()) {
+        while (scanner.hasNextInt()) {
             int n = scanner.nextInt();
             int d = scanner.nextInt();
-            int prepos = 0, prepay = 0;
-            int laspos = scanner.nextInt();
-            int laspay = scanner.nextInt();
+            int[] a = new int[n];
+            int[] b = new int[n];
+            Map<Integer, Integer> map = new HashMap<>();
+            //给a,b排序
+            for (int i = 0; i < n; i++) {
+                a[i] = scanner.nextInt();
+                b[i] = scanner.nextInt();
+                map.put(a[i], b[i]);
+            }
+            Arrays.sort(a);
+            for (int i = 0; i < n; i++) {
+                b[i] = map.get(a[i]);
+            }
+
+            int[] maxfromi = new int[n];
+            maxfromi[n - 1] = b[n - 1];
+            for (int i = n - 2; i >= 0; i--) {
+                if (b[i] > maxfromi[i + 1]) {
+                    maxfromi[i] = b[i];
+                } else {
+                    maxfromi[i] = maxfromi[i + 1];
+                }
+            }
+
+            int[] avaliIndex = new int[n];
+            for (int i = 0; i < n; i++) {
+                boolean can = false;
+                int j = 1;
+                if (i != 0) {
+                    j = avaliIndex[i - 1];
+                }
+                for (; j < n && j > 0; j++) {
+                    if (a[j] - a[i] >= d) {
+                        avaliIndex[i] = j;
+                        can = true;
+                        break;
+                    }
+                }
+                if (!can) {
+                    avaliIndex[i] = -1;
+                }
+            }
+
             int max = 0;
-
-            for (int i = 1; i < n; i++) {
-                int curpos = scanner.nextInt();
-                int curpay = scanner.nextInt();
-                if (curpos - laspos >= d) {//跟上一个输入相差d
-                    if (laspay > prepay) {//上一个大于之前最大的
-                        if (curpay + laspay > max) {
-                            max = curpay + laspay;
-                        }
-                    } else if (laspay < prepay) {
-                        if (curpay + prepay > max) {
-                            max = curpay + prepay;
-                        }
-                    }
-                } else {//跟上一个输入小于d
-                    if (prepay != 0 && curpay + prepay > max) {
-                        max = curpay + prepay;
+            int sum = 0;
+            for (int i = 0; i < n; i++) {
+                if (avaliIndex[i] != -1) {
+                    sum = b[i] + maxfromi[avaliIndex[i]];
+                    if (sum > max) {
+                        max = sum;
                     }
                 }
-                if (curpos - laspos >= d - 1) {
-                    if (laspay > prepay) {//上一个称为之前最大
-                        prepay = laspay;
-                        prepos = laspos;
-                    }
-                }
-                laspay = curpay;
-                laspos = curpos;
-
             }
             System.out.println(max);
         }
