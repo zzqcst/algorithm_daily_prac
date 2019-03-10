@@ -1,10 +1,93 @@
 package com.zhi.algorithm;
 
 import java.util.*;
-import java.util.List;
 
 public class Test {
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        while (scanner.hasNext()) {
+            int n = scanner.nextInt();
+            int d = scanner.nextInt();
+            int prepos = 0, prepay = 0;
+            int laspos = scanner.nextInt();
+            int laspay = scanner.nextInt();
+            int max = 0;
+
+            for (int i = 1; i < n; i++) {
+                int curpos = scanner.nextInt();
+                int curpay = scanner.nextInt();
+                if (curpos - laspos >= d) {//跟上一个输入相差d
+                    if (laspay > prepay) {//上一个大于之前最大的
+                        if (curpay + laspay > max) {
+                            max = curpay + laspay;
+                        }
+                    } else if (laspay < prepay) {
+                        if (curpay + prepay > max) {
+                            max = curpay + prepay;
+                        }
+                    }
+                } else {//跟上一个输入小于d
+                    if (prepay != 0 && curpay + prepay > max) {
+                        max = curpay + prepay;
+                    }
+                }
+                if (curpos - laspos >= d - 1) {
+                    if (laspay > prepay) {//上一个称为之前最大
+                        prepay = laspay;
+                        prepos = laspos;
+                    }
+                }
+                laspay = curpay;
+                laspos = curpos;
+
+            }
+            System.out.println(max);
+        }
+//        while (scanner.hasNext()) {
+//            String s = scanner.nextLine();
+//            s = s.toLowerCase();
+//            char[] chars = s.toCharArray();
+//            HashMap<Character, Integer> firstoccur = new HashMap<>();
+//            List<Character> list = new ArrayList<>();
+//            for (int i = 0; i < chars.length; i++) {
+//                if (chars[i] > 'z' || chars[i] < 'a') {
+//                    continue;
+//                }
+//                if (!firstoccur.containsKey(chars[i])) {
+//                    firstoccur.put(chars[i], i);
+//                    list.add(chars[i]);
+//                } else if (firstoccur.get(chars[i]) + 1 < chars.length) {//如果字母不是第一次出现，判断是否大于第一次出现位置后一个字母
+//                    if (chars[i] > chars[firstoccur.get(chars[i]) + 1]) {//如果大于第一次出现位置后的字母，则保留当前位置，移除第一次的位置
+//                        list.remove((Character) chars[i]);
+//                        list.add(chars[i]);
+//                    }
+//                }
+//            }
+//            if (list.isEmpty()) {
+//                System.out.println(" ");
+//            } else {
+//                System.out.println(list.get(0));
+//            }
+//        }
+//        while (scanner.hasNextInt()) {
+//            int n = scanner.nextInt();//数组长度
+//            int[] a = new int[n];
+//            int[] b = new int[n];
+//            for (int i = 0; i < n; i++) {
+//                a[i] = scanner.nextInt();
+//            }
+//            for (int i = 0; i < n; i++) {
+//                b[i] = scanner.nextInt();
+//            }
+//
+//            Arrays.sort(a);
+//            Arrays.sort(b);
+//            int sum=0;
+//            for (int i = 0; i < n; i++) {
+//                sum += a[i] * b[n - i - 1];
+//            }
+//            System.out.println(sum);
+//        }
 //        Scanner scanner = new Scanner(System.in);
 //        int n = 0, m = 0;
 //        while (scanner.hasNextInt()) {
@@ -76,7 +159,7 @@ public class Test {
 //            }
 //            queue.clear();
 //        }
-        System.out.println(solve(3, 2));
+
     }
 
     /**
