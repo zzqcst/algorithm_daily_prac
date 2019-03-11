@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Main main = new Main();
+        main.longestPalindrome("babad");
     }
 
     /**
@@ -16,8 +17,24 @@ public class Main {
      * @return
      */
     public String longestPalindrome(String s) {
-        char[] chars = s.toCharArray();
-        return null;
+        int len = s.length();
+        if (len == 0) {
+            return s;
+        }
+        boolean[][] dp = new boolean[len][len];
+        int left = 0;
+        int right = 0;
+        for (int i = len - 2; i >= 0; i--) {
+            dp[i][i] = true;
+            for (int j = i + 1; j < len; j++) {
+                dp[i][j] = s.charAt(i) == s.charAt(j) && ((j - i < 3) || dp[i + 1][j - 1]);
+                if (dp[i][j] && (j - i > right - left)) {
+                    right = j;
+                    left = i;
+                }
+            }
+        }
+        return s.substring(left, right+1);
 
     }
 
