@@ -4,6 +4,20 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        Main main = new Main();
+    }
+
+    /**
+     * 输入: "babad"
+     * 输出: "bab"
+     * 注意: "aba" 也是一个有效答案。
+     *
+     * @param s
+     * @return
+     */
+    public String longestPalindrome(String s) {
+        char[] chars = s.toCharArray();
+        return null;
 
     }
 
