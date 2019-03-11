@@ -5,10 +5,71 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Main main = new Main();
-        main.longestPalindrome("babad");
+        main.findLength(new int[]{1, 2, 3, 2, 1}, new int[]{3, 2, 1, 4, 7});
     }
 
     /**
+     * 回文子串的个数
+     *
+     * @param s
+     * @return
+     */
+    public int countSubstrings(String s) {
+        int len = s.length();
+        if (len == 0) {
+            return 0;
+        }
+        boolean[][] dp = new boolean[len][len];
+        int count = 0;
+        for (int i = len - 2; i >= 0; i--) {
+            dp[i][i] = true;
+            count++;
+            for (int j = i + 1; j < len; j++) {
+                dp[i][j] = s.charAt(i) == s.charAt(j) && ((j - i < 3) || dp[i + 1][j - 1]);
+                if (dp[i][j]) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    /**
+     * 最长重复子序列
+     * c[i][j]表示A中第i个元素之前和B中j个元素之前的子序列公共长度
+     *
+     * @param A
+     * @param B
+     * @return
+     */
+    public int findLength(int[] A, int[] B) {
+        int l1 = A.length;
+        int l2 = B.length;
+        if (l1 == 0 || l2 == 0) {
+            return 0;
+        }
+        int[][] c = new int[l1][l2];
+        int max = 0;
+        for (int i = 0; i < l1; i++) {
+            for (int j = 0; j < l2; j++) {
+                if (A[i] == B[j]) {
+                    if (i == 0 || j == 0) {
+                        c[i][j] = 1;
+                    } else
+                        c[i][j] = c[i - 1][j - 1] + 1;
+                } else {
+                    c[i][j] = Math.max(j == 0 ? 0 : c[i][j - 1], i == 0 ? 0 : c[i - 1][j]);
+                }
+                if (c[i][j] > max) {
+                    max = c[i][j];
+                }
+            }
+        }
+        return max;
+    }
+
+    /**
+     * 最长回文子串
      * 输入: "babad"
      * 输出: "bab"
      * 注意: "aba" 也是一个有效答案。
@@ -34,7 +95,7 @@ public class Main {
                 }
             }
         }
-        return s.substring(left, right+1);
+        return s.substring(left, right + 1);
 
     }
 
