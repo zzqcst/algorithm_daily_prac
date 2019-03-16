@@ -4,8 +4,199 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Main main = new Main();
-        main.findLength(new int[]{1, 2, 3, 2, 1}, new int[]{3, 2, 1, 4, 7});
+        System.out.println(new Main().candy(new int[]{1, 4, 3, 5}));
+    }
+
+    public int candy(int[] ratings) {
+        if (ratings == null || ratings.length == 0) {
+            return -1;
+        }
+        int[] L = new int[ratings.length];
+        for (int i = 0; i < ratings.length; i++) {
+            L[i] = 1;
+        }
+        for (int i = 1; i <= ratings.length; i++) {
+            if (i == ratings.length) {
+                if (ratings[0] > ratings[ratings.length - 1] && L[0] <= L[ratings.length - 1]) {
+                    L[0] = L[ratings.length - 1] + 1;
+                }
+                break;
+            }
+            if (ratings[i] > ratings[i - 1]
+                    && L[i] <= L[i - 1]) {
+                L[i] = L[i - 1] + 1;
+            }
+        }
+        for (int i = ratings.length - 1; i >= 0; i--) {
+            if (i == ratings.length - 1) {
+                if (ratings[ratings.length - 1] > ratings[0]
+                        && L[ratings.length - 1] <= L[0]) {
+                    L[ratings.length - 1] = L[0] + 1;
+                }
+                continue;
+            }
+            if (ratings[i] > ratings[i + 1]
+                    && L[i] <= L[i + 1]) {
+                L[i] = L[i + 1] + 1;
+            }
+        }
+
+        int sum = 0;
+        for (int i = 0; i < L.length; i++) {
+            sum += L[i];
+        }
+        return sum;
+    }
+
+    private static void zjtd2() {
+        Scanner scanner = new Scanner(System.in);
+        while (scanner.hasNextInt()) {
+            int n = scanner.nextInt();
+            for (int i = 0; i < n; i++) {
+                String a = scanner.next();
+                //去除三个
+                StringBuilder sbuilder = new StringBuilder();
+                char last = ' ';
+                int count = 0;
+                for (int j = 0; j < a.length(); j++) {
+                    if (last == a.charAt(j)) {
+                        count++;
+                    } else {
+                        count = 0;
+                    }
+                    if (count < 2) {
+                        sbuilder.append(a.charAt(j));
+                        last = a.charAt(j);
+                    }
+                }
+                last = ' ';
+                count = 0;
+                StringBuilder stringBuilder = new StringBuilder();
+                for (int j = 0; j < sbuilder.length(); j++) {
+                    if (last == sbuilder.charAt(j)) {
+                        count++;
+                    } else if (count == 1) {
+                        count++;
+                    } else {
+                        count = 0;
+                    }
+                    if (count < 3) {
+                        stringBuilder.append(sbuilder.charAt(j));
+                        last = sbuilder.charAt(j);
+                    }
+                }
+                System.out.println(stringBuilder.toString());
+            }
+        }
+    }
+
+    private static void zjtd1() {
+        Scanner scanner = new Scanner(System.in);
+        while (scanner.hasNextInt()) {
+            int n = scanner.nextInt();
+            int rest = 1024 - n;//需要找的零钱
+            int count = 0;//硬币数
+            count += rest / 64;
+            rest = rest - rest / 64 * 64;
+            count += rest / 16;
+            rest = rest - rest / 16 * 16;
+            count += rest / 4;
+            rest = rest - rest / 4 * 4;
+            count += rest;
+            System.out.println(count);
+        }
+    }
+
+    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        int len1 = nums1.length;
+        int len2 = nums2.length;
+        if (((len1 + len2) & 1) == 0) {//长度偶数
+            int mid = (len1 + len2 - 1) / 2;
+            int i = 0, j = 0;
+            int index = 0;
+            int count = 0;
+            while (i < len1 && j < len2) {
+                if (nums1[i] < nums2[j]) {
+                    if (index == mid) {
+                        count += nums1[i];
+                    }
+                    if (index == mid + 1) {
+                        count += nums1[i];
+                        return count / 2.0;
+                    }
+                    i++;
+                } else {
+                    if (index == mid) {
+                        count += nums2[j];
+                    }
+                    if (index == mid + 1) {
+                        count += nums2[j];
+                        return count / 2.0;
+                    }
+                    j++;
+                }
+                index++;
+            }
+            if (index <= mid || index <= mid + 1) {
+                while (i < len1) {
+                    if (index == mid) {
+                        count += nums1[i];
+                    }
+                    if (index == mid + 1) {
+                        count += nums1[i];
+                    }
+                    i++;
+                    index++;
+                }
+                while (j < len2) {
+                    if (index == mid) {
+                        count += nums2[j];
+                    }
+                    if (index == mid + 1) {
+                        count += nums2[j];
+                    }
+                    j++;
+                    index++;
+                }
+            }
+            return count / 2.0;
+        } else {//长度奇数
+            int mid = (len1 + len2 - 1) / 2;
+            int i = 0, j = 0;
+            int index = 0;
+            while (i < len1 && j < len2) {
+                if (nums1[i] < nums2[j]) {
+                    if (index == mid) {
+                        return nums1[i];
+                    }
+                    i++;
+                } else {
+                    if (index == mid) {
+                        return nums2[j];
+                    }
+                    j++;
+                }
+                index++;
+            }
+            if (index <= mid) {
+                while (i < len1) {
+                    if (index == mid) {
+                        return nums1[i];
+                    }
+                    i++;
+                    index++;
+                }
+                while (j < len2) {
+                    if (index == mid) {
+                        return nums2[j];
+                    }
+                    j++;
+                    index++;
+                }
+            }
+
+        }
+        return 0;
     }
 
     /**
@@ -82,7 +273,7 @@ public class Main {
         if (len == 0) {
             return s;
         }
-        boolean[][] dp = new boolean[len][len];
+        boolean[][] dp = new boolean[len][len];//dp[i][j]：i到j是否是回文子串
         int left = 0;
         int right = 0;
         for (int i = len - 2; i >= 0; i--) {
