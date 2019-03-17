@@ -6,7 +6,7 @@ package com.zhi.algorithm;
 public class EightSort {
     public static void main(String[] args) {
         int[] nums = {4, 9, 1, 3, 7, 9, 2, 5, 7, 3, 11, 19, 13, 14, 11, 16, 13};
-        simpSelectSort(nums);
+        heapSort(nums);
         for (int num : nums) {
             System.out.print(num + " ");
         }
@@ -72,7 +72,7 @@ public class EightSort {
      *
      * @param arr
      */
-    public static void simpSelectSort(int[] arr) {
+    private static void simpSelectSort(int[] arr) {
         for (int i = 0; i < arr.length; i++) {
             int index = i;
             for (int j = i + 1; j < arr.length; j++) {
@@ -86,5 +86,39 @@ public class EightSort {
                 arr[index] = temp;
             }
         }
+    }
+
+    /**
+     * 堆排序
+     *
+     * @param arr
+     */
+    private static void heapSort(int[] arr) {
+        for (int i = arr.length / 2 - 1; i >= 0; i--) {//1. 从最后一个非叶子节点开始调整，调整为大根堆
+            adjustHeap(arr, i, arr.length);
+        }
+
+        for (int i = arr.length - 1; i >= 0; i--) {//1. 交换堆顶元素和堆位元素，排除堆位元素，重新调整为大根堆
+            int temp = arr[0];
+            arr[0] = arr[i];
+            arr[i] = temp;
+            adjustHeap(arr, 0, i);
+        }
+    }
+
+    private static void adjustHeap(int[] arr, int i, int length) {
+        int temp = arr[i];
+        for (int j = i * 2 + 1; j < length; j = j * 2 + 1) {//从左子树（i*2+1）开始,然后下一颗树左子树
+            if (j + 1 < length && arr[j + 1] > arr[j]) {
+                j++;
+            }
+            if (arr[j] > temp) {
+                arr[i] = arr[j];
+                i = j;
+            } else {
+                break;
+            }
+        }
+        arr[i] = temp;
     }
 }
