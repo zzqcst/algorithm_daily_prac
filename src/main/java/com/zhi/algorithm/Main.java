@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println(new Main().candy(new int[]{1, 4, 3, 5}));
+
     }
 
     public int candy(int[] ratings) {

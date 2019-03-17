@@ -20,8 +20,6 @@ public class EightSort {
      * 平均：O(n^2) 最好：O(n) 最坏：O(n^2)
      * 空间复杂度：O(1)
      * 稳定
-     *
-     * @param arr
      */
     public static void insertOrder(int[] arr) {
         for (int i = 1; i < arr.length; i++) {
