@@ -62,36 +62,37 @@ public class PracticeArea {
     }
 
     public static void main(String[] args) {
-        ListNode node1 = new ListNode(4);
-        ListNode node2 = new ListNode(5);
-        ListNode node3 = new ListNode(8);
-        ListNode node4 = new ListNode(12);
-        ListNode node5 = new ListNode(15);
-        ListNode node6 = new ListNode(1);
-        ListNode node7 = new ListNode(3);
-        ListNode node8 = new ListNode(4);
-        ListNode node9 = new ListNode(7);
-        ListNode node10 = new ListNode(8);
-        ListNode node11 = new ListNode(9);
-        ListNode node12 = new ListNode(20);
-        ListNode node13 = new ListNode(21);
-        node1.next = node2;
-        node2.next = node3;
-        node3.next = node4;
-        node4.next = node5;
 
-        node6.next = node7;
-        node7.next = node8;
-        node8.next = node9;
-        node9.next = node10;
-        node10.next = node11;
-        node11.next = node12;
-        node12.next = node13;
-        ListNode listNode = mergeTwoLists(node1, node6);
-        while (listNode != null) {
-            System.out.print(listNode.val + " ");
-            listNode = listNode.next;
-        }
+//        ListNode node1 = new ListNode(4);
+//        ListNode node2 = new ListNode(5);
+//        ListNode node3 = new ListNode(8);
+//        ListNode node4 = new ListNode(12);
+//        ListNode node5 = new ListNode(15);
+//        ListNode node6 = new ListNode(1);
+//        ListNode node7 = new ListNode(3);
+//        ListNode node8 = new ListNode(4);
+//        ListNode node9 = new ListNode(7);
+//        ListNode node10 = new ListNode(8);
+//        ListNode node11 = new ListNode(9);
+//        ListNode node12 = new ListNode(20);
+//        ListNode node13 = new ListNode(21);
+//        node1.next = node2;
+//        node2.next = node3;
+//        node3.next = node4;
+//        node4.next = node5;
+//
+//        node6.next = node7;
+//        node7.next = node8;
+//        node8.next = node9;
+//        node9.next = node10;
+//        node10.next = node11;
+//        node11.next = node12;
+//        node12.next = node13;
+//        ListNode listNode = mergeTwoLists(node1, node6);
+//        while (listNode != null) {
+//            System.out.print(listNode.val + " ");
+//            listNode = listNode.next;
+//        }
         //        ListNode listNode = addTwoNumbers(node1, node4);
         //        while (listNode != null) {
         //            System.out.print(listNode.val + " ");
@@ -187,6 +188,34 @@ public class PracticeArea {
 //            System.out.println(interval4);
 //        }
 
+        String s = "PAYPALISHIRING";
+        System.out.println(convert(s, 3));
+    }
+
+    private static String convert(String s, int numRows) {
+        int len = s.length();
+        if (len == 0 || numRows == 0 || numRows == 1) {
+            return s;
+        }
+        List<StringBuilder> list = new ArrayList<>();
+        for (int i = 0; i < Math.min(numRows, len); i++) {
+            list.add(new StringBuilder());
+        }
+
+        int row = 0;
+        boolean change = false;
+        for (int i = 0; i < len; i++) {
+            list.get(row).append(s.charAt(i));
+            if (row == 0 || row == numRows - 1) {
+                change = !change;
+            }
+            row += change ? 1 : -1;
+        }
+        StringBuilder sb = new StringBuilder();
+        for (StringBuilder stringBuilder : list) {
+            sb.append(stringBuilder);
+        }
+        return sb.toString();
     }
 
     /**
@@ -214,7 +243,7 @@ public class PracticeArea {
     private static String serialize(TreeNode root) {
         List<Integer> inorder = inorderTraversal(root);
         List<Integer> preorder = preorderTraversal(root);
-        return preorder.toString()+"-"+inorder.toString();
+        return preorder.toString() + "-" + inorder.toString();
     }
 
     // Decodes your encoded data to tree.
@@ -223,8 +252,8 @@ public class PracticeArea {
         if (split[0].length() == 2 && split[1].length() == 2) {
             return null;
         }
-        split[0]=split[0].replace('[',' ').replace(']',' ').trim();
-        split[1]=split[1].replace('[',' ').replace(']',' ').trim();
+        split[0] = split[0].replace('[', ' ').replace(']', ' ').trim();
+        split[1] = split[1].replace('[', ' ').replace(']', ' ').trim();
         String[] split1 = split[0].split(",");
         String[] split2 = split[1].split(",");
         int[] pre = new int[split1.length];
