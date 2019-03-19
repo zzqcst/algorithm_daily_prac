@@ -62,7 +62,6 @@ public class PracticeArea {
     }
 
     public static void main(String[] args) {
-
 //        ListNode node1 = new ListNode(4);
 //        ListNode node2 = new ListNode(5);
 //        ListNode node3 = new ListNode(8);
@@ -187,11 +186,75 @@ public class PracticeArea {
 //        for (Interval interval4 : merge(list)) {
 //            System.out.println(interval4);
 //        }
-
-        String s = "PAYPALISHIRING";
-        System.out.println(convert(s, 3));
+        System.out.println(calculate("8+9"));
     }
 
+    /**
+     * leetcode
+     * 基本计算器Ⅱ
+     *
+     * @param s
+     * @return
+     */
+    public int calculate2(String s) {
+        int res = 0, len = s.length();
+        for (int i = 0; i < len; i++) {
+            char c = s.charAt(i);
+            if (c >= '0' && c <= '9') {
+                int num = 0;
+                while (i < len && s.charAt(i) <= '0' && s.charAt(i) <= '9') {
+                    num = num * 10 + s.charAt(i++) - '0';
+                }
+                i--;
+            }
+        }
+        return 0;
+    }
+
+    /**
+     * leetcode
+     * 基本计算器
+     *
+     * @param s
+     * @return
+     */
+    public static int calculate(String s) {
+        int res = 0, sign = 1, len = s.length();
+        Stack<Integer> stack = new Stack<>();
+        for (int i = 0; i < len; i++) {
+            char c = s.charAt(i);
+            if (c >= '0' && c <= '9') {//当前字符是数字
+                int num = 0;
+                while (i < len && s.charAt(i) >= '0' && s.charAt(i) <= '9') {
+                    num = 10 * num + s.charAt(i++) - '0';
+                }
+                res += sign * num;
+                --i;
+            } else if (c == '+') {
+                sign = 1;
+            } else if (c == '-') {
+                sign = -1;
+            } else if (c == '(') {
+                stack.push(res);
+                stack.push(sign);
+                res = 0;
+                sign = 1;
+            } else if (c == ')') {
+                res *= stack.pop();//括号内的结果
+                res += stack.pop();//括号内结果和括号外结果合并
+            }
+        }
+        return res;
+    }
+
+    /**
+     * leetcode
+     * z字形变换
+     *
+     * @param s
+     * @param numRows
+     * @return
+     */
     private static String convert(String s, int numRows) {
         int len = s.length();
         if (len == 0 || numRows == 0 || numRows == 1) {
