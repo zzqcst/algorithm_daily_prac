@@ -7,6 +7,9 @@ import com.zhi.algorithm.JZofferPrac.TreeNode;
 
 public class Main {
     public static void main(String[] args) {
+        Main main = new Main();
+        TreeNode deserialize = main.deserialize("1,2,#,#,3,4,#,#,5,#,#");
+        deserialize.toString();
     }
 
     public String serialize(TreeNode root) {
@@ -14,24 +17,43 @@ public class Main {
             return "";
         }
         StringBuilder sb = new StringBuilder();
-        Stack<TreeNode> stack = new Stack<>();
-        stack.push(root);
-        while (!stack.isEmpty()) {
-            TreeNode temp = stack.pop();
-            sb.append(temp.val).append(",");
-            if (temp.right != null) {
-                stack.push(temp.right);
-            }
-            if (temp.left != null) {
-                stack.push(temp.left);
-            }
-        }
-        sb.delete(sb.length() - 1, sb.length());
+        serialize(root, sb);
         return sb.toString();
     }
 
+    private void serialize(TreeNode root, StringBuilder sb) {
+        if (root == null) {
+            sb.append("#,");
+        } else {
+            sb.append(root.val).append(",");
+            serialize(root.left, sb);
+            serialize(root.right, sb);
+        }
+
+    }
+
+    int index = 0;
+
     // Decodes your encoded data to tree.
+    //1,2,#,#,3,4,#,#,5,#,#
     public TreeNode deserialize(String data) {
+        if (data.length() == 0) {
+            return null;
+        }
+        String[] split = data.split(",");
+        return deserialize2(split);
+    }
+
+    private TreeNode deserialize2(String[] split) {
+        if (!split[index].equals("#")) {
+            int val = Integer.valueOf(split[index]);
+            TreeNode root = new TreeNode(val);
+            index++;
+            root.left = deserialize2(split);
+            root.right = deserialize2(split);
+            return root;
+        }
+        index++;
         return null;
     }
 
