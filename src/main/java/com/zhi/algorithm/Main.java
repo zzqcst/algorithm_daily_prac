@@ -2,11 +2,41 @@ package com.zhi.algorithm;
 
 import java.util.Scanner;
 
+import com.zhi.algorithm.JZofferPrac.TreeNode;
+
 public class Main {
     public static void main(String[] args) {
 
     }
 
+    public TreeNode reConstructBinaryTree(int[] pre, int[] in) {
+        return reConstructBinaryTree(pre, in, 0, pre.length - 1, 0, in.length - 1);
+    }
+
+    private TreeNode reConstructBinaryTree(int[] pre, int[] in, int lstart, int lend, int rstart, int rend) {
+        if (lstart > lend || rstart > rend) {
+            return null;
+        }
+        TreeNode root = new TreeNode(pre[lstart]);
+        int count = 0;
+        int i = rstart;
+        for (; i <= rend; i++) {
+            if (in[i] == pre[lstart]) {
+                count = i - rstart;
+                break;
+            }
+        }
+        root.left = reConstructBinaryTree(pre, in, lstart + 1, lstart + count, rstart, i - 1);
+        root.right = reConstructBinaryTree(pre, in, lstart + count + 1, lend, i + 1, rend);
+        return root;
+    }
+
+    /**
+     * 分糖果
+     *
+     * @param ratings
+     * @return
+     */
     public int candy(int[] ratings) {
         if (ratings == null || ratings.length == 0) {
             return -1;
@@ -107,6 +137,13 @@ public class Main {
         }
     }
 
+    /**
+     * 找到两个数组的中位数
+     *
+     * @param nums1
+     * @param nums2
+     * @return
+     */
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {
         int len1 = nums1.length;
         int len2 = nums2.length;
