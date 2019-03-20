@@ -1,35 +1,38 @@
 package com.zhi.algorithm;
 
 import java.util.Scanner;
+import java.util.Stack;
 
 import com.zhi.algorithm.JZofferPrac.TreeNode;
 
 public class Main {
     public static void main(String[] args) {
-
     }
 
-    public TreeNode reConstructBinaryTree(int[] pre, int[] in) {
-        return reConstructBinaryTree(pre, in, 0, pre.length - 1, 0, in.length - 1);
-    }
-
-    private TreeNode reConstructBinaryTree(int[] pre, int[] in, int lstart, int lend, int rstart, int rend) {
-        if (lstart > lend || rstart > rend) {
-            return null;
+    public String serialize(TreeNode root) {
+        if (root == null) {
+            return "";
         }
-        TreeNode root = new TreeNode(pre[lstart]);//前序遍历第一个是根节点
-        int count = 0;//表示左子树节点数量
-        int i = rstart;
-        for (; i <= rend; i++) {//遍历中序遍历
-            if (in[i] == pre[lstart]) {//中序遍历中，根节点之前的是左子树，之后的是右子树
-                count = i - rstart;
-                break;
+        StringBuilder sb = new StringBuilder();
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            TreeNode temp = stack.pop();
+            sb.append(temp.val).append(",");
+            if (temp.right != null) {
+                stack.push(temp.right);
+            }
+            if (temp.left != null) {
+                stack.push(temp.left);
             }
         }
-        //推导出左右子树各自的前序遍历和中序遍历
-        root.left = reConstructBinaryTree(pre, in, lstart + 1, lstart + count, rstart, i - 1);
-        root.right = reConstructBinaryTree(pre, in, lstart + count + 1, lend, i + 1, rend);
-        return root;
+        sb.delete(sb.length() - 1, sb.length());
+        return sb.toString();
+    }
+
+    // Decodes your encoded data to tree.
+    public TreeNode deserialize(String data) {
+        return null;
     }
 
     /**

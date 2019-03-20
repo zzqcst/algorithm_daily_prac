@@ -84,7 +84,8 @@ public class JZofferPrac {
 //                System.out.print(integer + " ");
 //            }
 //        }
-        System.out.println(p.movingCount(2, 3, 3));
+        TreeNode deserialize = p.Deserialize("1,2,4,#,#,#,3,5,#,#,6,#,#");
+        System.out.println(deserialize);
 
     }
 
@@ -301,6 +302,13 @@ public class JZofferPrac {
         return null;
     }
 
+    /**
+     * 序列化二叉树
+     * 请实现两个函数，分别用来序列化和反序列化二叉树
+     *
+     * @param root
+     * @return
+     */
     String Serialize(TreeNode root) {
         if (root == null)
             return "";
@@ -314,8 +322,7 @@ public class JZofferPrac {
             sb.append("#,");
             return;
         }
-        sb.append(root.val);
-        sb.append(',');
+        sb.append(root.val).append(",");
         Serialize2(root.left, sb);
         Serialize2(root.right, sb);
     }
@@ -329,6 +336,9 @@ public class JZofferPrac {
         return Deserialize2(strs);
     }
 
+    /**
+     * 1,2,4,#,#,#,3,5,#,#,6,#,#
+     */
     TreeNode Deserialize2(String[] strs) {
         index++;
         if (!strs[index].equals("#")) {
