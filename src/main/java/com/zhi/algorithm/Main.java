@@ -17,15 +17,16 @@ public class Main {
         if (lstart > lend || rstart > rend) {
             return null;
         }
-        TreeNode root = new TreeNode(pre[lstart]);
-        int count = 0;
+        TreeNode root = new TreeNode(pre[lstart]);//前序遍历第一个是根节点
+        int count = 0;//表示左子树节点数量
         int i = rstart;
-        for (; i <= rend; i++) {
-            if (in[i] == pre[lstart]) {
+        for (; i <= rend; i++) {//遍历中序遍历
+            if (in[i] == pre[lstart]) {//中序遍历中，根节点之前的是左子树，之后的是右子树
                 count = i - rstart;
                 break;
             }
         }
+        //推导出左右子树各自的前序遍历和中序遍历
         root.left = reConstructBinaryTree(pre, in, lstart + 1, lstart + count, rstart, i - 1);
         root.right = reConstructBinaryTree(pre, in, lstart + count + 1, lend, i + 1, rend);
         return root;
