@@ -190,6 +190,104 @@ public class PracticeArea {
     }
 
     /**
+     * 根据后缀表达式计算值
+     * 如果是数字，入栈，如果是运算符，弹出两个元素，做相应计算，结果入栈
+     * 最终栈中元素就是结果
+     *
+     * @param s
+     * @return
+     */
+    int compute(String s) {
+        Stack<String> stack = new Stack<>();
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (isOperator(c)) {
+                int a = Integer.parseInt(stack.pop());
+                int b = Integer.parseInt(stack.pop());
+                switch (c) {
+                    case '+':
+                        stack.push(String.valueOf(a + b));
+                        break;
+                    case '-':
+                        stack.push(String.valueOf(b - a));
+                        break;
+                    case '*':
+                        stack.push(String.valueOf(a * b));
+                        break;
+                    case '/':
+                        stack.push(String.valueOf(b / a));
+                        break;
+                }
+            } else {
+                stack.push(String.valueOf(c));
+            }
+        }
+        return Integer.parseInt(stack.peek());
+    }
+
+    boolean isOperator(char c) {
+        switch (c) {
+            case '+':
+            case '-':
+            case '*':
+            case '/':
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    int prior(char c) {
+        switch (c) {
+            case '+':
+            case '-':
+                return 1;
+            case '*':
+            case '/':
+                return 2;
+            default:
+                return 0;
+        }
+    }
+
+    /**
+     * 得到后缀表达式
+     * 1. 中缀表达式从前往后遍历，如果是数字，添加到结果字符串中
+     * 2. 如果是操作符，如果栈为空，操作符入栈；如果栈不为空，如果栈顶是操作符，如果优先级大于栈顶元素，入栈，
+     * 如果小于栈顶元素，栈顶元素弹出到结果字符，再跟栈顶元素比较，循环
+     * 3.如果是左括号，入栈
+     * 4. 如果遇到右括号，逐个弹出栈内元素到结果字符串，直到弹出左括号
+     * 5. 便利完成后，如果栈不为空，将元素弹出到结果字符串
+     *
+     * @param a
+     * @return
+     */
+    String getPostfix(String a) {
+        StringBuilder sb = new StringBuilder();
+        Stack<Character> stack = new Stack<>();
+        for (int i = 0; i < a.length(); i++) {
+            char c = a.charAt(i);
+            if (isOperator(c)) {
+                while (!stack.isEmpty() && isOperator(stack.peek()) && prior(stack.peek()) >= prior(c)) {
+                    sb.append(stack.pop());
+                }
+                stack.push(c);
+            } else if (c == '(') {
+                stack.push(c);
+            } else if (c == ')') {
+                while (stack.peek() != '(') {
+                    sb.append(stack.pop());
+                }
+                stack.pop();
+            } else sb.append(c);
+        }
+        while (!stack.isEmpty()) {
+            sb.append(stack.pop());
+        }
+        return sb.toString();
+    }
+
+    /**
      * leetcode 基本计算器3
      * 输入的字符串包含括号，加减乘除，空格
      * 例如：2*(5+5*2)/3+(6/2+8)

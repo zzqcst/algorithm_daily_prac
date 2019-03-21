@@ -425,6 +425,7 @@ public class JZofferPrac {
     }
 
     /**
+     * 二叉树的下一个节点
      * 给定一个二叉树和其中的一个结点，请找出中序遍历顺序的下一个结点并且返回。注意，树中的结点不仅包含左右子结点，同时包含指向父结点的指针。
      *
      * @param pNode
@@ -446,7 +447,7 @@ public class JZofferPrac {
                     return null;
                 }
             } else {
-                return zxbl(pNode.right);
+                return zxbl(pNode.right);//如果该节点有右子树，那么下一个节点就是右子树的最左子节点
             }
 
         }

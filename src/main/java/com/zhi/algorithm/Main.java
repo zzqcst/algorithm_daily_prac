@@ -8,51 +8,93 @@ import java.util.Stack;
 import com.zhi.algorithm.JZofferPrac.TreeNode;
 
 public class Main {
+
     public static void main(String[] args) {
         Main main = new Main();
-        main.calculate("3+2*2");
+        System.out.println(main.compute(main.getPostfix("2+5*(4+8*(4+1))-1+9")));
+    }
+
+    int compute(String s) {
+        Stack<String> stack = new Stack<>();
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (isOperator(c)) {
+                int a = Integer.parseInt(stack.pop());
+                int b = Integer.parseInt(stack.pop());
+                switch (c) {
+                    case '+':
+                        stack.push(String.valueOf(a + b));
+                        break;
+                    case '-':
+                        stack.push(String.valueOf(b - a));
+                        break;
+                    case '*':
+                        stack.push(String.valueOf(a * b));
+                        break;
+                    case '/':
+                        stack.push(String.valueOf(b / a));
+                        break;
+                }
+            } else {
+                stack.push(String.valueOf(c));
+            }
+        }
+        return Integer.parseInt(stack.peek());
+    }
+
+    boolean isOperator(char c) {
+        switch (c) {
+            case '+':
+            case '-':
+            case '*':
+            case '/':
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    int prior(char c) {
+        switch (c) {
+            case '+':
+            case '-':
+                return 1;
+            case '*':
+            case '/':
+                return 2;
+            default:
+                return 0;
+        }
     }
 
     /**
-     * @param s
+     * @param a
      * @return
      */
-    public int calculate(String s) {
-        char pre_op = '+';//上一个运算符
-        int num = 0;
-        Stack<Integer> stack = new Stack<>();
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            if (c >= '0' && c <= '9') {
-                num = 10 * num + c - '0';
-            }
-            if (c < '0' && c != ' ' || i == s.length() - 1) {//遇到运算符，或者到了最后一个字符
-                if (pre_op == '+') {//上一个符号即数字之前的符号
-                    stack.push(num);
+    String getPostfix(String a) {
+        StringBuilder sb = new StringBuilder();
+        Stack<Character> stack = new Stack<>();
+        for (int i = 0; i < a.length(); i++) {
+            char c = a.charAt(i);
+            if (isOperator(c)) {
+                while (!stack.isEmpty() && isOperator(stack.peek()) && prior(stack.peek()) >= prior(c)) {
+                    sb.append(stack.pop());
                 }
-                if (pre_op == '-') {
-                    stack.push(-num);
+                stack.push(c);
+            } else if (c == '(') {
+                stack.push(c);
+            } else if (c == ')') {
+                while (stack.peek() != '(') {
+                    sb.append(stack.pop());
                 }
-                if (pre_op == '*') {
-                    int pre = stack.pop();
-                    stack.push(pre * num);
-                }
-                if (pre_op == '/') {
-                    int pre = stack.pop();
-                    stack.push(pre / num);
-                }
-                pre_op = c;
-                num = 0;
-            }
+                stack.pop();
+            } else sb.append(c);
         }
-
-        num = 0;//重复利用
         while (!stack.isEmpty()) {
-            num += stack.pop();
+            sb.append(stack.pop());
         }
-        return num;
+        return sb.toString();
     }
-
 
     /**
      * 分糖果
