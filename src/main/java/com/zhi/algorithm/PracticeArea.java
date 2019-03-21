@@ -186,7 +186,30 @@ public class PracticeArea {
 //        for (Interval interval4 : merge(list)) {
 //            System.out.println(interval4);
 //        }
-        System.out.println(calculate("1 + 1"));
+        PracticeArea p = new PracticeArea();
+        System.out.println(p.validMathExpre("3-(2+1*(5-1))+9"));
+    }
+
+    boolean validMathExpre(String s) {
+        int num = 0;
+        int pre = 0;
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c == '(') {
+                int j = i, cnt = 0;
+                for (; i < s.length(); i++) {
+                    if (s.charAt(i) == '(') cnt++;
+                    if (s.charAt(i) == ')') cnt--;
+                }
+                if (!validMathExpre(s.substring(j + 1, i))) {
+                    return false;
+                }
+            } else {
+                return s.matches("^\\d+([\\+\\-\\*\\/]\\d+)*[\\+\\-\\*\\/]\\d+$");
+            }
+        }
+
+        return true;
     }
 
     /**
