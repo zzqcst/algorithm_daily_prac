@@ -186,7 +186,57 @@ public class PracticeArea {
 //        for (Interval interval4 : merge(list)) {
 //            System.out.println(interval4);
 //        }
-        System.out.println(calculate("8+9"));
+        System.out.println(calculate("1 + 1"));
+    }
+
+    /**
+     * leetcode 基本计算器3
+     * 输入的字符串包含括号，加减乘除，空格
+     * 例如：2*(5+5*2)/3+(6/2+8)
+     *
+     * @param s
+     * @return
+     */
+    public static int calculate3(String s) {
+        if (s.length() == 0) return 0;
+        char pre_op = '+';//当前数字之前的运算符
+        int cur_num = 0;//当前数字
+        Stack<Integer> stack = new Stack<>();
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c >= '0' && c <= '9') {
+                cur_num = cur_num * 10 + c - '0';
+            } else if (c == '(') {
+                int j = i, cnt = 0;
+                for (; i < s.length(); i++) {
+                    if (s.charAt(i) == '(') cnt++;
+                    if (s.charAt(i) == ')') cnt--;
+                    if (cnt == 0) break;
+                }
+                cur_num = calculate3(s.substring(j + 1, i));
+            }
+            if (c < '0' && c != ' ' || i == s.length() - 1) {//当前字符是运算符，或者已经是最后一个字符了
+                if (pre_op == '+') {
+                    stack.push(cur_num);
+                }
+                if (pre_op == '-') {
+                    stack.push(-cur_num);
+                }
+                if (pre_op == '*') {
+                    stack.push(stack.pop() * cur_num);
+                }
+                if (pre_op == '/') {
+                    stack.push(stack.pop() / cur_num);
+                }
+                pre_op = c;
+                cur_num = 0;
+            }
+        }
+        cur_num = 0;
+        while (!stack.isEmpty()) {
+            cur_num += stack.pop();
+        }
+        return cur_num;
     }
 
     /**
@@ -197,18 +247,42 @@ public class PracticeArea {
      * @return
      */
     public int calculate2(String s) {
-        int res = 0, len = s.length();
-        for (int i = 0; i < len; i++) {
+        if (s.length() == 0) {
+            return 0;
+        }
+        char pre_op = '+';//上一个运算符
+        int num = 0;
+        Stack<Integer> stack = new Stack<>();
+        for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
             if (c >= '0' && c <= '9') {
-                int num = 0;
-                while (i < len && s.charAt(i) <= '0' && s.charAt(i) <= '9') {
-                    num = num * 10 + s.charAt(i++) - '0';
+                num = 10 * num + c - '0';
+            }
+            if (c < '0' && c != ' ' || i == s.length() - 1) {//遇到运算符，或者到了最后一个字符
+                if (pre_op == '+') {//上一个符号即数字之前的符号
+                    stack.push(num);
                 }
-                i--;
+                if (pre_op == '-') {
+                    stack.push(-num);
+                }
+                if (pre_op == '*') {
+                    int pre = stack.pop();
+                    stack.push(pre * num);
+                }
+                if (pre_op == '/') {
+                    int pre = stack.pop();
+                    stack.push(pre / num);
+                }
+                pre_op = c;
+                num = 0;
             }
         }
-        return 0;
+
+        num = 0;//重复利用
+        while (!stack.isEmpty()) {
+            num += stack.pop();
+        }
+        return num;
     }
 
     /**
@@ -219,32 +293,68 @@ public class PracticeArea {
      * @return
      */
     public static int calculate(String s) {
-        int res = 0, sign = 1, len = s.length();
-        Stack<Integer> stack = new Stack<>();
-        for (int i = 0; i < len; i++) {
+        //递归法
+        if (s.length() == 0) return 0;
+        int num = 0;
+        char pre_op = '+';
+        int res = 0;
+        for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
-            if (c >= '0' && c <= '9') {//当前字符是数字
-                int num = 0;
-                while (i < len && s.charAt(i) >= '0' && s.charAt(i) <= '9') {
-                    num = 10 * num + s.charAt(i++) - '0';
-                }
-                res += sign * num;
-                --i;
-            } else if (c == '+') {
-                sign = 1;
-            } else if (c == '-') {
-                sign = -1;
+            if (c >= '0' && c <= '9') {
+                num = num * 10 + c - '0';
             } else if (c == '(') {
-                stack.push(res);
-                stack.push(sign);
-                res = 0;
-                sign = 1;
-            } else if (c == ')') {
-                res *= stack.pop();//括号内的结果
-                res += stack.pop();//括号内结果和括号外结果合并
+                int j = i, cnt = 0;
+                for (; i < s.length(); i++) {
+                    if (s.charAt(i) == '(') cnt++;
+                    if (s.charAt(i) == ')') cnt--;
+                    if (cnt == 0) break;
+                }
+                num = calculate(s.substring(j + 1, i));
             }
+            if (c < '0' && c != ' ' || i == s.length() - 1) {
+                if (pre_op == '-') {
+                    res = res - num;
+                }
+                if (pre_op == '+') {
+                    res = res + num;
+                }
+                pre_op = c;
+                num = 0;
+            }
+
         }
         return res;
+
+        //使用栈来实现括号优先级
+//        int res = 0, sign = 1, len = s.length(), num = 0;
+//        Stack<Integer> stack = new Stack<>();
+//        for (int i = 0; i < len; i++) {
+//            char c = s.charAt(i);
+//            if (c >= '0' && c <= '9') {//当前字符是数字
+//                num = 10 * num + c - '0';
+//            } else if (c == '+') {
+//                res += sign * num;
+//                sign = 1;
+//                num = 0;
+//            } else if (c == '-') {
+//                res += sign * num;
+//                sign = -1;
+//                num = 0;
+//            } else if (c == '(') {
+//                stack.push(res);
+//                stack.push(sign);
+//                res = 0;
+//                sign = 1;
+//                num = 0;
+//            } else if (c == ')') {
+//                res += sign * num;
+//                num = 0;
+//                res *= stack.pop();//括号内的结果
+//                res += stack.pop();//括号内结果和括号外结果合并
+//            }
+//        }
+//        res += num * sign;
+//        return res;
     }
 
     /**
