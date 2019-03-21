@@ -1,5 +1,7 @@
 package com.zhi.algorithm;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.Stack;
 
@@ -8,54 +10,49 @@ import com.zhi.algorithm.JZofferPrac.TreeNode;
 public class Main {
     public static void main(String[] args) {
         Main main = new Main();
-        TreeNode deserialize = main.deserialize("1,2,#,#,3,4,#,#,5,#,#");
-        deserialize.toString();
+        main.calculate("3+2*2");
     }
 
-    public String serialize(TreeNode root) {
-        if (root == null) {
-            return "";
+    /**
+     * @param s
+     * @return
+     */
+    public int calculate(String s) {
+        char pre_op = '+';//上一个运算符
+        int num = 0;
+        Stack<Integer> stack = new Stack<>();
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c >= '0' && c <= '9') {
+                num = 10 * num + c - '0';
+            }
+            if (c < '0' && c != ' ' || i == s.length() - 1) {//遇到运算符，或者到了最后一个字符
+                if (pre_op == '+') {//上一个符号即数字之前的符号
+                    stack.push(num);
+                }
+                if (pre_op == '-') {
+                    stack.push(-num);
+                }
+                if (pre_op == '*') {
+                    int pre = stack.pop();
+                    stack.push(pre * num);
+                }
+                if (pre_op == '/') {
+                    int pre = stack.pop();
+                    stack.push(pre / num);
+                }
+                pre_op = c;
+                num = 0;
+            }
         }
-        StringBuilder sb = new StringBuilder();
-        serialize(root, sb);
-        return sb.toString();
-    }
 
-    private void serialize(TreeNode root, StringBuilder sb) {
-        if (root == null) {
-            sb.append("#,");
-        } else {
-            sb.append(root.val).append(",");
-            serialize(root.left, sb);
-            serialize(root.right, sb);
+        num = 0;//重复利用
+        while (!stack.isEmpty()) {
+            num += stack.pop();
         }
-
+        return num;
     }
 
-    int index = 0;
-
-    // Decodes your encoded data to tree.
-    //1,2,#,#,3,4,#,#,5,#,#
-    public TreeNode deserialize(String data) {
-        if (data.length() == 0) {
-            return null;
-        }
-        String[] split = data.split(",");
-        return deserialize2(split);
-    }
-
-    private TreeNode deserialize2(String[] split) {
-        if (!split[index].equals("#")) {
-            int val = Integer.valueOf(split[index]);
-            TreeNode root = new TreeNode(val);
-            index++;
-            root.left = deserialize2(split);
-            root.right = deserialize2(split);
-            return root;
-        }
-        index++;
-        return null;
-    }
 
     /**
      * 分糖果
