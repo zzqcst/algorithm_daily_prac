@@ -187,29 +187,38 @@ public class PracticeArea {
 //            System.out.println(interval4);
 //        }
         PracticeArea p = new PracticeArea();
-        System.out.println(p.validMathExpre("3-(2+1*(5-1))+9"));
+        System.out.println(p.validMathExpre("3*((2+1)"));
     }
 
-    boolean validMathExpre(String s) {
-        int num = 0;
-        int pre = 0;
+    private boolean validMathExpre(String s) {
+        Stack<Character> stack = new Stack<>();
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
-            if (c == '(') {
-                int j = i, cnt = 0;
-                for (; i < s.length(); i++) {
-                    if (s.charAt(i) == '(') cnt++;
-                    if (s.charAt(i) == ')') cnt--;
-                }
-                if (!validMathExpre(s.substring(j + 1, i))) {
+            if (c == '*' || c == '/' || c == '+' || c == '-') {//遇到运算符时
+                if (i - 1 >= 0 && s.charAt(i - 1) >= '0') {//前一个是数字，只需要判断下一个是不是数字或左括号
+                    if (!(i + 1 < s.length() && s.charAt(i + 1) >= '0' || s.charAt(i + 1) == '(')) {
+                        return false;
+                    }
+                } else if (i - 1 >= 0 && s.charAt(i - 1) == ')') {//前一个是右括号，只需要判断下一个是不是数字或左括号
+                    if (!(i + 1 < s.length() && s.charAt(i + 1) >= '0' || s.charAt(i + 1) == '(')) {
+                        return false;
+                    }
+                } else {
                     return false;
                 }
-            } else {
-                return s.matches("^\\d+([\\+\\-\\*\\/]\\d+)*[\\+\\-\\*\\/]\\d+$");
+            }
+            if (c == '(') {
+                stack.push(c);
+            }
+            if (c == ')') {
+                if (!stack.isEmpty()) {
+                    stack.pop();
+                } else {
+                    return false;
+                }
             }
         }
-
-        return true;
+        return stack.isEmpty();
     }
 
     /**
