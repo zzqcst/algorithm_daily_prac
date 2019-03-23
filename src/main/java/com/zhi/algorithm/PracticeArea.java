@@ -191,7 +191,7 @@ public class PracticeArea {
     }
 
     private boolean validMathExpre(String s) {
-        Stack<Character> stack = new Stack<>();
+        Stack<Character> stack = new Stack<>();//栈用来匹配括号
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
             if (c == '*' || c == '/' || c == '+' || c == '-') {//遇到运算符时

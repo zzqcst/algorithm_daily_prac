@@ -11,7 +11,19 @@ public class Main {
 
     public static void main(String[] args) {
         Main main = new Main();
-        System.out.println(main.compute(main.getPostfix("2+5*(4+8*(4+1))-1+9")));
+        System.out.println(main.Fibonacci(3));
+    }
+
+    public int Fibonacci(int n) {
+        if (n == 0) return 0;
+        if (n == 1) return 1;
+        int pre = 1, prepre = 0;
+        while (n-- > 1) {
+            int cur = pre + prepre;
+            prepre = pre;
+            pre = cur;
+        }
+        return pre;
     }
 
     int compute(String s) {
