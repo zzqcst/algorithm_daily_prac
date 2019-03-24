@@ -189,6 +189,40 @@ public class PracticeArea {
         PracticeArea p = new PracticeArea();
     }
 
+    /**
+     * leetcode
+     * 逆波兰表达式求值
+     *
+     * @param tokens
+     * @return
+     */
+    public int evalRPN(String[] tokens) {
+        Stack<String> stack = new Stack<>();
+        for (int i = 0; i < tokens.length; i++) {
+            String op = tokens[i];
+            if (op.equals("+") || op.equals("-") || op.equals("*") || op.equals("/")) {
+                switch (op) {
+                    case "+":
+                        stack.push(String.valueOf(Integer.valueOf(stack.pop()) + Integer.valueOf(stack.pop())));
+                        break;
+                    case "-":
+                        int a = Integer.parseInt(stack.pop());
+                        stack.push(String.valueOf(Integer.valueOf(stack.pop()) - a));
+                        break;
+                    case "*":
+                        stack.push(String.valueOf(Integer.valueOf(stack.pop()) * Integer.valueOf(stack.pop())));
+                        break;
+                    case "/":
+                        int b = Integer.parseInt(stack.pop());
+                        stack.push(String.valueOf(Integer.valueOf(stack.pop()) / b));
+                }
+            } else {
+                stack.push(op);
+            }
+        }
+        return Integer.parseInt(stack.pop());
+    }
+
     int count = 0;
 
     /**
