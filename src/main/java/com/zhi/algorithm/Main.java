@@ -1,111 +1,11 @@
 package com.zhi.algorithm;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
-import java.util.Stack;
-
-import com.zhi.algorithm.JZofferPrac.TreeNode;
 
 public class Main {
 
     public static void main(String[] args) {
         Main main = new Main();
-        System.out.println(main.Fibonacci(3));
-    }
-
-    public int Fibonacci(int n) {
-        if (n == 0) return 0;
-        if (n == 1) return 1;
-        int pre = 1, prepre = 0;
-        while (n-- > 1) {
-            int cur = pre + prepre;
-            prepre = pre;
-            pre = cur;
-        }
-        return pre;
-    }
-
-    int compute(String s) {
-        Stack<String> stack = new Stack<>();
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            if (isOperator(c)) {
-                int a = Integer.parseInt(stack.pop());
-                int b = Integer.parseInt(stack.pop());
-                switch (c) {
-                    case '+':
-                        stack.push(String.valueOf(a + b));
-                        break;
-                    case '-':
-                        stack.push(String.valueOf(b - a));
-                        break;
-                    case '*':
-                        stack.push(String.valueOf(a * b));
-                        break;
-                    case '/':
-                        stack.push(String.valueOf(b / a));
-                        break;
-                }
-            } else {
-                stack.push(String.valueOf(c));
-            }
-        }
-        return Integer.parseInt(stack.peek());
-    }
-
-    boolean isOperator(char c) {
-        switch (c) {
-            case '+':
-            case '-':
-            case '*':
-            case '/':
-                return true;
-            default:
-                return false;
-        }
-    }
-
-    int prior(char c) {
-        switch (c) {
-            case '+':
-            case '-':
-                return 1;
-            case '*':
-            case '/':
-                return 2;
-            default:
-                return 0;
-        }
-    }
-
-    /**
-     * @param a
-     * @return
-     */
-    String getPostfix(String a) {
-        StringBuilder sb = new StringBuilder();
-        Stack<Character> stack = new Stack<>();
-        for (int i = 0; i < a.length(); i++) {
-            char c = a.charAt(i);
-            if (isOperator(c)) {
-                while (!stack.isEmpty() && isOperator(stack.peek()) && prior(stack.peek()) >= prior(c)) {
-                    sb.append(stack.pop());
-                }
-                stack.push(c);
-            } else if (c == '(') {
-                stack.push(c);
-            } else if (c == ')') {
-                while (stack.peek() != '(') {
-                    sb.append(stack.pop());
-                }
-                stack.pop();
-            } else sb.append(c);
-        }
-        while (!stack.isEmpty()) {
-            sb.append(stack.pop());
-        }
-        return sb.toString();
     }
 
     /**

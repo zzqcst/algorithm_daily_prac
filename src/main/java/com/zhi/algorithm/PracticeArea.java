@@ -187,7 +187,88 @@ public class PracticeArea {
 //            System.out.println(interval4);
 //        }
         PracticeArea p = new PracticeArea();
-        System.out.println(p.validMathExpre("3*((2+1)"));
+    }
+
+    int count = 0;
+
+    /**
+     * leetcode N皇后2
+     *
+     * @param n
+     * @return
+     */
+    public int totalNQueens(int n) {
+        int[] pre_pos = new int[n];//pre_pos[i] 表示第i行皇后的所在列
+        getSolutions(0, n, pre_pos);
+        return count;
+    }
+
+    private void getSolutions(int current_row, int n, int[] pre_pos) {
+        if (current_row == n) {
+            count++;
+            return;
+        }
+        for (int current_col = 0; current_col < n; current_col++) {
+            if (isAvali(current_row, n, pre_pos, current_col)) {
+                pre_pos[current_row] = current_col;
+                getSolutions(current_row + 1, n, pre_pos);
+            }
+        }
+    }
+
+    private boolean isAvali(int current_row, int n, int[] pre_pos, int current_col) {
+        for (int i = 0; i < current_row; i++) {
+            if (current_col == pre_pos[i] || Math.abs(current_col - pre_pos[i]) == Math.abs(current_row - i)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * leetcode N皇后
+     * n 皇后问题研究的是如何将 n 个皇后放置在 n×n 的棋盘上，并且使皇后彼此之间不能相互攻击
+     * 任意两个皇后不能放在同一行，同一列或同一斜线上
+     *
+     * @param n
+     * @return
+     */
+    public List<List<String>> solveNQueens(int n) {
+        int[] pre_cols = new int[n];//pre_cols[i]:第i行皇后所在列
+        List<List<String>> res = new ArrayList<>();
+        queen(n, 0, res, pre_cols);
+        return res;
+    }
+
+    private void queen(int n, int row, List<List<String>> res, int[] pre_cols) {
+        if (row == n) {
+            List<String> solution = new ArrayList<>();
+            for (int i = 0; i < n; i++) {
+                char[] chars = new char[n];
+                for (int j = 0; j < n; j++) {
+                    chars[j] = '.';
+                }
+                chars[pre_cols[i]] = 'Q';
+                solution.add(new String(chars));
+            }
+            res.add(solution);
+            return;
+        }
+        for (int i = 0; i < n; i++) {//在该行的每一列上尝试放一个皇后
+            if (check(n, row, i, pre_cols)) {
+                pre_cols[row] = i;
+                queen(n, row + 1, res, pre_cols);
+            }
+        }
+    }
+
+    private boolean check(int n, int row, int col, int[] pre_cols) {//检查之前的行的同一列上有没有皇后
+        for (int i = 0; i < row; i++) {
+            if (col == pre_cols[i] || Math.abs(col - pre_cols[i]) == Math.abs(row - i)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private boolean validMathExpre(String s) {
