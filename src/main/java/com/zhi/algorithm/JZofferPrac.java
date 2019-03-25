@@ -84,9 +84,6 @@ public class JZofferPrac {
 //                System.out.print(integer + " ");
 //            }
 //        }
-        TreeNode deserialize = p.Deserialize("1,2,4,#,#,#,3,5,#,#,6,#,#");
-        System.out.println(deserialize);
-
     }
 
 
@@ -1515,26 +1512,20 @@ public class JZofferPrac {
         }
     }
 
-    private int partition(int[] input, int start, int end) {
-        int len = input.length;
-        if (len == 0 || start < 0 || end >= len) {
-            return -1;
-        }
-        int index = start;//选择第一个数作为比较的数
-        swap(input, end, index);
-
-        int small = start - 1;
-        for (index = start; index < end; index++) {
-            if (input[index] < input[end]) {
-                small++;
-                if (small != index) {//这时small指向比end处大的数
-                    swap(input, small, index);
-                }
+    private int partition(int[] arr, int start, int end) {
+        int key = arr[start];
+        while (start < end) {
+            while (start < end && arr[end] >= key) {//从后往前找到一个比枢轴值小的，换到前面去
+                end--;
             }
+            arr[start] = arr[end];
+            while (start < end && arr[start] <= key) {//从前往后找到一个比枢轴值大的，换到后面去
+                start++;
+            }
+            arr[end] = arr[start];//将枢轴值放到分割处
         }
-        ++small;
-        swap(input, small, end);
-        return small;
+        arr[start] = key;
+        return start;//返回枢轴值的位置
     }
 
     private void swap(int[] input, int end, int index) {

@@ -124,7 +124,7 @@ public class EightSort {
             if (j + 1 < length && arr[j + 1] > arr[j]) {
                 j++;
             }
-            if (arr[j] > temp) {
+            if (arr[j] > temp) {//找到比父节点大的，交换到父节点
                 arr[i] = arr[j];
                 i = j;
             } else {

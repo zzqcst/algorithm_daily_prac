@@ -187,6 +187,26 @@ public class PracticeArea {
 //            System.out.println(interval4);
 //        }
         PracticeArea p = new PracticeArea();
+        System.out.println(p.minSteps(11));
+    }
+
+    /**
+     * leetcode
+     * 只有两个键的键盘
+     *
+     * @param n
+     * @return
+     */
+    public int minSteps(int n) {
+        //非质数的的因子和
+        int res = 0;
+        for (int i = 2; i <= n; i++) {
+            while (n % i == 0) {
+                res += i;
+                n /= i;
+            }
+        }
+        return res;
     }
 
     /**
