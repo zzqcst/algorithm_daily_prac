@@ -6,6 +6,24 @@ public class Main {
 
     public static void main(String[] args) {
         Main main = new Main();
+        main.test1();
+        main.test2();
+    }
+
+    private void test1() {
+        long l = System.currentTimeMillis();
+        int a = 100;
+        System.out.println(a);
+        System.out.println(System.currentTimeMillis() - l);
+    }
+
+    private void test2() {
+        long l = System.currentTimeMillis();
+        int a = 100;
+        if (a == 100) {
+            System.out.println(a);
+            System.out.println(System.currentTimeMillis() - l);
+        }
     }
 
     /**
