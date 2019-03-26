@@ -12,15 +12,15 @@ public class Main {
 
     private void test1() {
         long l = System.currentTimeMillis();
-        int a = 100;
+        int a = 1000;
         System.out.println(a);
         System.out.println(System.currentTimeMillis() - l);
     }
 
     private void test2() {
         long l = System.currentTimeMillis();
-        int a = 100;
-        if (a == 100) {
+        int a = 2000;
+        if (a == 2000) {
             System.out.println(a);
             System.out.println(System.currentTimeMillis() - l);
         }
