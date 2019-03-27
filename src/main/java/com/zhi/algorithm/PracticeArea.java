@@ -187,7 +187,38 @@ public class PracticeArea {
 //            System.out.println(interval4);
 //        }
         PracticeArea p = new PracticeArea();
-        System.out.println(p.minSteps(11));
+        int[] a = {1, 2, 3, 5, 7};
+        System.out.println(p.numberOfArithmeticSlices(a));
+    }
+
+    /**
+     * leetcode
+     * 等差数列的划分
+     *
+     * @param A
+     * @return
+     */
+    public int numberOfArithmeticSlices(int[] A) {
+        int res = 0;
+        int add = 0;
+        for (int i = 2; i < A.length; i++)
+            if (A[i - 1] - A[i] == A[i - 2] - A[i - 1])
+                res += ++add;
+            else
+                add = 0;
+        return res;
+    }
+
+    public int sliceCount(int[] A) {
+        int count = 0;
+        int[] dp = new int[A.length];
+        for (int i = 2; i < A.length; i++) {
+            if (A[i] - A[i - 1] == A[i - 1] - A[i - 2]) {
+                dp[i] = dp[i - 1] + 1;
+                count += dp[i];
+            }
+        }
+        return count;
     }
 
     /**
