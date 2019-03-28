@@ -187,8 +187,38 @@ public class PracticeArea {
 //            System.out.println(interval4);
 //        }
         PracticeArea p = new PracticeArea();
-        int[][] grid = {{0, 1}, {1, 0}};
-        System.out.println(p.minPathSum(grid));
+        System.out.println(p.numDecodings("210"));
+    }
+
+    /**
+     * leetcode
+     * 解码方法
+     * 隐含条件，以0开头的无法解码，比如01不能解码为A
+     *
+     * @param s
+     * @return
+     */
+    public int numDecodings(String s) {
+        int n = s.length();
+        int[] dp = new int[n + 1];//dp[i]表示从0到i-1的子字符串编码数
+        if (s.charAt(0) != '0') dp[1] = dp[0] = 1;
+        for (int i = 2; i <= n; i++) {
+            if (s.charAt(i - 1) == '0') {//以0结尾的字符串
+                if (s.charAt(i - 2) == '1' || s.charAt(i - 2) == '2')//倒数第二位如果是1或2
+                    dp[i] = dp[i - 2];//比如“210”的编码数跟“2”一样
+                else
+                    return 0;//“230”无法编码
+            } else {
+                dp[i] = dp[i - 1];//"201"与“2”
+                if (s.charAt(i - 2) != '0') {//倒数第二位为不为0
+                    int t = 10 * (s.charAt(i - 2) - '0') + s.charAt(i - 1) - '0';
+                    if (t <= 26)
+                        dp[i] += dp[i - 2];//"221"的编码数等于“2”的编码数加上“22”编码数
+                    //“231”编码数等于“2”编码数
+                }
+            }
+        }
+        return dp[n];
     }
 
     /**
