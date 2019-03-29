@@ -187,13 +187,18 @@ public class PracticeArea {
 //            System.out.println(interval4);
 //        }
         PracticeArea p = new PracticeArea();
-        System.out.println(p.numDecodings("210"));
+        System.out.println(p.numDecodings("231"));
     }
 
     /**
      * leetcode
      * 解码方法
      * 隐含条件，以0开头的无法解码，比如01不能解码为A
+     * <p>
+     * <p>
+     * (1)满足以10或者20结尾的，dp[n]=dp[n-2] =>"1220":[12,20],[1,2,20];"12":[12],[1,2]
+     * (2)以0x结尾的，dp[n]=dp[n-1] => "1203":[1,20,3];"120":[1,20]
+     * (3)后两位不大于26的，dp[n]=dp[n-1]+dp[n-2]=>"1226":[1,2,26],[12,26],[1,22,6],[12,2,6],[1,2,2,6]
      *
      * @param s
      * @return
@@ -209,12 +214,12 @@ public class PracticeArea {
                 else
                     return 0;//“230”无法编码
             } else {
-                dp[i] = dp[i - 1];//"201"与“2”
+                dp[i] = dp[i - 1];//"201"与“20”
                 if (s.charAt(i - 2) != '0') {//倒数第二位为不为0
                     int t = 10 * (s.charAt(i - 2) - '0') + s.charAt(i - 1) - '0';
-                    if (t <= 26)
+                    if (t <= 26)//后两位组成的数字可以编码
                         dp[i] += dp[i - 2];//"221"的编码数等于“2”的编码数加上“22”编码数
-                    //“231”编码数等于“2”编码数
+                    //“231”编码数等于“23”编码数
                 }
             }
         }
