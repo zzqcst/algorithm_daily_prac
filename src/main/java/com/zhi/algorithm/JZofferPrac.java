@@ -650,6 +650,7 @@ public class JZofferPrac {
     }
 
     /**
+     * 正则表达式匹配
      * 请实现一个函数用来匹配包括'.'和'*'的正则表达式。模式中的字符'.'表示任意一个字符，
      * 而'*'表示它前面的字符可以出现任意次（包含0次）。
      * 在本题中，匹配是指字符串的所有字符匹配整个模式。
@@ -660,13 +661,11 @@ public class JZofferPrac {
      * @return
      */
     public boolean match(char[] str, char[] pattern) {
-        int p1 = 0;
-        int p2 = 0;
         if (str.length == 0 && pattern.length == 0) {
             return true;
         }
 
-        return matchCore(str, pattern, p1, p2);
+        return matchCore(str, pattern, 0, 0);
     }
 
     private boolean matchCore(char[] str, char[] pattern, int p1, int p2) {

@@ -187,8 +187,87 @@ public class PracticeArea {
 //            System.out.println(interval4);
 //        }
         PracticeArea p = new PracticeArea();
-        System.out.println(p.numDecodings("231"));
+        p.isMatch("aaab", "c*a*b");
     }
+
+    /**
+     * leetcode
+     * 正则表达式匹配
+     *
+     * @param s
+     * @param pattern
+     * @return
+     */
+    public boolean isMatch(String s, String pattern) {
+        if (s == null || pattern == null) {
+            return false;
+        }
+        //dp[i][j]表示s中下标到i-1的子串和pattern中下标到j-1的模式匹配
+        boolean[][] dp = new boolean[s.length() + 1][pattern.length() + 1];
+        dp[0][0] = true;
+        for (int i = 0; i < pattern.length(); i++) {
+            if (pattern.charAt(i) == '*' && dp[0][i - 1]) {
+                dp[0][i + 1] = true;
+            }
+        }
+        for (int i = 0; i < s.length(); i++) {
+            for (int j = 0; j < pattern.length(); j++) {
+                if (pattern.charAt(j) == '.' || pattern.charAt(j) == s.charAt(i)) {
+                    dp[i + 1][j + 1] = dp[i][j];
+                }
+                if (pattern.charAt(j) == '*') {
+                    //*和它前一个字符不能匹配s的第i个字符，*和它前一个字符当空处理
+                    if (pattern.charAt(j - 1) != s.charAt(i) && pattern.charAt(j - 1) != '.') {
+                        //bcad 和bcae*d
+                        dp[i + 1][j + 1] = dp[i + 1][j - 1];
+                    } else {
+                        //匹配一次,bcad和bca*d；匹配多次bcaaad和bca*d；当空处理bcad和bc.*ad
+                        dp[i + 1][j + 1] = (dp[i + 1][j] || dp[i][j + 1] || dp[i + 1][j - 1]);
+                    }
+                }
+            }
+        }
+        return dp[s.length()][pattern.length()];
+    }
+
+    /**
+     * leetcode 不同路径2
+     *
+     * @param obstacleGrid
+     * @return
+     */
+    public int uniquePathsWithObstacles(int[][] obstacleGrid) {
+        int rows = obstacleGrid.length;
+        if (rows == 0) {
+            return 0;
+        }
+        int cols = obstacleGrid[0].length;
+        int[][] dp = new int[rows][cols];
+        for (int i = 0; i < cols; i++) {
+            if (obstacleGrid[0][i] == 1) {
+                break;
+            }
+            dp[0][i] = 1;
+        }
+        for (int i = 0; i < rows; i++) {
+            if (obstacleGrid[i][0] == 1) {
+                break;
+            }
+            dp[i][0] = 1;
+        }
+
+        for (int i = 1; i < rows; i++) {
+            for (int j = 1; j < cols; j++) {
+                if (obstacleGrid[i][j] == 1) {
+                    dp[i][j] = 0;
+                    continue;
+                }
+                dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+            }
+        }
+        return dp[rows - 1][cols - 1];
+    }
+
 
     /**
      * leetcode
@@ -923,6 +1002,7 @@ public class PracticeArea {
 
 
     /**
+     * leetcode
      * 不同路径
      * 一个机器人位于一个 m x n 网格的左上角 （起始点在下图中标记为“Start” ）。
      * <p>
