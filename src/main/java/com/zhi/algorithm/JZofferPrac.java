@@ -657,46 +657,41 @@ public class JZofferPrac {
      * 例如，字符串"aaa"与模式"a.a"和"ab*ac*a"匹配，但是与"aa.a"和"ab*a"均不匹配
      *
      * @param str
-     * @param pattern
+     * @param p
      * @return
      */
-    public boolean match(char[] str, char[] pattern) {
-        if (str.length == 0 && pattern.length == 0) {
-            return true;
-        }
-
-        return matchCore(str, pattern, 0, 0);
-    }
-
-    private boolean matchCore(char[] str, char[] pattern, int p1, int p2) {
-        //主要是处理*,.当做普通字符处理
-        if (p1 == str.length && p2 == pattern.length) {
-            return true;
-        }
-
-        if (p1 != str.length && p2 == pattern.length) {
-            return false;
-        }
-
-        //下一个字符为*时
-        if (p2 < pattern.length - 1 && pattern[p2 + 1] == '*') {
-            //当前字符和*之前的字符相同时，例如：ab a*b；或者：ab .*b
-            if (p1 < str.length && pattern[p2] == str[p1] || pattern[p2] == '.' && p1 != str.length) {
-                return matchCore(str, pattern, p1 + 1, p2 + 2)//匹配一次*
-                        || matchCore(str, pattern, p1, p2 + 2)//不匹配*
-                        || matchCore(str, pattern, p1 + 1, p2);//匹配多次*
-            } else {
-                //例如ab b*b ，直接跳过b*，当做没有处理
-                return matchCore(str, pattern, p1, p2 + 2);//不匹配
+    public boolean match(char[] str, char[] p) {
+        String s = new String(str);
+        String pattern = new String(p);
+        //dp[i][j]表示s中下标到i-1的子串和pattern中下标到j-1的模式匹配
+        boolean[][] dp = new boolean[s.length() + 1][pattern.length() + 1];
+        dp[0][0] = true;
+        //匹配空字符串的情况
+        for (int i = 0; i < pattern.length(); i++) {
+            if (pattern.charAt(i) == '*' && dp[0][i - 1]) {
+                dp[0][i + 1] = dp[0][i - 1];
             }
         }
-        //下一个字符不为*,当前字符匹配时，例如：ab aab*，匹配下一个字符
-        if (p1 < str.length && p2 < pattern.length && str[p1] == pattern[p2]
-                || p2 < pattern.length && pattern[p2] == '.' && p1 != str.length) {
-            return matchCore(str, pattern, p1 + 1, p2 + 1);
+        for (int i = 0; i < s.length(); i++) {
+            for (int j = 0; j < pattern.length(); j++) {
+                //能匹配当前字符时
+                if (pattern.charAt(j) == '.' || pattern.charAt(j) == s.charAt(i)) {
+                    dp[i + 1][j + 1] = dp[i][j];
+                }
+                if (pattern.charAt(j) == '*') {
+                    //不能匹配当前字符，*当空处理
+                    if (pattern.charAt(j - 1) != s.charAt(i) && pattern.charAt(j - 1) != '.') {
+                        dp[i + 1][j + 1] = dp[i + 1][j - 1];
+                    } else {
+                        //当空处理；匹配多次；匹配一次
+                        dp[i + 1][j + 1] = dp[i + 1][j - 1] || dp[i][j + 1] || dp[i + 1][j];
+                    }
+                }
+            }
         }
-        return false;
+        return dp[s.length()][pattern.length()];
     }
+
 
     /**
      * 给定一个数组A[0,1,...,n-1],请构建一个数组B[0,1,...,n-1],
