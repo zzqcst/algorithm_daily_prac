@@ -205,13 +205,16 @@ public class PracticeArea {
         //dp[i][j]表示s中下标到i-1的子串和pattern中下标到j-1的模式匹配
         boolean[][] dp = new boolean[s.length() + 1][pattern.length() + 1];
         dp[0][0] = true;
+        //空字符串的匹配情况
         for (int i = 0; i < pattern.length(); i++) {
+            //比如遇到a*，则*处是否匹配与a之前的匹配情况相同
             if (pattern.charAt(i) == '*' && dp[0][i - 1]) {
                 dp[0][i + 1] = true;
             }
         }
         for (int i = 0; i < s.length(); i++) {
             for (int j = 0; j < pattern.length(); j++) {
+                //匹配当前字符
                 if (pattern.charAt(j) == '.' || pattern.charAt(j) == s.charAt(i)) {
                     dp[i + 1][j + 1] = dp[i][j];
                 }
@@ -221,7 +224,7 @@ public class PracticeArea {
                         //bcad 和bcae*d
                         dp[i + 1][j + 1] = dp[i + 1][j - 1];
                     } else {
-                        //匹配一次,bcad和bca*d；匹配多次bcaaad和bca*d；当空处理bcad和bc.*ad
+                        //匹配一次；匹配多次；当空
                         dp[i + 1][j + 1] = (dp[i + 1][j] || dp[i][j + 1] || dp[i + 1][j - 1]);
                     }
                 }
