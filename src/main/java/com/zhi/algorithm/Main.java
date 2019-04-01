@@ -6,8 +6,35 @@ public class Main {
 
     public static void main(String[] args) {
         Main main = new Main();
-        main.test1();
-        main.test2();
+    }
+
+    public boolean isPalindrome(String s) {
+        if(s==null||s.length()==0){
+            return false;
+        }
+        s=s.toLowerCase();
+        StringBuilder sb = new StringBuilder();
+        for(int i=0;i<s.length();i++){
+            if(isLetter(s.charAt(i))){
+                sb.append(s.charAt(i));
+            }
+        }
+        s=sb.toString();
+        int i=0,j=s.length()-1;
+        while(i<j){
+            if(s.charAt(i)!=s.charAt(j)){
+                return false;
+            }
+            i++;
+            j--;
+        }
+        return true;
+    }
+    private boolean isLetter(char c){
+        if(c>='a'&&c<='z'){
+            return true;
+        }
+        return false;
     }
 
     private void test1() {
