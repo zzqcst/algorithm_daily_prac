@@ -200,10 +200,10 @@ public class PracticeArea {
     public int maxArea(int[] height) {
         int len = height.length;
         int max = 0;
-        int i = 0, j = len - 1;
+        int i = 0, j = len - 1, temp = 0;
         //每次移动高度较小的
         while (i < j) {
-            int temp = (j - i) * Math.min(height[i], height[j]);
+            temp = (j - i) * Math.min(height[i], height[j]);
             if (temp > max) {
                 max = temp;
             }
