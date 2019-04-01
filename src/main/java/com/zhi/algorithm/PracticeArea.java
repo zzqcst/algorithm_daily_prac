@@ -187,8 +187,78 @@ public class PracticeArea {
 //            System.out.println(interval4);
 //        }
         PracticeArea p = new PracticeArea();
-        System.out.println(p.trailingZeroes(1000));
+        System.out.println(p.intToRoman(1994));
     }
+
+    /**
+     * leetcode
+     * 整数转罗马数字
+     *
+     * @param num
+     * @return
+     */
+    public String intToRoman(int num) {
+        Stack<String> stack = new Stack<>();
+        int n = 1;//代表数位，个十百千
+        StringBuilder sb = new StringBuilder();
+        while (num != 0) {
+            int temp = num % 10;
+            stack.push(single(temp, n));
+            n *= 10;
+            num /= 10;
+        }
+        while (!stack.isEmpty()) {
+            sb.append(stack.pop());
+        }
+        return sb.toString();
+    }
+
+    private String single(int num, int n) {
+        //当n的数位不一样，one,five,ten不一样
+        String one = null, five = null, ten = null;
+        switch (n) {
+            case 1:
+                one = "I";
+                five = "V";
+                ten = "X";
+                break;
+            case 10:
+                one = "X";
+                five = "L";
+                ten = "C";
+                break;
+            case 100:
+                one = "C";
+                five = "D";
+                ten = "M";
+                break;
+            case 1000:
+                one = "M";
+        }
+        //将个十百千的数字使用相同的转换流程
+        StringBuilder sb = new StringBuilder();
+        switch (num) {
+            case 4:
+                return sb.append(one).append(five).toString();
+            case 5:
+                return sb.append(five).toString();
+            case 9:
+                return sb.append(one).append(ten).toString();
+        }
+        if (num < 4) {
+            for (int i = 0; i < num; i++) {
+                sb.append(one);
+            }
+        }
+        if (num > 5) {
+            sb.append(five);
+            for (int i = 0; i < num - 5; i++) {
+                sb.append(one);
+            }
+        }
+        return sb.toString();
+    }
+
 
     /**
      * leetcode
