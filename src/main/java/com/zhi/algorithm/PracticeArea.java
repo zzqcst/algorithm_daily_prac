@@ -187,7 +187,92 @@ public class PracticeArea {
 //            System.out.println(interval4);
 //        }
         PracticeArea p = new PracticeArea();
-        System.out.println(p.isPalindrome(12321));
+        System.out.println(p.trailingZeroes(1000));
+    }
+
+    /**
+     * leetcode
+     * 阶乘后的0
+     *
+     * @param n
+     * @return
+     */
+    public int trailingZeroes(int n) {
+        // 对于n的阶乘n！，其因式分解中，如果存在一个因子“5”，那么它必然对应着n！末尾的一个“0”。
+        //当0 < n < 5时，f(n!) = 0;
+        //当n >= 5时，f(n!) = k + f(k!), 其中 k = n / 5（取整）。
+        if (n < 5) {
+            return 0;
+        }
+        return n / 5 + trailingZeroes(n / 5);
+    }
+
+    /**
+     * leetcode
+     * 快乐数
+     *
+     * @param n
+     * @return
+     */
+    public boolean isHappy(int n) {
+        //所有不快乐数的数位平方和计算，最後都会进入 4 → 16 → 37 → 58 → 89 → 145 → 42 → 20 → 4 的循环中。
+        while (n != 4) {
+            if (n == 1) {
+                return true;
+            }
+            int sum = 0;
+            while (n != 0) {
+                int temp = n % 10;
+                sum += temp * temp;
+                n = n / 10;
+            }
+            n = sum;
+        }
+        return false;
+    }
+
+    static class RandomizedSet {
+        private HashMap<Integer, Integer> map = null;
+
+        /**
+         * Initialize your data structure here.
+         */
+        public RandomizedSet() {
+            map = new HashMap<>();
+        }
+
+        /**
+         * Inserts a value to the set. Returns true if the set did not already contain the specified element.
+         */
+        public boolean insert(int val) {
+            if (map.containsKey(val)) {
+                return false;
+            }
+            map.put(val, val);
+            return true;
+        }
+
+        /**
+         * Removes a value from the set. Returns true if the set contained the specified element.
+         */
+        public boolean remove(int val) {
+            if (map.containsKey(val)) {
+                map.remove(val);
+                return true;
+            }
+            return false;
+        }
+
+        /**
+         * Get a random element from the set.
+         */
+        public int getRandom() {
+            Set<Integer> keys = map.keySet();
+            Object[] objects = keys.toArray();
+            Random rand = new Random();
+            int key = rand.nextInt(keys.size());
+            return map.get(objects[key]);
+        }
     }
 
     /**
