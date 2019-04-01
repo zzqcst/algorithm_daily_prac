@@ -187,7 +187,53 @@ public class PracticeArea {
 //            System.out.println(interval4);
 //        }
         PracticeArea p = new PracticeArea();
-        System.out.println(p.isMatch("aaab", "c*a*b"));
+        System.out.println(p.isPalindrome(12321));
+    }
+
+    /**
+     * leetcode
+     * 盛水最多的容器
+     *
+     * @param height
+     * @return
+     */
+    public int maxArea(int[] height) {
+        int len = height.length;
+        int max = 0;
+        int i = 0, j = len - 1;
+        //每次移动高度较小的
+        while (i < j) {
+            int temp = (j - i) * Math.min(height[i], height[j]);
+            if (temp > max) {
+                max = temp;
+            }
+            if (height[i] < height[j]) {
+                i++;
+            } else {
+                j--;
+            }
+        }
+        return max;
+    }
+
+    /**
+     * leetcode
+     * 回文数
+     *
+     * @param x
+     * @return
+     */
+    public boolean isPalindrome(int x) {
+        String s = String.valueOf(x);
+        int i = 0, j = s.length() - 1;
+        while (i < j) {
+            if (s.charAt(i) != s.charAt(j)) {
+                return false;
+            }
+            i++;
+            j--;
+        }
+        return true;
     }
 
     /**
