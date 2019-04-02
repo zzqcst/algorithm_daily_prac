@@ -187,7 +187,51 @@ public class PracticeArea {
 //            System.out.println(interval4);
 //        }
         PracticeArea p = new PracticeArea();
-        System.out.println(p.intToRoman(1994));
+        int[][] stations = {{25, 25}, {50, 50}};
+        System.out.println(p.minRefuelStops(100, 50, stations));
+    }
+
+    /**
+     * leetcode
+     * 最低加油次数
+     *
+     * @param target
+     * @param startFuel
+     * @param stations
+     * @return
+     */
+    public int minRefuelStops(int target, int startFuel, int[][] stations) {
+        if (stations.length == 0 && target > startFuel) {
+            return -1;
+        }
+        int ans = 0;
+        int pos = 0;
+        int[][] sta = new int[stations.length + 1][2];
+        System.arraycopy(stations, 0, sta, 0, stations.length);
+        sta[stations.length][0] = target;//把最终目的地也加入，方便比较
+        sta[stations.length][1] = 0;
+        Queue<Integer> queue = new PriorityQueue<>(new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return o2 - o1;
+            }
+        });
+        while (startFuel < target) {
+            //保存所有能达到的加油站
+            while (pos < sta.length - 1 && startFuel >= sta[pos][0]) {
+                queue.offer(sta[pos++][1]);
+            }
+
+            //遇到无法到达的加油站时，从能到达的加油站按油量从大到小加油
+            while (startFuel < sta[pos][0]) {
+                if (queue.isEmpty()) {//如果为空，说明所有能达到加油站都加了油也无法到达
+                    return -1;
+                }
+                startFuel += queue.poll();
+                ans++;
+            }
+        }
+        return ans;
     }
 
     /**

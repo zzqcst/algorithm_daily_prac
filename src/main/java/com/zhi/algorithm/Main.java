@@ -1,28 +1,76 @@
 package com.zhi.algorithm;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
         Main main = new Main();
+        System.out.println(canArrangeWords(new String[]{""}));
+    }
+
+//    public int maxProduct(int numNodes, List<Integer> values,
+//                          List<List<Integer>> edges) {
+//    }
+//
+//    public int minNumberOfProjects(int num, int projCmptDec, int restDec,
+//                                   int[] errorScore) {
+//        int count = 0;
+//        while (true) {
+//            Arrays.sort(errorScore, errorScore.length - 1, 0);
+//
+//        }
+//    }
+//
+//    public int minGasStation(int numOfGS, int[] distOfGS,
+//                             int[] allowedGasoline, int distance,
+//                             int initialGasoline) {
+//
+//
+//    }
+
+    public static int canArrangeWords(String arr[]) {
+        // INSERT YOUR CODE HERE
+        List<Character> first = new ArrayList<>();
+        List<Character> last = new ArrayList<>();
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[0].length() == 0) {
+                continue;
+            }
+            first.add(arr[i].charAt(0));
+            last.add(arr[i].charAt(arr[0].length() - 1));
+            if (!first.isEmpty()) {
+                if (first.contains(arr[i].charAt(arr[i].length() - 1))) {
+                    return 1;
+                }
+            }
+            if (!last.isEmpty()) {
+                if (last.contains(arr[i].charAt(0))) {
+                    return 1;
+                }
+            }
+        }
+        return -1;
     }
 
     public boolean isPalindrome(String s) {
-        if(s==null||s.length()==0){
+        if (s == null || s.length() == 0) {
             return false;
         }
-        s=s.toLowerCase();
+        s = s.toLowerCase();
         StringBuilder sb = new StringBuilder();
-        for(int i=0;i<s.length();i++){
-            if(isLetter(s.charAt(i))){
+        for (int i = 0; i < s.length(); i++) {
+            if (isLetter(s.charAt(i))) {
                 sb.append(s.charAt(i));
             }
         }
-        s=sb.toString();
-        int i=0,j=s.length()-1;
-        while(i<j){
-            if(s.charAt(i)!=s.charAt(j)){
+        s = sb.toString();
+        int i = 0, j = s.length() - 1;
+        while (i < j) {
+            if (s.charAt(i) != s.charAt(j)) {
                 return false;
             }
             i++;
@@ -30,8 +78,9 @@ public class Main {
         }
         return true;
     }
-    private boolean isLetter(char c){
-        if(c>='a'&&c<='z'){
+
+    private boolean isLetter(char c) {
+        if (c >= 'a' && c <= 'z') {
             return true;
         }
         return false;
