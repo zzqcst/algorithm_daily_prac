@@ -1,93 +1,55 @@
 package com.zhi.algorithm;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+
 
 public class Main {
 
     public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-        int n = Integer.valueOf(input.nextLine());
-        List<Integer> list = new ArrayList<>();
-        List<ArrayList<Integer>> nums = new ArrayList<>();
-        while (true) {
-            String str = input.nextLine();
-            if (str == null || str.equals("")) {
-                break;
-            }
-            String[] num = str.split(",");
-            ArrayList<Integer> nu = new ArrayList<>();
-            for (String s : num) {
-                nu.add(Integer.valueOf(s));
-            }
-            nums.add(nu);
-            Boolean isNotBreak = true;
-            while (nums != null && nums.size() != 0) {
-                List<Integer> delte = new ArrayList<>();
-                int locate = 0;
-                for (ArrayList<Integer> integers : nums) {
-                    if (integers != null) {
-                        int flag = 0;
-                        while (flag < n) {
-                            if (integers.size() > 0) {
-                                list.add(integers.get(0));
-                                integers.remove(0);
-                                flag++;
-                            } else {
-                                delte.add(locate);
-                                break;
-                            }
-                            locate++;
-                        }
-                    }
-                    if (delte != null) {
-                        for (Integer integer : delte) {
-                            nums.remove(integer);
-                        }
-                    }
-
+        Scanner scanner = new Scanner(System.in);
+        while (scanner.hasNext()) {
+            int n = Integer.valueOf(scanner.nextLine());
+            List<String> list = new ArrayList<>();
+            while (true) {
+                String a = scanner.nextLine();
+                if (a == null || a.equals("")) {
+                    break;
                 }
-                for (int i = 0; i < list.size(); i++) {
-                    if (i != list.size() - 1) {
-                        System.out.print(list.get(i) + ",");
-                    } else {
-                        System.out.print(list.get(i));
-                    }
-                }
-
+                list.add(a);
             }
+            StringBuilder sb = new StringBuilder();
+            int i = 0;
+            while (!list.isEmpty()) {
+                String temp = list.get(i);
+                String[] split = temp.split(",");
+                int min = Math.min(n, split.length);
+                for (int j = 0; j < min; j++) {
+                    sb.append(split[j]);
+                }
+                StringBuilder sb2 = new StringBuilder();
+                for (int j = min; j < split.length; j++) {
+                    sb2.append(split[j] + ",");
+                }
+                if (sb2.toString().equals("")) {
+                    list.remove(i);
+                } else
+                    list.set(i, sb2.toString());
+                i++;
+                if (i >= list.size()) {
+                    i = 0;
+                }
+            }
+            for (int j = 0; j < sb.length() - 1; j++) {
+                System.out.print(sb.charAt(j) + ",");
+            }
+            if (sb.length() > 0) {
+                System.out.print(sb.charAt(sb.length() - 1));
+            }
+            System.out.println();
         }
-//        int n = scanner.nextInt();
-//        while (scanner.hasNext()) {
-//            String a = scanner.next();
-//            List<String> list = new ArrayList<>();
-//            while (!a.endsWith(" ")) {
-//                list.add(a);
-//                a = scanner.nextLine();
-//            }
-//            list.add(a);
-//            StringBuilder sb = new StringBuilder();
-//            for (int i = 0; i < list.size(); i++) {
-//                String temp = list.get(i);
-//                String[] split = temp.split(",");
-//                int min = Math.min(n, split.length);
-//                for (int j = 0; j < min; j++) {
-//                    sb.append(split[j]);
-//                }
-//                StringBuilder sb2 = new StringBuilder();
-//                for (int j = min; j < split.length; j++) {
-//                    sb2.append(split[j]);
-//                }
-//                list.set(i, sb2.toString());
-//            }
-//            for (int i = 0; i < sb.length() - 1; i++) {
-//                System.out.print(sb.charAt(i) + ",");
-//            }
-//            System.out.print(sb.charAt(sb.length() - 1));
-//            System.out.println();
-//        }
+
 
     }
 
@@ -558,3 +520,57 @@ public class Main {
         }
     }
 }
+//public class Main {
+//
+//    public static void main(String[] args) {
+//        Scanner input = new Scanner(System.in);
+//        int n = Integer.valueOf(input.nextLine());
+//        List<Integer> list = new ArrayList<Integer>();
+//        List<ArrayList<Integer>> nums = new ArrayList<ArrayList<Integer>>();
+//        while (true) {
+//            String str = input.nextLine();
+//            if (str == null || str.equals(""))
+//                break;
+//            String[] num = str.split(",");
+//            ArrayList<Integer> nu = new ArrayList();
+//            for (String s : num) {
+//                nu.add(Integer.valueOf(s));
+//            }
+//            nums.add(nu);
+//        }
+//        Boolean isNotBreak = true;
+//        while (nums != null && nums.size() != 0) {
+//            List<Integer> delte = new ArrayList();
+//            int locate = 0;
+//            for (ArrayList<Integer> get : nums) {
+//                if (get != null) {
+//                    int flag = 0;
+//                    while (flag < n) {
+//                        if (get.size() > 0) {
+//                            list.add(get.get(0));
+//                            System.out.print(get.get(0) + ",");
+//                            get.remove(0);
+//
+//                            flag++;
+//                        } else {
+//                            delte.add(locate);
+//                            break;
+//                        }
+//                    }
+//                }
+//                locate++;
+//            }
+//            if (delte != null) {
+//                for (int j : delte) {
+//                    nums.remove(j);
+//                }
+//            }
+//        }
+//        for (int i = 0; i < list.size(); i++) {
+//            if (i != list.size() - 1)
+//                System.out.print(list.get(i) + ",");
+//            else
+//                System.out.print(list.get(i));
+//        }
+//    }
+//}
