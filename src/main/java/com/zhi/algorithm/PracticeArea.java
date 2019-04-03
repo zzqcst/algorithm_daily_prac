@@ -186,9 +186,53 @@ public class PracticeArea {
 //        for (Interval interval4 : merge(list)) {
 //            System.out.println(interval4);
 //        }
-        PracticeArea p = new PracticeArea();
-        int[][] stations = {{25, 25}, {50, 50}};
-        System.out.println(p.minRefuelStops(100, 50, stations));
+        Scanner scanner = new Scanner(System.in);
+        while (scanner.hasNextInt()) {
+            int n = scanner.nextInt();
+            if (n > 1000) {
+                n = 999;
+            }
+            List<Integer> list = new ArrayList<>();
+            for (int i = 0; i < n; i++) {
+                list.add(i);
+            }
+            int i = 0;
+            while (list.size() > 1) {
+                i = (i + 2) % list.size();
+                list.remove(i);
+            }
+            System.out.println(list.get(0));
+        }
+//        Scanner scanner = new Scanner(System.in);
+////        while (scanner.hasNext()) {
+////            String s = scanner.next();
+////            int[] letters = new int[52];
+////            for (int i = 0; i < s.length(); i++) {
+////                if (s.charAt(i) > 'Z') {
+////                    if (letters[s.charAt(i) - 'a' + 26] == 0) {
+////                        System.out.print(s.charAt(i));
+////                        letters[s.charAt(i) - 'a' + 26] = 1;
+////                    }
+////                } else {
+////                    if (letters[s.charAt(i) - 'A'] == 0) {
+////                        System.out.print(s.charAt(i));
+////                        letters[s.charAt(i) - 'A'] = 1;
+////                    }
+////                }
+////
+////            }
+////            System.out.println();
+////        }
+//        Scanner scanner = new Scanner(System.in);
+//        while (scanner.hasNextInt()) {
+//            int[][] nums = new int[9][9];
+//            for (int i = 0; i < 9; i++) {
+//                for (int j = 0; j < 9; j++) {
+//                    nums[i][j] = scanner.nextInt();
+//                }
+//            }
+//
+//        }
     }
 
     /**
@@ -4074,52 +4118,37 @@ public class PracticeArea {
         }
         return true;
 
-        //简单解法
-        //        Set<Character> rowset = new HashSet<Character>();
-        //        Set<Character> colset = new HashSet<Character>();
-        //
-        //        for(int i = 0; i < 9; i++)
-        //        {
-        //            rowset.clear();
-        //            colset.clear();
-        //            for(int j = 0; j < 9; j ++)
-        //            {
-        //                if(i % 3 == 0 && j % 3 == 0)  // 检查块是否有效
-        //                {
-        //                    if(!checkBlock(board, i, j))
-        //                        return false;
-        //                }
-        //                if(board[i][j] != '.')  // 检查行是否有效
-        //                {
-        //                    if(rowset.contains(board[i][j]))
-        //                        return false;
-        //                    rowset.add(board[i][j]);
-        //                }
-        //                if(board[j][i] != '.')  // 检查列是否有效
-        //                {
-        //                    if(colset.contains(board[j][i]))
-        //                        return false;
-        //                    colset.add(board[j][i]);
-        //                }
-        //            }
-        //        }
-        //        return true;
-    }
-
-    public boolean checkBlock(char[][] board, int row, int col)  // 检查块是否有效,一个3×3的块中是否有重复数字
-    {
-        Set<Character> blockSet = new HashSet<Character>();
-        for (int i = row; i < row + 3; i++) {
-            for (int j = col; j < col + 3; j++) {
-                if (board[i][j] != '.') {
-                    if (blockSet.contains(board[i][j])) {
-                        return false;
-                    }
-                    blockSet.add(board[i][j]);
-                }
-            }
-        }
-        return true;
+//        // init data
+//        HashMap<Integer, Integer> [] rows = new HashMap[9];
+//        HashMap<Integer, Integer> [] columns = new HashMap[9];
+//        HashMap<Integer, Integer> [] boxes = new HashMap[9];
+//        for (int i = 0; i < 9; i++) {
+//            rows[i] = new HashMap<Integer, Integer>();
+//            columns[i] = new HashMap<Integer, Integer>();
+//            boxes[i] = new HashMap<Integer, Integer>();
+//        }
+//
+//        // validate a board
+//        for (int i = 0; i < 9; i++) {
+//            for (int j = 0; j < 9; j++) {
+//                char num = board[i][j];
+//                if (num != '.') {
+//                    int n = (int)num;
+//                    int box_index = (i / 3 ) * 3 + j / 3;
+//
+//                    // keep the current cell value
+//                    rows[i].put(n, rows[i].getOrDefault(n, 0) + 1);
+//                    columns[j].put(n, columns[j].getOrDefault(n, 0) + 1);
+//                    boxes[box_index].put(n, boxes[box_index].getOrDefault(n, 0) + 1);
+//
+//                    // check if this value has been already seen before
+//                    if (rows[i].get(n) > 1 || columns[j].get(n) > 1 || boxes[box_index].get(n) > 1)
+//                        return false;
+//                }
+//            }
+//        }
+//
+//        return true;
     }
 
     /**
