@@ -4093,62 +4093,62 @@ public class PracticeArea {
      * @return
      */
     public static boolean isValidSudoku(char[][] board) {
-        //高效解法
-        int[][] signs = new int[3][9];
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                if (board[i][j] == '.') {
-                    continue;
-                }
-                int n = 1 << (board[i][j] - '1');//1×2^(board[i][j]-'1'),二进制1左移当前数字对应的位数
-                int cubeIndex = i / 3 * 3 + j / 3;//当前格子位于第几块中
-                //按位与，若某数字再次出现，对应位上有相同的1，则与后结果不为0
-                //例如，9、8出现后，sign的二进制为110000000,再次出现9，n为100000000,这样，
-                //按位相与的结果不为0
-                if ((signs[0][i] & n) != 0 || (signs[1][j] & n) != 0
-                        || (signs[2][cubeIndex] & n) != 0) {
-                    return false;
-                }
-                //sign保存数字对应位数的1，比如9，则为100000000,下一个数字是8,则sign更新为，110000000,
-                //即，若某数字出现了，则对应位置上为1
-                signs[0][i] |= n;//对应i行的数字，检查一行的数字是否重复
-                signs[1][j] |= n;//对应j列的的数字,检查列上的数字是否重复
-                signs[2][cubeIndex] |= n;//对应第cubuIndex个块中的数字
-            }
-        }
-        return true;
-
-//        // init data
-//        HashMap<Integer, Integer> [] rows = new HashMap[9];
-//        HashMap<Integer, Integer> [] columns = new HashMap[9];
-//        HashMap<Integer, Integer> [] boxes = new HashMap[9];
-//        for (int i = 0; i < 9; i++) {
-//            rows[i] = new HashMap<Integer, Integer>();
-//            columns[i] = new HashMap<Integer, Integer>();
-//            boxes[i] = new HashMap<Integer, Integer>();
-//        }
-//
-//        // validate a board
+//        //高效解法
+//        int[][] signs = new int[3][9];
 //        for (int i = 0; i < 9; i++) {
 //            for (int j = 0; j < 9; j++) {
-//                char num = board[i][j];
-//                if (num != '.') {
-//                    int n = (int)num;
-//                    int box_index = (i / 3 ) * 3 + j / 3;
-//
-//                    // keep the current cell value
-//                    rows[i].put(n, rows[i].getOrDefault(n, 0) + 1);
-//                    columns[j].put(n, columns[j].getOrDefault(n, 0) + 1);
-//                    boxes[box_index].put(n, boxes[box_index].getOrDefault(n, 0) + 1);
-//
-//                    // check if this value has been already seen before
-//                    if (rows[i].get(n) > 1 || columns[j].get(n) > 1 || boxes[box_index].get(n) > 1)
-//                        return false;
+//                if (board[i][j] == '.') {
+//                    continue;
 //                }
+//                int n = 1 << (board[i][j] - '1');//1×2^(board[i][j]-'1'),二进制1左移当前数字对应的位数
+//                int cubeIndex = i / 3 * 3 + j / 3;//当前格子位于第几块中
+//                //按位与，若某数字再次出现，对应位上有相同的1，则与后结果不为0
+//                //例如，9、8出现后，sign的二进制为110000000,再次出现9，n为100000000,这样，
+//                //按位相与的结果不为0
+//                if ((signs[0][i] & n) != 0 || (signs[1][j] & n) != 0
+//                        || (signs[2][cubeIndex] & n) != 0) {
+//                    return false;
+//                }
+//                //sign保存数字对应位数的1，比如9，则为100000000,下一个数字是8,则sign更新为，110000000,
+//                //即，若某数字出现了，则对应位置上为1
+//                signs[0][i] |= n;//对应i行的数字，检查一行的数字是否重复
+//                signs[1][j] |= n;//对应j列的的数字,检查列上的数字是否重复
+//                signs[2][cubeIndex] |= n;//对应第cubuIndex个块中的数字
 //            }
 //        }
-//
 //        return true;
+
+        // init data
+        HashMap<Integer, Integer>[] rows = new HashMap[9];
+        HashMap<Integer, Integer>[] columns = new HashMap[9];
+        HashMap<Integer, Integer>[] boxes = new HashMap[9];
+        for (int i = 0; i < 9; i++) {
+            rows[i] = new HashMap<Integer, Integer>();
+            columns[i] = new HashMap<Integer, Integer>();
+            boxes[i] = new HashMap<Integer, Integer>();
+        }
+
+        // validate a board
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                char num = board[i][j];
+                if (num != '.') {
+                    int n = (int) num;
+                    int box_index = (i / 3) * 3 + j / 3;
+
+                    // keep the current cell value
+                    rows[i].put(n, rows[i].getOrDefault(n, 0) + 1);
+                    columns[j].put(n, columns[j].getOrDefault(n, 0) + 1);
+                    boxes[box_index].put(n, boxes[box_index].getOrDefault(n, 0) + 1);
+
+                    // check if this value has been already seen before
+                    if (rows[i].get(n) > 1 || columns[j].get(n) > 1 || boxes[box_index].get(n) > 1)
+                        return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     /**
