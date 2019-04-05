@@ -1,55 +1,145 @@
 package com.zhi.algorithm;
 
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Scanner;
 
 
 public class Main {
 
     public static void main(String[] args) {
+//        Scanner scanner = new Scanner(System.in);
+//        while (scanner.hasNext()) {
+//            int n = Integer.valueOf(scanner.nextLine());
+//            List<String> list = new ArrayList<>();
+//            while (true) {
+//                String a = scanner.nextLine();
+//                if (a == null || a.equals("")) {
+//                    break;
+//                }
+//                list.add(a);
+//            }
+//            StringBuilder sb = new StringBuilder();
+//            int i = 0;
+//            while (!list.isEmpty()) {
+//                String temp = list.get(i);
+//                String[] split = temp.split(",");
+//                int min = Math.min(n, split.length);
+//                for (int j = 0; j < min; j++) {
+//                    sb.append(split[j]);
+//                }
+//                StringBuilder sb2 = new StringBuilder();
+//                for (int j = min; j < split.length; j++) {
+//                    sb2.append(split[j] + ",");
+//                }
+//                if (sb2.toString().equals("")) {
+//                    list.remove(i);
+//                } else
+//                    list.set(i, sb2.toString());
+//                i++;
+//                if (i >= list.size()) {
+//                    i = 0;
+//                }
+//            }
+//            for (int j = 0; j < sb.length() - 1; j++) {
+//                System.out.print(sb.charAt(j) + ",");
+//            }
+//            if (sb.length() > 0) {
+//                System.out.print(sb.charAt(sb.length() - 1));
+//            }
+//            System.out.println();
+//        }
         Scanner scanner = new Scanner(System.in);
-        while (scanner.hasNext()) {
-            int n = Integer.valueOf(scanner.nextLine());
-            List<String> list = new ArrayList<>();
-            while (true) {
-                String a = scanner.nextLine();
-                if (a == null || a.equals("")) {
-                    break;
-                }
-                list.add(a);
+//        while (scanner.hasNextInt()) {
+//            int n = scanner.nextInt();
+//            int[] power = new int[n];
+//            int[] cost = new int[n];
+//            for (int i = 0; i < n; i++) {
+//                power[i] = scanner.nextInt();
+//            }
+//            for (int i = 0; i < n; i++) {
+//                cost[i] = scanner.nextInt();
+//            }
+//
+//            int total_pow = 0;
+//            int money = 0;
+//            Queue<Integer> queue = new LinkedList<>();
+//            for (int i = 0; i < n; i++) {
+//                if (power[i] > total_pow) {
+//                    if (queue.isEmpty()) {
+//                        money += cost[i];
+//                    }
+//                    for (int j = 0; j < queue.size(); j++) {
+//
+//                    }
+//                } else {
+//                    queue.offer(i);
+//                }
+//            }
+//        }
+//        while (scanner.hasNextInt()) {
+//            int n = scanner.nextInt();
+//            String s = scanner.next();
+//            if (n == 1) {
+//                System.out.println(1);
+//                continue;
+//            }
+//            for (int i = 0; i <= n / 2; i++) {
+//                s = s.replace("01", "");
+//                s = s.replace("10", "");
+//            }
+//            System.out.println(s.length());
+//        }
+        while (scanner.hasNextInt()) {
+            int m = scanner.nextInt();
+            int n = scanner.nextInt();
+            int[] coins = new int[n];
+            for (int i = 0; i < n; i++) {
+                coins[i] = scanner.nextInt();
             }
-            StringBuilder sb = new StringBuilder();
-            int i = 0;
-            while (!list.isEmpty()) {
-                String temp = list.get(i);
-                String[] split = temp.split(",");
-                int min = Math.min(n, split.length);
-                for (int j = 0; j < min; j++) {
-                    sb.append(split[j]);
-                }
-                StringBuilder sb2 = new StringBuilder();
-                for (int j = min; j < split.length; j++) {
-                    sb2.append(split[j] + ",");
-                }
-                if (sb2.toString().equals("")) {
-                    list.remove(i);
-                } else
-                    list.set(i, sb2.toString());
-                i++;
-                if (i >= list.size()) {
-                    i = 0;
-                }
+            Arrays.sort(coins);
+            if (coins[0] != 1) {
+                System.out.println(-1);
+                continue;
             }
-            for (int j = 0; j < sb.length() - 1; j++) {
-                System.out.print(sb.charAt(j) + ",");
+            int max = 0;
+            HashMap<Integer, Integer> map = new HashMap<>();
+            coinChange(coins, m, map);
+            for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+                max += entry.getValue();
             }
-            if (sb.length() > 0) {
-                System.out.print(sb.charAt(sb.length() - 1));
-            }
-            System.out.println();
+            System.out.println(max);
         }
     }
+
+    public static int coinChange(int[] coins, int amount, HashMap<Integer, Integer> map) {
+        if (amount == 0 || coins.length <= 0) {
+            return 0;
+        }
+        int[] dp = new int[amount + 1];//dp[i]表示金额为i时，需要的硬币数
+        Arrays.fill(dp, amount + 1);
+        Arrays.sort(coins);
+        for (int i = 1; i <= amount; i++) {
+            HashMap<Integer, Integer> temp = new HashMap<>();
+            for (int j = 0; j < coins.length; j++) {
+                if (i - coins[j] == 0) {
+                    dp[i] = 1;
+                    temp.put(coins[j], temp.getOrDefault(coins[j], 0) + 1);
+                } else if (i - coins[j] > 0) {
+                    if (dp[i] > dp[i - coins[j]] + 1) {
+                        dp[i] = dp[i - coins[j]] + 1;//选了coins[j]
+                        temp.put(coins[j], temp.getOrDefault(coins[j], 0) + 1);
+                    }
+
+                }
+            }
+            for (Map.Entry<Integer, Integer> entry : temp.entrySet()) {
+                int count = temp.getOrDefault(entry.getKey(), 0);
+                map.put(entry.getKey(), entry.getKey() > count ? entry.getKey() : count);
+            }
+        }
+        return dp[amount] == amount + 1 ? -1 : dp[amount];
+    }
+
 
 //    private boolean check(String s){
 //
