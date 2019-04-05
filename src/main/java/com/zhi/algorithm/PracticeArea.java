@@ -186,23 +186,22 @@ public class PracticeArea {
 //        for (Interval interval4 : merge(list)) {
 //            System.out.println(interval4);
 //        }
-        Scanner scanner = new Scanner(System.in);
-        while (scanner.hasNextInt()) {
-            int n = scanner.nextInt();
-            if (n > 1000) {
-                n = 999;
-            }
-            List<Integer> list = new ArrayList<>();
-            for (int i = 0; i < n; i++) {
-                list.add(i);
-            }
-            int i = 0;
-            while (list.size() > 1) {
-                i = (i + 2) % list.size();
-                list.remove(i);
-            }
-            System.out.println(list.get(0));
-        }
+//        while (scanner.hasNextInt()) {
+//            int n = scanner.nextInt();
+//            if (n > 1000) {
+//                n = 999;
+//            }
+//            List<Integer> list = new ArrayList<>();
+//            for (int i = 0; i < n; i++) {
+//                list.add(i);
+//            }
+//            int i = 0;
+//            while (list.size() > 1) {
+//                i = (i + 2) % list.size();
+//                list.remove(i);
+//            }
+//            System.out.println(list.get(0));
+//        }
 //        Scanner scanner = new Scanner(System.in);
 ////        while (scanner.hasNext()) {
 ////            String s = scanner.next();
@@ -233,6 +232,108 @@ public class PracticeArea {
 //            }
 //
 //        }
+        PracticeArea p = new PracticeArea();
+        int[] A = {1, 3};
+        int[] B = {2};
+        System.out.println(p.findMedianSortedArrays(A, B));
+    }
+
+    /**
+     * leetcode
+     * 寻找两个有序数组的中位数
+     *
+     * @param nums1
+     * @param nums2
+     * @return
+     */
+    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        int len1 = nums1.length;
+        int len2 = nums2.length;
+        if (len1 == 0 && len2 == 0) {
+            return 0;
+        }
+        int mid = (len1 + len2 - 1) / 2;
+        int[] temp = new int[(len1 + len2 + 1) / 2 + 1];//一半多一个
+        int i = 0, j = 0, index = 0;
+        while (i < len1 && j < len2) {
+            if (nums1[i] < nums2[j]) {
+                temp[index++] = nums1[i];
+                i++;
+            } else {
+                temp[index++] = nums2[j];
+                j++;
+            }
+            if (index > mid + 1) {
+                break;
+            }
+        }
+        while (i < len1 && index <= mid + 1) {
+            temp[index++] = nums1[i++];
+        }
+        while (j < len2 && index <= mid + 1) {
+            temp[index++] = nums2[j++];
+        }
+        if ((len1 + len2) % 2 == 0) {
+            return (temp[temp.length - 1] + temp[temp.length - 2]) / 2.0;
+        } else {
+            return temp[temp.length - 2 >= 0 ? temp.length - 2 : 0];
+        }
+    }
+
+    /**
+     * leetcode解数独
+     *
+     * @param board
+     */
+    public void solveSudoku(char[][] board) {
+        //marks[0][i]标记第i行数字，marks[1][j]标记第j列数字,marks[2][cubeIndex]标记第cubeIndex个方块
+        int[][] marks = new int[3][9];
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (board[i][j] != '.') {
+                    int num = 1 << (board[i][j] - '1');
+                    marks[0][i] |= num;
+                    marks[1][j] |= num;
+                    int cubeIndex = i / 3 * 3 + j / 3;
+                    marks[2][cubeIndex] |= num;
+                }
+            }
+        }
+        //回朔法
+        solve(board, marks, 0, 0);
+    }
+
+    private boolean solve(char[][] board, int[][] marks, int i, int j) {
+        while (board[i][j] != '.') {
+            j++;
+            if (j >= 9) {
+                i++;
+                j = 0;
+            }
+            if (i >= 9) {
+                return true;
+            }
+        }
+
+        for (int fill = 1; fill < 10; fill++) {
+            int cubeIndex = i / 3 * 3 + j / 3;
+            int num = 1 << (fill - 1);
+            if ((marks[0][i] & num) == 0 && (marks[1][j] & num) == 0 && (marks[2][cubeIndex] & num) == 0) {
+                marks[0][i] |= num;
+                marks[1][j] |= num;
+                marks[2][cubeIndex] |= num;
+                board[i][j] = (char) ('0' + fill);
+                if (solve(board, marks, i, j)) {
+                    return true;
+                } else {
+                    marks[0][i] ^= num;
+                    marks[1][j] ^= num;
+                    marks[2][cubeIndex] ^= num;
+                    board[i][j] = '.';
+                }
+            }
+        }
+        return false;
     }
 
     /**
@@ -4093,62 +4194,63 @@ public class PracticeArea {
      * @return
      */
     public static boolean isValidSudoku(char[][] board) {
-//        //高效解法
-//        int[][] signs = new int[3][9];
-//        for (int i = 0; i < 9; i++) {
-//            for (int j = 0; j < 9; j++) {
-//                if (board[i][j] == '.') {
-//                    continue;
-//                }
-//                int n = 1 << (board[i][j] - '1');//1×2^(board[i][j]-'1'),二进制1左移当前数字对应的位数
-//                int cubeIndex = i / 3 * 3 + j / 3;//当前格子位于第几块中
-//                //按位与，若某数字再次出现，对应位上有相同的1，则与后结果不为0
-//                //例如，9、8出现后，sign的二进制为110000000,再次出现9，n为100000000,这样，
-//                //按位相与的结果不为0
-//                if ((signs[0][i] & n) != 0 || (signs[1][j] & n) != 0
-//                        || (signs[2][cubeIndex] & n) != 0) {
-//                    return false;
-//                }
-//                //sign保存数字对应位数的1，比如9，则为100000000,下一个数字是8,则sign更新为，110000000,
-//                //即，若某数字出现了，则对应位置上为1
-//                signs[0][i] |= n;//对应i行的数字，检查一行的数字是否重复
-//                signs[1][j] |= n;//对应j列的的数字,检查列上的数字是否重复
-//                signs[2][cubeIndex] |= n;//对应第cubuIndex个块中的数字
-//            }
-//        }
-//        return true;
-
-        // init data
-        HashMap<Integer, Integer>[] rows = new HashMap[9];
-        HashMap<Integer, Integer>[] columns = new HashMap[9];
-        HashMap<Integer, Integer>[] boxes = new HashMap[9];
-        for (int i = 0; i < 9; i++) {
-            rows[i] = new HashMap<Integer, Integer>();
-            columns[i] = new HashMap<Integer, Integer>();
-            boxes[i] = new HashMap<Integer, Integer>();
-        }
-
-        // validate a board
+        //高效解法
+        //signs[0][i]对应第i行；signs[1][j]对应第j列;signs[2][cubeIndex]对应第cubeIndex个子方块
+        int[][] signs = new int[3][9];
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                char num = board[i][j];
-                if (num != '.') {
-                    int n = (int) num;
-                    int box_index = (i / 3) * 3 + j / 3;
-
-                    // keep the current cell value
-                    rows[i].put(n, rows[i].getOrDefault(n, 0) + 1);
-                    columns[j].put(n, columns[j].getOrDefault(n, 0) + 1);
-                    boxes[box_index].put(n, boxes[box_index].getOrDefault(n, 0) + 1);
-
-                    // check if this value has been already seen before
-                    if (rows[i].get(n) > 1 || columns[j].get(n) > 1 || boxes[box_index].get(n) > 1)
-                        return false;
+                if (board[i][j] == '.') {
+                    continue;
                 }
+                int n = 1 << (board[i][j] - '1');//1×2^(board[i][j]-'1'),二进制1左移当前数字对应的位数
+                int cubeIndex = i / 3 * 3 + j / 3;//当前格子位于第几块中
+                //按位与，若某数字再次出现，对应位上有相同的1，则与后结果不为0
+                //例如，9、8出现后，sign的二进制为110000000,再次出现9，n为100000000,这样，
+                //按位相与的结果不为0
+                if ((signs[0][i] & n) != 0 || (signs[1][j] & n) != 0
+                        || (signs[2][cubeIndex] & n) != 0) {
+                    return false;
+                }
+                //sign保存数字对应位数的1，比如9，则为100000000,下一个数字是8,则sign更新为，110000000,
+                //即，若某数字出现了，则对应位置上为1
+                signs[0][i] |= n;//对应i行的数字，检查一行的数字是否重复
+                signs[1][j] |= n;//对应j列的的数字,检查列上的数字是否重复
+                signs[2][cubeIndex] |= n;//对应第cubuIndex个块中的数字
             }
         }
-
         return true;
+
+        // init data
+//        HashMap<Integer, Integer>[] rows = new HashMap[9];
+//        HashMap<Integer, Integer>[] columns = new HashMap[9];
+//        HashMap<Integer, Integer>[] boxes = new HashMap[9];
+//        for (int i = 0; i < 9; i++) {
+//            rows[i] = new HashMap<Integer, Integer>();
+//            columns[i] = new HashMap<Integer, Integer>();
+//            boxes[i] = new HashMap<Integer, Integer>();
+//        }
+//
+//        // validate a board
+//        for (int i = 0; i < 9; i++) {
+//            for (int j = 0; j < 9; j++) {
+//                char num = board[i][j];
+//                if (num != '.') {
+//                    int n = (int) num;
+//                    int box_index = (i / 3) * 3 + j / 3;
+//
+//                    // keep the current cell value
+//                    rows[i].put(n, rows[i].getOrDefault(n, 0) + 1);
+//                    columns[j].put(n, columns[j].getOrDefault(n, 0) + 1);
+//                    boxes[box_index].put(n, boxes[box_index].getOrDefault(n, 0) + 1);
+//
+//                    // check if this value has been already seen before
+//                    if (rows[i].get(n) > 1 || columns[j].get(n) > 1 || boxes[box_index].get(n) > 1)
+//                        return false;
+//                }
+//            }
+//        }
+//
+//        return true;
     }
 
     /**

@@ -49,8 +49,6 @@ public class Main {
             }
             System.out.println();
         }
-
-
     }
 
 //    private boolean check(String s){
