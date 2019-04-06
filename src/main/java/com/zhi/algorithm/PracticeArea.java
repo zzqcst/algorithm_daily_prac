@@ -240,6 +240,43 @@ public class PracticeArea {
 
     /**
      * leetcode
+     * 柠檬水找零
+     *
+     * @param bills
+     * @return
+     */
+    public boolean lemonadeChange(int[] bills) {
+        int five = 0, ten = 0;
+        for (int bill : bills) {
+            if (bill == 5) {
+                five++;
+                continue;
+            }
+            if (bill == 10) {
+                if (five == 0) {
+                    return false;
+                } else {
+                    five--;
+                }
+                ten++;
+                continue;
+            }
+            if (bill == 20) {
+                if (five > 0 && ten > 0) {
+                    five--;
+                    ten--;
+                } else if (five >= 3) {
+                    five -= 3;
+                } else {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * leetcode
      * 寻找两个有序数组的中位数
      *
      * @param nums1

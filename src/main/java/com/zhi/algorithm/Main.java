@@ -101,13 +101,20 @@ public class Main {
                 System.out.println(-1);
                 continue;
             }
-            int max = 0;
-            HashMap<Integer, Integer> map = new HashMap<>();
-            coinChange(coins, m, map);
-            for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
-                max += entry.getValue();
+            int sum = 1;
+            int cnt = 1;
+            int i = 0;
+            while (sum < m) {
+                for (i = 0; i < n; i++) {
+                    if (coins[i] > sum + 1) {
+                        break;
+                    }
+                }
+                sum += coins[i - 1];
+                cnt++;
+                System.out.printf("%d %d \n", sum, cnt);
             }
-            System.out.println(max);
+            System.out.println(cnt);
         }
     }
 
