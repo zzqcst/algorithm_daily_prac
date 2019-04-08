@@ -48,7 +48,6 @@ public class Main {
 //            }
 //            System.out.println();
 //        }
-        Scanner scanner = new Scanner(System.in);
 //        while (scanner.hasNextInt()) {
 //            int n = scanner.nextInt();
 //            int[] power = new int[n];
@@ -89,25 +88,71 @@ public class Main {
 //            }
 //            System.out.println(s.length());
 //        }
-        while (scanner.hasNextInt()) {
-            int m = scanner.nextInt();
-            int n = scanner.nextInt();
-            int[] coins = new int[n];
-            for (int i = 0; i < n; i++) {
-                coins[i] = scanner.nextInt();
+        Scanner scanner = new Scanner(System.in);
+//        while (scanner.hasNext()) {
+//            List<Integer> list = new ArrayList<>();
+//            String array = scanner.next();
+//            int num = scanner.nextInt();
+//            String[] split = array.split(",");
+//            if (num <= 0 || num == 1 || array.length() == 2) {
+//                System.out.println(array);
+//                continue;
+//            }
+//            list.add(Integer.valueOf(split[0].replace("[", "")));
+//            for (int i = 1; i < split.length - 1; i++) {
+//                list.add(Integer.valueOf(split[i]));
+//            }
+//            list.add(Integer.valueOf(split[split.length - 1].replace("]", "")));
+//            for (int i = 0; i < list.size(); i += num) {
+//                if (i + num > list.size()) {
+//                    break;
+//                }
+//                reverse(list, i, i + num);
+//            }
+//            System.out.print("[");
+//            for (int i = 0; i < list.size() - 1; i++) {
+//                System.out.print(list.get(i) + ",");
+//            }
+//            System.out.println(list.get(list.size() - 1) + "]");
+//        }
+        while (scanner.hasNext()) {
+            int num = scanner.nextInt();
+            List<String> list = new ArrayList<>();
+            Map<String, Integer> map = new HashMap<>();
+            for (int i = 0; i < num; i++) {
+                String path = scanner.next();
+                if (path.endsWith("/")) {
+                    list.add(path.substring(0, path.length() - 1));
+                    continue;
+                }
+                list.add(path);
+
             }
-            Arrays.sort(coins);
-            if (coins[0] != 1) {
-                System.out.println(-1);
-                continue;
+            for (int i = 0; i < list.size(); i++) {
+                String path = list.get(i);
+                map.put(path, map.getOrDefault(path, 0) + 1);
+                String[] split = path.split("/");
+                System.out.print("1");
+                for (int j = 2; j < split.length - 1; j++) {
+                    System.out.print(map.getOrDefault(path, 1));
+                }
+                if (split.length > 2) {
+                    System.out.print("1 ");
+                }
+
             }
-            int max = 0;
-            HashMap<Integer, Integer> map = new HashMap<>();
-            coinChange(coins, m, map);
-            for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
-                max += entry.getValue();
-            }
-            System.out.println(max);
+            System.out.println();
+        }
+    }
+
+    public static void reverse(List<Integer> list, int from, int to) {
+        to = to - 1;
+        while (from < to) {
+            int temp = list.get(from);
+            list.set(from, list.get(to));
+            list.set(to, temp);
+            from++;
+            to--;
         }
     }
 
