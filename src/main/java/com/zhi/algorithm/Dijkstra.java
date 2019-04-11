@@ -16,14 +16,14 @@ public class Dijkstra {
         visited[v] = 1;
         for (int i = 0; i < graph.nodeNum; i++) {
             int min = Integer.MAX_VALUE, temp = 0;
-            for (int j = 0; j < graph.nodeNum; j++) {//找到距离最短的一个顶点
-                if (visited[j] != 1 && dist[j] != 0 && dist[j] < min) {
+            for (int j = 0; j < graph.nodeNum; j++) {//每次找到距离起始点最近的一个顶点
+                if (visited[j] != 1 && dist[j] < min) {
                     min = dist[j];
                     temp = j;
                 }
             }
             visited[temp] = 1;
-            for (int j = 0; j < graph.nodeNum; j++) {
+            for (int j = 0; j < graph.nodeNum; j++) {//比较由此点到其它点的距离
                 if (graph.mMatrix[temp][j] + dist[temp] < dist[j]) {
                     dist[j] = graph.mMatrix[temp][j] + dist[temp];
                 }
@@ -42,6 +42,11 @@ public class Dijkstra {
         graph.nodeNum = scanner.nextInt();
         graph.edgeNum = scanner.nextInt();
         graph.mMatrix = new int[graph.nodeNum][graph.nodeNum];
+        for (int i = 0; i < graph.nodeNum; i++) {
+            for (int j = 0; j < graph.nodeNum; j++) {
+                graph.mMatrix[i][j] = 99999;
+            }
+        }
         System.out.println("输入边的信息：(i j weight)");
         for (int i = 0; i < graph.edgeNum; i++) {
             int u = scanner.nextInt();
@@ -51,6 +56,7 @@ public class Dijkstra {
         }
         System.out.println("输入起始点：");
         int start = scanner.nextInt();
+        graph.mMatrix[start][start] = 0;
         Dijkstra dij = new Dijkstra();
         dij.dijkstra(start, graph);
     }

@@ -233,11 +233,44 @@ public class PracticeArea {
 //
 //        }
         PracticeArea p = new PracticeArea();
-        int[] A = {1, 3};
-        int[] B = {2};
-        System.out.println(p.findMedianSortedArrays(A, B));
+        int[] nums = {-1, 2, 1, -4};
+        System.out.println(p.threeSumClosest(nums, 1));
+
     }
 
+    /**
+     * leetcode
+     * 最接近的三数之和
+     *
+     * @param nums
+     * @param target
+     * @return
+     */
+    public int threeSumClosest(int[] nums, int target) {
+        //-4,-1,1,2
+        int res = 0;
+        Arrays.sort(nums);
+        int min = Integer.MAX_VALUE;
+        for (int i = 0; i < nums.length - 2; i++) {
+            int fixed = nums[i];
+            int left = i + 1;
+            int right = nums.length - 1;
+            while (left < right) {
+                int sum = nums[left] + nums[right];
+                if (Math.abs(sum + fixed - target) < min) {
+                    res = sum + fixed;
+                    min = Math.abs(sum + fixed - target);
+                }
+                if (sum + fixed > target) {
+                    right--;
+                } else {
+                    left++;
+                }
+
+            }
+        }
+        return res;
+    }
 
 
     /**
