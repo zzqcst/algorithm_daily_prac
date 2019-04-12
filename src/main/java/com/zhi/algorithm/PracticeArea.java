@@ -233,9 +233,51 @@ public class PracticeArea {
 //
 //        }
         PracticeArea p = new PracticeArea();
-        int[] nums = {-1, 2, 1, -4};
-        System.out.println(p.threeSumClosest(nums, 1));
+        int[] nums = {0, 0, 0, 0};
+        List<List<Integer>> lists = p.fourSum(nums, 0);
+        System.out.println(lists);
 
+    }
+
+    /**
+     * leetcode
+     * 四数之和
+     *
+     * @param nums
+     * @param target
+     * @return
+     */
+    public List<List<Integer>> fourSum(int[] nums, int target) {
+        //固定两个数，找其它两个数
+        Arrays.sort(nums);
+        List<List<Integer>> res = new ArrayList<>();
+        for (int i = 0; i <= nums.length - 4; i++) {//第一个数
+            for (int j = i + 1; j <= nums.length - 3; j++) {//第二个数
+                int rest = target - nums[i] - nums[j];
+                int left = j + 1, right = nums.length - 1;
+                while (left < right) {
+                    if (nums[left] + nums[right] < rest) {
+                        left++;
+                        continue;
+                    }
+                    if (nums[left] + nums[right] > rest) {
+                        right--;
+                        continue;
+                    }
+                    List<Integer> list = new ArrayList<>();
+                    list.add(nums[i]);
+                    list.add(nums[j]);
+                    list.add(nums[left]);
+                    list.add(nums[right]);
+                    if (!res.contains(list)) {
+                        res.add(list);
+                    }
+                    left++;
+                    right--;
+                }
+            }
+        }
+        return res;
     }
 
     /**
