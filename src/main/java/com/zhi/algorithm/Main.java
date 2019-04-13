@@ -5,6 +5,15 @@ import java.util.List;
 
 
 public class Main {
+    public static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode(int x) {
+            val = x;
+        }
+    }
 
     public static void main(String[] args) {
 //        Scanner scanner = new Scanner(System.in);
@@ -89,6 +98,84 @@ public class Main {
 //            System.out.println(s.length());
 //        }
         Scanner scanner = new Scanner(System.in);
+        while (scanner.hasNextInt()) {
+//            int n = scanner.nextInt();
+//            TreeNode[] nodes = new TreeNode[n];
+//            for (int i = 0; i < n - 1; i++) {
+//                int a = scanner.nextInt();
+//                int b = scanner.nextInt();
+//                if (a > b) {
+//                    int temp = a;
+//                    a = b;
+//                    b = temp;
+//                }
+//                if (nodes[a - 1] == null) {
+//                    nodes[a - 1] = new TreeNode(a);
+//                }
+//                TreeNode temp = nodes[a - 1];
+//                if (temp.left == null) {
+//                    nodes[b - 1] = new TreeNode(b);
+//                    temp.left = nodes[b - 1];
+//                } else {
+//                    nodes[b - 1] = new TreeNode(b);
+//                    temp.right = nodes[b - 1];
+//                }
+//            }
+//            System.out.println(getMax(nodes[0], 0));
+            int n = scanner.nextInt();
+            if (n == 1) {
+                System.out.println(1);
+                continue;
+            }
+            List<List<Integer>> lists = new ArrayList<>();
+            List<Integer> add = new ArrayList<Integer>();
+            add.add(1);
+            lists.add(add);
+            int[] a = new int[n - 1];
+            int[] b = new int[n - 1];
+            for (int i = 0; i < n - 1; i++) {
+                int a1 = scanner.nextInt();
+                int b1 = scanner.nextInt();
+                if (a1 > b1) {
+                    int temp = a1;
+                    a1 = b1;
+                    b1 = temp;
+                }
+                a[i] = a1;
+                b[i] = b1;
+            }
+            int index = 1;
+            int count = n - 1;
+            while (count != 0) {
+                List<Integer> last = lists.get(index - 1);
+                List<Integer> temp = new ArrayList<>();
+                for (int i = 0; i < last.size(); i++) {
+                    for (int j = 0; j < n - 1; j++) {
+                        if (a[j] == last.get(i)) {
+                            temp.add(b[j]);
+                            count--;
+                        }
+                    }
+                }
+                lists.add(temp);
+                index++;
+            }
+            int res = 0;
+            while (true) {
+                if (lists.get(1).size() < 2) {
+                    for (int i = 2; i < lists.size(); i++) {
+                        res += lists.get(i).size();
+                    }
+                    break;
+                } else {
+                    lists.get(1).remove(lists.get(1).size() - 1);
+                    lists.get(1).remove(lists.get(1).size() - 1);
+                    res++;
+                }
+            }
+            System.out.println(res);
+
+        }
 //        while (scanner.hasNext()) {
 //            List<Integer> list = new ArrayList<>();
 //            String array = scanner.next();
@@ -115,34 +202,41 @@ public class Main {
 //            }
 //            System.out.println(list.get(list.size() - 1) + "]");
 //        }
-        while (scanner.hasNext()) {
-            int num = scanner.nextInt();
-            List<String> list = new ArrayList<>();
-            Map<String, Integer> map = new HashMap<>();
-            for (int i = 0; i < num; i++) {
-                String path = scanner.next();
-                if (path.endsWith("/")) {
-                    list.add(path.substring(0, path.length() - 1));
-                    continue;
-                }
-                list.add(path);
+//        while (scanner.hasNext()) {
+//            int num = scanner.nextInt();
+//            List<String> list = new ArrayList<>();
+//            Map<String, Integer> map = new HashMap<>();
+//            for (int i = 0; i < num; i++) {
+//                String path = scanner.next();
+//                if (path.endsWith("/")) {
+//                    list.add(path.substring(0, path.length() - 1));
+//                    continue;
+//                }
+//                list.add(path);
+//
+//            }
+//            for (int i = 0; i < list.size(); i++) {
+//                String path = list.get(i);
+//                map.put(path, map.getOrDefault(path, 0) + 1);
+//                String[] split = path.split("/");
+//                System.out.print("1");
+//                for (int j = 2; j < split.length - 1; j++) {
+//                    System.out.print(map.getOrDefault(path, 1));
+//                }
+//                if (split.length > 2) {
+//                    System.out.print("1 ");
+//                }
+//
+//            }
+//            System.out.println();
+//        }
+    }
 
-            }
-            for (int i = 0; i < list.size(); i++) {
-                String path = list.get(i);
-                map.put(path, map.getOrDefault(path, 0) + 1);
-                String[] split = path.split("/");
-                System.out.print("1");
-                for (int j = 2; j < split.length - 1; j++) {
-                    System.out.print(map.getOrDefault(path, 1));
-                }
-                if (split.length > 2) {
-                    System.out.print("1 ");
-                }
-
-            }
-            System.out.println();
+    private static int getMax(TreeNode node, int depth) {
+        if (node == null) {
+            return depth;
         }
+        return Math.max(getMax(node.left, depth + 1), getMax(node.right, depth + 1));
     }
 
     public static void reverse(List<Integer> list, int from, int to) {

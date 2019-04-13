@@ -233,11 +233,23 @@ public class PracticeArea {
 //
 //        }
         PracticeArea p = new PracticeArea();
-        int[] nums = {0, 0, 0, 0};
-        List<List<Integer>> lists = p.fourSum(nums, 0);
-        System.out.println(lists);
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * leetcode
