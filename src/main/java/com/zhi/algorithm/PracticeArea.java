@@ -248,24 +248,40 @@ public class PracticeArea {
 //
 //        }
         PracticeArea p = new PracticeArea();
-        Node n1 = new Node(5, null);
-        Node n2 = new Node(6, null);
-        List<Node> list = new ArrayList<>();
-        list.add(n1);
-        list.add(n2);
-        Node n3 = new Node(3, list);
-        Node n4 = new Node(2, null);
-        Node n5 = new Node(4, null);
-        List<Node> list2 = new ArrayList<>();
-        list2.add(n3);
-        list2.add(n4);
-        list2.add(n5);
-        Node n6 = new Node(1, list2);
-        System.out.println(p.maxDepth(n6));
+        List<String> list = new ArrayList<>();
+        list.add("cat");
+        list.add("cats");
+        list.add("dog");
+        list.add("and");
+        list.add("an");
+        list.add("dogs");
+        System.out.println(p.wordBreak("catsanddogs", list));
+    }
+
+    /**
+     * leetcode
+     * 单词拆分
+     *
+     * @param s
+     * @param wordDict
+     * @return
+     */
+    public boolean wordBreak(String s, List<String> wordDict) {
+        boolean[] dp = new boolean[s.length() + 1];//dp[i]表示s以i-1结尾的单词能否被词典表示
+        dp[0] = true;
+        for (int i = 1; i < s.length(); i++) {
+            for (int j = 0; j < i; j++) {
+                if (dp[j] && wordDict.contains(s.substring(j, i))) {
+                    dp[i] = true;
+                }
+            }
+        }
+        return dp[s.length()];
     }
 
 
     /**
+     * leetcode
      * N叉数最大深度
      *
      * @param root
