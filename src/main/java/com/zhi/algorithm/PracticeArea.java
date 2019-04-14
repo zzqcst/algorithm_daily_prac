@@ -9,6 +9,21 @@ import java.util.*;
 import java.util.List;
 
 public class PracticeArea {
+    static class Node {
+        public int val;
+        public List<Node> children;
+
+        public Node() {
+        }
+
+        public Node(int _val, List<Node> _children) {
+            val = _val;
+            children = _children;
+        }
+    }
+
+    ;
+
     public static class ListNode {
         int val;
         ListNode next;
@@ -233,22 +248,41 @@ public class PracticeArea {
 //
 //        }
         PracticeArea p = new PracticeArea();
-
+        Node n1 = new Node(5, null);
+        Node n2 = new Node(6, null);
+        List<Node> list = new ArrayList<>();
+        list.add(n1);
+        list.add(n2);
+        Node n3 = new Node(3, list);
+        Node n4 = new Node(2, null);
+        Node n5 = new Node(4, null);
+        List<Node> list2 = new ArrayList<>();
+        list2.add(n3);
+        list2.add(n4);
+        list2.add(n5);
+        Node n6 = new Node(1, list2);
+        System.out.println(p.maxDepth(n6));
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+    /**
+     * N叉数最大深度
+     *
+     * @param root
+     * @return
+     */
+    public int maxDepth(Node root) {
+        if (root == null) {
+            return 0;
+        }
+        int depth = 0;
+        if (root.children != null) {
+            for (int i = 0; i < root.children.size(); i++) {
+                depth = Math.max(maxDepth(root.children.get(i)), depth);
+            }
+        }
+        return depth + 1;
+    }
 
 
     /**
