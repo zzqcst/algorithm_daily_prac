@@ -248,14 +248,33 @@ public class PracticeArea {
 //
 //        }
         PracticeArea p = new PracticeArea();
-        List<String> list = new ArrayList<>();
-        list.add("cat");
-        list.add("cats");
-        list.add("dog");
-        list.add("and");
-        list.add("an");
-        list.add("dogs");
-        System.out.println(p.wordBreak("catsanddogs", list));
+        int[] nums = {5, 3, 2, 6, 7, 9, 8};
+        System.out.println(rob(nums));
+    }
+
+    /**
+     * LeetCode
+     * 打家劫舍2
+     *
+     * @param nums
+     * @return
+     */
+    public int rob2(int[] nums) {
+        int[] dp = new int[nums.length];//dp[i]:到第i户的最高金额，dp[i]=max(dp[i-1],dp[i-2]+nums[i])
+        int[] dp2 = new int[nums.length];
+        if (nums.length == 0) {
+            return 0;
+        }
+        if (nums.length == 1) {
+            return nums[0];
+        }
+        dp[1] = nums[0];//偷第一个不偷最后一个
+        dp2[1] = nums[1];//偷最后一个不偷第一个
+        for (int i = 2; i < nums.length; i++) {
+            dp[i] = Math.max(dp[i - 1], dp[i - 2] + nums[i - 1]);
+            dp2[i] = Math.max(dp2[i - 1], dp2[i - 2] + nums[i]);
+        }
+        return Math.max(dp[nums.length - 1], dp2[nums.length - 1]);
     }
 
     /**
@@ -3465,24 +3484,29 @@ public class PracticeArea {
     }
 
     /**
-     * 打家劫
+     * leetcode
+     * 打家劫舍1
      *
      * @param nums
      * @return
      */
     private static int rob(int[] nums) {
-        //F(n)=max{a[n]+F(n-2),F(n-1)}
+        int[] dp = new int[nums.length];//dp[i]:到第i户的最高金额，dp[i]=max(dp[i-1],dp[i-2]+nums[i])
         if (nums.length == 0) {
             return 0;
         }
-        int pre1 = 0, pre2 = nums[0], max;
-        for (int i = 1; i < nums.length; i++) {
-            max = nums[i] + pre1;//最优
-            max = max > pre2 ? max : pre2;//子结构
-            pre1 = pre2;
-            pre2 = max;
+        if (nums.length == 1) {
+            return nums[0];
         }
-        return pre2;
+        if (nums.length == 2) {
+            return Math.max(nums[0], nums[1]);
+        }
+        dp[0] = nums[0];
+        dp[1] = Math.max(nums[0], nums[1]);
+        for (int i = 2; i < nums.length; i++) {
+            dp[i] = Math.max(dp[i - 1], dp[i - 2] + nums[i]);
+        }
+        return dp[nums.length - 1];
     }
     //    private static int rob(int[] nums) {
     //        if (nums.length == 0) {
