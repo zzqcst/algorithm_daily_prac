@@ -84,8 +84,62 @@ public class JZofferPrac {
 //                System.out.print(integer + " ");
 //            }
 //        }
+        System.out.println(p.maxProductAfterCut(8));
     }
 
+
+    /**
+     * 剪绳子
+     *
+     * @param length
+     * @return
+     */
+    int maxProductAfterCut(int length) {
+        //动态规划
+        //dp[i]长度为i的绳子剪完之后最大乘积
+//        if (length < 2) {
+//            return 0;
+//        }
+//        if (length == 2) {
+//            return 1;//绳子长度为2,1×1
+//        }
+//        if (length == 3) {
+//            return 2;//绳子长度为3,1×2
+//        }
+//        int[] dp = new int[length + 1];
+//        dp[0] = 0;
+//        dp[1] = 1;//分割得到长度为1的，不继续分割
+//        dp[2] = 2;//分割得到长度为2的，不继续分割
+//        dp[3] = 3;//分割得到长度为3的，不继续分割
+//        int max = 0;
+//        for (int i = 4; i <= length; i++) {
+//            for (int j = 1; j <= i / 2; j++) {
+//                int cut = dp[j] * dp[i - j];
+//                if (max < cut) {
+//                    max = cut;
+//                }
+//                dp[i] = max;
+//            }
+//        }
+//        return dp[length];
+
+        //贪心算法，尽可能多的剪长度为3的绳子段
+        if (length < 2) {
+            return 0;
+        }
+        if (length == 2) {
+            return 1;//绳子长度为2,1×1
+        }
+        if (length == 3) {
+            return 2;//绳子长度为3,1×2
+        }
+        int timeOf3 = length / 3;//先尽可能多的剪长度为3
+        if (length - 3 * timeOf3 == 1) {//最后一段长度为4时，不能剪成3的
+            timeOf3--;
+        }
+        int timeOf2 = (length - 3 * timeOf3) / 2;//剪成长度为2的
+        return (int) (Math.pow(3, timeOf3) * Math.pow(2, timeOf2));
+    }
 
     /**
      * 地上有一个m行和n列的方格。一个机器人从坐标0,0的格子开始移动，每一次只能向左，右，上，下四个方向移动一格，
