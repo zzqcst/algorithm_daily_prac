@@ -248,8 +248,34 @@ public class PracticeArea {
 //
 //        }
         PracticeArea p = new PracticeArea();
-        int[] nums = {5, 3, 2, 6, 7, 9, 8};
-        System.out.println(rob(nums));
+        System.out.println(p.numTrees(5));
+    }
+
+    /**
+     * leetcode
+     * 不同的二叉搜索树
+     *
+     * @param n
+     * @return
+     */
+    public int numTrees(int n) {
+        //dp[n] = dp[0]*dp[n-1]+dp[1]*dp[n-2]+...+dp[n-1]*dp[0]
+        if (n <= 1) {
+            return 1;
+        }
+
+        int[] dp = new int[n + 1];
+        dp[0] = 1;
+
+        for (int i = 1; i <= n; i++) {
+            int count = 0;
+            //dp[5]=dp[0]*dp[4]+dp[1]*dp[3]+dp[2]*dp[2]+dp[3]*dp[1]+dp[4]*dp[0]
+            for (int j = 1; j <= i; j++) {
+                count += dp[j - 1] * dp[i - j];
+            }
+            dp[i] = count;
+        }
+        return dp[n];
     }
 
     /**
