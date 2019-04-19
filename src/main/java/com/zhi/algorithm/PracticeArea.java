@@ -2977,38 +2977,29 @@ public class PracticeArea {
      * @return
      */
     private static String longestPalindrome(String s) {
-
-        StringBuilder newS = new StringBuilder();
-        newS.append('#');
+        //从每一个中心位置向两端扩展，中心可以是某个字符，也可以是两个字符之间
+        if (s.length() == 0) {
+            return "";
+        }
+        int start = 0, end = 0;
         for (int i = 0; i < s.length(); i++) {
-            newS.append(s.charAt(i));
-            newS.append('#');
+            int len1 = expand(s, i, i);//中心是第i个字符
+            int len2 = expand(s, i, i + 1);//中心是第i个字符和第i+1个字符之间
+            int len = Math.max(len1, len2);//二者中最大长度
+            if (len > end - start) {
+                start = i - (len - 1) / 2;//该子字符串起始下标
+                end = i + len / 2;//终止下标
+            }
         }
-        int[] RL = new int[newS.length()];
-        int maxRight = 0;
-        int pos = 0;
-        int maxLen = 0;
-        for (int i = 0; i < newS.length(); i++) {
-            if (i < maxRight) {
-                RL[i] = Math.min(RL[2 * pos - i], maxRight - i);
-            } else {
-                RL[i] = 1;
-            }
-            while (i - RL[i] >= 0 && i + RL[i] < newS.length() && newS.charAt(i - RL[i]) == newS
-                    .charAt(i + RL[i])) {
-                RL[i] += 1;
-            }
-            if (RL[i] + i - 1 > maxRight) {
-                maxRight = RL[i] + i - 1;
-                pos = i;
-            }
-            if (RL[i] > maxLen) {
-                maxLen = RL[i];
-                s = newS.substring(i - RL[i] + 1, i + RL[i] - 1);
-            }
-            //            maxLen = Math.max(maxLen, RL[i]);
+        return s.substring(start, end + 1);
+    }
+
+    private static int expand(String str, int start, int end) {
+        while (start >= 0 && end < str.length() && str.charAt(start) == str.charAt(end)) {
+            start--;
+            end++;
         }
-        return s.replace("#", "");
+        return end - start - 1;
     }
 
     /**
