@@ -1,5 +1,7 @@
 package com.zhi.algorithm;
 
+import sun.nio.cs.ext.MacHebrew;
+
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -248,7 +250,40 @@ public class PracticeArea {
 //
 //        }
         PracticeArea p = new PracticeArea();
-        System.out.println(p.numTrees(5));
+        System.out.println(p.isMatch("ab", ".*"));
+    }
+
+    /**
+     * leetcode
+     * 最长有效括号
+     *
+     * @param s
+     * @return
+     */
+    public int longestValidParentheses(String s) {
+        if (s.length() <= 1) {
+            return 0;
+        }
+        int max = 0;
+        int start = 0;
+        Stack<Integer> stack = new Stack<>();
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == '(') {//左括号
+                stack.push(i);
+            } else {//右括号
+                if (stack.isEmpty()) {//遇到右括号栈为空，下一个字符是起始字符
+                    start = i + 1;
+                } else {
+                    stack.pop();//弹出
+                    if (stack.isEmpty()) {
+                        max = Math.max(max, i - start + 1);
+                    } else {
+                        max = Math.max(max, i - stack.peek());
+                    }
+                }
+            }
+        }
+        return max;
     }
 
     /**
