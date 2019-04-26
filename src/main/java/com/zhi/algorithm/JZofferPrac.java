@@ -84,7 +84,47 @@ public class JZofferPrac {
 //                System.out.print(integer + " ");
 //            }
 //        }
-        System.out.println(p.maxProductAfterCut(8));
+        p.print1ToMaxOfNDigits(3);
+    }
+
+    /**
+     * 打印从1到最大的n位数
+     *
+     * @param n
+     */
+    private void print1ToMaxOfNDigits(int n) {
+        if (n <= 0) {
+            return;
+        }
+        char[] num = new char[n];
+        for (int i = 0; i < 10; i++) {
+            num[0] = (char) (i + '0');//第一个数字
+            print1ToMaxNRec(num, 0);
+        }
+    }
+
+    private void print1ToMaxNRec(char[] num, int index) {
+        if (index == num.length - 1) {
+            printNum(num);
+            return;
+        }
+        for (int i = 0; i < 10; i++) {
+            num[index + 1] = (char) (i + '0');
+            print1ToMaxNRec(num, index + 1);
+        }
+    }
+
+    private void printNum(char[] num) {
+        boolean isBegin0 = true;
+        for (int i = 0; i < num.length; i++) {
+            if (isBegin0 && num[i] != '0') {
+                isBegin0 = false;
+            }
+            if (!isBegin0) {
+                System.out.print(num[i]);
+            }
+        }
+        System.out.println();
     }
 
 
