@@ -24,8 +24,6 @@ public class PracticeArea {
         }
     }
 
-    ;
-
     public static class ListNode {
         int val;
         ListNode next;
