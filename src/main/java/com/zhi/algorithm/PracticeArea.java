@@ -250,7 +250,6 @@ public class PracticeArea {
 //
 //        }
         PracticeArea p = new PracticeArea();
-        System.out.println(p.isMatch("ab", ".*"));
     }
 
     /**
