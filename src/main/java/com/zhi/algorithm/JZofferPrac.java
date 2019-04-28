@@ -84,7 +84,34 @@ public class JZofferPrac {
 //                System.out.print(integer + " ");
 //            }
 //        }
-        p.print1ToMaxOfNDigits(3);
+        p.print1ToMaxOfNDigits(4);
+    }
+
+    /**
+     * 删除链表的节点
+     *
+     * @param head
+     * @param toDel
+     */
+    ListNode deleteNode(ListNode head, ListNode toDel) {
+        if (head == null || toDel == null) {//head或toDel为空时
+            return head;
+        }
+        if (head == toDel) {//要删除的是头节点
+            return head.next;
+        }
+        if (toDel.next != null) {//要删除的不是尾节点
+            //把它下一个节点的值复制过来，并把下一个节点的下一个节点设置为下一个节点
+            toDel.val = toDel.next.val;
+            toDel.next = toDel.next.next;
+        } else {//要删除的是尾节点
+            ListNode temp = head;
+            while (temp.next != toDel) {
+                temp = temp.next;
+            }
+            temp.next = null;
+        }
+        return head;
     }
 
     /**
@@ -97,23 +124,31 @@ public class JZofferPrac {
             return;
         }
         char[] num = new char[n];
-        for (int i = 0; i < 10; i++) {
-            num[0] = (char) (i + '0');//第一个数字
-            print1ToMaxNRec(num, 0);
-        }
+        print1ToMaxNRec(num, 0);
     }
 
+    /**
+     * 递归打印其它位
+     *
+     * @param num
+     * @param index
+     */
     private void print1ToMaxNRec(char[] num, int index) {
-        if (index == num.length - 1) {
+        if (index == num.length) {//长度为n时，输出
             printNum(num);
             return;
         }
         for (int i = 0; i < 10; i++) {
-            num[index + 1] = (char) (i + '0');
+            num[index] = (char) (i + '0');
             print1ToMaxNRec(num, index + 1);
         }
     }
 
+    /**
+     * 不输出开头的0
+     *
+     * @param num
+     */
     private void printNum(char[] num) {
         boolean isBegin0 = true;
         for (int i = 0; i < num.length; i++) {
