@@ -720,6 +720,8 @@ public class JZofferPrac {
     }
 
     /**
+     * 表示数值的字符串
+     * <p>
      * 请实现一个函数用来判断字符串是否表示数值（包括整数和小数）。
      * 例如，字符串"+100","5e2","-123","3.1416"和"-1E-16"都表示数值。
      * 但是"12e","1a3.14","1.2.3","+-5"和"12e+4.3"都不是。
@@ -728,54 +730,35 @@ public class JZofferPrac {
      * @return
      */
     public boolean isNumeric(char[] str) {
-        //A[.[B]][e|EC] 逐步分扫描
         if (str.length == 0) {
             return false;
         }
-        return isNumeric(str, 0);
-
+        int index = 0;
+        boolean num = index != (index = scanInteger(str, index));
+        if (index < str.length && str[index] == '.') {
+            index++;
+            num = index != (index = scanUnsignedInt(str, index)) || num;
+        }
+        if (index < str.length && (str[index] == 'e' || str[index] == 'E')) {
+            index++;
+            num = num && index != (index = scanInteger(str, index));
+        }
+        return num && index == str.length;
     }
 
-    private boolean isNumeric(char[] str, int pos) {
-        boolean numberic = false;
-        pos = scanInteger(str, pos);
-        numberic = pos > 0;
-        if (!numberic) {
-            pos = -pos;
+    public int scanUnsignedInt(char[] str, int start) {
+        while (start < str.length && str[start] >= '0' && str[start] <= '9') {
+            start++;
         }
-        if (pos < str.length && str[pos] == '.') {
-            pos++;
-            pos = scanUnsignInteger(str, pos);
-            numberic = pos != -1 || numberic;
-        }
-
-        if (pos < str.length && (str[pos] == 'e' || str[pos] == 'E')) {
-            pos++;
-            pos = scanInteger(str, pos);
-            numberic = numberic && pos > 0;
-            if (pos < 0) {
-                pos = -pos;
-            }
-        }
-        return numberic && pos == str.length;
+        return start;
     }
 
-    private int scanInteger(char[] str, int pos) {
-        if (pos < str.length && (str[pos] == '-' || str[pos] == '+')) {
-            pos++;
-        }
-        return scanUnsignInteger(str, pos);
-    }
 
-    private int scanUnsignInteger(char[] str, int pos) {
-        int start = pos;
-        while (pos != str.length && str[pos] >= '0' && str[pos] <= '9') {
-            pos++;
+    public int scanInteger(char[] str, int start) {
+        if (start < str.length && (str[start] == '+' || str[start] == '-')) {
+            start++;
         }
-        if (pos > start) {
-            return pos;
-        }
-        return -pos;
+        return scanUnsignedInt(str, start);
     }
 
     /**

@@ -17,8 +17,41 @@ public class Main {
 
     public static void main(String[] args) {
         Main main = new Main();
-
+        System.out.println(main.isNumeric("12e2".toCharArray()));
     }
+
+    public boolean isNumeric(char[] str) {
+        if (str.length == 0) {
+            return false;
+        }
+        int index = 0;
+        boolean num = index != (index = scanInteger(str, index));
+        if (index < str.length && str[index] == '.') {
+            index++;
+            num = index != (index = scanUnsignedInt(str, index)) || num;
+        }
+        if (index < str.length && (str[index] == 'e' || str[index] == 'E')) {
+            index++;
+            num = num && index != (index = scanInteger(str, index));
+        }
+        return num && index == str.length;
+    }
+
+    public int scanUnsignedInt(char[] str, int start) {
+        while (start < str.length && str[start] >= '0' && str[start] <= '9') {
+            start++;
+        }
+        return start;
+    }
+
+
+    public int scanInteger(char[] str, int start) {
+        if (start < str.length && (str[start] == '+' || str[start] == '-')) {
+            start++;
+        }
+        return scanUnsignedInt(str, start);
+    }
+
     private static int getMax(TreeNode node, int depth) {
         if (node == null) {
             return depth;
