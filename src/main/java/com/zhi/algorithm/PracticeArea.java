@@ -57,12 +57,8 @@ public class PracticeArea {
         int start;
         int end;
 
-        @Override
-        public String toString() {
-            return "Interval{" +
-                    "start=" + start +
-                    ", end=" + end +
-                    '}';
+        @Override public String toString() {
+            return "Interval{" + "start=" + start + ", end=" + end + '}';
         }
 
         Interval() {
@@ -77,51 +73,51 @@ public class PracticeArea {
     }
 
     public static void main(String[] args) {
-//        ListNode node1 = new ListNode(4);
-//        ListNode node2 = new ListNode(5);
-//        ListNode node3 = new ListNode(8);
-//        ListNode node4 = new ListNode(12);
-//        ListNode node5 = new ListNode(15);
-//        ListNode node6 = new ListNode(1);
-//        ListNode node7 = new ListNode(3);
-//        ListNode node8 = new ListNode(4);
-//        ListNode node9 = new ListNode(7);
-//        ListNode node10 = new ListNode(8);
-//        ListNode node11 = new ListNode(9);
-//        ListNode node12 = new ListNode(20);
-//        ListNode node13 = new ListNode(21);
-//        node1.next = node2;
-//        node2.next = node3;
-//        node3.next = node4;
-//        node4.next = node5;
-//
-//        node6.next = node7;
-//        node7.next = node8;
-//        node8.next = node9;
-//        node9.next = node10;
-//        node10.next = node11;
-//        node11.next = node12;
-//        node12.next = node13;
-//        ListNode listNode = mergeTwoLists(node1, node6);
-//        while (listNode != null) {
-//            System.out.print(listNode.val + " ");
-//            listNode = listNode.next;
-//        }
+        //        ListNode node1 = new ListNode(4);
+        //        ListNode node2 = new ListNode(5);
+        //        ListNode node3 = new ListNode(8);
+        //        ListNode node4 = new ListNode(12);
+        //        ListNode node5 = new ListNode(15);
+        //        ListNode node6 = new ListNode(1);
+        //        ListNode node7 = new ListNode(3);
+        //        ListNode node8 = new ListNode(4);
+        //        ListNode node9 = new ListNode(7);
+        //        ListNode node10 = new ListNode(8);
+        //        ListNode node11 = new ListNode(9);
+        //        ListNode node12 = new ListNode(20);
+        //        ListNode node13 = new ListNode(21);
+        //        node1.next = node2;
+        //        node2.next = node3;
+        //        node3.next = node4;
+        //        node4.next = node5;
+        //
+        //        node6.next = node7;
+        //        node7.next = node8;
+        //        node8.next = node9;
+        //        node9.next = node10;
+        //        node10.next = node11;
+        //        node11.next = node12;
+        //        node12.next = node13;
+        //        ListNode listNode = mergeTwoLists(node1, node6);
+        //        while (listNode != null) {
+        //            System.out.print(listNode.val + " ");
+        //            listNode = listNode.next;
+        //        }
         //        ListNode listNode = addTwoNumbers(node1, node4);
         //        while (listNode != null) {
         //            System.out.print(listNode.val + " ");
         //            listNode = listNode.next;
         //        }
 
-//        TreeNode t1 = new TreeNode(3);
-//        TreeNode t2 = new TreeNode(9);
-//        TreeNode t3 = new TreeNode(20);
-//        TreeNode t4 = new TreeNode(15);
-//        TreeNode t5 = new TreeNode(7);
-//        t1.left = t2;
-//        t1.right = t3;
-//        t3.left = t4;
-//        t3.right = t5;
+        //        TreeNode t1 = new TreeNode(3);
+        //        TreeNode t2 = new TreeNode(9);
+        //        TreeNode t3 = new TreeNode(20);
+        //        TreeNode t4 = new TreeNode(15);
+        //        TreeNode t5 = new TreeNode(7);
+        //        t1.left = t2;
+        //        t1.right = t3;
+        //        t3.left = t4;
+        //        t3.right = t5;
         //        List<List<Integer>> lists = levelOrder(t1);
         //        for (List<Integer> list : lists) {
         //            for (Integer integer : list) {
@@ -187,67 +183,115 @@ public class PracticeArea {
         //        for (List<Integer> integers : permute) {
         //            System.out.println(integers.toString());
         //        }
-//        char[][] board = { { 'A', 'B', 'C', 'E' }, { 'S', 'F', 'C', 'S' }, { 'A', 'D', 'E', 'E' } };
-//        System.out.println(exist(board, "SEE"));
-//        Interval interval = new Interval(1, 3);
-//        Interval interval1 = new Interval(2, 6);
-//        Interval interval2 = new Interval(8, 10);
-//        Interval interval3 = new Interval(15, 18);
-//        List<Interval> list = new ArrayList<>();
-//        list.add(interval);
-//        list.add(interval1);
-//        list.add(interval2);
-//        list.add(interval3);
-//        for (Interval interval4 : merge(list)) {
-//            System.out.println(interval4);
-//        }
-//        while (scanner.hasNextInt()) {
-//            int n = scanner.nextInt();
-//            if (n > 1000) {
-//                n = 999;
-//            }
-//            List<Integer> list = new ArrayList<>();
-//            for (int i = 0; i < n; i++) {
-//                list.add(i);
-//            }
-//            int i = 0;
-//            while (list.size() > 1) {
-//                i = (i + 2) % list.size();
-//                list.remove(i);
-//            }
-//            System.out.println(list.get(0));
-//        }
-//        Scanner scanner = new Scanner(System.in);
-////        while (scanner.hasNext()) {
-////            String s = scanner.next();
-////            int[] letters = new int[52];
-////            for (int i = 0; i < s.length(); i++) {
-////                if (s.charAt(i) > 'Z') {
-////                    if (letters[s.charAt(i) - 'a' + 26] == 0) {
-////                        System.out.print(s.charAt(i));
-////                        letters[s.charAt(i) - 'a' + 26] = 1;
-////                    }
-////                } else {
-////                    if (letters[s.charAt(i) - 'A'] == 0) {
-////                        System.out.print(s.charAt(i));
-////                        letters[s.charAt(i) - 'A'] = 1;
-////                    }
-////                }
-////
-////            }
-////            System.out.println();
-////        }
-//        Scanner scanner = new Scanner(System.in);
-//        while (scanner.hasNextInt()) {
-//            int[][] nums = new int[9][9];
-//            for (int i = 0; i < 9; i++) {
-//                for (int j = 0; j < 9; j++) {
-//                    nums[i][j] = scanner.nextInt();
-//                }
-//            }
-//
-//        }
+        //        char[][] board = { { 'A', 'B', 'C', 'E' }, { 'S', 'F', 'C', 'S' }, { 'A', 'D', 'E', 'E' } };
+        //        System.out.println(exist(board, "SEE"));
+        //        Interval interval = new Interval(1, 3);
+        //        Interval interval1 = new Interval(2, 6);
+        //        Interval interval2 = new Interval(8, 10);
+        //        Interval interval3 = new Interval(15, 18);
+        //        List<Interval> list = new ArrayList<>();
+        //        list.add(interval);
+        //        list.add(interval1);
+        //        list.add(interval2);
+        //        list.add(interval3);
+        //        for (Interval interval4 : merge(list)) {
+        //            System.out.println(interval4);
+        //        }
+        //        while (scanner.hasNextInt()) {
+        //            int n = scanner.nextInt();
+        //            if (n > 1000) {
+        //                n = 999;
+        //            }
+        //            List<Integer> list = new ArrayList<>();
+        //            for (int i = 0; i < n; i++) {
+        //                list.add(i);
+        //            }
+        //            int i = 0;
+        //            while (list.size() > 1) {
+        //                i = (i + 2) % list.size();
+        //                list.remove(i);
+        //            }
+        //            System.out.println(list.get(0));
+        //        }
+        //        Scanner scanner = new Scanner(System.in);
+        ////        while (scanner.hasNext()) {
+        ////            String s = scanner.next();
+        ////            int[] letters = new int[52];
+        ////            for (int i = 0; i < s.length(); i++) {
+        ////                if (s.charAt(i) > 'Z') {
+        ////                    if (letters[s.charAt(i) - 'a' + 26] == 0) {
+        ////                        System.out.print(s.charAt(i));
+        ////                        letters[s.charAt(i) - 'a' + 26] = 1;
+        ////                    }
+        ////                } else {
+        ////                    if (letters[s.charAt(i) - 'A'] == 0) {
+        ////                        System.out.print(s.charAt(i));
+        ////                        letters[s.charAt(i) - 'A'] = 1;
+        ////                    }
+        ////                }
+        ////
+        ////            }
+        ////            System.out.println();
+        ////        }
+        //        Scanner scanner = new Scanner(System.in);
+        //        while (scanner.hasNextInt()) {
+        //            int[][] nums = new int[9][9];
+        //            for (int i = 0; i < 9; i++) {
+        //                for (int j = 0; j < 9; j++) {
+        //                    nums[i][j] = scanner.nextInt();
+        //                }
+        //            }
+        //
+        //        }
         PracticeArea p = new PracticeArea();
+        for (Integer integer : p.splitIntoFibonacci("11235813")) {
+            System.out.print(integer+" ");
+        }
+    }
+
+    /**
+     * leetcode
+     * 将数组拆分成斐波那契数列
+     *
+     * @param S
+     * @return
+     */
+    public List<Integer> splitIntoFibonacci(String S) {
+        /**
+         使用一个辅助List保存可行的序列, 在回溯过程中发现返回List不为空
+         说明有一种满足的序列产生提前终止回溯
+         **/
+        List<Integer> ret = new ArrayList<>();
+        bktrace(S, ret, new ArrayList<>(), 0);
+        return ret;
+    }
+
+    private void bktrace(String s, List<Integer> ret, List<Integer> temp, int st) {
+        // 提前终止回溯
+        if(ret.size() != 0) return;
+        if(st == s.length() && temp.size() >= 3) {//字符串扫描结束
+            ret.addAll(temp);
+            return;
+        }
+        for(int i = st; i < s.length(); ++i) {
+            // 每块数组除非为0否则不能以0开头
+            if(s.charAt(st) == '0' && i > st)
+                break;
+            // 每块数字不超过2^31-1
+            long num = Long.parseLong(s.substring(st, i+1));
+            if(num > Integer.MAX_VALUE)
+                break;
+
+            int size = temp.size();
+            // 提前终止回溯的条件, 注意是大于, 因为如果是小于的情况还可能继续添加num长度判断是否满足
+            if(size >= 2 && num > temp.get(size-1) + temp.get(size-2))
+                break;
+            else if(size < 2 || (num == temp.get(size-1) + temp.get(size-2))) {
+                temp.add((int)num);
+                bktrace(s, ret, temp, i+1);
+                temp.remove(temp.size()-1);
+            }
+        }
     }
 
     /**
@@ -357,7 +401,6 @@ public class PracticeArea {
         return dp[s.length()];
     }
 
-
     /**
      * leetcode
      * N叉数最大深度
@@ -377,7 +420,6 @@ public class PracticeArea {
         }
         return depth + 1;
     }
-
 
     /**
      * leetcode
@@ -453,7 +495,6 @@ public class PracticeArea {
         }
         return res;
     }
-
 
     /**
      * leetcode
@@ -573,7 +614,8 @@ public class PracticeArea {
         for (int fill = 1; fill < 10; fill++) {
             int cubeIndex = i / 3 * 3 + j / 3;
             int num = 1 << (fill - 1);
-            if ((marks[0][i] & num) == 0 && (marks[1][j] & num) == 0 && (marks[2][cubeIndex] & num) == 0) {
+            if ((marks[0][i] & num) == 0 && (marks[1][j] & num) == 0
+                    && (marks[2][cubeIndex] & num) == 0) {
                 marks[0][i] |= num;
                 marks[1][j] |= num;
                 marks[2][cubeIndex] |= num;
@@ -611,8 +653,7 @@ public class PracticeArea {
         sta[stations.length][0] = target;//把最终目的地也加入，方便比较
         sta[stations.length][1] = 0;
         Queue<Integer> queue = new PriorityQueue<>(new Comparator<Integer>() {
-            @Override
-            public int compare(Integer o1, Integer o2) {
+            @Override public int compare(Integer o1, Integer o2) {
                 return o2 - o1;
             }
         });
@@ -661,33 +702,33 @@ public class PracticeArea {
         //当n的数位不一样，one,five,ten不一样
         String one = null, five = null, ten = null;
         switch (n) {
-            case 1:
-                one = "I";
-                five = "V";
-                ten = "X";
-                break;
-            case 10:
-                one = "X";
-                five = "L";
-                ten = "C";
-                break;
-            case 100:
-                one = "C";
-                five = "D";
-                ten = "M";
-                break;
-            case 1000:
-                one = "M";
+        case 1:
+            one = "I";
+            five = "V";
+            ten = "X";
+            break;
+        case 10:
+            one = "X";
+            five = "L";
+            ten = "C";
+            break;
+        case 100:
+            one = "C";
+            five = "D";
+            ten = "M";
+            break;
+        case 1000:
+            one = "M";
         }
         //将个十百千的数字使用相同的转换流程
         StringBuilder sb = new StringBuilder();
         switch (num) {
-            case 4:
-                return sb.append(one).append(five).toString();
-            case 5:
-                return sb.append(five).toString();
-            case 9:
-                return sb.append(one).append(ten).toString();
+        case 4:
+            return sb.append(one).append(five).toString();
+        case 5:
+            return sb.append(five).toString();
+        case 9:
+            return sb.append(one).append(ten).toString();
         }
         if (num < 4) {
             for (int i = 0; i < num; i++) {
@@ -702,7 +743,6 @@ public class PracticeArea {
         }
         return sb.toString();
     }
-
 
     /**
      * leetcode
@@ -914,7 +954,6 @@ public class PracticeArea {
         return dp[rows - 1][cols - 1];
     }
 
-
     /**
      * leetcode
      * 解码方法
@@ -938,8 +977,7 @@ public class PracticeArea {
             if (s.charAt(i - 1) == '0') {//以0结尾的字符串
                 if (s.charAt(i - 2) == '1' || s.charAt(i - 2) == '2')//倒数第二位如果是1或2
                     dp[i] = dp[i - 2];//比如“210”的编码数跟“2”一样
-                else
-                    return 0;//“230”无法编码
+                else return 0;//“230”无法编码
             } else {
                 dp[i] = dp[i - 1];//"201"与“20”
                 if (s.charAt(i - 2) != '0') {//倒数第二位为不为0
@@ -995,10 +1033,8 @@ public class PracticeArea {
         int res = 0;
         int add = 0;
         for (int i = 2; i < A.length; i++)
-            if (A[i - 1] - A[i] == A[i - 2] - A[i - 1])
-                res += ++add;
-            else
-                add = 0;
+            if (A[i - 1] - A[i] == A[i - 2] - A[i - 1]) res += ++add;
+            else add = 0;
         return res;
     }
 
@@ -1046,19 +1082,21 @@ public class PracticeArea {
             String op = tokens[i];
             if (op.equals("+") || op.equals("-") || op.equals("*") || op.equals("/")) {
                 switch (op) {
-                    case "+":
-                        stack.push(String.valueOf(Integer.valueOf(stack.pop()) + Integer.valueOf(stack.pop())));
-                        break;
-                    case "-":
-                        int a = Integer.parseInt(stack.pop());
-                        stack.push(String.valueOf(Integer.valueOf(stack.pop()) - a));
-                        break;
-                    case "*":
-                        stack.push(String.valueOf(Integer.valueOf(stack.pop()) * Integer.valueOf(stack.pop())));
-                        break;
-                    case "/":
-                        int b = Integer.parseInt(stack.pop());
-                        stack.push(String.valueOf(Integer.valueOf(stack.pop()) / b));
+                case "+":
+                    stack.push(String.valueOf(
+                            Integer.valueOf(stack.pop()) + Integer.valueOf(stack.pop())));
+                    break;
+                case "-":
+                    int a = Integer.parseInt(stack.pop());
+                    stack.push(String.valueOf(Integer.valueOf(stack.pop()) - a));
+                    break;
+                case "*":
+                    stack.push(String.valueOf(
+                            Integer.valueOf(stack.pop()) * Integer.valueOf(stack.pop())));
+                    break;
+                case "/":
+                    int b = Integer.parseInt(stack.pop());
+                    stack.push(String.valueOf(Integer.valueOf(stack.pop()) / b));
                 }
             } else {
                 stack.push(op);
@@ -1096,7 +1134,8 @@ public class PracticeArea {
 
     private boolean isAvali(int current_row, int n, int[] pre_pos, int current_col) {
         for (int i = 0; i < current_row; i++) {
-            if (current_col == pre_pos[i] || Math.abs(current_col - pre_pos[i]) == Math.abs(current_row - i)) {
+            if (current_col == pre_pos[i] || Math.abs(current_col - pre_pos[i]) == Math
+                    .abs(current_row - i)) {
                 return false;
             }
         }
@@ -1196,18 +1235,18 @@ public class PracticeArea {
                 int a = Integer.parseInt(stack.pop());
                 int b = Integer.parseInt(stack.pop());
                 switch (c) {
-                    case '+':
-                        stack.push(String.valueOf(a + b));
-                        break;
-                    case '-':
-                        stack.push(String.valueOf(b - a));
-                        break;
-                    case '*':
-                        stack.push(String.valueOf(a * b));
-                        break;
-                    case '/':
-                        stack.push(String.valueOf(b / a));
-                        break;
+                case '+':
+                    stack.push(String.valueOf(a + b));
+                    break;
+                case '-':
+                    stack.push(String.valueOf(b - a));
+                    break;
+                case '*':
+                    stack.push(String.valueOf(a * b));
+                    break;
+                case '/':
+                    stack.push(String.valueOf(b / a));
+                    break;
                 }
             } else {
                 stack.push(String.valueOf(c));
@@ -1218,26 +1257,26 @@ public class PracticeArea {
 
     boolean isOperator(char c) {
         switch (c) {
-            case '+':
-            case '-':
-            case '*':
-            case '/':
-                return true;
-            default:
-                return false;
+        case '+':
+        case '-':
+        case '*':
+        case '/':
+            return true;
+        default:
+            return false;
         }
     }
 
     int prior(char c) {
         switch (c) {
-            case '+':
-            case '-':
-                return 1;
-            case '*':
-            case '/':
-                return 2;
-            default:
-                return 0;
+        case '+':
+        case '-':
+            return 1;
+        case '*':
+        case '/':
+            return 2;
+        default:
+            return 0;
         }
     }
 
@@ -1259,7 +1298,8 @@ public class PracticeArea {
         for (int i = 0; i < a.length(); i++) {
             char c = a.charAt(i);
             if (isOperator(c)) {
-                while (!stack.isEmpty() && isOperator(stack.peek()) && prior(stack.peek()) >= prior(c)) {
+                while (!stack.isEmpty() && isOperator(stack.peek()) && prior(stack.peek()) >= prior(
+                        c)) {
                     sb.append(stack.pop());
                 }
                 stack.push(c);
@@ -1415,35 +1455,35 @@ public class PracticeArea {
         return res;
 
         //使用栈来实现括号优先级
-//        int res = 0, sign = 1, len = s.length(), num = 0;
-//        Stack<Integer> stack = new Stack<>();
-//        for (int i = 0; i < len; i++) {
-//            char c = s.charAt(i);
-//            if (c >= '0' && c <= '9') {//当前字符是数字
-//                num = 10 * num + c - '0';
-//            } else if (c == '+') {
-//                res += sign * num;
-//                sign = 1;
-//                num = 0;
-//            } else if (c == '-') {
-//                res += sign * num;
-//                sign = -1;
-//                num = 0;
-//            } else if (c == '(') {
-//                stack.push(res);
-//                stack.push(sign);
-//                res = 0;
-//                sign = 1;
-//                num = 0;
-//            } else if (c == ')') {
-//                res += sign * num;
-//                num = 0;
-//                res *= stack.pop();//括号内的结果
-//                res += stack.pop();//括号内结果和括号外结果合并
-//            }
-//        }
-//        res += num * sign;
-//        return res;
+        //        int res = 0, sign = 1, len = s.length(), num = 0;
+        //        Stack<Integer> stack = new Stack<>();
+        //        for (int i = 0; i < len; i++) {
+        //            char c = s.charAt(i);
+        //            if (c >= '0' && c <= '9') {//当前字符是数字
+        //                num = 10 * num + c - '0';
+        //            } else if (c == '+') {
+        //                res += sign * num;
+        //                sign = 1;
+        //                num = 0;
+        //            } else if (c == '-') {
+        //                res += sign * num;
+        //                sign = -1;
+        //                num = 0;
+        //            } else if (c == '(') {
+        //                stack.push(res);
+        //                stack.push(sign);
+        //                res = 0;
+        //                sign = 1;
+        //                num = 0;
+        //            } else if (c == ')') {
+        //                res += sign * num;
+        //                num = 0;
+        //                res *= stack.pop();//括号内的结果
+        //                res += stack.pop();//括号内结果和括号外结果合并
+        //            }
+        //        }
+        //        res += num * sign;
+        //        return res;
     }
 
     /**
@@ -1558,27 +1598,27 @@ public class PracticeArea {
      * @return
      */
     public static int lengthOfLIS(int[] nums) {
-//        int len = 0;
-//        if (nums == null || nums.length == 0) {
-//            return 0;
-//        }
-//        int[] dp = new int[nums.length];
-//        dp[0] = 1;
-//        //dp[i] 表示到i为止是最长递增子序列的长度
-//        for (int i = 1; i < nums.length; i++) {
-//            dp[i] = 1;
-//            for (int j = 0; j < i; j++) {
-//                if (nums[i] > nums[j]) {
-//                    //求dp[i]时遍历，dp[0...i-1],找出arr[j]<arr[i]小且dp[j]是最大的
-//                    //dp[i]=dp[j]+1;
-//                    dp[i] = Math.max(dp[i], dp[j] + 1);
-//                }
-//            }
-//        }
-//        for (int i = 0; i < nums.length; i++) {
-//            len = Math.max(dp[i], len);
-//        }
-//        return len;
+        //        int len = 0;
+        //        if (nums == null || nums.length == 0) {
+        //            return 0;
+        //        }
+        //        int[] dp = new int[nums.length];
+        //        dp[0] = 1;
+        //        //dp[i] 表示到i为止是最长递增子序列的长度
+        //        for (int i = 1; i < nums.length; i++) {
+        //            dp[i] = 1;
+        //            for (int j = 0; j < i; j++) {
+        //                if (nums[i] > nums[j]) {
+        //                    //求dp[i]时遍历，dp[0...i-1],找出arr[j]<arr[i]小且dp[j]是最大的
+        //                    //dp[i]=dp[j]+1;
+        //                    dp[i] = Math.max(dp[i], dp[j] + 1);
+        //                }
+        //            }
+        //        }
+        //        for (int i = 0; i < nums.length; i++) {
+        //            len = Math.max(dp[i], len);
+        //        }
+        //        return len;
         //-------------------------
         //输入: [10,9,2,5,3,7,101,18]
         //输出: 4
@@ -1646,7 +1686,6 @@ public class PracticeArea {
         return dp[amount] > amount ? -1 : dp[amount];
     }
 
-
     /**
      * leetcode
      * 不同路径
@@ -1678,31 +1717,31 @@ public class PracticeArea {
      */
     private static int uniquePaths(int m, int n) {
         //递归方法
-//        Map<String, Integer> map = new HashMap<>();
-//        return nextStep(1, 1, m, n, 0, map);
+        //        Map<String, Integer> map = new HashMap<>();
+        //        return nextStep(1, 1, m, n, 0, map);
         //----------------
         //数组方法
-//        int[][] steps = new int[m][n];
-//        steps[0][0] = 1;
-//        int up = 0;
-//        int left = 0;
-//        for (int i = 0; i < m; i++) {
-//            for (int j = 0; j < n; j++) {
-//                if (i == 0 && j == 0) {
-//                    continue;
-//                }
-//                up = 0;
-//                left = 0;
-//                if (i > 0) {
-//                    up = steps[i - 1][j];
-//                }
-//                if (j > 0) {
-//                    left = steps[i][j - 1];
-//                }
-//                steps[i][j] = up + left;
-//            }
-//        }
-//        return steps[m - 1][n - 1];
+        //        int[][] steps = new int[m][n];
+        //        steps[0][0] = 1;
+        //        int up = 0;
+        //        int left = 0;
+        //        for (int i = 0; i < m; i++) {
+        //            for (int j = 0; j < n; j++) {
+        //                if (i == 0 && j == 0) {
+        //                    continue;
+        //                }
+        //                up = 0;
+        //                left = 0;
+        //                if (i > 0) {
+        //                    up = steps[i - 1][j];
+        //                }
+        //                if (j > 0) {
+        //                    left = steps[i][j - 1];
+        //                }
+        //                steps[i][j] = up + left;
+        //            }
+        //        }
+        //        return steps[m - 1][n - 1];
         //-----------
         //只保留上一行结果的数组方法
         int[] up = new int[n];
@@ -1722,7 +1761,8 @@ public class PracticeArea {
         return current;
     }
 
-    private static int nextStep(int right, int down, int m, int n, int poss, Map<String, Integer> map) {
+    private static int nextStep(int right, int down, int m, int n, int poss,
+            Map<String, Integer> map) {
         if (map.containsKey(right + "," + down)) {
             return map.get(right + "," + down);
         }
@@ -1765,17 +1805,17 @@ public class PracticeArea {
     public static boolean canJump(int[] nums) {
         //递归实现
         //能否到达第n步，检查前n-1步是否能到达第n步,若递归能进行到0,则代表可以从第0步到达第n步
-//        Map<Integer, Boolean> map = new HashMap<>();
-//        return preStep(nums,nums.length-1,map);
+        //        Map<Integer, Boolean> map = new HashMap<>();
+        //        return preStep(nums,nums.length-1,map);
         //-------------------
         //贪心算法
-//        int lastStep = nums.length - 1;
-//        for (int i = nums.length - 2; i >= 0; i--) {
-//            if (i + nums[i] >= lastStep) {//从第i步能到达第lastStep
-//                lastStep = i;
-//            }
-//        }
-//        return lastStep == 0;
+        //        int lastStep = nums.length - 1;
+        //        for (int i = nums.length - 2; i >= 0; i--) {
+        //            if (i + nums[i] >= lastStep) {//从第i步能到达第lastStep
+        //                lastStep = i;
+        //            }
+        //        }
+        //        return lastStep == 0;
         //-----------------
         //动态规划
         int max = 0;//能到达的最大距离
@@ -1919,8 +1959,7 @@ public class PracticeArea {
             return intervals;
         }
         intervals.sort(new Comparator<Interval>() {
-            @Override
-            public int compare(Interval o1, Interval o2) {
+            @Override public int compare(Interval o1, Interval o2) {
                 return o1.start - o2.start;
             }
         });
@@ -1962,7 +2001,7 @@ public class PracticeArea {
      * @return
      */
     public static int[] searchRange(int[] nums, int target) {
-        int[] res = {-1, -1};
+        int[] res = { -1, -1 };
         for (int i = 0; i < nums.length; i++) {
             if (nums[i] == target && res[0] == -1) {//res[0]==-1表示第一次出现
                 res[0] = i;
@@ -2062,46 +2101,48 @@ public class PracticeArea {
      * @return
      */
     public static List<Integer> topKFrequent(int[] nums, int k) {
-//        List<Integer> res = new ArrayList<>();
-//        Map<Integer, Integer> freq = new HashMap<>();
-//        //统计频率
-//        for (int num : nums) {
-//            if (freq.containsKey(num)) {
-//                freq.put(num, freq.get(num) + 1);
-//                continue;
-//            }
-//            freq.put(num, 0);
-//        }
-//
-//        int i = 0;
-//        //根据频率排序，将数字按降序放回原数组
-//        for (Map.Entry<Integer, Integer> entry : freq.entrySet()) {
-//            if (i == 0) {
-//                nums[i] = entry.getKey();
-//                i++;
-//                continue;
-//            }
-//            int j = i - 1;
-//            while (j>=0&&entry.getValue() > freq.get(nums[j])) {
-//                nums[j + 1] = nums[j];
-//                j--;
-//            }
-//            nums[j+1]=entry.getKey();
-//            i++;
-//        }
-//        for (int j = 0; j < k; j++) {
-//            res.add(nums[j]);
-//        }
-//        return res;
+        //        List<Integer> res = new ArrayList<>();
+        //        Map<Integer, Integer> freq = new HashMap<>();
+        //        //统计频率
+        //        for (int num : nums) {
+        //            if (freq.containsKey(num)) {
+        //                freq.put(num, freq.get(num) + 1);
+        //                continue;
+        //            }
+        //            freq.put(num, 0);
+        //        }
+        //
+        //        int i = 0;
+        //        //根据频率排序，将数字按降序放回原数组
+        //        for (Map.Entry<Integer, Integer> entry : freq.entrySet()) {
+        //            if (i == 0) {
+        //                nums[i] = entry.getKey();
+        //                i++;
+        //                continue;
+        //            }
+        //            int j = i - 1;
+        //            while (j>=0&&entry.getValue() > freq.get(nums[j])) {
+        //                nums[j + 1] = nums[j];
+        //                j--;
+        //            }
+        //            nums[j+1]=entry.getKey();
+        //            i++;
+        //        }
+        //        for (int j = 0; j < k; j++) {
+        //            res.add(nums[j]);
+        //        }
+        //        return res;
         List<Integer> list = new ArrayList<>();
 
         //使用优先队列自动排序
-        PriorityQueue<Map.Entry<Integer, Integer>> pq = new PriorityQueue<>(new Comparator<Map.Entry<Integer, Integer>>() {
-            @Override
-            public int compare(Map.Entry<Integer, Integer> o1, Map.Entry<Integer, Integer> o2) {
-                return o2.getValue() - o1.getValue();
-            }
-        });
+        PriorityQueue<Map.Entry<Integer, Integer>>
+                pq =
+                new PriorityQueue<>(new Comparator<Map.Entry<Integer, Integer>>() {
+                    @Override public int compare(Map.Entry<Integer, Integer> o1,
+                            Map.Entry<Integer, Integer> o2) {
+                        return o2.getValue() - o1.getValue();
+                    }
+                });
 
         Map<Integer, Integer> map = new HashMap<>();
 
@@ -2118,7 +2159,6 @@ public class PracticeArea {
         for (Map.Entry<Integer, Integer> entry : set) {
             pq.add(entry);
         }
-
 
         for (int i = 0; i < k; i++) {
             list.add(pq.poll().getKey());
@@ -2147,29 +2187,29 @@ public class PracticeArea {
     public static void sortColors(int[] nums) {
         //选择排序
         //原理：每一趟从待排序的记录中选出最小的元素，顺序放在已排好序的序列最后，直到全部记录排序完毕。
-//        for (int i = 0; i < nums.length - 1; i++) {
-//            int k = i;
-//            for (int j = i + 1; j < nums.length; j++) {
-//                if (nums[j] < nums[k]) {
-//                    k = j;//记下目前找到的最小值所在的位置
-//
-//                }
-//            }
-//            if (i != k) {
-//                nums[i] = nums[i] + nums[k] - (nums[k] = nums[i]);//和最小位置处的数字交换
-//            }
-//        }
+        //        for (int i = 0; i < nums.length - 1; i++) {
+        //            int k = i;
+        //            for (int j = i + 1; j < nums.length; j++) {
+        //                if (nums[j] < nums[k]) {
+        //                    k = j;//记下目前找到的最小值所在的位置
+        //
+        //                }
+        //            }
+        //            if (i != k) {
+        //                nums[i] = nums[i] + nums[k] - (nums[k] = nums[i]);//和最小位置处的数字交换
+        //            }
+        //        }
 
-//        //冒泡排序
-//        冒泡排序的基本思想是，对相邻的元素进行两两比较，顺序相反则进行交换，
-//         这样，每一趟会将最小或最大的元素“浮”到顶端，最终达到完全有序
-//        for (int i = 0; i < nums.length - 1; i++) {
-//            for (int j = 0; j < nums.length - i - 1; j++) {
-//                if (nums[j] > nums[j + 1]) {
-//                    nums[j] = nums[j] + nums[j + 1] - (nums[j + 1] = nums[j]);
-//                }
-//            }
-//        }
+        //        //冒泡排序
+        //        冒泡排序的基本思想是，对相邻的元素进行两两比较，顺序相反则进行交换，
+        //         这样，每一趟会将最小或最大的元素“浮”到顶端，最终达到完全有序
+        //        for (int i = 0; i < nums.length - 1; i++) {
+        //            for (int j = 0; j < nums.length - i - 1; j++) {
+        //                if (nums[j] > nums[j + 1]) {
+        //                    nums[j] = nums[j] + nums[j + 1] - (nums[j + 1] = nums[j]);
+        //                }
+        //            }
+        //        }
 
         //插入排序
         //每一步将一个待排序的记录，插入到前面已经排好序的有序序列中去，直到插完所有元素为止。
@@ -2184,7 +2224,6 @@ public class PracticeArea {
             nums[j + 1] = current;//最后将待排元素放到正确位置
         }
     }
-
 
     /**
      * 单词搜索
@@ -2226,18 +2265,19 @@ public class PracticeArea {
     }
 
     private static boolean findLetter(char[][] board, char[] chars, int row, int col, int i) {
-        if (row < 0 || row >= board.length || col < 0 || col >= board[0].length
-                || i >= chars.length || board[row][col] != chars[i]) {
+        if (row < 0 || row >= board.length || col < 0 || col >= board[0].length || i >= chars.length
+                || board[row][col] != chars[i]) {
             return false;
         }
         if (i == chars.length - 1) {//匹配到最后一个也相同
             return true;
         }
         board[row][col] = '#';//访问过的标记，避免重复访问
-        boolean res = findLetter(board, chars, row + 1, col, i + 1) ||
-                findLetter(board, chars, row, col + 1, i + 1) ||
-                findLetter(board, chars, row - 1, col, i + 1) ||
-                findLetter(board, chars, row, col - 1, i + 1);
+        boolean
+                res =
+                findLetter(board, chars, row + 1, col, i + 1) || findLetter(board, chars, row,
+                        col + 1, i + 1) || findLetter(board, chars, row - 1, col, i + 1)
+                        || findLetter(board, chars, row, col - 1, i + 1);
         board[row][col] = chars[i];//恢复原值，避免影响从其它地方开始的比较
         return res;
     }
@@ -2303,7 +2343,7 @@ public class PracticeArea {
      * @param res
      */
     private static void getsubset(int[] nums, int from, ArrayList<Integer> level,
-                                  List<List<Integer>> res) {
+            List<List<Integer>> res) {
         for (int i = from; i < nums.length; i++) {
             ArrayList<Integer> list = new ArrayList<>(level);
             list.add(nums[i]);
@@ -2337,7 +2377,7 @@ public class PracticeArea {
     }
 
     private static void findAll(int[] nums, int count, List<Integer> level,
-                                List<List<Integer>> res) {
+            List<List<Integer>> res) {
         if (count == nums.length) {
             res.add(level);
             return;
@@ -2392,7 +2432,7 @@ public class PracticeArea {
 
     private static String[]
             maps =
-            {" ", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+            { " ", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz" };
 
     /**
      * 电话号码的字母组合
@@ -2662,7 +2702,7 @@ public class PracticeArea {
      * @return
      */
     public static TreeNode construct(int[] preorder, int pl, int pr, int[] inorder, int il,
-                                     int ir) {
+            int ir) {
         if (pl > pr || il > ir) {
             return null;
         }
@@ -3309,69 +3349,69 @@ public class PracticeArea {
         Stack<Integer> stack = new Stack<>();
         for (char aChar : chars) {
             switch (aChar) {//将当前字符转化为数字
-                case 'I':
-                    stack.push(1);
-                    break;
-                case 'V':
-                    if (!stack.isEmpty()) {
-                        if (stack.peek() < 5) {//上一个数字比当前小
-                            int temp = stack.pop();
-                            stack.push(5 - temp);
-                            continue;
-                        }
+            case 'I':
+                stack.push(1);
+                break;
+            case 'V':
+                if (!stack.isEmpty()) {
+                    if (stack.peek() < 5) {//上一个数字比当前小
+                        int temp = stack.pop();
+                        stack.push(5 - temp);
+                        continue;
                     }
-                    stack.push(5);
-                    break;
-                case 'X':
-                    if (!stack.isEmpty()) {
-                        if (stack.peek() < 10) {//上一个数字比当前小
-                            int temp = stack.pop();
-                            stack.push(10 - temp);
-                            continue;
-                        }
+                }
+                stack.push(5);
+                break;
+            case 'X':
+                if (!stack.isEmpty()) {
+                    if (stack.peek() < 10) {//上一个数字比当前小
+                        int temp = stack.pop();
+                        stack.push(10 - temp);
+                        continue;
                     }
-                    stack.push(10);
-                    break;
-                case 'L':
-                    if (!stack.isEmpty()) {
-                        if (stack.peek() < 50) {//上一个数字比当前小
-                            int temp = stack.pop();
-                            stack.push(50 - temp);
-                            continue;
-                        }
+                }
+                stack.push(10);
+                break;
+            case 'L':
+                if (!stack.isEmpty()) {
+                    if (stack.peek() < 50) {//上一个数字比当前小
+                        int temp = stack.pop();
+                        stack.push(50 - temp);
+                        continue;
                     }
-                    stack.push(50);
-                    break;
-                case 'C':
-                    if (!stack.isEmpty()) {
-                        if (stack.peek() < 100) {//上一个数字比当前小
-                            int temp = stack.pop();
-                            stack.push(100 - temp);
-                            continue;
-                        }
+                }
+                stack.push(50);
+                break;
+            case 'C':
+                if (!stack.isEmpty()) {
+                    if (stack.peek() < 100) {//上一个数字比当前小
+                        int temp = stack.pop();
+                        stack.push(100 - temp);
+                        continue;
                     }
-                    stack.push(100);
-                    break;
-                case 'D':
-                    if (!stack.isEmpty()) {
-                        if (stack.peek() < 500) {//上一个数字比当前小
-                            int temp = stack.pop();
-                            stack.push(500 - temp);
-                            continue;
-                        }
+                }
+                stack.push(100);
+                break;
+            case 'D':
+                if (!stack.isEmpty()) {
+                    if (stack.peek() < 500) {//上一个数字比当前小
+                        int temp = stack.pop();
+                        stack.push(500 - temp);
+                        continue;
                     }
-                    stack.push(500);
-                    break;
-                case 'M':
-                    if (!stack.isEmpty()) {
-                        if (stack.peek() < 1000) {//上一个数字比当前小
-                            int temp = stack.pop();
-                            stack.push(1000 - temp);
-                            continue;
-                        }
+                }
+                stack.push(500);
+                break;
+            case 'M':
+                if (!stack.isEmpty()) {
+                    if (stack.peek() < 1000) {//上一个数字比当前小
+                        int temp = stack.pop();
+                        stack.push(1000 - temp);
+                        continue;
                     }
-                    stack.push(1000);
-                    break;
+                }
+                stack.push(1000);
+                break;
             }
         }
         int result = 0;
@@ -4472,36 +4512,36 @@ public class PracticeArea {
         return true;
 
         // init data
-//        HashMap<Integer, Integer>[] rows = new HashMap[9];
-//        HashMap<Integer, Integer>[] columns = new HashMap[9];
-//        HashMap<Integer, Integer>[] boxes = new HashMap[9];
-//        for (int i = 0; i < 9; i++) {
-//            rows[i] = new HashMap<Integer, Integer>();
-//            columns[i] = new HashMap<Integer, Integer>();
-//            boxes[i] = new HashMap<Integer, Integer>();
-//        }
-//
-//        // validate a board
-//        for (int i = 0; i < 9; i++) {
-//            for (int j = 0; j < 9; j++) {
-//                char num = board[i][j];
-//                if (num != '.') {
-//                    int n = (int) num;
-//                    int box_index = (i / 3) * 3 + j / 3;
-//
-//                    // keep the current cell value
-//                    rows[i].put(n, rows[i].getOrDefault(n, 0) + 1);
-//                    columns[j].put(n, columns[j].getOrDefault(n, 0) + 1);
-//                    boxes[box_index].put(n, boxes[box_index].getOrDefault(n, 0) + 1);
-//
-//                    // check if this value has been already seen before
-//                    if (rows[i].get(n) > 1 || columns[j].get(n) > 1 || boxes[box_index].get(n) > 1)
-//                        return false;
-//                }
-//            }
-//        }
-//
-//        return true;
+        //        HashMap<Integer, Integer>[] rows = new HashMap[9];
+        //        HashMap<Integer, Integer>[] columns = new HashMap[9];
+        //        HashMap<Integer, Integer>[] boxes = new HashMap[9];
+        //        for (int i = 0; i < 9; i++) {
+        //            rows[i] = new HashMap<Integer, Integer>();
+        //            columns[i] = new HashMap<Integer, Integer>();
+        //            boxes[i] = new HashMap<Integer, Integer>();
+        //        }
+        //
+        //        // validate a board
+        //        for (int i = 0; i < 9; i++) {
+        //            for (int j = 0; j < 9; j++) {
+        //                char num = board[i][j];
+        //                if (num != '.') {
+        //                    int n = (int) num;
+        //                    int box_index = (i / 3) * 3 + j / 3;
+        //
+        //                    // keep the current cell value
+        //                    rows[i].put(n, rows[i].getOrDefault(n, 0) + 1);
+        //                    columns[j].put(n, columns[j].getOrDefault(n, 0) + 1);
+        //                    boxes[box_index].put(n, boxes[box_index].getOrDefault(n, 0) + 1);
+        //
+        //                    // check if this value has been already seen before
+        //                    if (rows[i].get(n) > 1 || columns[j].get(n) > 1 || boxes[box_index].get(n) > 1)
+        //                        return false;
+        //                }
+        //            }
+        //        }
+        //
+        //        return true;
     }
 
     /**
