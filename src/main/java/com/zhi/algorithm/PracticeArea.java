@@ -244,9 +244,40 @@ public class PracticeArea {
         //
         //        }
         PracticeArea p = new PracticeArea();
-        for (Integer integer : p.splitIntoFibonacci("0123")) {
-            System.out.print(integer + " ");
+        int[][] nums = { { 0, 0 }, { 1, 0 }, { 2, 0 } };
+        System.out.println(p.numberOfBoomerangs(nums));
+    }
+
+    /**
+     * leetcode
+     * 回旋镖的数量
+     * 哈希表
+     *
+     * @param points
+     * @return
+     */
+    public int numberOfBoomerangs(int[][] points) {
+        int res = 0;
+        for (int i = 0; i < points.length; i++) {
+            Map<Integer, Integer> map = new HashMap<>();
+            for (int j = 0; j < points.length; j++) {
+                if (i == j) {
+                    continue;
+                }
+                int len = dis(points[i], points[j]);
+                map.put(len, map.getOrDefault(len, 0) + 1);
+            }
+            for (int v : map.values()) {
+                if (v >= 2) {
+                    res += v * (v - 1);
+                }
+            }
         }
+        return res;
+    }
+
+    public int dis(int[] a, int[] b) {
+        return (int) (Math.pow(b[0] - a[0], 2) + Math.pow(b[1] - a[1], 2));
     }
 
     /**
