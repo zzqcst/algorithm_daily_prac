@@ -245,11 +245,12 @@ public class PracticeArea {
         //
         //        }
         PracticeArea p = new PracticeArea();
-        int[][] pos = {{6, 9}, {9, 1}, {7, 10}, {9, 4}, {6, 7}};
-        List<Integer> list = p.fallingSquares(pos);
-        for (Integer integer : list) {
-            System.out.print(integer + " ");
-        }
+        ArrayList<Integer> list = new ArrayList<>();
+        List<Integer> list2 = new ArrayList<>();
+        list.add(1);
+        list2.add(1);
+        System.out.println(list.hashCode());
+        System.out.println(list2.hashCode());
     }
 
     /**
