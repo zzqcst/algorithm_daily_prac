@@ -244,8 +244,6 @@ public class PracticeArea {
         //
         //        }
         PracticeArea p = new PracticeArea();
-        int[][] nums = { { 0, 0 }, { 1, 0 }, { 2, 0 } };
-        System.out.println(p.numberOfBoomerangs(nums));
     }
 
     /**
