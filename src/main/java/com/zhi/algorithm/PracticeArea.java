@@ -57,8 +57,7 @@ public class PracticeArea {
         int start;
         int end;
 
-        @Override
-        public String toString() {
+        @Override public String toString() {
             return "Interval{" + "start=" + start + ", end=" + end + '}';
         }
 
@@ -245,13 +244,35 @@ public class PracticeArea {
         //
         //        }
         PracticeArea p = new PracticeArea();
-        ArrayList<Integer> list = new ArrayList<>();
-        List<Integer> list2 = new ArrayList<>();
-        list.add(1);
-        list2.add(1);
-        System.out.println(list.hashCode());
-        System.out.println(list2.hashCode());
+        for (int i = 0; i < 20; i++) {
+            System.out.println(new Random().nextInt(20));
+        }
     }
+
+    int min = Integer.MAX_VALUE;
+
+    /**
+     * leetcode
+     * 坏了的计算器
+     *
+     * @param X
+     * @param Y
+     * @return
+     */
+    public int brokenCalc(int X, int Y) {
+        int res=0;
+        while(X<Y){//当Y大于X时，让Y除以2快速接近X
+            if(Y%2==0){
+                Y/=2;
+                res++;
+            }else{//不能整除2时，先加一再整除，占用两步
+                Y=(Y+1)/2;
+                res+=2;
+            }
+        }//退出循环时，X==Y
+        return X-Y+res;//当X大于Y时，只能X递减1靠近Y，此时res为0
+    }
+
 
     /**
      * leetcode
@@ -716,8 +737,7 @@ public class PracticeArea {
         sta[stations.length][0] = target;//把最终目的地也加入，方便比较
         sta[stations.length][1] = 0;
         Queue<Integer> queue = new PriorityQueue<>(new Comparator<Integer>() {
-            @Override
-            public int compare(Integer o1, Integer o2) {
+            @Override public int compare(Integer o1, Integer o2) {
                 return o2 - o1;
             }
         });
@@ -766,33 +786,33 @@ public class PracticeArea {
         //当n的数位不一样，one,five,ten不一样
         String one = null, five = null, ten = null;
         switch (n) {
-            case 1:
-                one = "I";
-                five = "V";
-                ten = "X";
-                break;
-            case 10:
-                one = "X";
-                five = "L";
-                ten = "C";
-                break;
-            case 100:
-                one = "C";
-                five = "D";
-                ten = "M";
-                break;
-            case 1000:
-                one = "M";
+        case 1:
+            one = "I";
+            five = "V";
+            ten = "X";
+            break;
+        case 10:
+            one = "X";
+            five = "L";
+            ten = "C";
+            break;
+        case 100:
+            one = "C";
+            five = "D";
+            ten = "M";
+            break;
+        case 1000:
+            one = "M";
         }
         //将个十百千的数字使用相同的转换流程
         StringBuilder sb = new StringBuilder();
         switch (num) {
-            case 4:
-                return sb.append(one).append(five).toString();
-            case 5:
-                return sb.append(five).toString();
-            case 9:
-                return sb.append(one).append(ten).toString();
+        case 4:
+            return sb.append(one).append(five).toString();
+        case 5:
+            return sb.append(five).toString();
+        case 9:
+            return sb.append(one).append(ten).toString();
         }
         if (num < 4) {
             for (int i = 0; i < num; i++) {
@@ -1146,21 +1166,21 @@ public class PracticeArea {
             String op = tokens[i];
             if (op.equals("+") || op.equals("-") || op.equals("*") || op.equals("/")) {
                 switch (op) {
-                    case "+":
-                        stack.push(String.valueOf(
-                                Integer.valueOf(stack.pop()) + Integer.valueOf(stack.pop())));
-                        break;
-                    case "-":
-                        int a = Integer.parseInt(stack.pop());
-                        stack.push(String.valueOf(Integer.valueOf(stack.pop()) - a));
-                        break;
-                    case "*":
-                        stack.push(String.valueOf(
-                                Integer.valueOf(stack.pop()) * Integer.valueOf(stack.pop())));
-                        break;
-                    case "/":
-                        int b = Integer.parseInt(stack.pop());
-                        stack.push(String.valueOf(Integer.valueOf(stack.pop()) / b));
+                case "+":
+                    stack.push(String.valueOf(
+                            Integer.valueOf(stack.pop()) + Integer.valueOf(stack.pop())));
+                    break;
+                case "-":
+                    int a = Integer.parseInt(stack.pop());
+                    stack.push(String.valueOf(Integer.valueOf(stack.pop()) - a));
+                    break;
+                case "*":
+                    stack.push(String.valueOf(
+                            Integer.valueOf(stack.pop()) * Integer.valueOf(stack.pop())));
+                    break;
+                case "/":
+                    int b = Integer.parseInt(stack.pop());
+                    stack.push(String.valueOf(Integer.valueOf(stack.pop()) / b));
                 }
             } else {
                 stack.push(op);
@@ -1299,18 +1319,18 @@ public class PracticeArea {
                 int a = Integer.parseInt(stack.pop());
                 int b = Integer.parseInt(stack.pop());
                 switch (c) {
-                    case '+':
-                        stack.push(String.valueOf(a + b));
-                        break;
-                    case '-':
-                        stack.push(String.valueOf(b - a));
-                        break;
-                    case '*':
-                        stack.push(String.valueOf(a * b));
-                        break;
-                    case '/':
-                        stack.push(String.valueOf(b / a));
-                        break;
+                case '+':
+                    stack.push(String.valueOf(a + b));
+                    break;
+                case '-':
+                    stack.push(String.valueOf(b - a));
+                    break;
+                case '*':
+                    stack.push(String.valueOf(a * b));
+                    break;
+                case '/':
+                    stack.push(String.valueOf(b / a));
+                    break;
                 }
             } else {
                 stack.push(String.valueOf(c));
@@ -1321,26 +1341,26 @@ public class PracticeArea {
 
     boolean isOperator(char c) {
         switch (c) {
-            case '+':
-            case '-':
-            case '*':
-            case '/':
-                return true;
-            default:
-                return false;
+        case '+':
+        case '-':
+        case '*':
+        case '/':
+            return true;
+        default:
+            return false;
         }
     }
 
     int prior(char c) {
         switch (c) {
-            case '+':
-            case '-':
-                return 1;
-            case '*':
-            case '/':
-                return 2;
-            default:
-                return 0;
+        case '+':
+        case '-':
+            return 1;
+        case '*':
+        case '/':
+            return 2;
+        default:
+            return 0;
         }
     }
 
@@ -1826,7 +1846,7 @@ public class PracticeArea {
     }
 
     private static int nextStep(int right, int down, int m, int n, int poss,
-                                Map<String, Integer> map) {
+            Map<String, Integer> map) {
         if (map.containsKey(right + "," + down)) {
             return map.get(right + "," + down);
         }
@@ -2023,8 +2043,7 @@ public class PracticeArea {
             return intervals;
         }
         intervals.sort(new Comparator<Interval>() {
-            @Override
-            public int compare(Interval o1, Interval o2) {
+            @Override public int compare(Interval o1, Interval o2) {
                 return o1.start - o2.start;
             }
         });
@@ -2066,7 +2085,7 @@ public class PracticeArea {
      * @return
      */
     public static int[] searchRange(int[] nums, int target) {
-        int[] res = {-1, -1};
+        int[] res = { -1, -1 };
         for (int i = 0; i < nums.length; i++) {
             if (nums[i] == target && res[0] == -1) {//res[0]==-1表示第一次出现
                 res[0] = i;
@@ -2203,9 +2222,8 @@ public class PracticeArea {
         PriorityQueue<Map.Entry<Integer, Integer>>
                 pq =
                 new PriorityQueue<>(new Comparator<Map.Entry<Integer, Integer>>() {
-                    @Override
-                    public int compare(Map.Entry<Integer, Integer> o1,
-                                       Map.Entry<Integer, Integer> o2) {
+                    @Override public int compare(Map.Entry<Integer, Integer> o1,
+                            Map.Entry<Integer, Integer> o2) {
                         return o2.getValue() - o1.getValue();
                     }
                 });
@@ -2409,7 +2427,7 @@ public class PracticeArea {
      * @param res
      */
     private static void getsubset(int[] nums, int from, ArrayList<Integer> level,
-                                  List<List<Integer>> res) {
+            List<List<Integer>> res) {
         for (int i = from; i < nums.length; i++) {
             ArrayList<Integer> list = new ArrayList<>(level);
             list.add(nums[i]);
@@ -2443,7 +2461,7 @@ public class PracticeArea {
     }
 
     private static void findAll(int[] nums, int count, List<Integer> level,
-                                List<List<Integer>> res) {
+            List<List<Integer>> res) {
         if (count == nums.length) {
             res.add(level);
             return;
@@ -2498,7 +2516,7 @@ public class PracticeArea {
 
     private static String[]
             maps =
-            {" ", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+            { " ", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz" };
 
     /**
      * 电话号码的字母组合
@@ -2768,7 +2786,7 @@ public class PracticeArea {
      * @return
      */
     public static TreeNode construct(int[] preorder, int pl, int pr, int[] inorder, int il,
-                                     int ir) {
+            int ir) {
         if (pl > pr || il > ir) {
             return null;
         }
@@ -3415,69 +3433,69 @@ public class PracticeArea {
         Stack<Integer> stack = new Stack<>();
         for (char aChar : chars) {
             switch (aChar) {//将当前字符转化为数字
-                case 'I':
-                    stack.push(1);
-                    break;
-                case 'V':
-                    if (!stack.isEmpty()) {
-                        if (stack.peek() < 5) {//上一个数字比当前小
-                            int temp = stack.pop();
-                            stack.push(5 - temp);
-                            continue;
-                        }
+            case 'I':
+                stack.push(1);
+                break;
+            case 'V':
+                if (!stack.isEmpty()) {
+                    if (stack.peek() < 5) {//上一个数字比当前小
+                        int temp = stack.pop();
+                        stack.push(5 - temp);
+                        continue;
                     }
-                    stack.push(5);
-                    break;
-                case 'X':
-                    if (!stack.isEmpty()) {
-                        if (stack.peek() < 10) {//上一个数字比当前小
-                            int temp = stack.pop();
-                            stack.push(10 - temp);
-                            continue;
-                        }
+                }
+                stack.push(5);
+                break;
+            case 'X':
+                if (!stack.isEmpty()) {
+                    if (stack.peek() < 10) {//上一个数字比当前小
+                        int temp = stack.pop();
+                        stack.push(10 - temp);
+                        continue;
                     }
-                    stack.push(10);
-                    break;
-                case 'L':
-                    if (!stack.isEmpty()) {
-                        if (stack.peek() < 50) {//上一个数字比当前小
-                            int temp = stack.pop();
-                            stack.push(50 - temp);
-                            continue;
-                        }
+                }
+                stack.push(10);
+                break;
+            case 'L':
+                if (!stack.isEmpty()) {
+                    if (stack.peek() < 50) {//上一个数字比当前小
+                        int temp = stack.pop();
+                        stack.push(50 - temp);
+                        continue;
                     }
-                    stack.push(50);
-                    break;
-                case 'C':
-                    if (!stack.isEmpty()) {
-                        if (stack.peek() < 100) {//上一个数字比当前小
-                            int temp = stack.pop();
-                            stack.push(100 - temp);
-                            continue;
-                        }
+                }
+                stack.push(50);
+                break;
+            case 'C':
+                if (!stack.isEmpty()) {
+                    if (stack.peek() < 100) {//上一个数字比当前小
+                        int temp = stack.pop();
+                        stack.push(100 - temp);
+                        continue;
                     }
-                    stack.push(100);
-                    break;
-                case 'D':
-                    if (!stack.isEmpty()) {
-                        if (stack.peek() < 500) {//上一个数字比当前小
-                            int temp = stack.pop();
-                            stack.push(500 - temp);
-                            continue;
-                        }
+                }
+                stack.push(100);
+                break;
+            case 'D':
+                if (!stack.isEmpty()) {
+                    if (stack.peek() < 500) {//上一个数字比当前小
+                        int temp = stack.pop();
+                        stack.push(500 - temp);
+                        continue;
                     }
-                    stack.push(500);
-                    break;
-                case 'M':
-                    if (!stack.isEmpty()) {
-                        if (stack.peek() < 1000) {//上一个数字比当前小
-                            int temp = stack.pop();
-                            stack.push(1000 - temp);
-                            continue;
-                        }
+                }
+                stack.push(500);
+                break;
+            case 'M':
+                if (!stack.isEmpty()) {
+                    if (stack.peek() < 1000) {//上一个数字比当前小
+                        int temp = stack.pop();
+                        stack.push(1000 - temp);
+                        continue;
                     }
-                    stack.push(1000);
-                    break;
+                }
+                stack.push(1000);
+                break;
             }
         }
         int result = 0;
