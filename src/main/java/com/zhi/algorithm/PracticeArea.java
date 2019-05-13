@@ -245,6 +245,33 @@ public class PracticeArea {
         //
         //        }
         PracticeArea p = new PracticeArea();
+        int[] num = {1,2,3,4,5};
+        System.out.println(p.wiggleMaxLength(num));
+    }
+
+    /**
+     * leetcode
+     * 摆动序列
+     *
+     * @param nums
+     * @return
+     */
+    public int wiggleMaxLength(int[] nums) {
+        int n = nums.length;
+        if (n < 2) {
+            return n;
+        }
+        int up = 1;
+        int down = 1;
+        for (int i = 1; i < n; i++) {
+            if (nums[i] > nums[i - 1]) {
+                up = down + 1;
+            }
+            if (nums[i] < nums[i - 1]) {
+                down = up + 1;
+            }
+        }
+        return Math.max(up, down);
     }
 
     /**
@@ -1719,9 +1746,7 @@ public class PracticeArea {
         //        for (int i = 1; i < nums.length; i++) {
         //            dp[i] = 1;
         //            for (int j = 0; j < i; j++) {
-        //                if (nums[i] > nums[j]) {
-        //                    //求dp[i]时遍历，dp[0...i-1],找出arr[j]<arr[i]小且dp[j]是最大的
-        //                    //dp[i]=dp[j]+1;
+        //                if (nums[i] > nums[j]) {//找到i之前的递增子序列最大长度
         //                    dp[i] = Math.max(dp[i], dp[j] + 1);
         //                }
         //            }
