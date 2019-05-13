@@ -245,8 +245,29 @@ public class PracticeArea {
         //
         //        }
         PracticeArea p = new PracticeArea();
-        int[] num = {1,2,3,4,5};
-        System.out.println(p.wiggleMaxLength(num));
+        System.out.println(p.reverseWords(" "));
+    }
+
+    /**
+     * leetcode
+     * 翻转字符串里的单词
+     *
+     * @param s
+     * @return
+     */
+    public String reverseWords(String s) {
+        s = s.trim();
+        String[] s1 = s.split(" ");
+        StringBuilder sb = new StringBuilder();
+        for (int i = s1.length - 1; i >= 0; i--) {
+            if (!s1[i].equals("")) {
+                sb.append(s1[i]);
+                if (i != 0) {
+                    sb.append(" ");
+                }
+            }
+        }
+        return sb.toString();
     }
 
     /**
