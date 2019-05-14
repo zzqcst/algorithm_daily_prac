@@ -245,6 +245,59 @@ public class PracticeArea {
         //
         //        }
         PracticeArea p = new PracticeArea();
+        int[][] prerequisites = {{1, 0}, {2, 0}};
+        p.findOrder(3, prerequisites);
+    }
+
+    /**
+     * leetcode
+     * 课程表2
+     *
+     * @param numCourses
+     * @param prerequisites{{1,0},{2,0}表示1的先修课程是0,2的先修课程是0
+     * @return
+     */
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+        return topologicalSort(numCourses, prerequisites);
+    }
+
+    /**
+     * 拓扑排序
+     *
+     * @param n
+     * @param prerequisites
+     * @return
+     */
+    public int[] topologicalSort(int n, int[][] prerequisites) {
+        List<Integer> topoRes = new ArrayList<>();
+        int[][] adjacencyList = new int[n][n];//邻接矩阵
+        int[] res = new int[n];
+        int[] inDegree = new int[n];//入度
+        for (int i = 0; i < prerequisites.length; i++) {
+            adjacencyList[prerequisites[i][1]][prerequisites[i][0]] = 1;
+            inDegree[prerequisites[i][0]]++;
+        }
+        Queue<Integer> deque = new LinkedList<>();
+
+        // 从入度为0的顶点开始输出
+        for (int i = 0; i < n; i++) {
+            if (inDegree[i] == 0) deque.offer(i);
+        }
+        int count = 0;
+        while (!deque.isEmpty()) {
+            int curr = deque.poll();
+            topoRes.add(curr);
+            res[count++] = curr;
+            for (int i = 0; i < adjacencyList[curr].length; i++) {
+                if (adjacencyList[curr][i] == 1) {
+                    inDegree[i]--;
+                    if (inDegree[i] == 0) {
+                        deque.offer(i);
+                    }
+                }
+            }
+        }
+        return topoRes.size() == n ? res : new int[0];
     }
 
     /**
