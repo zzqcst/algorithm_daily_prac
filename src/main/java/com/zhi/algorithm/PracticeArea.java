@@ -245,8 +245,50 @@ public class PracticeArea {
         //
         //        }
         PracticeArea p = new PracticeArea();
-        int[][] prerequisites = {{1, 0}, {2, 0}};
-        p.findOrder(3, prerequisites);
+        int[][] edges = {{3, 4}, {1, 2}, {2, 4}, {3, 5}, {2, 5}};
+        int[] redundantConnection = p.findRedundantConnection(edges);
+        for (int i : redundantConnection) {
+            System.out.print(i + " ");
+        }
+    }
+
+    /**
+     * leetcode
+     * 冗余连接
+     * <p>
+     * 并查集
+     *
+     * @param edges
+     * @return
+     */
+    public int[] findRedundantConnection(int[][] edges) {
+        int[] pre = new int[edges.length + 1];
+        for (int i = 0; i < pre.length; i++) {
+            pre[i] = i;
+        }
+        for (int[] edge : edges) {
+            int root1 = find(pre, edge[0]);
+            int root2 = find(pre, edge[1]);
+            if (root1 == root2) {
+                return edge;
+            }
+            pre[root2] = root1;
+        }
+        return new int[0];
+    }
+
+    /**
+     * 查找并压缩路径
+     *
+     * @param pre
+     * @param x
+     * @return
+     */
+    private int find(int[] pre, int x) {
+        if (pre[x] == x) {
+            return x;
+        }
+        return pre[x] = find(pre, pre[x]);
     }
 
     /**
