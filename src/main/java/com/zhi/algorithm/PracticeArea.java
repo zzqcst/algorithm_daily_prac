@@ -245,10 +245,53 @@ public class PracticeArea {
         //
         //        }
         PracticeArea p = new PracticeArea();
-        int[][] edges = {{3, 4}, {1, 2}, {2, 4}, {3, 5}, {2, 5}};
-        int[] redundantConnection = p.findRedundantConnection(edges);
-        for (int i : redundantConnection) {
-            System.out.print(i + " ");
+        Solution2 s = new Solution2(2, 2);
+        for (int i = 0; i < 4; i++) {
+            int[] flip = s.flip();
+            for (int i1 : flip) {
+                System.out.print(i1 + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    /**
+     * leetcode
+     * 随机翻转矩阵
+     */
+    static class Solution2 {
+        int rows;
+        int cols;
+        int one_count;
+        int totalsize;
+        Set<Integer> set = new TreeSet<>();
+        Random random = new Random(System.currentTimeMillis());
+
+        public Solution2(int n_rows, int n_cols) {
+            rows = n_rows;
+            cols = n_cols;
+            totalsize = n_cols * n_rows;
+        }
+
+        public int[] flip() {
+            if (one_count == totalsize) {
+                return new int[0];
+            }
+
+            while (true) {
+                int val = Math.abs(random.nextInt() % totalsize);
+                if (!set.contains(val)) {
+                    set.add(val);
+                    one_count++;
+                    return new int[]{val / cols, val % cols};
+                }
+            }
+
+        }
+
+        public void reset() {
+            set.clear();
+            one_count = 0;
         }
     }
 
