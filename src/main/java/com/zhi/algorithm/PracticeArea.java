@@ -250,6 +250,28 @@ public class PracticeArea {
 
     /**
      * leetcode
+     * 有序数组中的单一元素
+     *
+     * @param nums
+     * @return
+     */
+    public int singleNonDuplicate(int[] nums) {
+        if (nums.length == 1) {
+            return nums[0];
+        }
+        for (int i = 0, j = nums.length - 1; i < nums.length - 1 && j > 0; i += 2, j -= 2) {
+            if (nums[i] != nums[i + 1]) {
+                return nums[i];
+            }
+            if (nums[j] != nums[j - 1]) {
+                return nums[j];
+            }
+        }
+        return 0;
+    }
+
+    /**
+     * leetcode
      * 检查替换后的词是否有效
      *
      * @param S
