@@ -245,14 +245,43 @@ public class PracticeArea {
         //
         //        }
         PracticeArea p = new PracticeArea();
-        Solution2 s = new Solution2(2, 2);
-        for (int i = 0; i < 4; i++) {
-            int[] flip = s.flip();
-            for (int i1 : flip) {
-                System.out.print(i1 + " ");
+        System.out.println(p.isValid2("aaabcbcbc"));
+    }
+
+    /**
+     * leetcode
+     * 检查替换后的词是否有效
+     *
+     * @param S
+     * @return
+     */
+    public boolean isValid2(String S) {
+        if (S == null || S.length() < 3 || !S.startsWith("a")) return false;
+        char pre = '0';
+        int flag = 0;
+        for (char s : S.toCharArray()) {
+            switch (s) {
+                case 'a'://类似括号匹配，遇到a，表示开始
+                    flag++;
+                    break;
+                case 'b':
+                    if (pre == 'b') {//b之前的字符可能是a，例如ababcc,可能是c,例如aabcbc
+                        return false;
+                    }
+                    break;
+                case 'c':
+                    if (pre == 'a') {//c之前的字符可能是b,可能是c,例如ababcc
+                        return false;
+                    }
+                    flag--;//表示abc的结束
+                    if (flag < 0) {//说明c之前没有a出现过，或c的数量与a的数量不匹配
+                        return false;
+                    }
+                    break;
             }
-            System.out.println();
+            pre = s;
         }
+        return flag == 0;
     }
 
     /**
