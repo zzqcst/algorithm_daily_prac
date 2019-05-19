@@ -6,8 +6,43 @@ import java.util.List;
 public class LeetCodeWeekly {
 
     public static void main(String[] args) {
-        String[] a = {"a", "b", "ba", "bca", "bda", "bdca"};
-        System.out.println(longestStrChain(a));
+        LeetCodeWeekly weekly = new LeetCodeWeekly();
+        int[] a = {1, 4, 8, 2, 1, 3, 19, 20, 34};
+        System.out.println(weekly.lastStoneWeightII(a));
+    }
+
+
+
+    public int lastStoneWeightII(int[] stones) {
+        int sum = 0;
+        for (int i = 0; i < stones.length; i++) {
+            sum += stones[i];
+        }
+        int a[] = new int[sum + 1];//declaration and instantiation
+        a[0] = 1;
+        for (int i = 0; i < stones.length; i++) {
+            for (int j = sum; j >= stones[i]; j--) {
+                if (a[j - stones[i]] == 1) {
+                    a[j] = 1;
+                }
+            }
+        }
+        int ans = sum;
+        for (int i = 0; i <= sum; i++) {
+            if (a[i] == 1) {
+                if (abs(i - (sum - i)) < ans) {
+                    ans = abs(i - (sum - i));
+                }
+            }
+        }
+        return ans;
+    }
+
+    public int abs(int a) {
+        if (a < 0) {
+            return -a;
+        }
+        return a;
     }
 
     /**

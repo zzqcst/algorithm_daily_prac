@@ -1,7 +1,5 @@
 package com.zhi.algorithm;
 
-import sun.nio.cs.ext.MacHebrew;
-
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -10,7 +8,7 @@ import java.util.Arrays;
 import java.util.*;
 import java.util.List;
 
-public class PracticeArea {
+public class LeetCode {
     static class Node {
         public int val;
         public List<Node> children;
@@ -244,16 +242,50 @@ public class PracticeArea {
         //            }
         //
         //        }
-        PracticeArea p = new PracticeArea();
-        int[] a = {9, 3, 15, 20, 7};
-        int[] b = {9, 15, 7, 20, 3};
-        TreeNode treeNode = p.buildTree2(a, b);
-        List<Integer> list = inorderTraversal(treeNode);
-        for (Integer integer : list) {
-            System.out.print(integer + " ");
-        }
+        LeetCode p = new LeetCode();
+        int[] a = {2, 2, 1, 2, 1};
+        System.out.println(p.subarraySum(a, 3));
 
     }
+
+    /**
+     * 和为k的子数组
+     *
+     * @param nums
+     * @param k
+     * @return
+     */
+    public int subarraySum(int[] nums, int k) {
+        // 例如1,5,3,1,2,4;k=4
+        //到5时，元素和为6，只要往后累加过程中和为10，则说明中间的某个子序列和为4
+        Map<Integer, Integer> map = new HashMap<>();
+        map.put(0, 1);
+        int sum = 0, res = 0;
+
+        for (int i = 0; i < nums.length; ++i) {
+            sum += nums[i];
+            if (map.containsKey(sum - k))
+                res += map.get(sum - k);
+            map.put(sum, map.getOrDefault(sum, 0) + 1);
+        }
+
+        return res;
+    }
+
+    boolean sumisk(int[] nums, int start, int k) {
+        int sum = 0;
+        for (int i = start; i < nums.length; i++) {
+            sum += nums[i];
+            if (sum == k) {
+                return true;
+            }
+            if (sum > k) {
+                return false;
+            }
+        }
+        return false;
+    }
+
 
     /**
      * leetcode
@@ -4005,19 +4037,18 @@ public class PracticeArea {
      * @return 最大子序和
      */
     private static int maxSubArray(int[] nums) {
-        int max = nums[0], submax = nums[0];
-        for (int i = 1; i < nums.length; i++) {
-            if (submax < 0) {//如果上一个子序列和小于零,丢弃,子序列从当前从新计算
-                submax = nums[i];
-            } else {
-                submax += nums[i];//否则当前元素算入上个子序列
-            }
-
-            if (submax > max) {//和不为零的子序列中,和的最大值
-                max = submax;
+        if (nums.length == 0) {
+            return 0;
+        }
+        int res = nums[0];
+        int sum = 0;
+        for (int i = 0; i < nums.length; i++) {
+            sum = sum > 0 ? sum + nums[i] : nums[i];//上一个子序和小于0就舍弃
+            if (sum > res) {
+                res = sum;
             }
         }
-        return max;
+        return res;
     }
 
     /**

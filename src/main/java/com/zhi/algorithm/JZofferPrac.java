@@ -1,6 +1,6 @@
 package com.zhi.algorithm;
 
-import com.zhi.algorithm.PracticeArea.ListNode;
+import com.zhi.algorithm.LeetCode.ListNode;
 
 import java.util.*;
 
