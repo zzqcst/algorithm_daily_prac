@@ -42,23 +42,17 @@ public class DataStructure {
 //        String s = "(((()((())()()()((((()))()()(()))))())";
 //        System.out.println(bracketsMatch(s));
 
-//        //二叉树
-//        BinaryTree tree = new BinaryTree(20);
-//        tree.insert(18);
-//        tree.insert(25);
-//        tree.insert(17);
-//        tree.insert(19);
-//        tree.insert(24);
-//        tree.insert(26);
-//
-//        tree.dfTraverse();
+        //二叉树
+        BinaryTree tree = new BinaryTree(20);
+        tree.insert(18);
+        tree.insert(25);
+        tree.insert(17);
+        tree.insert(19);
+        tree.insert(24);
+        tree.insert(26);
 
-//        //堆排序
-//        int[] a = {5, 3, 2, 7, 3, 8, 1};
-//        HeapSort2.sort(a);
-//        for (int i : a) {
-//            System.out.print(i + " ");
-//        }
+        tree.preOrderTraverse(tree.getRoot());
+        tree.inOrderTraverse(tree.getRoot());
 
 
     }
@@ -244,11 +238,25 @@ class BinaryTree {
      * @param root 中序遍历
      */
     public void inOrderTraverse(BinaryTreeNode root) {
-        if (root != null) {
-            inOrderTraverse(root.leftNode);
-            System.out.println(root.data);
-            inOrderTraverse(root.rightNode);
+//        if (root != null) {
+//            inOrderTraverse(root.leftNode);
+//            System.out.println(root.data);
+//            inOrderTraverse(root.rightNode);
+//        }
+        BinaryTreeNode temp = root;
+        Stack<BinaryTreeNode> stack = new Stack<>();
+        while (temp != null || !stack.isEmpty()) {
+            if (temp != null) {
+                stack.push(temp);
+                temp = temp.leftNode;
+            } else {
+                temp = stack.pop();
+                System.out.print(temp.data + " ");
+                temp = temp.rightNode;
+            }
         }
+        System.out.println();
+
     }
 
     /**
@@ -257,12 +265,26 @@ class BinaryTree {
      * @param root
      */
     public void preOrderTraverse(BinaryTreeNode root) {
-        if (root != null) {
-            System.out.println(root.data);
-            preOrderTraverse(root.leftNode);
-            preOrderTraverse(root.rightNode);
+//        if (root != null) {
+//            System.out.println(root.data);
+//            preOrderTraverse(root.leftNode);
+//            preOrderTraverse(root.rightNode);
+//        }
+        BinaryTreeNode temp = root;
+        Stack<BinaryTreeNode> stack = new Stack<>();
+        while (temp != null || !stack.isEmpty()) {
+            if (temp != null) {
+                stack.push(temp);
+                System.out.print(temp.data + " ");
+                temp = temp.leftNode;
+            } else {
+                temp = stack.pop();
+                temp = temp.rightNode;
+            }
         }
+        System.out.println();
     }
+
 
     /**
      * 后序遍历

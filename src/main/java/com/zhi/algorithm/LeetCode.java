@@ -249,6 +249,44 @@ public class LeetCode {
     }
 
     /**
+     * 将二叉搜索树转化为排序的双向链表
+     *
+     * @param root
+     * @return
+     */
+    public TreeNode treeToDoublyList(TreeNode root) {
+        List<TreeNode> list = new ArrayList<>();
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode temp = root;
+        while (temp != null || !stack.isEmpty()) {
+            if (temp != null) {
+                stack.push(temp);
+                temp = temp.left;
+            } else {
+                temp = stack.pop();
+                list.add(temp);
+                temp = temp.right;
+            }
+        }
+        TreeNode node = null;
+        for (int i = 0; i < list.size(); i++) {
+            node = list.get(i);
+            if (i + 1 < list.size()) {
+                node.right = list.get(i + 1);
+            } else {
+                node.right = list.get(0);
+            }
+            if (i - 1 >= 0) {
+                node.left = list.get(i - 1);
+            } else {
+                node.left = list.get(list.size() - 1);
+            }
+        }
+        return node==null?node:node.right;
+    }
+
+
+    /**
      * 和为k的子数组
      *
      * @param nums
