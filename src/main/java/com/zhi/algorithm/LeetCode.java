@@ -243,9 +243,25 @@ public class LeetCode {
         //
         //        }
         LeetCode p = new LeetCode();
-        int[] a = {2, 2, 1, 2, 1};
-        System.out.println(p.subarraySum(a, 3));
+        System.out.println(p.poorPigs(25,15,60));
 
+    }
+
+    /**
+     * 可怜的小猪
+     *
+     * @param buckets
+     * @param minutesToDie
+     * @param minutesToTest
+     * @return
+     */
+    public int poorPigs(int buckets, int minutesToDie, int minutesToTest) {
+        int pigs=0;
+        int base=minutesToTest/minutesToDie+1;
+        while (Math.pow(base, pigs) < buckets) {
+            pigs++;
+        }
+        return pigs;
     }
 
     /**
@@ -282,7 +298,7 @@ public class LeetCode {
                 node.left = list.get(list.size() - 1);
             }
         }
-        return node==null?node:node.right;
+        return node == null ? node : node.right;
     }
 
 
