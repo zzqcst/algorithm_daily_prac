@@ -18,7 +18,115 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         while (scanner.hasNextInt()) {
+            int n = scanner.nextInt();
+            int m = scanner.nextInt();
+            int[] a = new int[n + 1];
+            int[] b = new int[m + 1];
+            for (int i = 1; i <= n; i++) {
+                a[i] = scanner.nextInt();
+            }
+            for (int i = 1; i <= m; i++) {
+                b[i] = scanner.nextInt();
+            }
+            int steps = 0;
+            for (int i = 1; i <= m; i++) {
+                int pos = b[i];
+                if (a[pos] > 0) {
+                    a[pos]--;
+                } else {
+                    boolean[] visited = new boolean[n + 1];
+                    Map<Integer, Integer> map = new HashMap<>();
+                    int s1 = findRoom(pos / 2, a, 1, visited, map);
+                    int s2 = findRoom(pos * 2, a, 1, visited, map);
+                    int s3 = findRoom(pos * 2 + 1, a, 1, visited, map);
+                    Math.min(s1, Math.min(s2, s3));
+                }
+            }
+            System.out.println(steps);
+        }
+    }
 
+    private static int findRoom(int pos, int[] a, int step, boolean[] visited, Map<Integer, Integer> map) {
+        if (pos > a.length || pos == 0 || visited[pos]) {
+            return step;
+        }
+        if (a[pos] > 0) {
+            map.put(step, pos);
+            return step;
+        }
+        visited[pos] = true;
+        int s1 = findRoom(pos / 2, a, step + 1, visited, map);
+        int s2 = findRoom(pos * 2, a, step + 1, visited, map);
+        int s3 = findRoom(pos * 2 + 1, a, step + 1, visited, map);
+        return Math.min(s1, Math.min(s2, s3));
+    }
+
+//    public static void main(String[] args) {
+//        Scanner scanner = new Scanner(System.in);
+//        while (scanner.hasNext()) {
+//            String pattern = scanner.next();
+//            System.out.println(getRes(pattern));
+//        }
+//    }
+
+    private static String getRes(String pattern) {
+        int start = 0, end = 0;
+        for (int i = pattern.length() - 1; i >= 0; i--) {
+            if (pattern.charAt(i) == '#') {
+                end = i;
+            }
+            if (pattern.charAt(i) == '%') {
+                start = i + 1;
+                int repeat = pattern.charAt(i - 1) - '0';
+                String sub = pattern.substring(start, end);
+                StringBuilder next = new StringBuilder(pattern.substring(0, start - 2));
+                for (int j = 0; j < repeat; j++) {
+                    next.append(sub);
+                }
+                next.append(pattern.substring(end + 1));
+                return getRes(next.toString());
+            }
+        }
+        return pattern;
+    }
+//    public static void main(String[] args) {
+//        Scanner scanner = new Scanner(System.in);
+//        while (scanner.hasNextInt()) {
+//            int n = scanner.nextInt();
+//            int m = scanner.nextInt();
+//            int[][] ones = new int[n][m];
+//            for (int i = 0; i < n; i++) {
+//                for (int j = 0; j < m; j++) {
+//                    ones[i][j] = scanner.nextInt();
+//                }
+//            }
+//            int res = 0;
+//            for (int i = 0; i < n; i++) {
+//                for (int j = 0; j < m; j++) {
+//                    if (ones[i][j] == 1) {
+//                        getAreaCount(ones, n, m, i, j);
+//                        res++;
+//                    }
+//                }
+//            }
+//            System.out.println(res);
+//        }
+//    }
+
+    private static void getAreaCount(int[][] ones, int rows, int cols, int i, int j) {
+        if (i < 0 || i >= rows || j < 0 || j >= cols) {
+            return;
+        }
+        if (ones[i][j] == 1) {
+            ones[i][j] = 0;
+            getAreaCount(ones, rows, cols, i + 1, j);
+            getAreaCount(ones, rows, cols, i - 1, j);
+            getAreaCount(ones, rows, cols, i, j + 1);
+            getAreaCount(ones, rows, cols, i, j - 1);
+            getAreaCount(ones, rows, cols, i - 1, j - 1);
+            getAreaCount(ones, rows, cols, i - 1, j + 1);
+            getAreaCount(ones, rows, cols, i + 1, j - 1);
+            getAreaCount(ones, rows, cols, i + 1, j + 1);
         }
     }
 
