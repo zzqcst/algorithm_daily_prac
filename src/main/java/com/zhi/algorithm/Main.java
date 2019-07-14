@@ -17,33 +17,47 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        while (scanner.hasNextInt()) {
-            int n = scanner.nextInt();
-            int m = scanner.nextInt();
-            int[] a = new int[n + 1];
-            int[] b = new int[m + 1];
-            for (int i = 1; i <= n; i++) {
-                a[i] = scanner.nextInt();
+        while (scanner.hasNextLine()) {
+            Map<String, Integer> map = new HashMap<>();
+            String a = scanner.nextLine();
+            String b = scanner.nextLine();
+            if (a.equals("") && b.equals("")) {
+                System.out.println("True");
+                continue;
             }
-            for (int i = 1; i <= m; i++) {
-                b[i] = scanner.nextInt();
+            String[] s = b.split(" ");
+            for (int i = 0; i < s.length; i++) {
+                map.put(s[i], 1);
             }
-            int steps = 0;
-            for (int i = 1; i <= m; i++) {
-                int pos = b[i];
-                if (a[pos] > 0) {
-                    a[pos]--;
-                } else {
-                    boolean[] visited = new boolean[n + 1];
-                    Map<Integer, Integer> map = new HashMap<>();
-                    int s1 = findRoom(pos / 2, a, 1, visited, map);
-                    int s2 = findRoom(pos * 2, a, 1, visited, map);
-                    int s3 = findRoom(pos * 2 + 1, a, 1, visited, map);
-                    Math.min(s1, Math.min(s2, s3));
+            boolean result = false;
+            for (int i = 0; i < a.length(); i++) {
+                if (map.getOrDefault(a.substring(0, i), 0) == 1) {
+                    boolean res = fromhere(a, map, i, i);
+                    if (res) {
+                        result = true;
+                        break;
+                    }
                 }
             }
-            System.out.println(steps);
+            if (result) {
+                System.out.println("True");
+            } else System.out.println("False");
         }
+    }
+
+    private static boolean fromhere(String a, Map<String, Integer> map, int start, int count) {
+        if (count == a.length()) {
+            return true;
+        }
+        for (int i = start; i <= a.length(); i++) {
+            if (map.getOrDefault(a.substring(start, i), 0) == 1) {
+                boolean r = fromhere(a, map, i, count + i - start);
+                if (r) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private static int findRoom(int pos, int[] a, int step, boolean[] visited, Map<Integer, Integer> map) {

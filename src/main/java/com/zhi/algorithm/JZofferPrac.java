@@ -88,7 +88,32 @@ public class JZofferPrac {
 //            }
 //        }
 //        p.print1ToMaxOfNDigits(4);
+        ListNode n1 = new ListNode(3);
+        ListNode n2 = new ListNode(1);
+        ListNode n3 = new ListNode(2);
+        n1.next = n2;
+        n2.next = n3;
+        partition(n1, 3);
+    }
 
+    public static ListNode partition(ListNode head, int x) {
+        ListNode beforeHead = new ListNode(0);
+        ListNode before = beforeHead;
+        ListNode afterHead = new ListNode(0);
+        ListNode after = afterHead;
+        while (head != null) {
+            if (head.val < x) {
+                before.next = head;
+                before = before.next;
+            } else {
+                after.next = head;
+                after = after.next;
+            }
+            head = head.next;
+        }
+        after.next = null;
+        before.next = afterHead.next;
+        return beforeHead.next;
     }
 
     /**
