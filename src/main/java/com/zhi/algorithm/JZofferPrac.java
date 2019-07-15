@@ -88,70 +88,10 @@ public class JZofferPrac {
 //            }
 //        }
 //        p.print1ToMaxOfNDigits(4);
-        System.out.println(divide(11, 3));
     }
 
-    /**
-     * leetcode 29
-     * 两数相除
-     *
-     * @param dividend
-     * @param divisor
-     * @return
-     */
-    public static int divide(int dividend, int divisor) {
-        long first = dividend;
-        long second = divisor;
-        int sign = 1;
-        if (first < 0) {
-            first = -first;
-            sign = -sign;
-        }
-        if (second < 0) {
-            second = -second;
-            sign = -sign;
-        }
-        long count = 0;
-        while (first >= second) {
-            long tmp = second;
-            long i = 1;
-            while (first >= tmp) {
-                first -= tmp;
-                count += i;
-                i <<= 1;
-                tmp <<= 1;
-            }
-        }
-        return count > Integer.MAX_VALUE ? (sign > 0 ? Integer.MAX_VALUE : Integer.MIN_VALUE) : (int) ((sign > 0) ? count : -count);
-    }
 
-    /**
-     * leetcode 86
-     * 分隔链表
-     *
-     * @param head
-     * @param x
-     * @return
-     */
-    public static ListNode partition(ListNode head, int x) {
-        ListNode beforeHead = new ListNode(0);
-        ListNode before = beforeHead;
-        ListNode afterHead = new ListNode(0);
-        ListNode after = afterHead;
-        while (head != null) {
-            if (head.val < x) {
-                before.next = head;
-                before = before.next;
-            } else {
-                after.next = head;
-                after = after.next;
-            }
-            head = head.next;
-        }
-        after.next = null;
-        before.next = afterHead.next;
-        return beforeHead.next;
-    }
+
 
     /**
      * 删除链表的节点

@@ -248,6 +248,94 @@ public class LeetCode {
     }
 
     /**
+     * leetcode
+     * 合并k个有序链表
+     * <p>
+     * 归并
+     *
+     * @param lists
+     * @return
+     */
+    public static ListNode mergeKLists(ListNode[] lists) {
+        if (lists.length == 0) {
+            return null;
+        }
+        return merge(lists, 0, lists.length - 1);
+    }
+
+    public static ListNode merge(ListNode[] lists, int start, int end) {
+        if (start == end) {
+            return lists[start];
+        }
+        int mid = (start + end) >> 1;
+        ListNode left = merge(lists, start, mid);
+        ListNode right = merge(lists, mid + 1, end);
+        return mergeTwoLists(left, right);
+    }
+
+    /**
+     * leetcode 29
+     * 两数相除
+     *
+     * @param dividend
+     * @param divisor
+     * @return
+     */
+    public static int divide(int dividend, int divisor) {
+        long first = dividend;
+        long second = divisor;
+        int sign = 1;
+        if (first < 0) {
+            first = -first;
+            sign = -sign;
+        }
+        if (second < 0) {
+            second = -second;
+            sign = -sign;
+        }
+        long count = 0;
+        while (first >= second) {
+            long tmp = second;
+            long i = 1;
+            while (first >= tmp) {
+                first -= tmp;
+                count += i;
+                i <<= 1;
+                tmp <<= 1;
+            }
+        }
+        return count > Integer.MAX_VALUE ? (sign > 0 ? Integer.MAX_VALUE : Integer.MIN_VALUE) : (int) ((sign > 0) ? count : -count);
+    }
+
+    /**
+     * leetcode 86
+     * 分隔链表
+     *
+     * @param head
+     * @param x
+     * @return
+     */
+    public static ListNode partition(ListNode head, int x) {
+        ListNode beforeHead = new ListNode(0);
+        ListNode before = beforeHead;
+        ListNode afterHead = new ListNode(0);
+        ListNode after = afterHead;
+        while (head != null) {
+            if (head.val < x) {
+                before.next = head;
+                before = before.next;
+            } else {
+                after.next = head;
+                after = after.next;
+            }
+            head = head.next;
+        }
+        after.next = null;
+        before.next = afterHead.next;
+        return beforeHead.next;
+    }
+
+    /**
      * LRU缓存机制
      * <p>
      * 使用双向链表，添加和查找时，将节点放到头部，移除时直接删除尾部节点
@@ -4545,22 +4633,41 @@ public class LeetCode {
      * @param list2
      * @return
      */
-    private static ListNode mergeTwoLists(ListNode list1, ListNode list2) {
-        ListNode res = null;
-        if (list1 == null) {
-            return list2;
+    private static ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+//        ListNode res = null;
+//        if (list1 == null) {
+//            return list2;
+//        }
+//        if (list2 == null) {
+//            return list1;
+//        }
+//        if (list1.val <= list2.val) {
+//            res = list1;
+//            res.next = mergeTwoLists(list1.next, list2);
+//        } else {
+//            res = list2;
+//            res.next = mergeTwoLists(list1, list2.next);
+//        }
+//        return res;
+        ListNode newnode = new ListNode(0);
+        ListNode tmp = newnode;
+        while (l1 != null && l2 != null) {
+            if (l1.val < l2.val) {
+                tmp.next = l1;
+                l1 = l1.next;
+            } else {
+                tmp.next = l2;
+                l2 = l2.next;
+            }
+            tmp = tmp.next;
         }
-        if (list2 == null) {
-            return list1;
+        if (l1 != null) {
+            tmp.next = l1;
         }
-        if (list1.val <= list2.val) {
-            res = list1;
-            res.next = mergeTwoLists(list1.next, list2);
-        } else {
-            res = list2;
-            res.next = mergeTwoLists(list1, list2.next);
+        if (l2 != null) {
+            tmp.next = l2;
         }
-        return res;
+        return newnode.next;
     }
 
     /**
