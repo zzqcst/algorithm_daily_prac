@@ -243,8 +243,44 @@ public class LeetCode {
         //
         //        }
         LeetCode p = new LeetCode();
-        System.out.println(p.poorPigs(25, 15, 60));
+        int[] candidates = {2, 3, 6, 7};
+        int target = 7;
+        List<List<Integer>> lists = p.combinationSum(candidates, target);
+        System.out.println(lists);
+    }
 
+    /**
+     * leetcode
+     * 组合总数
+     *
+     * @param candidates
+     * @param target
+     * @return
+     */
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        Arrays.sort(candidates);
+        getSum(candidates, target, 0, res, new ArrayList<Integer>());
+        return res;
+    }
+
+    private void getSum(int[] candidates, int target, int start, List<List<Integer>> res, ArrayList<Integer> temp) {
+        for (int i = start; i < candidates.length; i++) {
+            if (candidates[i] == target) {
+                temp.add(candidates[i]);
+                res.add(new ArrayList<>(temp));
+                temp.remove(temp.size() - 1);
+                return;
+            }
+            if (candidates[i] < target) {
+                temp.add(candidates[i]);
+                getSum(candidates, target - candidates[i], i, res, temp);
+                temp.remove(temp.size() - 1);
+            }
+            if (candidates[i] > target) {
+                return;
+            }
+        }
     }
 
     /**
@@ -4629,8 +4665,6 @@ public class LeetCode {
     /**
      * 合并两个有序链表
      *
-     * @param list1
-     * @param list2
      * @return
      */
     private static ListNode mergeTwoLists(ListNode l1, ListNode l2) {

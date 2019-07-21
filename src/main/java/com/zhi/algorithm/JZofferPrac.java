@@ -88,9 +88,8 @@ public class JZofferPrac {
 //            }
 //        }
 //        p.print1ToMaxOfNDigits(4);
+        System.out.println(p.Power(1, -2147483648));
     }
-
-
 
 
     /**
@@ -1351,40 +1350,40 @@ public class JZofferPrac {
     }
 
     /**
+     * 归并
+     *
      * @param array
      * @return
      */
     private int InversePairsCore(int[] array, int[] copy, int low, int high) {
-        if (low == high) {
-            return 0;
-        }
+        if (low == high) return 0;
         int mid = (low + high) >> 1;
         int leftCount = InversePairsCore(array, copy, low, mid) % 1000000007;
         int rightCount = InversePairsCore(array, copy, mid + 1, high) % 1000000007;
-        int count = 0;
         int i = mid;
         int j = high;
-        int locCopy = high;
+        int copyIndex = high;
+        int count = 0;
         while (i >= low && j > mid) {
             if (array[i] > array[j]) {
+                copy[copyIndex--] = array[i--];
                 count += j - mid;
-                copy[locCopy--] = array[i--];
                 if (count >= 1000000007)//数值过大求余
                 {
                     count %= 1000000007;
                 }
             } else {
-                copy[locCopy--] = array[j--];
+                copy[copyIndex--] = array[j--];
             }
         }
         for (; i >= low; i--) {
-            copy[locCopy--] = array[i];
+            copy[copyIndex--] = array[i];
         }
         for (; j > mid; j--) {
-            copy[locCopy--] = array[j];
+            copy[copyIndex--] = array[j];
         }
-        for (int s = low; s <= high; s++) {
-            array[s] = copy[s];
+        for (int l = low; l <= high; l++) {
+            array[l] = copy[l];
         }
         return (leftCount + rightCount + count) % 1000000007;
     }
@@ -2377,6 +2376,9 @@ public class JZofferPrac {
             return 0;
         }
         if (exponent < 0) {
+            if (exponent == Integer.MIN_VALUE) {
+                return 1 / powerwithzex(base, Integer.MAX_VALUE) * 1 / base;
+            }
             return 1 / powerwithzex(base, -exponent);
         }
         return powerwithzex(base, exponent);
