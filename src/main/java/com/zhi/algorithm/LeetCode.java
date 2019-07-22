@@ -243,7 +243,31 @@ public class LeetCode {
         //
         //        }
         LeetCode p = new LeetCode();
-        p.nextPermutation(new int[]{3, 2, 1});
+        int[] a = {5, 2, 1, 2, 1, 5};
+        System.out.println(p.trap(a));
+    }
+
+    /**
+     * 接雨水
+     *
+     * @param height
+     * @return
+     */
+    public int trap(int[] height) {
+        int maxLeft = 0;
+        int sum = 0;
+        int[] maxRight = new int[height.length];
+        for (int i = height.length - 2; i >= 0; i--) {
+            maxRight[i] = Math.max(maxRight[i + 1], height[i + 1]);
+        }
+        for (int i = 1; i < height.length; i++) {
+            maxLeft = Math.max(maxLeft, height[i - 1]);
+            int min = Math.min(maxLeft, maxRight[i]);
+            if (min > height[i]) {
+                sum += min - height[i];
+            }
+        }
+        return sum;
     }
 
     /**
