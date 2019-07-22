@@ -243,7 +243,7 @@ public class LeetCode {
         //
         //        }
         LeetCode p = new LeetCode();
-        p.nextPermutation(new int[]{1, 2, 3});
+        p.nextPermutation(new int[]{3, 2, 1});
     }
 
     /**
@@ -257,22 +257,32 @@ public class LeetCode {
         //1.找到临界点nums[i] < nums[i + 1]
         //2.从i向后找，找到一个恰好比nums[i]大的元素num[j],而nums[j+1]<=nums[i]或者j==nums.length-1
         //3.交换nums[i]和nums[j]
-        //4.数组i之后的数字重新排序
-        //举例，例如，4,9,8,5,4,3,2；交换之后为5,9,8,4,4,3,2,；然后从9开始的元素重新排序即可，得到5,2,3,4,4,8,9
-        for (int i = nums.length - 2; i >= 0; i--) {
+        //4.数组i之后的数字翻转
+        //举例，例如，4,9,8,5,4,3,2；交换之后为5,9,8,4,4,3,2,；然后从9开始的元素翻转即可，得到5,2,3,4,4,8,9
+        int i = nums.length - 2;
+        for (; i >= 0; i--) {
             if (nums[i] < nums[i + 1]) {
                 int temp = nums[i];
                 for (int j = i + 1; j < nums.length; j++) {
                     if (nums[j] > nums[i] && (j == nums.length - 1 || nums[j + 1] <= nums[i])) {
                         nums[i] = nums[j];
                         nums[j] = temp;
-                        Arrays.sort(nums, i + 1, nums.length);
-                        return;
+                        break;
                     }
                 }
+                break;
             }
         }
-        Arrays.sort(nums);//原序列递减，则直接排序
+        //i是临界的位置，或者-1（原序列是递减时）
+        i = i + 1;
+        int j = nums.length - 1;
+        while (i < j) {
+            int temp = nums[i];
+            nums[i] = nums[j];
+            nums[j] = temp;
+            i++;
+            j--;
+        }
     }
 
     /**
