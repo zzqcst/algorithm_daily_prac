@@ -243,10 +243,71 @@ public class LeetCode {
         //
         //        }
         LeetCode p = new LeetCode();
-        int[] candidates = {2, 3, 6, 7};
-        int target = 7;
-        List<List<Integer>> lists = p.combinationSum(candidates, target);
-        System.out.println(lists);
+        p.nextPermutation(new int[]{1, 2, 3});
+    }
+
+    /**
+     * 下一个排列
+     * <p>
+     * 找到恰好比当前排列大的序列，例如1,2,3；则1,3,2 恰好比它大
+     *
+     * @param nums
+     */
+    public void nextPermutation(int[] nums) {
+        //1.找到临界点nums[i] < nums[i + 1]
+        //2.从i向后找，找到一个恰好比nums[i]大的元素num[j],而nums[j+1]<=nums[i]或者j==nums.length-1
+        //3.交换nums[i]和nums[j]
+        //4.数组i之后的数字重新排序
+        //举例，例如，4,9,8,5,4,3,2；交换之后为5,9,8,4,4,3,2,；然后从9开始的元素重新排序即可，得到5,2,3,4,4,8,9
+        for (int i = nums.length - 2; i >= 0; i--) {
+            if (nums[i] < nums[i + 1]) {
+                int temp = nums[i];
+                for (int j = i + 1; j < nums.length; j++) {
+                    if (nums[j] > nums[i] && (j == nums.length - 1 || nums[j + 1] <= nums[i])) {
+                        nums[i] = nums[j];
+                        nums[j] = temp;
+                        Arrays.sort(nums, i + 1, nums.length);
+                        return;
+                    }
+                }
+            }
+        }
+        Arrays.sort(nums);//原序列递减，则直接排序
+    }
+
+    /**
+     * x的平方根
+     *
+     * @param x
+     * @return
+     */
+    public int mySqrt(int x) {
+        long low = 0;
+        long high = x / 2 + 1;
+        while (low < high) {
+            long mid = (high + low + 1) >> 1;//+1是防止计算后mid仍然等于low,例如low:2,high:3
+            if (mid * mid > x)
+                high = mid - 1;
+            else
+                low = mid;
+        }
+        return (int) low;
+    }
+
+    /**
+     * leetcode
+     * Excel表列序号
+     *
+     * @param s
+     * @return
+     */
+    public int titleToNumber(String s) {
+        int len = s.length();
+        int sum = 0;
+        for (int i = 0; i < s.length(); i++) {
+            sum += Math.pow(26, len - i - 1) * (s.charAt(i) - 'A' + 1);
+        }
+        return sum;
     }
 
     /**
