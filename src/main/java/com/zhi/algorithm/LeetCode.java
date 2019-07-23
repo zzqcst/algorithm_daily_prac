@@ -271,6 +271,58 @@ public class LeetCode {
     }
 
     /**
+     * 环形链表2
+     *
+     * @param head
+     * @return
+     */
+    public ListNode detectCycle(ListNode head) {
+        //设置两个指针，一个一次走一步，另一个一次走两步，若有环，两个指针会相遇，记录相遇的节点
+        //保存相遇的节点，顺着这个节点走并计数，再次走回这个节点时，得到环中节点数量count
+        //设置两个指针，一个先走count步后，两个指针再同时走，当两个节点指向同一个节点时，该节点即环的入口节点
+        ListNode meetNode = getMeetNode(head);
+        if (meetNode != null) {
+            int count = 0;
+            ListNode tmp = meetNode;
+            while (true) {
+                tmp = tmp.next;
+                count++;
+                if (tmp == meetNode) {
+                    break;
+                }
+            }
+            tmp = head;
+            while (count-- > 0) {
+                tmp = tmp.next;
+            }
+            while (true) {
+                if (tmp == head) {
+                    return tmp;
+                } else {
+                    tmp = tmp.next;
+                    head = head.next;
+                }
+            }
+        }
+        return null;
+    }
+
+    public ListNode getMeetNode(ListNode node) {
+        ListNode fast = node;
+        ListNode slow = node;
+        while (fast != null) {
+            slow = slow.next;
+            if (fast.next != null) {
+                fast = fast.next.next;
+            } else return null;
+            if (fast == slow) {
+                return fast;
+            }
+        }
+        return fast;
+    }
+
+    /**
      * 下一个排列
      * <p>
      * 找到恰好比当前排列大的序列，例如1,2,3；则1,3,2 恰好比它大
