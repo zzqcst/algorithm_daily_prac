@@ -88,7 +88,8 @@ public class JZofferPrac {
 //            }
 //        }
 //        p.print1ToMaxOfNDigits(4);
-        System.out.println(p.Power(1, -2147483648));
+        int a=1;
+        System.out.println((a=0)!=0);
     }
 
 

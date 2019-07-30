@@ -243,8 +243,12 @@ public class LeetCode {
         //
         //        }
         LeetCode p = new LeetCode();
-        int[] a = {5, 2, 1, 2, 1, 5};
-        System.out.println(p.trap(a));
+        HashMap<Integer, Integer> map = new HashMap<>();
+        map.put(1, 2);
+        map.put(2, 1);
+        for (Integer integer : map.keySet()) {
+
+        }
     }
 
     /**

@@ -17,33 +17,11 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        while (scanner.hasNextLine()) {
-            Map<String, Integer> map = new HashMap<>();
-            String a = scanner.nextLine();
-            String b = scanner.nextLine();
-            if (a.equals("") && b.equals("")) {
-                System.out.println("True");
-                continue;
-            }
-            String[] s = b.split(" ");
-            for (int i = 0; i < s.length; i++) {
-                map.put(s[i], 1);
-            }
-            boolean result = false;
-            for (int i = 0; i < a.length(); i++) {
-                if (map.getOrDefault(a.substring(0, i), 0) == 1) {
-                    boolean res = fromhere(a, map, i, i);
-                    if (res) {
-                        result = true;
-                        break;
-                    }
-                }
-            }
-            if (result) {
-                System.out.println("True");
-            } else System.out.println("False");
+        while (scanner.hasNext()) {
+
         }
     }
+
 
     private static boolean fromhere(String a, Map<String, Integer> map, int start, int count) {
         if (count == a.length()) {
