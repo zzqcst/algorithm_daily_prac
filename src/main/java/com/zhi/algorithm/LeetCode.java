@@ -243,12 +243,7 @@ public class LeetCode {
         //
         //        }
         LeetCode p = new LeetCode();
-        HashMap<Integer, Integer> map = new HashMap<>();
-        map.put(1, 2);
-        map.put(2, 1);
-        for (Integer integer : map.keySet()) {
-
-        }
+        System.out.println(123456%3);
     }
 
     /**
