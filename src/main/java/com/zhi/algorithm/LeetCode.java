@@ -242,8 +242,37 @@ public class LeetCode {
         //            }
         //
         //        }
-        LeetCode p = new LeetCode();
-        System.out.println(123456%3);
+    }
+
+    public ListNode reverseKGroup(ListNode head, int k) {
+        ArrayList<Integer> list = new ArrayList<>();
+        ListNode tmp = head;
+        int len = 0;
+        while (tmp != null) {
+            len++;
+            list.add(tmp.val);
+            tmp = tmp.next;
+        }
+        int start = 0, end = k - 1;
+        while (end < len) {
+            int start_tmp = start;
+            int end_tmp = end;
+            while (start < end) {
+                int left = list.get(start);
+                list.set(start, list.get(end));
+                list.set(end, left);
+                start++;
+                end--;
+            }
+            start = start_tmp + k;
+            end = end_tmp + k;
+        }
+        tmp = head;
+        for (int i = 0; i < len; i++) {
+            tmp.val = list.get(i);
+            tmp = tmp.next;
+        }
+        return head;
     }
 
     /**
