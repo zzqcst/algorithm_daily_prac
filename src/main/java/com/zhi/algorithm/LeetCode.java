@@ -242,8 +242,79 @@ public class LeetCode {
         //            }
         //
         //        }
+        LeetCode l = new LeetCode();
+        l.jump(new int[]{2, 5, 0, 1, 4});
     }
 
+    /**
+     * 跳跃游戏2
+     * 每次找能跳最远的位置
+     * @param nums
+     * @return
+     */
+    public int jump(int[] nums) {
+        int end = 0;
+        int maxPosition = 0;
+        int steps = 0;
+        for(int i = 0; i < nums.length - 1; i++){
+            //找能跳的最远的
+            maxPosition = Math.max(maxPosition, nums[i] + i);
+            if( i == end){ //遇到边界，就更新边界，并且步数加一
+                end = maxPosition;
+                steps++;
+            }
+        }
+        return steps;
+    }
+
+
+    /**
+     * 01背包
+     *
+     * @param wi 物品体积
+     * @param pi 物品价值
+     * @param w  背包容量
+     * @return
+     */
+    public int pack(int[] wi, int[] pi, int w) {
+//        int n = wi.length;//物品数量
+//        int[][] dp = new int[n + 1][w + 1];//dp[i][j]背包容量为j时，前i个物品的最大价值
+//        //dp[i][j]=Math.max(dp[i - 1][j - wi[i]] + pi[i], dp[i - 1][j]);//装第i个和不装第i个的最大值
+//        for (int i = 1; i <= n; i++) {
+//            for (int j = 1; j <= w; j++) {
+//                if (j < wi[i]) {
+//                    dp[i][j] = dp[i - 1][j];
+//                } else {
+//                    dp[i][j] = Math.max(dp[i - 1][j - wi[i]] + pi[i], dp[i - 1][j]);
+//                }
+//            }
+//        }
+//        for (int i = 0; i <= n; i++) {
+//            for (int j = 0; j <= w; j++) {
+//                System.out.print(dp[i][j] + " ");
+//            }
+//            System.out.println();
+//        }
+//        return dp[n][w];
+
+        //压缩dp，记录i对应的每一行
+        int n = wi.length;
+        int[] dp = new int[w + 1];
+        for (int i = 1; i <= n; i++) {
+            for (int j = w; j >= wi[i]; j--) {
+                dp[j] = Math.max(dp[j], dp[j - wi[i]] + pi[i]);
+            }
+        }
+        return dp[w];
+    }
+
+    /**
+     * k个一组翻转链表
+     *
+     * @param head
+     * @param k
+     * @return
+     */
     public ListNode reverseKGroup(ListNode head, int k) {
         ArrayList<Integer> list = new ArrayList<>();
         ListNode tmp = head;
