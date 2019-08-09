@@ -88,8 +88,8 @@ public class JZofferPrac {
 //            }
 //        }
 //        p.print1ToMaxOfNDigits(4);
-        int a=1;
-        System.out.println((a=0)!=0);
+        int a = 1;
+        System.out.println((a = 0) != 0);
     }
 
 
@@ -333,8 +333,8 @@ public class JZofferPrac {
     public ArrayList<Integer> maxInWindows(int[] num, int size) {
 //        ArrayList<Integer> res = new ArrayList<>();
 //        if (size > 0) {
-//            for (int i = 0; i <= num.length - size; i++) {
-//                int max = getMaxHere(num, i, size);
+//            for (int i = 0; i <= totalRings.length - size; i++) {
+//                int max = getMaxHere(totalRings, i, size);
 //                res.add(max);
 //            }
 //        }
@@ -382,7 +382,7 @@ public class JZofferPrac {
      * 如果从数据流中读出偶数个数值，那么中位数就是所有数值排序之后中间两个数的平均值。
      * 我们使用Insert()方法读取数据流，使用GetMedian()方法获取当前读取数据的中位数。
      *
-     * @param num
+     * @param totalRings
      */
     ArrayList<Double> queue3 = new ArrayList<>();
 
@@ -773,41 +773,66 @@ public class JZofferPrac {
      * 而'*'表示它前面的字符可以出现任意次（包含0次）。
      * 在本题中，匹配是指字符串的所有字符匹配整个模式。
      * 例如，字符串"aaa"与模式"a.a"和"ab*ac*a"匹配，但是与"aa.a"和"ab*a"均不匹配
+     * <p>
+     * 思路：
+     * <p>
+     * 而当模式中的第二个字符是“*”时：
+     * <p>
+     * 如果字符串第一个字符跟模式第一个字符不匹配，则模式后移2个字符，继续匹配。
+     * <p>
+     * 如果字符串第一个字符跟模式第一个字符匹配，可以有3种匹配方式：
+     * 1、模式后移2字符，相当于x*被忽略；
+     * 2、字符串后移1字符，模式后移2字符，即字符匹配一次，继续匹配下一个字符；
+     * 3、字符串后移1字符，模式不变，即继续匹配字符下一位，因为*可以匹配多位；
+     * <p>
+     * 当模式中的第二个字符不是“*”时：
+     * <p>
+     * 1、如果字符串第一个字符和模式中的第一个字符相匹配，那么字符串和模式都后移一个字符，然后匹配剩余的。
+     * 2、如果字符串第一个字符和模式中的第一个字符相不匹配，直接返回false。
      *
      * @param str
      * @param p
      * @return
      */
     public boolean match(char[] str, char[] p) {
-        String s = new String(str);
-        String pattern = new String(p);
-        //dp[i][j]表示s中下标到i-1的子串和pattern中下标到j-1的模式匹配
-        boolean[][] dp = new boolean[s.length() + 1][pattern.length() + 1];
-        dp[0][0] = true;
-        //匹配空字符串的情况
-        for (int i = 0; i < pattern.length(); i++) {
-            if (pattern.charAt(i) == '*' && dp[0][i - 1]) {
-                dp[0][i + 1] = dp[0][i - 1];
+        if (str == null || p == null) {
+            return false;
+        }
+        return matchCore(str, 0, p, 0);
+    }
+
+    private boolean matchCore(char[] str, int strIndex, char[] p, int pIndex) {
+        //字符串和模式都到末尾了，则匹配成功
+        if (strIndex == str.length && pIndex == p.length) {
+            return true;
+        }
+        //模式到尾了，字符串没匹配完，匹配失败
+        if (pIndex == p.length) {
+            return false;
+        }
+
+        //模式的下一个字符是*，则讨论当前字符是否相同
+        if (pIndex + 1 < p.length && p[pIndex + 1] == '*') {
+            //当前字符相同，分三种情况
+            if (strIndex != str.length && (str[strIndex] == p[pIndex] || p[pIndex] == '.')) {
+                //字符串后移一位，模式后移两位，即匹配一个字符
+                return matchCore(str, strIndex + 1, p, pIndex + 2) ||
+                        //字符串后移一位，模式不移动，即再匹配下一个
+                        matchCore(str, strIndex + 1, p, pIndex) ||
+                        //字符串不移动，模式后移两位，即匹配当前字符0次
+                        matchCore(str, strIndex, p, pIndex + 2);
+            } else {
+                //当前字符不相同，模式字符串后移两位，相当于匹配了0次
+                return matchCore(str, strIndex, p, pIndex + 2);
             }
         }
-        for (int i = 0; i < s.length(); i++) {
-            for (int j = 0; j < pattern.length(); j++) {
-                //能匹配当前字符时
-                if (pattern.charAt(j) == '.' || pattern.charAt(j) == s.charAt(i)) {
-                    dp[i + 1][j + 1] = dp[i][j];
-                }
-                if (pattern.charAt(j) == '*') {
-                    //不能匹配当前字符，*当空处理
-                    if (pattern.charAt(j - 1) != s.charAt(i) && pattern.charAt(j - 1) != '.') {
-                        dp[i + 1][j + 1] = dp[i + 1][j - 1];
-                    } else {
-                        //当空处理；匹配多次；匹配一次
-                        dp[i + 1][j + 1] = dp[i + 1][j - 1] || dp[i][j + 1] || dp[i + 1][j];
-                    }
-                }
-            }
+
+        //字符串和模式的当前字符相同，则比较下一个字符
+        if (strIndex != str.length && (str[strIndex] == p[pIndex] || (p[pIndex] == '.'))) {
+            return matchCore(str, strIndex + 1, p, pIndex + 1);
         }
-        return dp[s.length()][pattern.length()];
+        //模式下一个字符不是*，当前字符不匹配时，
+        return false;
     }
 
 

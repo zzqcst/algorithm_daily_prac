@@ -243,28 +243,68 @@ public class LeetCode {
         //
         //        }
         LeetCode l = new LeetCode();
-        l.jump(new int[]{2, 5, 0, 1, 4});
+        int[] group = {2, 2};
+        int[] profit = {2, 3};
+        System.out.println(l.profitableSchemes(5, 3, group, profit));
     }
+
+
+    int profitableSchemes(int G, int P, int[] group, int[] profit) {
+        int resultSum = 0;
+        int planNum = group.length;
+        int[][] recordProfit = new int[G + 1][P + 1];//[i][j] i个人利润j时犯罪方案数,对于一个方案(m,n),方案数为做了这个犯罪和不做这个犯罪的总方案数，
+        // [i][j]=[i][j]+[i-m][j-n]
+        final int constNum = 1000000007;
+        recordProfit[0][0] = 1;
+
+        for (int i = 0; i < planNum; i++) {
+            for (int j = G; j >= group[i]; j--) {
+                for (int k = P; k >= 0; k--) {
+                    //第i个犯罪计划做和不做
+                    recordProfit[j][k] = (recordProfit[j][k] + recordProfit[j - group[i]][Math.max(0, k - profit[i])]) % constNum;
+                }
+            }
+        }
+
+        for (int i = 0; i <= G; i++) {
+            resultSum = (resultSum + recordProfit[i][P]) % constNum;
+        }
+        return resultSum;
+    }
+
+    /**
+     * 通配符匹配
+     * <p>
+     * 给定一个字符串 (s) 和一个字符模式 (p) ，实现一个支持 '?' 和 '*' 的通配符匹配。
+     *
+     * @param s 字符串
+     * @param p 模式
+     * @return
+     */
+    public boolean isMatch2(String s, String p) {
+        return false;
+    }
+
 
     /**
      * 跳跃游戏2
      * 每次找能跳最远的位置
+     *
      * @param nums
      * @return
      */
     public int jump(int[] nums) {
         int end = 0;
-        int maxPosition = 0;
-        int steps = 0;
-        for(int i = 0; i < nums.length - 1; i++){
-            //找能跳的最远的
-            maxPosition = Math.max(maxPosition, nums[i] + i);
-            if( i == end){ //遇到边界，就更新边界，并且步数加一
-                end = maxPosition;
-                steps++;
+        int maxPos = 0;
+        int step = 0;
+        for (int i = 0; i < nums.length - 1; i++) {
+            maxPos = Math.max(maxPos, nums[i] + i);
+            if (i == end) {
+                step++;
+                end = maxPos;
             }
         }
-        return steps;
+        return step;
     }
 
 
@@ -2385,34 +2425,34 @@ public class LeetCode {
         return res;
 
         //使用栈来实现括号优先级
-        //        int res = 0, sign = 1, len = s.length(), num = 0;
+        //        int res = 0, sign = 1, len = s.length(), totalRings = 0;
         //        Stack<Integer> stack = new Stack<>();
         //        for (int i = 0; i < len; i++) {
         //            char c = s.charAt(i);
         //            if (c >= '0' && c <= '9') {//当前字符是数字
-        //                num = 10 * num + c - '0';
+        //                totalRings = 10 * totalRings + c - '0';
         //            } else if (c == '+') {
-        //                res += sign * num;
+        //                res += sign * totalRings;
         //                sign = 1;
-        //                num = 0;
+        //                totalRings = 0;
         //            } else if (c == '-') {
-        //                res += sign * num;
+        //                res += sign * totalRings;
         //                sign = -1;
-        //                num = 0;
+        //                totalRings = 0;
         //            } else if (c == '(') {
         //                stack.push(res);
         //                stack.push(sign);
         //                res = 0;
         //                sign = 1;
-        //                num = 0;
+        //                totalRings = 0;
         //            } else if (c == ')') {
-        //                res += sign * num;
-        //                num = 0;
+        //                res += sign * totalRings;
+        //                totalRings = 0;
         //                res *= stack.pop();//括号内的结果
         //                res += stack.pop();//括号内结果和括号外结果合并
         //            }
         //        }
-        //        res += num * sign;
+        //        res += totalRings * sign;
         //        return res;
     }
 
@@ -3033,12 +3073,12 @@ public class LeetCode {
         //        List<Integer> res = new ArrayList<>();
         //        Map<Integer, Integer> freq = new HashMap<>();
         //        //统计频率
-        //        for (int num : nums) {
-        //            if (freq.containsKey(num)) {
-        //                freq.put(num, freq.get(num) + 1);
+        //        for (int totalRings : nums) {
+        //            if (freq.containsKey(totalRings)) {
+        //                freq.put(totalRings, freq.get(totalRings) + 1);
         //                continue;
         //            }
-        //            freq.put(num, 0);
+        //            freq.put(totalRings, 0);
         //        }
         //
         //        int i = 0;
@@ -5470,9 +5510,9 @@ public class LeetCode {
         //        // validate a board
         //        for (int i = 0; i < 9; i++) {
         //            for (int j = 0; j < 9; j++) {
-        //                char num = board[i][j];
-        //                if (num != '.') {
-        //                    int n = (int) num;
+        //                char totalRings = board[i][j];
+        //                if (totalRings != '.') {
+        //                    int n = (int) totalRings;
         //                    int box_index = (i / 3) * 3 + j / 3;
         //
         //                    // keep the current cell value

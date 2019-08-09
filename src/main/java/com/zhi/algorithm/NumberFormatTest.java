@@ -8,7 +8,7 @@ public class NumberFormatTest {
     public static void main(String[] args) {
         int num = 143;
         String numStr = formatInteger(String.valueOf(num));
-        System.out.println("num= " + num + ", 转换结果: " + numStr);
+        System.out.println("totalRings= " + num + ", 转换结果: " + numStr);
     }
     private static String formatInteger(String string) {
         String[] s1 = { "零", "一", "二", "三", "四", "五", "六", "七", "八", "九" };
