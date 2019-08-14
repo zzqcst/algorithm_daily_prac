@@ -1,12 +1,14 @@
 package com.zhi.algorithm;
 
+import java.util.LinkedHashMap;
+
 /**
  * 八大排序算法
  */
 public class EightSort {
     public static void main(String[] args) {
         int[] nums = {4, 5, 3, 2, 8, 7, 6, 9};
-        redixSort(nums);
+        quickSort(nums);
         for (int num : nums) {
             System.out.print(num + " ");
         }
@@ -61,7 +63,6 @@ public class EightSort {
                 }
             }
         }
-
     }
 
     /**
@@ -175,6 +176,7 @@ public class EightSort {
      * @param arr
      */
     private static void quickSort(int[] arr) {
+        qs(arr, 0, arr.length - 1);
     }
 
     private static void qs(int[] arr, int start, int end) {

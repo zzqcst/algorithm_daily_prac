@@ -243,9 +243,6 @@ public class LeetCode {
         //
         //        }
         LeetCode l = new LeetCode();
-        int[] group = {2, 2};
-        int[] profit = {2, 3};
-        System.out.println(l.profitableSchemes(5, 3, group, profit));
     }
 
 
@@ -4998,23 +4995,23 @@ public class LeetCode {
      */
     private static ListNode reverseList(ListNode head) {
         //递归方法
-        //        if (head == null || head.next == null) {
-        //            return head;
-        //        }else {
-        //            ListNode newHead = reverseList(head.next);
-        //            head.next.next=head;
-        //            head.next = null;
-        //            return newHead;
-        //        }
-        //非递归方法
-        ListNode preNode = null;
-        while (head != null) {
-            ListNode temp = head.next;
-            head.next = preNode;//将保存的上一个节点作为该节点的下一个节点
-            preNode = head;//然后当前节点成为下次循环的上一个节点
-            head = temp;
+        if (head == null || head.next == null) {
+            return head;
+        } else {
+            ListNode newHead = reverseList(head.next);
+            head.next.next = head;
+            head.next = null;
+            return newHead;
         }
-        return preNode;
+        //非递归方法
+//        ListNode preNode = null;
+//        while (head != null) {
+//            ListNode temp = head.next;
+//            head.next = preNode;//将保存的上一个节点作为该节点的下一个节点
+//            preNode = head;//然后当前节点成为下次循环的上一个节点
+//            head = temp;
+//        }
+//        return preNode;
     }
 
     /**

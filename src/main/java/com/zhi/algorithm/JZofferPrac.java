@@ -60,7 +60,7 @@ public class JZofferPrac {
 //            System.out.print(convert.val+" ");
 //            convert=convert.right;
 //        }
-
+//
 //        ArrayList<ArrayList<Integer>> lists = p.FindPath(t1, 7);
 //        for (ArrayList<Integer> list : lists) {
 //            for (Integer integer : list) {
@@ -68,19 +68,19 @@ public class JZofferPrac {
 //            }
 //            System.out.println();
 //        }
-//        ListNode n1 = new ListNode(1);
-//        ListNode n2 = new ListNode(1);
-//        ListNode n3 = new ListNode(3);
-//        ListNode n4 = new ListNode(3);
-//        ListNode n5 = new ListNode(4);
-//        ListNode n6 = new ListNode(4);
-//        ListNode n7 = new ListNode(5);
-//        n1.next = n2;
-//        n2.next = n3;
-//        n3.next = n4;
-//        n4.next = n5;
-//        n5.next = n6;
-//        n6.next = n7;
+        ListNode n1 = new ListNode(1);
+        ListNode n2 = new ListNode(1);
+        ListNode n3 = new ListNode(3);
+        ListNode n4 = new ListNode(3);
+        ListNode n5 = new ListNode(4);
+        ListNode n6 = new ListNode(4);
+        ListNode n7 = new ListNode(5);
+        n1.next = n2;
+        n2.next = n3;
+        n3.next = n4;
+        n4.next = n5;
+        n5.next = n6;
+        n6.next = n7;
 //        n1 = p.deleteDuplication(n1);
 //        for (ArrayList<Integer> integers : p.Print(t1)) {
 //            for (Integer integer : integers) {
@@ -88,8 +88,11 @@ public class JZofferPrac {
 //            }
 //        }
 //        p.print1ToMaxOfNDigits(4);
-        int a = 1;
-        System.out.println((a = 0) != 0);
+        ListNode node = p.ReverseList(n1);
+        while (node != null) {
+            System.out.println(node.val);
+            node = node.next;
+        }
     }
 
 
