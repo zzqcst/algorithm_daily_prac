@@ -243,9 +243,19 @@ public class LeetCode {
         //
         //        }
         LeetCode l = new LeetCode();
+        System.out.println(l.surfaceArea(new int[][]{{2, 1}}));
     }
 
 
+    /**
+     * 犯罪计划（没看懂解法）
+     *
+     * @param G
+     * @param P
+     * @param group
+     * @param profit
+     * @return
+     */
     int profitableSchemes(int G, int P, int[] group, int[] profit) {
         int resultSum = 0;
         int planNum = group.length;
@@ -267,6 +277,55 @@ public class LeetCode {
             resultSum = (resultSum + recordProfit[i][P]) % constNum;
         }
         return resultSum;
+    }
+
+    /**
+     * 三维形体的表面积
+     * <p>
+     * 对于每一堆方块，顶层和底层两面不会被挡住，上下左右判断和相邻方块堆的高度差，为负则完全被挡住，加0
+     *
+     * @param grid
+     * @return
+     */
+    public int surfaceArea(int[][] grid) {
+        int n = grid.length;
+        if (n < 1) {
+            return 0;
+        }
+        int m = grid[0].length;
+        int res = 0;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (grid[i][j] > 0) {
+                    res += 2;
+                    int left = i == 0 ? -1 : i - 1;
+                    int right = i == n - 1 ? -1 : i + 1;
+                    int up = j == 0 ? -1 : j - 1;
+                    int down = j == m - 1 ? -1 : j + 1;
+                    if (right != -1) {
+                        res += Math.max(grid[i][j] - grid[right][j], 0);
+                    } else {
+                        res += grid[i][j];
+                    }
+                    if (left != -1) {
+                        res += Math.max(grid[i][j] - grid[left][j], 0);
+                    } else {
+                        res += grid[i][j];
+                    }
+                    if (up != -1) {
+                        res += Math.max(grid[i][j] - grid[i][up], 0);
+                    } else {
+                        res += grid[i][j];
+                    }
+                    if (down != -1) {
+                        res += Math.max(grid[i][j] - grid[i][down], 0);
+                    } else {
+                        res += grid[i][j];
+                    }
+                }
+            }
+        }
+        return res;
     }
 
     /**
