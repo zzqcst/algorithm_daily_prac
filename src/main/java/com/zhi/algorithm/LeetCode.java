@@ -280,6 +280,62 @@ public class LeetCode {
     }
 
     /**
+     * 最长连续序列
+     * <p>
+     * 输入: [100, 4, 200, 1, 3, 2]
+     * 输出: 4
+     * 解释: 最长连续序列是 [1, 2, 3, 4]。它的长度为 4。
+     *
+     * @param nums
+     * @return
+     */
+    public int longestConsecutive(int[] nums) {
+        if (nums.length < 1) {
+            return 0;
+        }
+        //使用hashset保存每个数字
+        HashSet<Integer> set = new HashSet<>();
+        for (int i = 0; i < nums.length; i++) {
+            set.add(nums[i]);
+        }
+        int max = 0;
+        for (int i = 0; i < nums.length; i++) {
+            //将每个数字作为连续序列的第一个数，得出从它开始连续序列的长度
+            if (!set.contains(nums[i] - 1)) {
+                int start = nums[i];
+                int len = 1;
+                while (set.contains(start + 1)) {
+                    len++;
+                    start++;
+                }
+                max = Math.max(max, len);
+            }
+        }
+        return max;
+        //使用排序的解法
+//        if(nums.length<1){
+//            return 0;
+//        }
+//        int res=1;
+//        Arrays.sort(nums);
+//        int max=1;
+//        for(int i=1;i<nums.length;i++){
+//            if(nums[i]==nums[i-1]+1){//与上个数字连续时，记录res递增
+//                res++;
+//            }else if(nums[i]==nums[i-1]){//与上个数字相同时，res不递增，但是也不重置
+//                continue;
+//            }
+//            else{//与上个数字不连续了，res重置，从这个数字开始数连续序列长度
+//                res=1;
+//            }
+//            if(res>max){
+//                max=res;
+//            }
+//        }
+//        return max;
+    }
+
+    /**
      * 三维形体的表面积
      * <p>
      * 对于每一堆方块，顶层和底层两面不会被挡住，上下左右判断和相邻方块堆的高度差，为负则完全被挡住，加0
@@ -2646,31 +2702,26 @@ public class LeetCode {
         //-------------------------
         //输入: [10,9,2,5,3,7,101,18]
         //输出: 4
-        if (nums.length == 0) {
+
+
+        if (nums.length < 1) {
             return 0;
         }
-        //s[i],所有长度为i+1的递增子序列中, 最小的那个序列尾数,不存储实际的最长递增子序列，只是最后一个值有用
-        int[] s = new int[nums.length];
-        int top = 0;
-        s[top] = nums[0];
-        for (int i = 1; i < nums.length; i++) {
-            if (nums[i] > s[top]) {
-                s[++top] = nums[i];
-            } else {
-                //对数组进行迭代, 判断数字num将其插入s数组相应的位置:
-                int lo = 0, hi = top;
-                while (lo <= hi) {
-                    int mid = (lo + hi) / 2;
-                    if (s[mid] < nums[i]) {
-                        lo = mid + 1;
-                    } else {
-                        hi = mid - 1;
-                    }
-                }
-                s[lo] = nums[i];
+        //对于[0, 8, 4, 12, 2]，遍历到8时，dp中存储的是0、8，len=2，遍历到4时，用4替换8，因为0、4比0、8更容易得到更长的上升序列，此时len还是2
+        //遍历到12时，12存到len位置，len加1，遍历到2时，2替换4,0、2比0、4更容易得到更长的上升序列，同时len保存了上一个状态最长上升序列的长度
+        int[] dp = new int[nums.length];
+        int len = 0;
+        for (int i = 0; i < nums.length; i++) {
+            int index = Arrays.binarySearch(dp, 0, len, nums[i]);
+            if (index < 0) {
+                index = -(index + 1);
+            }
+            dp[index] = nums[i];
+            if (index == len) {
+                len++;
             }
         }
-        return top + 1;
+        return len;
     }
 
     /**
@@ -4649,18 +4700,19 @@ public class LeetCode {
      * @return 最大子序和
      */
     private static int maxSubArray(int[] nums) {
-        if (nums.length == 0) {
-            return 0;
-        }
-        int res = nums[0];
         int sum = 0;
+        int max = Integer.MIN_VALUE;
         for (int i = 0; i < nums.length; i++) {
-            sum = sum > 0 ? sum + nums[i] : nums[i];//上一个子序和小于0就舍弃
-            if (sum > res) {
-                res = sum;
+            if (sum < 0) {
+                sum = nums[i];
+            } else {
+                sum += nums[i];
+            }
+            if (sum > max) {
+                max = sum;
             }
         }
-        return res;
+        return max;
     }
 
     /**
