@@ -1,31 +1,23 @@
 package com.zhi.algorithm;
 
-import java.util.*;
+import java.util.HashMap;
 
 public class Main {
-
     public static void main(String[] args) {
-        int[] a = {0, 8, 4, 12, 2};
-        System.out.println(lengthOfLIS(a));
+
     }
 
-    public static int lengthOfLIS(int[] nums) {
-        if (nums.length < 1) {
-            return 0;
-        }
-        int[] dp = new int[nums.length];
-        int len = 0;
-        for (int i = 0; i < nums.length; i++) {
-            int index = Arrays.binarySearch(dp, 0, len, nums[i]);
-            if (index < 0) {
-                index = -(index + 1);
+    public int lengthOfLongestSubstring(String s) {
+        int max = 0;
+        HashMap<Character, Integer> map = new HashMap<>();
+        for (int i = 0, j = 0; i < s.length(); i++) {
+            if (map.containsKey(s.charAt(i))) {
+                j = Math.max(map.get(s.charAt(i))+1, j);
             }
-            dp[index] = nums[i];
-            if (index == len) {
-                len++;
-            }
+            max = Math.max(max, i - j + 1);
+            map.put(s.charAt(i), i);
         }
-        return len;
+        return max;
     }
-
 }
+

@@ -243,9 +243,31 @@ public class LeetCode {
         //
         //        }
         LeetCode l = new LeetCode();
-        System.out.println(l.surfaceArea(new int[][]{{2, 1}}));
+        lengthOfLongestSubstring("pwwkew");
     }
 
+    /**
+     * 最长重复子数组
+     *
+     * @param A
+     * @param B
+     * @return
+     */
+    public int findLength(int[] A, int[] B) {
+        int res = 0;
+        int[][] dp = new int[A.length + 1][B.length + 1];
+        for (int i = A.length - 1; i >= 0; i--) {
+            for (int j = B.length - 1; j >= 0; j--) {
+                if (A[i] == B[j]) {
+                    dp[i][j] = dp[i + 1][j + 1] + 1;
+                    if (dp[i][j] > res) {
+                        res = dp[i][j];
+                    }
+                }
+            }
+        }
+        return res;
+    }
 
     /**
      * 犯罪计划（没看懂解法）
@@ -278,6 +300,7 @@ public class LeetCode {
         }
         return resultSum;
     }
+
 
     /**
      * 最长连续序列
@@ -4160,15 +4183,30 @@ public class LeetCode {
      * @return
      */
     private static int lengthOfLongestSubstring(String s) {
-        int n = s.length(), ans = 0;
-        int[] index = new int[128]; // 保存字符的位置,ascii码表长度为128
-        int i = 0;
-        for (int j = 0; j < n; j++) {
-            i = Math.max(index[s.charAt(j)], i);
-            ans = Math.max(ans, j - i + 1);
-            index[s.charAt(j)] = j + 1;
+//        int max = 0;
+//        HashMap<Character, Integer> map = new HashMap<>();
+//        //j代表子串开始位置
+//        for (int i = 0, j = 0; i < s.length(); i++) {
+//            if (map.containsKey(s.charAt(i))) {
+//                //之前的字符可能在子串开始位置之前
+//                j = Math.max(map.get(s.charAt(i))+1, j);
+//            }
+//            max = Math.max(max, i - j + 1);
+//            map.put(s.charAt(i), i);
+//        }
+//        return max;
+        int max = 0;
+        Set<Character> set = new HashSet<>();
+        int i = 0, j = 0;
+        while (i < s.length() && j < s.length()) {
+            if (!set.contains(s.charAt(i))) {
+                set.add(s.charAt(i++));
+                max = Math.max(max, i - j);
+            } else {
+                set.remove(s.charAt(j++));
+            }
         }
-        return ans;
+        return max;
     }
 
     /**
