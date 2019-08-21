@@ -446,8 +446,8 @@ public class LeetCode {
     /**
      * 01背包
      *
-     * @param wi 物品体积
-     * @param pi 物品价值
+     * @param wi 物品体积 wi=new int(n+1）
+     * @param pi 物品价值 pi = new int(n+1)
      * @param w  背包容量
      * @return
      */
@@ -457,18 +457,12 @@ public class LeetCode {
 //        //dp[i][j]=Math.max(dp[i - 1][j - wi[i]] + pi[i], dp[i - 1][j]);//装第i个和不装第i个的最大值
 //        for (int i = 1; i <= n; i++) {
 //            for (int j = 1; j <= w; j++) {
-//                if (j < wi[i]) {
+//                if (j < wi[i]) {//背包容量小于当前物品体积,则第i个物品装不了
 //                    dp[i][j] = dp[i - 1][j];
 //                } else {
 //                    dp[i][j] = Math.max(dp[i - 1][j - wi[i]] + pi[i], dp[i - 1][j]);
 //                }
 //            }
-//        }
-//        for (int i = 0; i <= n; i++) {
-//            for (int j = 0; j <= w; j++) {
-//                System.out.print(dp[i][j] + " ");
-//            }
-//            System.out.println();
 //        }
 //        return dp[n][w];
 
@@ -1646,37 +1640,36 @@ public class LeetCode {
      * @return
      */
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {
-        int len1 = nums1.length;
-        int len2 = nums2.length;
-        if (len1 == 0 && len2 == 0) {
-            return 0;
+        //https://leetcode-cn.com/problems/median-of-two-sorted-arrays/solution/4-xun-zhao-liang-ge-you-xu-shu-zu-de-zhong-wei-shu
+        int n = nums1.length;
+        int m = nums2.length;
+
+        if (n > m)  //保证数组1一定最短
+        {
+            return findMedianSortedArrays(nums2, nums1);
         }
-        int mid = (len1 + len2 - 1) / 2;
-        int[] temp = new int[(len1 + len2 + 1) / 2 + 1];//一半多一个
-        int i = 0, j = 0, index = 0;
-        while (i < len1 && j < len2) {
-            if (nums1[i] < nums2[j]) {
-                temp[index++] = nums1[i];
-                i++;
-            } else {
-                temp[index++] = nums2[j];
-                j++;
-            }
-            if (index > mid + 1) {
+
+        // Ci 为第i个数组的割,比如C1为2时表示第1个数组只有2个元素。LMaxi为第i个数组割后的左元素。RMini为第i个数组割后的右元素。
+        int LMax1 = 0, LMax2 = 0, RMin1 = 0, RMin2 = 0, c1 = 0, c2 = 0, lo = 0, hi = 2 * n;  //我们目前是虚拟加了'#'所以数组1是2*n长度
+
+        while (lo <= hi)   //二分
+        {
+            c1 = (lo + hi) / 2;  //c1是二分的结果
+            c2 = m + n - c1;
+
+            LMax1 = (c1 == 0) ? Integer.MIN_VALUE : nums1[(c1 - 1) / 2];
+            RMin1 = (c1 == 2 * n) ? Integer.MAX_VALUE : nums1[c1 / 2];
+            LMax2 = (c2 == 0) ? Integer.MIN_VALUE : nums2[(c2 - 1) / 2];
+            RMin2 = (c2 == 2 * m) ? Integer.MAX_VALUE : nums2[c2 / 2];
+
+            if (LMax1 > RMin2)
+                hi = c1 - 1;
+            else if (LMax2 > RMin1)
+                lo = c1 + 1;
+            else
                 break;
-            }
         }
-        while (i < len1 && index <= mid + 1) {
-            temp[index++] = nums1[i++];
-        }
-        while (j < len2 && index <= mid + 1) {
-            temp[index++] = nums2[j++];
-        }
-        if ((len1 + len2) % 2 == 0) {
-            return (temp[temp.length - 1] + temp[temp.length - 2]) / 2.0;
-        } else {
-            return temp[temp.length - 2 >= 0 ? temp.length - 2 : 0];
-        }
+        return (Math.max(LMax1, LMax2) + Math.min(RMin1, RMin2)) / 2.0;
     }
 
     /**
@@ -1788,63 +1781,15 @@ public class LeetCode {
      * @return
      */
     public String intToRoman(int num) {
-        Stack<String> stack = new Stack<>();
-        int n = 1;//代表数位，个十百千
+        int[] value = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
+        String[] dic = {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
+        int i=0;
         StringBuilder sb = new StringBuilder();
-        while (num != 0) {
-            int temp = num % 10;
-            stack.push(single(temp, n));
-            n *= 10;
-            num /= 10;
-        }
-        while (!stack.isEmpty()) {
-            sb.append(stack.pop());
-        }
-        return sb.toString();
-    }
-
-    private String single(int num, int n) {
-        //当n的数位不一样，one,five,ten不一样
-        String one = null, five = null, ten = null;
-        switch (n) {
-            case 1:
-                one = "I";
-                five = "V";
-                ten = "X";
-                break;
-            case 10:
-                one = "X";
-                five = "L";
-                ten = "C";
-                break;
-            case 100:
-                one = "C";
-                five = "D";
-                ten = "M";
-                break;
-            case 1000:
-                one = "M";
-        }
-        //将个十百千的数字使用相同的转换流程
-        StringBuilder sb = new StringBuilder();
-        switch (num) {
-            case 4:
-                return sb.append(one).append(five).toString();
-            case 5:
-                return sb.append(five).toString();
-            case 9:
-                return sb.append(one).append(ten).toString();
-        }
-        if (num < 4) {
-            for (int i = 0; i < num; i++) {
-                sb.append(one);
-            }
-        }
-        if (num > 5) {
-            sb.append(five);
-            for (int i = 0; i < num - 5; i++) {
-                sb.append(one);
-            }
+        while (num > 0 && i < dic.length) {
+            if (num >= value[i]) {
+                sb.append(dic[i]);
+                num -= value[i];
+            } else i++;
         }
         return sb.toString();
     }
@@ -4460,80 +4405,42 @@ public class LeetCode {
      * @return
      */
     public int romanToInt(String s) {
-        char[] chars = s.toCharArray();
-        Stack<Integer> stack = new Stack<>();
-        for (char aChar : chars) {
-            switch (aChar) {//将当前字符转化为数字
-                case 'I':
-                    stack.push(1);
-                    break;
-                case 'V':
-                    if (!stack.isEmpty()) {
-                        if (stack.peek() < 5) {//上一个数字比当前小
-                            int temp = stack.pop();
-                            stack.push(5 - temp);
-                            continue;
-                        }
-                    }
-                    stack.push(5);
-                    break;
-                case 'X':
-                    if (!stack.isEmpty()) {
-                        if (stack.peek() < 10) {//上一个数字比当前小
-                            int temp = stack.pop();
-                            stack.push(10 - temp);
-                            continue;
-                        }
-                    }
-                    stack.push(10);
-                    break;
-                case 'L':
-                    if (!stack.isEmpty()) {
-                        if (stack.peek() < 50) {//上一个数字比当前小
-                            int temp = stack.pop();
-                            stack.push(50 - temp);
-                            continue;
-                        }
-                    }
-                    stack.push(50);
-                    break;
-                case 'C':
-                    if (!stack.isEmpty()) {
-                        if (stack.peek() < 100) {//上一个数字比当前小
-                            int temp = stack.pop();
-                            stack.push(100 - temp);
-                            continue;
-                        }
-                    }
-                    stack.push(100);
-                    break;
-                case 'D':
-                    if (!stack.isEmpty()) {
-                        if (stack.peek() < 500) {//上一个数字比当前小
-                            int temp = stack.pop();
-                            stack.push(500 - temp);
-                            continue;
-                        }
-                    }
-                    stack.push(500);
-                    break;
-                case 'M':
-                    if (!stack.isEmpty()) {
-                        if (stack.peek() < 1000) {//上一个数字比当前小
-                            int temp = stack.pop();
-                            stack.push(1000 - temp);
-                            continue;
-                        }
-                    }
-                    stack.push(1000);
-                    break;
+        int[] nums = new int[s.length()];
+        for (int i = 0; i < s.length(); i++) {
+            nums[i] = getNum(s.charAt(i));
+        }
+        int res = 0;
+        int pre = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] > pre) {
+                res += nums[i] - pre - pre;
+            } else {
+                res += nums[i];
             }
+            pre = nums[i];
         }
-        int result = 0;
-        for (Integer integer : stack) {
-            result += integer;
+        return res;
+    }
+
+    public int getNum(char c) {
+        switch (c) {
+            case 'M':
+                return 1000;
+            case 'D':
+                return 500;
+            case 'C':
+                return 100;
+            case 'L':
+                return 50;
+            case 'X':
+                return 10;
+            case 'V':
+                return 5;
+            case 'I':
+                return 1;
+            default:
+                return 0;
         }
-        return result;
     }
 
     /**
@@ -5317,7 +5224,6 @@ public class LeetCode {
     }
 
     private static int myAtoi(String str) {
-
         if (str.isEmpty()) {
             return 0;
         }
@@ -5337,59 +5243,33 @@ public class LeetCode {
             number = number * 10 + str.charAt(i++) - '0';
         }
         return (int) (number * sign);
-
-        //        str = str.trim();
-        //        if (str.length() == 0) {
-        //            return 0;
-        //        }
-        //        char[] chars = str.toCharArray();
-        //        int len = 0;
-        //
-        //
-        //        for (int i = 0; i < chars.length; i++) {
-        //            if (i == 0 && isSign(chars[i])) {//判断第一个字符是不是符号
-        //                if (str.length() == 1) {//第一个是符号且只有一位
-        //                    return 0;
-        //                }
-        //                len++;
-        //                continue;
-        //            }
-        //            if (i == 0 && isLetter(chars[0])) {
-        //                return 0;
-        //            }
-        //
-        //            if (i == 1 && isSign(chars[0]) && !isNum(chars[1])) {//第一位符号，第二位不是数字
-        //                return 0;
-        //            }
-        //
-        //
-        //            if (i == 1 && isLetter(chars[i])) {//如果以字母开头
-        //                if (!isNum(chars[0])) {
-        //                    return 0;
-        //                }
-        //            }
-        //
-        //
-        //
-        //            if (isNum(chars[i]) || chars[i] == '.') {
-        //                chars[len++] = chars[i];
-        //            }else break;
-        //        }
-        //
-        //        if (len == 0) {
-        //            return 0;
-        //        }
-        //
-        //        double res = Double.valueOf(new String(chars, 0, len));
-        //        if (res > Integer.MAX_VALUE) {
-        //            return Integer.MAX_VALUE;
-        //        }
-        //
-        //        if (res < Integer.MIN_VALUE) {
-        //            return Integer.MIN_VALUE;
-        //        }
-        //
-        //        return (int) res;
+//        String s = str.trim();
+//        if (s.length() == 0) {
+//            return 0;
+//        }
+//        char first = s.charAt(0);
+//        if (first != '+' && first != '-' && !isDigit(first)) {//第一个字符不是符号也不是数字
+//            return 0;
+//        }
+//        int res = 0;
+//        int flag = 1;
+//        int i = 0;
+//        if (first == '-' || first == '+') {
+//            flag = first == '-' ? -1 : 1;
+//            i = 1;
+//        }
+//        for (; i < s.length(); i++) {
+//            if (isDigit(s.charAt(i))) {
+//                if (flag == 1 && (res > Integer.MAX_VALUE / 10 || (res == Integer.MAX_VALUE / 10 && (s.charAt(i) - '0' > 7)))) {
+//                    return Integer.MAX_VALUE;
+//                }
+//                if (flag == -1 && (-res < Integer.MIN_VALUE / 10 || (-res == Integer.MIN_VALUE / 10 && (s.charAt(i) - '0' > 8)))) {
+//                    return Integer.MIN_VALUE;
+//                }
+//                res = res * 10 + s.charAt(i) - '0';
+//            } else break;
+//        }
+//        return res * flag;
     }
 
     private static boolean isSign(char a) {
@@ -5531,45 +5411,22 @@ public class LeetCode {
     }
 
     /**
-     * 颠倒整数
+     * 整数反转
      *
      * @param x
      * @return
      */
     private static int reverse(int x) {
-        if (x == 0) {
-            return x;
+        int ans = 0;
+        while (x != 0){
+            int d = x % 10;
+            x /= 10;
+            if (ans >Integer.MAX_VALUE/10 || (ans == Integer.MAX_VALUE/10 && d > 7)) return 0;
+            if (ans < Integer.MIN_VALUE/10 || (ans == Integer.MIN_VALUE/10 && d < -8)) return 0;
+
+            ans = ans * 10 + d;
         }
-        String s = String.valueOf(x);
-        char[] chars = s.toCharArray();
-        int i = 0, j = s.length() - 1;
-        while (i < j) {
-            if (chars[i] == '-') {
-                i++;
-                continue;
-            }
-            char temp = chars[i];
-            chars[i] = chars[j];
-            chars[j] = temp;
-            i++;
-            j--;
-        }
-        long res = Long.parseLong(new String(chars));
-        if (res < Integer.MIN_VALUE || res > Integer.MAX_VALUE) {
-            return 0;
-        }
-        return (int) res;
-        //方法二
-        //        boolean negative = x < 0;
-        //        if (negative) x = -x;
-        //        long r = 0;
-        //        while (x>0) {
-        //            r = r * 10 + x % 10;
-        //            x /= 10;
-        //        }
-        //        if (negative) r = -r;
-        //        if (r > Integer.MAX_VALUE || r < Integer.MIN_VALUE) return 0;
-        //        return (int)r;
+        return ans;
     }
 
     /**
