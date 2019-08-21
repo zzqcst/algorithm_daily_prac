@@ -817,6 +817,7 @@ public class JZofferPrac {
         //模式的下一个字符是*，则讨论当前字符是否相同
         if (pIndex + 1 < p.length && p[pIndex + 1] == '*') {
             //当前字符相同，分三种情况
+            //注意strIndex != str.length，因为可能字符已经便利完，模式还遍历完
             if (strIndex != str.length && (str[strIndex] == p[pIndex] || p[pIndex] == '.')) {
                 //字符串后移一位，模式后移两位，即匹配一个字符
                 return matchCore(str, strIndex + 1, p, pIndex + 2) ||
@@ -831,6 +832,7 @@ public class JZofferPrac {
         }
 
         //字符串和模式的当前字符相同，则比较下一个字符
+        //注意strIndex != str.length，因为可能字符已经便利完，模式还遍历完
         if (strIndex != str.length && (str[strIndex] == p[pIndex] || (p[pIndex] == '.'))) {
             return matchCore(str, strIndex + 1, p, pIndex + 1);
         }
