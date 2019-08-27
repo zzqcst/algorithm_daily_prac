@@ -242,9 +242,299 @@ public class LeetCode {
         //            }
         //
         //        }
-        LeetCode p = new LeetCode();
-        int[] a = {5, 2, 1, 2, 1, 5};
-        System.out.println(p.trap(a));
+        LeetCode l = new LeetCode();
+        lengthOfLongestSubstring("pwwkew");
+    }
+
+    /**
+     * 求生艇
+     * 每次选最轻的和最重的一起坐，如果超了，最重的自己坐一条
+     *
+     * @param people
+     * @param limit
+     * @return
+     */
+    public int numRescueBoats(int[] people, int limit) {
+        Arrays.sort(people);
+        int res = 0;
+        int i = 0, j = people.length - 1;
+        while (i <= j) {
+            if (people[i] + people[j] <= limit) {
+                i++;
+            }
+            res++;
+            j--;
+        }
+        return res;
+    }
+
+    /**
+     * 最长重复子数组
+     *
+     * @param A
+     * @param B
+     * @return
+     */
+    public int findLength(int[] A, int[] B) {
+        int res = 0;
+        int[][] dp = new int[A.length + 1][B.length + 1];
+        for (int i = A.length - 1; i >= 0; i--) {
+            for (int j = B.length - 1; j >= 0; j--) {
+                if (A[i] == B[j]) {
+                    dp[i][j] = dp[i + 1][j + 1] + 1;
+                    if (dp[i][j] > res) {
+                        res = dp[i][j];
+                    }
+                }
+            }
+        }
+        return res;
+    }
+
+    /**
+     * 犯罪计划（没看懂解法）
+     *
+     * @param G
+     * @param P
+     * @param group
+     * @param profit
+     * @return
+     */
+    int profitableSchemes(int G, int P, int[] group, int[] profit) {
+        int resultSum = 0;
+        int planNum = group.length;
+        int[][] recordProfit = new int[G + 1][P + 1];//[i][j] i个人利润j时犯罪方案数,对于一个方案(m,n),方案数为做了这个犯罪和不做这个犯罪的总方案数，
+        // [i][j]=[i][j]+[i-m][j-n]
+        final int constNum = 1000000007;
+        recordProfit[0][0] = 1;
+
+        for (int i = 0; i < planNum; i++) {
+            for (int j = G; j >= group[i]; j--) {
+                for (int k = P; k >= 0; k--) {
+                    //第i个犯罪计划做和不做
+                    recordProfit[j][k] = (recordProfit[j][k] + recordProfit[j - group[i]][Math.max(0, k - profit[i])]) % constNum;
+                }
+            }
+        }
+
+        for (int i = 0; i <= G; i++) {
+            resultSum = (resultSum + recordProfit[i][P]) % constNum;
+        }
+        return resultSum;
+    }
+
+
+    /**
+     * 最长连续序列
+     * <p>
+     * 输入: [100, 4, 200, 1, 3, 2]
+     * 输出: 4
+     * 解释: 最长连续序列是 [1, 2, 3, 4]。它的长度为 4。
+     *
+     * @param nums
+     * @return
+     */
+    public int longestConsecutive(int[] nums) {
+        if (nums.length < 1) {
+            return 0;
+        }
+        //使用hashset保存每个数字
+        HashSet<Integer> set = new HashSet<>();
+        for (int i = 0; i < nums.length; i++) {
+            set.add(nums[i]);
+        }
+        int max = 0;
+        for (int i = 0; i < nums.length; i++) {
+            //将每个数字作为连续序列的第一个数，得出从它开始连续序列的长度
+            if (!set.contains(nums[i] - 1)) {
+                int start = nums[i];
+                int len = 1;
+                while (set.contains(start + 1)) {
+                    len++;
+                    start++;
+                }
+                max = Math.max(max, len);
+            }
+        }
+        return max;
+        //使用排序的解法
+//        if(nums.length<1){
+//            return 0;
+//        }
+//        int res=1;
+//        Arrays.sort(nums);
+//        int max=1;
+//        for(int i=1;i<nums.length;i++){
+//            if(nums[i]==nums[i-1]+1){//与上个数字连续时，记录res递增
+//                res++;
+//            }else if(nums[i]==nums[i-1]){//与上个数字相同时，res不递增，但是也不重置
+//                continue;
+//            }
+//            else{//与上个数字不连续了，res重置，从这个数字开始数连续序列长度
+//                res=1;
+//            }
+//            if(res>max){
+//                max=res;
+//            }
+//        }
+//        return max;
+    }
+
+    /**
+     * 三维形体的表面积
+     * <p>
+     * 对于每一堆方块，顶层和底层两面不会被挡住，上下左右判断和相邻方块堆的高度差，为负则完全被挡住，加0
+     *
+     * @param grid
+     * @return
+     */
+    public int surfaceArea(int[][] grid) {
+        int n = grid.length;
+        if (n < 1) {
+            return 0;
+        }
+        int m = grid[0].length;
+        int res = 0;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (grid[i][j] > 0) {
+                    res += 2;
+                    int left = i == 0 ? -1 : i - 1;
+                    int right = i == n - 1 ? -1 : i + 1;
+                    int up = j == 0 ? -1 : j - 1;
+                    int down = j == m - 1 ? -1 : j + 1;
+                    if (right != -1) {
+                        res += Math.max(grid[i][j] - grid[right][j], 0);
+                    } else {
+                        res += grid[i][j];
+                    }
+                    if (left != -1) {
+                        res += Math.max(grid[i][j] - grid[left][j], 0);
+                    } else {
+                        res += grid[i][j];
+                    }
+                    if (up != -1) {
+                        res += Math.max(grid[i][j] - grid[i][up], 0);
+                    } else {
+                        res += grid[i][j];
+                    }
+                    if (down != -1) {
+                        res += Math.max(grid[i][j] - grid[i][down], 0);
+                    } else {
+                        res += grid[i][j];
+                    }
+                }
+            }
+        }
+        return res;
+    }
+
+    /**
+     * 通配符匹配
+     * <p>
+     * 给定一个字符串 (s) 和一个字符模式 (p) ，实现一个支持 '?' 和 '*' 的通配符匹配。
+     *
+     * @param s 字符串
+     * @param p 模式
+     * @return
+     */
+    public boolean isMatch2(String s, String p) {
+        return false;
+    }
+
+
+    /**
+     * 跳跃游戏2
+     * 每次找能跳最远的位置
+     *
+     * @param nums
+     * @return
+     */
+    public int jump(int[] nums) {
+        int end = 0;
+        int maxPos = 0;
+        int step = 0;
+        for (int i = 0; i < nums.length - 1; i++) {
+            maxPos = Math.max(maxPos, nums[i] + i);
+            if (i == end) {
+                step++;
+                end = maxPos;
+            }
+        }
+        return step;
+    }
+
+
+    /**
+     * 01背包
+     *
+     * @param wi 物品体积 wi=new int(n+1）
+     * @param pi 物品价值 pi = new int(n+1)
+     * @param w  背包容量
+     * @return
+     */
+    public int pack(int[] wi, int[] pi, int w) {
+//        int n = wi.length;//物品数量
+//        int[][] dp = new int[n + 1][w + 1];//dp[i][j]背包容量为j时，前i个物品的最大价值
+//        //dp[i][j]=Math.max(dp[i - 1][j - wi[i]] + pi[i], dp[i - 1][j]);//装第i个和不装第i个的最大值
+//        for (int i = 1; i <= n; i++) {
+//            for (int j = 1; j <= w; j++) {
+//                if (j < wi[i]) {//背包容量小于当前物品体积,则第i个物品装不了
+//                    dp[i][j] = dp[i - 1][j];
+//                } else {
+//                    dp[i][j] = Math.max(dp[i - 1][j - wi[i]] + pi[i], dp[i - 1][j]);
+//                }
+//            }
+//        }
+//        return dp[n][w];
+
+        //压缩dp，记录i对应的每一行
+        int n = wi.length;
+        int[] dp = new int[w + 1];
+        for (int i = 1; i <= n; i++) {
+            for (int j = w; j >= wi[i]; j--) {
+                dp[j] = Math.max(dp[j], dp[j - wi[i]] + pi[i]);
+            }
+        }
+        return dp[w];
+    }
+
+    /**
+     * k个一组翻转链表
+     *
+     * @param head
+     * @param k
+     * @return
+     */
+    public ListNode reverseKGroup(ListNode head, int k) {
+        ArrayList<Integer> list = new ArrayList<>();
+        ListNode tmp = head;
+        int len = 0;
+        while (tmp != null) {
+            len++;
+            list.add(tmp.val);
+            tmp = tmp.next;
+        }
+        int start = 0, end = k - 1;
+        while (end < len) {
+            int start_tmp = start;
+            int end_tmp = end;
+            while (start < end) {
+                int left = list.get(start);
+                list.set(start, list.get(end));
+                list.set(end, left);
+                start++;
+                end--;
+            }
+            start = start_tmp + k;
+            end = end_tmp + k;
+        }
+        tmp = head;
+        for (int i = 0; i < len; i++) {
+            tmp.val = list.get(i);
+            tmp = tmp.next;
+        }
+        return head;
     }
 
     /**
@@ -880,46 +1170,56 @@ public class LeetCode {
      * @return
      */
     public int[] findOrder(int numCourses, int[][] prerequisites) {
-        return topologicalSort(numCourses, prerequisites);
-    }
+        boolean isPossible = true;
+        //<src,lst>保存src指向的所有节点
+        Map<Integer, List<Integer>> adjList = new HashMap<Integer, List<Integer>>();
+        int[] indegree = new int[numCourses];
+        int[] topologicalOrder = new int[numCourses];
 
-    /**
-     * 拓扑排序
-     *
-     * @param n
-     * @param prerequisites
-     * @return
-     */
-    public int[] topologicalSort(int n, int[][] prerequisites) {
-        List<Integer> topoRes = new ArrayList<>();
-        int[][] adjacencyList = new int[n][n];//邻接矩阵
-        int[] res = new int[n];
-        int[] inDegree = new int[n];//入度
+        // Create the adjacency list representation of the graph
         for (int i = 0; i < prerequisites.length; i++) {
-            adjacencyList[prerequisites[i][1]][prerequisites[i][0]] = 1;
-            inDegree[prerequisites[i][0]]++;
-        }
-        Queue<Integer> deque = new LinkedList<>();
+            int dest = prerequisites[i][0];
+            int src = prerequisites[i][1];
+            List<Integer> lst = adjList.getOrDefault(src, new ArrayList<Integer>());
+            lst.add(dest);
+            adjList.put(src, lst);
 
-        // 从入度为0的顶点开始输出
-        for (int i = 0; i < n; i++) {
-            if (inDegree[i] == 0) deque.offer(i);
+            // 计算每个节点的入度
+            indegree[dest] += 1;
         }
-        int count = 0;
-        while (!deque.isEmpty()) {
-            int curr = deque.poll();
-            topoRes.add(curr);
-            res[count++] = curr;
-            for (int i = 0; i < adjacencyList[curr].length; i++) {
-                if (adjacencyList[curr][i] == 1) {
-                    inDegree[i]--;
-                    if (inDegree[i] == 0) {
-                        deque.offer(i);
+
+        // 将入度为0的点加入队列
+        Queue<Integer> q = new LinkedList<Integer>();
+        for (int i = 0; i < numCourses; i++) {
+            if (indegree[i] == 0) {
+                q.add(i);
+            }
+        }
+
+        int i = 0;
+        // 每次取出一个入度为0的点，输出，然后所有该点指向的点的入度减1，减完之后有入度为0的点，入队列
+        while (!q.isEmpty()) {
+            int node = q.remove();
+            topologicalOrder[i++] = node;
+
+            if (adjList.containsKey(node)) {
+                for (Integer each :
+                        adjList.get(node)) {
+                    indegree[each]--;
+
+                    // If in-degree of a nei***or becomes 0, add it to the Q
+                    if (indegree[each] == 0) {
+                        q.add(each);
                     }
                 }
             }
         }
-        return topoRes.size() == n ? res : new int[0];
+
+        if (i == numCourses) {//能输出的节点数等于总节点数，说明该图能拓扑排序
+            return topologicalOrder;
+        }
+
+        return new int[0];
     }
 
     /**
@@ -1374,37 +1674,36 @@ public class LeetCode {
      * @return
      */
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {
-        int len1 = nums1.length;
-        int len2 = nums2.length;
-        if (len1 == 0 && len2 == 0) {
-            return 0;
+        //https://leetcode-cn.com/problems/median-of-two-sorted-arrays/solution/4-xun-zhao-liang-ge-you-xu-shu-zu-de-zhong-wei-shu
+        int n = nums1.length;
+        int m = nums2.length;
+
+        if (n > m)  //保证数组1一定最短
+        {
+            return findMedianSortedArrays(nums2, nums1);
         }
-        int mid = (len1 + len2 - 1) / 2;
-        int[] temp = new int[(len1 + len2 + 1) / 2 + 1];//一半多一个
-        int i = 0, j = 0, index = 0;
-        while (i < len1 && j < len2) {
-            if (nums1[i] < nums2[j]) {
-                temp[index++] = nums1[i];
-                i++;
-            } else {
-                temp[index++] = nums2[j];
-                j++;
-            }
-            if (index > mid + 1) {
+
+        // Ci 为第i个数组的割,比如C1为2时表示第1个数组只有2个元素。LMaxi为第i个数组割后的左元素。RMini为第i个数组割后的右元素。
+        int LMax1 = 0, LMax2 = 0, RMin1 = 0, RMin2 = 0, c1 = 0, c2 = 0, lo = 0, hi = 2 * n;  //我们目前是虚拟加了'#'所以数组1是2*n长度
+
+        while (lo <= hi)   //二分
+        {
+            c1 = (lo + hi) / 2;  //c1是二分的结果
+            c2 = m + n - c1;
+
+            LMax1 = (c1 == 0) ? Integer.MIN_VALUE : nums1[(c1 - 1) / 2];
+            RMin1 = (c1 == 2 * n) ? Integer.MAX_VALUE : nums1[c1 / 2];
+            LMax2 = (c2 == 0) ? Integer.MIN_VALUE : nums2[(c2 - 1) / 2];
+            RMin2 = (c2 == 2 * m) ? Integer.MAX_VALUE : nums2[c2 / 2];
+
+            if (LMax1 > RMin2)
+                hi = c1 - 1;
+            else if (LMax2 > RMin1)
+                lo = c1 + 1;
+            else
                 break;
-            }
         }
-        while (i < len1 && index <= mid + 1) {
-            temp[index++] = nums1[i++];
-        }
-        while (j < len2 && index <= mid + 1) {
-            temp[index++] = nums2[j++];
-        }
-        if ((len1 + len2) % 2 == 0) {
-            return (temp[temp.length - 1] + temp[temp.length - 2]) / 2.0;
-        } else {
-            return temp[temp.length - 2 >= 0 ? temp.length - 2 : 0];
-        }
+        return (Math.max(LMax1, LMax2) + Math.min(RMin1, RMin2)) / 2.0;
     }
 
     /**
@@ -1516,63 +1815,15 @@ public class LeetCode {
      * @return
      */
     public String intToRoman(int num) {
-        Stack<String> stack = new Stack<>();
-        int n = 1;//代表数位，个十百千
+        int[] value = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
+        String[] dic = {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
+        int i = 0;
         StringBuilder sb = new StringBuilder();
-        while (num != 0) {
-            int temp = num % 10;
-            stack.push(single(temp, n));
-            n *= 10;
-            num /= 10;
-        }
-        while (!stack.isEmpty()) {
-            sb.append(stack.pop());
-        }
-        return sb.toString();
-    }
-
-    private String single(int num, int n) {
-        //当n的数位不一样，one,five,ten不一样
-        String one = null, five = null, ten = null;
-        switch (n) {
-            case 1:
-                one = "I";
-                five = "V";
-                ten = "X";
-                break;
-            case 10:
-                one = "X";
-                five = "L";
-                ten = "C";
-                break;
-            case 100:
-                one = "C";
-                five = "D";
-                ten = "M";
-                break;
-            case 1000:
-                one = "M";
-        }
-        //将个十百千的数字使用相同的转换流程
-        StringBuilder sb = new StringBuilder();
-        switch (num) {
-            case 4:
-                return sb.append(one).append(five).toString();
-            case 5:
-                return sb.append(five).toString();
-            case 9:
-                return sb.append(one).append(ten).toString();
-        }
-        if (num < 4) {
-            for (int i = 0; i < num; i++) {
-                sb.append(one);
-            }
-        }
-        if (num > 5) {
-            sb.append(five);
-            for (int i = 0; i < num - 5; i++) {
-                sb.append(one);
-            }
+        while (num > 0 && i < dic.length) {
+            if (num >= value[i]) {
+                sb.append(dic[i]);
+                num -= value[i];
+            } else i++;
         }
         return sb.toString();
     }
@@ -2288,34 +2539,34 @@ public class LeetCode {
         return res;
 
         //使用栈来实现括号优先级
-        //        int res = 0, sign = 1, len = s.length(), num = 0;
+        //        int res = 0, sign = 1, len = s.length(), totalRings = 0;
         //        Stack<Integer> stack = new Stack<>();
         //        for (int i = 0; i < len; i++) {
         //            char c = s.charAt(i);
         //            if (c >= '0' && c <= '9') {//当前字符是数字
-        //                num = 10 * num + c - '0';
+        //                totalRings = 10 * totalRings + c - '0';
         //            } else if (c == '+') {
-        //                res += sign * num;
+        //                res += sign * totalRings;
         //                sign = 1;
-        //                num = 0;
+        //                totalRings = 0;
         //            } else if (c == '-') {
-        //                res += sign * num;
+        //                res += sign * totalRings;
         //                sign = -1;
-        //                num = 0;
+        //                totalRings = 0;
         //            } else if (c == '(') {
         //                stack.push(res);
         //                stack.push(sign);
         //                res = 0;
         //                sign = 1;
-        //                num = 0;
+        //                totalRings = 0;
         //            } else if (c == ')') {
-        //                res += sign * num;
-        //                num = 0;
+        //                res += sign * totalRings;
+        //                totalRings = 0;
         //                res *= stack.pop();//括号内的结果
         //                res += stack.pop();//括号内结果和括号外结果合并
         //            }
         //        }
-        //        res += num * sign;
+        //        res += totalRings * sign;
         //        return res;
     }
 
@@ -2453,31 +2704,26 @@ public class LeetCode {
         //-------------------------
         //输入: [10,9,2,5,3,7,101,18]
         //输出: 4
-        if (nums.length == 0) {
+
+
+        if (nums.length < 1) {
             return 0;
         }
-        //s[i],所有长度为i+1的递增子序列中, 最小的那个序列尾数,不存储实际的最长递增子序列，只是最后一个值有用
-        int[] s = new int[nums.length];
-        int top = 0;
-        s[top] = nums[0];
-        for (int i = 1; i < nums.length; i++) {
-            if (nums[i] > s[top]) {
-                s[++top] = nums[i];
-            } else {
-                //对数组进行迭代, 判断数字num将其插入s数组相应的位置:
-                int lo = 0, hi = top;
-                while (lo <= hi) {
-                    int mid = (lo + hi) / 2;
-                    if (s[mid] < nums[i]) {
-                        lo = mid + 1;
-                    } else {
-                        hi = mid - 1;
-                    }
-                }
-                s[lo] = nums[i];
+        //对于[0, 8, 4, 12, 2]，遍历到8时，dp中存储的是0、8，len=2，遍历到4时，用4替换8，因为0、4比0、8更容易得到更长的上升序列，此时len还是2
+        //遍历到12时，12存到len位置，len加1，遍历到2时，2替换4,0、2比0、4更容易得到更长的上升序列，同时len保存了上一个状态最长上升序列的长度
+        int[] dp = new int[nums.length];
+        int len = 0;
+        for (int i = 0; i < nums.length; i++) {
+            int index = Arrays.binarySearch(dp, 0, len, nums[i]);
+            if (index < 0) {
+                index = -(index + 1);
+            }
+            dp[index] = nums[i];
+            if (index == len) {
+                len++;
             }
         }
-        return top + 1;
+        return len;
     }
 
     /**
@@ -2936,12 +3182,12 @@ public class LeetCode {
         //        List<Integer> res = new ArrayList<>();
         //        Map<Integer, Integer> freq = new HashMap<>();
         //        //统计频率
-        //        for (int num : nums) {
-        //            if (freq.containsKey(num)) {
-        //                freq.put(num, freq.get(num) + 1);
+        //        for (int totalRings : nums) {
+        //            if (freq.containsKey(totalRings)) {
+        //                freq.put(totalRings, freq.get(totalRings) + 1);
         //                continue;
         //            }
-        //            freq.put(num, 0);
+        //            freq.put(totalRings, 0);
         //        }
         //
         //        int i = 0;
@@ -3916,15 +4162,30 @@ public class LeetCode {
      * @return
      */
     private static int lengthOfLongestSubstring(String s) {
-        int n = s.length(), ans = 0;
-        int[] index = new int[128]; // 保存字符的位置,ascii码表长度为128
-        int i = 0;
-        for (int j = 0; j < n; j++) {
-            i = Math.max(index[s.charAt(j)], i);
-            ans = Math.max(ans, j - i + 1);
-            index[s.charAt(j)] = j + 1;
+//        int max = 0;
+//        HashMap<Character, Integer> map = new HashMap<>();
+//        //j代表子串开始位置
+//        for (int i = 0, j = 0; i < s.length(); i++) {
+//            if (map.containsKey(s.charAt(i))) {
+//                //之前的字符可能在子串开始位置之前
+//                j = Math.max(map.get(s.charAt(i))+1, j);
+//            }
+//            max = Math.max(max, i - j + 1);
+//            map.put(s.charAt(i), i);
+//        }
+//        return max;
+        int max = 0;
+        Set<Character> set = new HashSet<>();
+        int i = 0, j = 0;
+        while (i < s.length() && j < s.length()) {
+            if (!set.contains(s.charAt(i))) {
+                set.add(s.charAt(i++));
+                max = Math.max(max, i - j);
+            } else {
+                set.remove(s.charAt(j++));
+            }
         }
-        return ans;
+        return max;
     }
 
     /**
@@ -3993,31 +4254,21 @@ public class LeetCode {
             if (nums[i] > 0) {
                 break;
             }
-            if (i > 0 && nums[i] == nums[i - 1]) {
+            if (i > 0 && nums[i] == nums[i - 1]) {//去重
                 continue;
             }
             int target = 0 - nums[i];
             int j = i + 1, k = nums.length - 1;
             while (j < k) {
-                if (nums[j] + nums[k] == target) {
-                    List<Integer> row = new ArrayList<>();
-                    row.add(nums[i]);
-                    row.add(nums[j]);
-                    row.add(nums[k]);
-                    res.add(row);
-                    while (j < k && nums[j] == nums[j + 1]) {
-                        ++j;
-                    }
-                    while (j < k && nums[k] == nums[k - 1]) {
-                        --k;
-                    }
+                int sum = nums[j] + nums[k];
+                if (sum == target) {
+                    res.add(Arrays.asList(nums[i], nums[j], nums[k]));
+                    while (j < k && nums[j] == nums[j + 1]) ++j;//去重
+                    while (j < k && nums[k] == nums[k - 1]) --k;//去重
                     j++;
                     k--;
-                } else if (nums[j] + nums[k] < target) {
-                    j++;
-                } else {
-                    k--;
-                }
+                } else if (sum < target) j++;
+                else k--;
             }
         }
         return res;
@@ -4178,80 +4429,42 @@ public class LeetCode {
      * @return
      */
     public int romanToInt(String s) {
-        char[] chars = s.toCharArray();
-        Stack<Integer> stack = new Stack<>();
-        for (char aChar : chars) {
-            switch (aChar) {//将当前字符转化为数字
-                case 'I':
-                    stack.push(1);
-                    break;
-                case 'V':
-                    if (!stack.isEmpty()) {
-                        if (stack.peek() < 5) {//上一个数字比当前小
-                            int temp = stack.pop();
-                            stack.push(5 - temp);
-                            continue;
-                        }
-                    }
-                    stack.push(5);
-                    break;
-                case 'X':
-                    if (!stack.isEmpty()) {
-                        if (stack.peek() < 10) {//上一个数字比当前小
-                            int temp = stack.pop();
-                            stack.push(10 - temp);
-                            continue;
-                        }
-                    }
-                    stack.push(10);
-                    break;
-                case 'L':
-                    if (!stack.isEmpty()) {
-                        if (stack.peek() < 50) {//上一个数字比当前小
-                            int temp = stack.pop();
-                            stack.push(50 - temp);
-                            continue;
-                        }
-                    }
-                    stack.push(50);
-                    break;
-                case 'C':
-                    if (!stack.isEmpty()) {
-                        if (stack.peek() < 100) {//上一个数字比当前小
-                            int temp = stack.pop();
-                            stack.push(100 - temp);
-                            continue;
-                        }
-                    }
-                    stack.push(100);
-                    break;
-                case 'D':
-                    if (!stack.isEmpty()) {
-                        if (stack.peek() < 500) {//上一个数字比当前小
-                            int temp = stack.pop();
-                            stack.push(500 - temp);
-                            continue;
-                        }
-                    }
-                    stack.push(500);
-                    break;
-                case 'M':
-                    if (!stack.isEmpty()) {
-                        if (stack.peek() < 1000) {//上一个数字比当前小
-                            int temp = stack.pop();
-                            stack.push(1000 - temp);
-                            continue;
-                        }
-                    }
-                    stack.push(1000);
-                    break;
+        int[] nums = new int[s.length()];
+        for (int i = 0; i < s.length(); i++) {
+            nums[i] = getNum(s.charAt(i));
+        }
+        int res = 0;
+        int pre = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] > pre) {
+                res += nums[i] - pre - pre;
+            } else {
+                res += nums[i];
             }
+            pre = nums[i];
         }
-        int result = 0;
-        for (Integer integer : stack) {
-            result += integer;
+        return res;
+    }
+
+    public int getNum(char c) {
+        switch (c) {
+            case 'M':
+                return 1000;
+            case 'D':
+                return 500;
+            case 'C':
+                return 100;
+            case 'L':
+                return 50;
+            case 'X':
+                return 10;
+            case 'V':
+                return 5;
+            case 'I':
+                return 1;
+            default:
+                return 0;
         }
-        return result;
     }
 
     /**
@@ -4456,18 +4669,19 @@ public class LeetCode {
      * @return 最大子序和
      */
     private static int maxSubArray(int[] nums) {
-        if (nums.length == 0) {
-            return 0;
-        }
-        int res = nums[0];
         int sum = 0;
+        int max = Integer.MIN_VALUE;
         for (int i = 0; i < nums.length; i++) {
-            sum = sum > 0 ? sum + nums[i] : nums[i];//上一个子序和小于0就舍弃
-            if (sum > res) {
-                res = sum;
+            if (sum < 0) {
+                sum = nums[i];
+            } else {
+                sum += nums[i];
+            }
+            if (sum > max) {
+                max = sum;
             }
         }
-        return res;
+        return max;
     }
 
     /**
@@ -4861,23 +5075,23 @@ public class LeetCode {
      */
     private static ListNode reverseList(ListNode head) {
         //递归方法
-        //        if (head == null || head.next == null) {
-        //            return head;
-        //        }else {
-        //            ListNode newHead = reverseList(head.next);
-        //            head.next.next=head;
-        //            head.next = null;
-        //            return newHead;
-        //        }
-        //非递归方法
-        ListNode preNode = null;
-        while (head != null) {
-            ListNode temp = head.next;
-            head.next = preNode;//将保存的上一个节点作为该节点的下一个节点
-            preNode = head;//然后当前节点成为下次循环的上一个节点
-            head = temp;
+        if (head == null || head.next == null) {
+            return head;
+        } else {
+            ListNode newHead = reverseList(head.next);
+            head.next.next = head;
+            head.next = null;
+            return newHead;
         }
-        return preNode;
+        //非递归方法
+//        ListNode preNode = null;
+//        while (head != null) {
+//            ListNode temp = head.next;
+//            head.next = preNode;//将保存的上一个节点作为该节点的下一个节点
+//            preNode = head;//然后当前节点成为下次循环的上一个节点
+//            head = temp;
+//        }
+//        return preNode;
     }
 
     /**
@@ -5034,7 +5248,6 @@ public class LeetCode {
     }
 
     private static int myAtoi(String str) {
-
         if (str.isEmpty()) {
             return 0;
         }
@@ -5054,59 +5267,33 @@ public class LeetCode {
             number = number * 10 + str.charAt(i++) - '0';
         }
         return (int) (number * sign);
-
-        //        str = str.trim();
-        //        if (str.length() == 0) {
-        //            return 0;
-        //        }
-        //        char[] chars = str.toCharArray();
-        //        int len = 0;
-        //
-        //
-        //        for (int i = 0; i < chars.length; i++) {
-        //            if (i == 0 && isSign(chars[i])) {//判断第一个字符是不是符号
-        //                if (str.length() == 1) {//第一个是符号且只有一位
-        //                    return 0;
-        //                }
-        //                len++;
-        //                continue;
-        //            }
-        //            if (i == 0 && isLetter(chars[0])) {
-        //                return 0;
-        //            }
-        //
-        //            if (i == 1 && isSign(chars[0]) && !isNum(chars[1])) {//第一位符号，第二位不是数字
-        //                return 0;
-        //            }
-        //
-        //
-        //            if (i == 1 && isLetter(chars[i])) {//如果以字母开头
-        //                if (!isNum(chars[0])) {
-        //                    return 0;
-        //                }
-        //            }
-        //
-        //
-        //
-        //            if (isNum(chars[i]) || chars[i] == '.') {
-        //                chars[len++] = chars[i];
-        //            }else break;
-        //        }
-        //
-        //        if (len == 0) {
-        //            return 0;
-        //        }
-        //
-        //        double res = Double.valueOf(new String(chars, 0, len));
-        //        if (res > Integer.MAX_VALUE) {
-        //            return Integer.MAX_VALUE;
-        //        }
-        //
-        //        if (res < Integer.MIN_VALUE) {
-        //            return Integer.MIN_VALUE;
-        //        }
-        //
-        //        return (int) res;
+//        String s = str.trim();
+//        if (s.length() == 0) {
+//            return 0;
+//        }
+//        char first = s.charAt(0);
+//        if (first != '+' && first != '-' && !isDigit(first)) {//第一个字符不是符号也不是数字
+//            return 0;
+//        }
+//        int res = 0;
+//        int flag = 1;
+//        int i = 0;
+//        if (first == '-' || first == '+') {
+//            flag = first == '-' ? -1 : 1;
+//            i = 1;
+//        }
+//        for (; i < s.length(); i++) {
+//            if (isDigit(s.charAt(i))) {
+//                if (flag == 1 && (res > Integer.MAX_VALUE / 10 || (res == Integer.MAX_VALUE / 10 && (s.charAt(i) - '0' > 7)))) {
+//                    return Integer.MAX_VALUE;
+//                }
+//                if (flag == -1 && (-res < Integer.MIN_VALUE / 10 || (-res == Integer.MIN_VALUE / 10 && (s.charAt(i) - '0' > 8)))) {
+//                    return Integer.MIN_VALUE;
+//                }
+//                res = res * 10 + s.charAt(i) - '0';
+//            } else break;
+//        }
+//        return res * flag;
     }
 
     private static boolean isSign(char a) {
@@ -5248,45 +5435,22 @@ public class LeetCode {
     }
 
     /**
-     * 颠倒整数
+     * 整数反转
      *
      * @param x
      * @return
      */
     private static int reverse(int x) {
-        if (x == 0) {
-            return x;
+        int ans = 0;
+        while (x != 0) {
+            int d = x % 10;
+            x /= 10;
+            if (ans > Integer.MAX_VALUE / 10 || (ans == Integer.MAX_VALUE / 10 && d > 7)) return 0;
+            if (ans < Integer.MIN_VALUE / 10 || (ans == Integer.MIN_VALUE / 10 && d < -8)) return 0;
+
+            ans = ans * 10 + d;
         }
-        String s = String.valueOf(x);
-        char[] chars = s.toCharArray();
-        int i = 0, j = s.length() - 1;
-        while (i < j) {
-            if (chars[i] == '-') {
-                i++;
-                continue;
-            }
-            char temp = chars[i];
-            chars[i] = chars[j];
-            chars[j] = temp;
-            i++;
-            j--;
-        }
-        long res = Long.parseLong(new String(chars));
-        if (res < Integer.MIN_VALUE || res > Integer.MAX_VALUE) {
-            return 0;
-        }
-        return (int) res;
-        //方法二
-        //        boolean negative = x < 0;
-        //        if (negative) x = -x;
-        //        long r = 0;
-        //        while (x>0) {
-        //            r = r * 10 + x % 10;
-        //            x /= 10;
-        //        }
-        //        if (negative) r = -r;
-        //        if (r > Integer.MAX_VALUE || r < Integer.MIN_VALUE) return 0;
-        //        return (int)r;
+        return ans;
     }
 
     /**
@@ -5373,9 +5537,9 @@ public class LeetCode {
         //        // validate a board
         //        for (int i = 0; i < 9; i++) {
         //            for (int j = 0; j < 9; j++) {
-        //                char num = board[i][j];
-        //                if (num != '.') {
-        //                    int n = (int) num;
+        //                char totalRings = board[i][j];
+        //                if (totalRings != '.') {
+        //                    int n = (int) totalRings;
         //                    int box_index = (i / 3) * 3 + j / 3;
         //
         //                    // keep the current cell value
