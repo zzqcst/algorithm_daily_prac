@@ -1572,6 +1572,16 @@ public class LeetCode {
         Arrays.sort(nums);
         List<List<Integer>> res = new ArrayList<>();
         for (int i = 0; i <= nums.length - 4; i++) {//第一个数
+            //提前结束条件
+            if (i > 0 && nums[i] == nums[i - 1]) {//与上个数相同，结果会重复，跳过
+                continue;
+            }
+            if (nums[i] + nums[i + 1] + nums[i + 2] + nums[i + 3] > target) {//最小的四个数已经大于target，直接结束
+                break;
+            }
+            if (nums[i] + nums[nums.length - 1] + nums[nums.length - 2] + nums[nums.length - 3] < target) {//
+                continue;
+            }
             for (int j = i + 1; j <= nums.length - 3; j++) {//第二个数
                 int rest = target - nums[i] - nums[j];
                 int left = j + 1, right = nums.length - 1;
@@ -3558,6 +3568,7 @@ public class LeetCode {
      * 给定一个仅包含数字 2-9 的字符串，返回所有它能表示的字母组合。
      * <p>
      * 给出数字到字母的映射如下（与电话按键相同）。注意 1 不对应任何字母。
+     * https://leetcode-cn.com/problems/letter-combinations-of-a-phone-number/solution/leetcode-17-letter-combinations-of-a-phone-number-/
      *
      * @param digits
      * @return
