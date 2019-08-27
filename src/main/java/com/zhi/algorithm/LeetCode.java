@@ -4430,11 +4430,13 @@ public class LeetCode {
      */
     public int romanToInt(String s) {
         int[] nums = new int[s.length()];
+        //先把每个罗马数字转阿拉伯数字
         for (int i = 0; i < s.length(); i++) {
             nums[i] = getNum(s.charAt(i));
         }
         int res = 0;
         int pre = 0;
+        //如果当前数字大于上一个数字，说明当前数字和上一个数字的组合是反的，需要用当前数字减两次上一个数字，因为上一个数字加了一次
         for (int i = 0; i < nums.length; i++) {
             if (nums[i] > pre) {
                 res += nums[i] - pre - pre;
