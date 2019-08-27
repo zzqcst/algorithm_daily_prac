@@ -247,6 +247,28 @@ public class LeetCode {
     }
 
     /**
+     * 求生艇
+     * 每次选最轻的和最重的一起坐，如果超了，最重的自己坐一条
+     *
+     * @param people
+     * @param limit
+     * @return
+     */
+    public int numRescueBoats(int[] people, int limit) {
+        Arrays.sort(people);
+        int res = 0;
+        int i = 0, j = people.length - 1;
+        while (i <= j) {
+            if (people[i] + people[j] <= limit) {
+                i++;
+            }
+            res++;
+            j--;
+        }
+        return res;
+    }
+
+    /**
      * 最长重复子数组
      *
      * @param A
@@ -1146,46 +1168,56 @@ public class LeetCode {
      * @return
      */
     public int[] findOrder(int numCourses, int[][] prerequisites) {
-        return topologicalSort(numCourses, prerequisites);
-    }
+        boolean isPossible = true;
+        //<src,lst>保存src指向的所有节点
+        Map<Integer, List<Integer>> adjList = new HashMap<Integer, List<Integer>>();
+        int[] indegree = new int[numCourses];
+        int[] topologicalOrder = new int[numCourses];
 
-    /**
-     * 拓扑排序
-     *
-     * @param n
-     * @param prerequisites
-     * @return
-     */
-    public int[] topologicalSort(int n, int[][] prerequisites) {
-        List<Integer> topoRes = new ArrayList<>();
-        int[][] adjacencyList = new int[n][n];//邻接矩阵
-        int[] res = new int[n];
-        int[] inDegree = new int[n];//入度
+        // Create the adjacency list representation of the graph
         for (int i = 0; i < prerequisites.length; i++) {
-            adjacencyList[prerequisites[i][1]][prerequisites[i][0]] = 1;
-            inDegree[prerequisites[i][0]]++;
-        }
-        Queue<Integer> deque = new LinkedList<>();
+            int dest = prerequisites[i][0];
+            int src = prerequisites[i][1];
+            List<Integer> lst = adjList.getOrDefault(src, new ArrayList<Integer>());
+            lst.add(dest);
+            adjList.put(src, lst);
 
-        // 从入度为0的顶点开始输出
-        for (int i = 0; i < n; i++) {
-            if (inDegree[i] == 0) deque.offer(i);
+            // 计算每个节点的入度
+            indegree[dest] += 1;
         }
-        int count = 0;
-        while (!deque.isEmpty()) {
-            int curr = deque.poll();
-            topoRes.add(curr);
-            res[count++] = curr;
-            for (int i = 0; i < adjacencyList[curr].length; i++) {
-                if (adjacencyList[curr][i] == 1) {
-                    inDegree[i]--;
-                    if (inDegree[i] == 0) {
-                        deque.offer(i);
+
+        // 将入度为0的点加入队列
+        Queue<Integer> q = new LinkedList<Integer>();
+        for (int i = 0; i < numCourses; i++) {
+            if (indegree[i] == 0) {
+                q.add(i);
+            }
+        }
+
+        int i = 0;
+        // 每次取出一个入度为0的点，输出，然后所有该点指向的点的入度减1，减完之后有入度为0的点，入队列
+        while (!q.isEmpty()) {
+            int node = q.remove();
+            topologicalOrder[i++] = node;
+
+            if (adjList.containsKey(node)) {
+                for (Integer each :
+                        adjList.get(node)) {
+                    indegree[each]--;
+
+                    // If in-degree of a nei***or becomes 0, add it to the Q
+                    if (indegree[each] == 0) {
+                        q.add(each);
                     }
                 }
             }
         }
-        return topoRes.size() == n ? res : new int[0];
+
+        if (i == numCourses) {//能输出的节点数等于总节点数，说明该图能拓扑排序
+            return topologicalOrder;
+        }
+
+        return new int[0];
     }
 
     /**
@@ -1783,7 +1815,7 @@ public class LeetCode {
     public String intToRoman(int num) {
         int[] value = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
         String[] dic = {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
-        int i=0;
+        int i = 0;
         StringBuilder sb = new StringBuilder();
         while (num > 0 && i < dic.length) {
             if (num >= value[i]) {
@@ -4220,31 +4252,21 @@ public class LeetCode {
             if (nums[i] > 0) {
                 break;
             }
-            if (i > 0 && nums[i] == nums[i - 1]) {
+            if (i > 0 && nums[i] == nums[i - 1]) {//去重
                 continue;
             }
             int target = 0 - nums[i];
             int j = i + 1, k = nums.length - 1;
             while (j < k) {
-                if (nums[j] + nums[k] == target) {
-                    List<Integer> row = new ArrayList<>();
-                    row.add(nums[i]);
-                    row.add(nums[j]);
-                    row.add(nums[k]);
-                    res.add(row);
-                    while (j < k && nums[j] == nums[j + 1]) {
-                        ++j;
-                    }
-                    while (j < k && nums[k] == nums[k - 1]) {
-                        --k;
-                    }
+                int sum = nums[j] + nums[k];
+                if (sum == target) {
+                    res.add(Arrays.asList(nums[i], nums[j], nums[k]));
+                    while (j < k && nums[j] == nums[j + 1]) ++j;//去重
+                    while (j < k && nums[k] == nums[k - 1]) --k;//去重
                     j++;
                     k--;
-                } else if (nums[j] + nums[k] < target) {
-                    j++;
-                } else {
-                    k--;
-                }
+                } else if (sum < target) j++;
+                else k--;
             }
         }
         return res;
@@ -5418,11 +5440,11 @@ public class LeetCode {
      */
     private static int reverse(int x) {
         int ans = 0;
-        while (x != 0){
+        while (x != 0) {
             int d = x % 10;
             x /= 10;
-            if (ans >Integer.MAX_VALUE/10 || (ans == Integer.MAX_VALUE/10 && d > 7)) return 0;
-            if (ans < Integer.MIN_VALUE/10 || (ans == Integer.MIN_VALUE/10 && d < -8)) return 0;
+            if (ans > Integer.MAX_VALUE / 10 || (ans == Integer.MAX_VALUE / 10 && d > 7)) return 0;
+            if (ans < Integer.MIN_VALUE / 10 || (ans == Integer.MIN_VALUE / 10 && d < -8)) return 0;
 
             ans = ans * 10 + d;
         }
