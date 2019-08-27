@@ -668,6 +668,8 @@ public class LeetCode {
     /**
      * 和为k的子数组
      *
+     * 给定一个整数数组和一个整数k,找到数组中和为k的连续子数组的个数
+     *
      * @param nums
      * @param k
      * @return
