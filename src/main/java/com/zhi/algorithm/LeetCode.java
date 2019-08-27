@@ -604,7 +604,9 @@ public class LeetCode {
             slow = slow.next;
             if (fast.next != null) {
                 fast = fast.next.next;
-            } else return null;
+            } else {
+                return null;
+            }
             if (fast == slow) {
                 return fast;
             }
@@ -662,10 +664,11 @@ public class LeetCode {
         long high = x / 2 + 1;
         while (low < high) {
             long mid = (high + low + 1) >> 1;//+1是防止计算后mid仍然等于low,例如low:2,high:3
-            if (mid * mid > x)
+            if (mid * mid > x) {
                 high = mid - 1;
-            else
+            } else {
                 low = mid;
+            }
         }
         return (int) low;
     }
@@ -957,7 +960,7 @@ public class LeetCode {
 
     /**
      * 和为k的子数组
-     *
+     * <p>
      * 给定一个整数数组和一个整数k,找到数组中和为k的连续子数组的个数
      *
      * @param nums
@@ -973,8 +976,9 @@ public class LeetCode {
 
         for (int i = 0; i < nums.length; ++i) {
             sum += nums[i];
-            if (map.containsKey(sum - k))
+            if (map.containsKey(sum - k)) {
                 res += map.get(sum - k);
+            }
             map.put(sum, map.getOrDefault(sum, 0) + 1);
         }
 
@@ -1054,7 +1058,9 @@ public class LeetCode {
      * @return
      */
     public boolean isValid2(String S) {
-        if (S == null || S.length() < 3 || !S.startsWith("a")) return false;
+        if (S == null || S.length() < 3 || !S.startsWith("a")) {
+            return false;
+        }
         char pre = '0';
         int flag = 0;
         for (char s : S.toCharArray()) {
@@ -1696,12 +1702,13 @@ public class LeetCode {
             LMax2 = (c2 == 0) ? Integer.MIN_VALUE : nums2[(c2 - 1) / 2];
             RMin2 = (c2 == 2 * m) ? Integer.MAX_VALUE : nums2[c2 / 2];
 
-            if (LMax1 > RMin2)
+            if (LMax1 > RMin2) {
                 hi = c1 - 1;
-            else if (LMax2 > RMin1)
+            } else if (LMax2 > RMin1) {
                 lo = c1 + 1;
-            else
+            } else {
                 break;
+            }
         }
         return (Math.max(LMax1, LMax2) + Math.min(RMin1, RMin2)) / 2.0;
     }
@@ -1819,11 +1826,15 @@ public class LeetCode {
         String[] dic = {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
         int i = 0;
         StringBuilder sb = new StringBuilder();
+        //把阿拉伯数字与罗马数字可能出现的所有情况和对应关系，放在两个数组中
+        //并且按照阿拉伯数字的大小降序排列，这是贪心选择思想
         while (num > 0 && i < dic.length) {
             if (num >= value[i]) {
                 sb.append(dic[i]);
                 num -= value[i];
-            } else i++;
+            } else {
+                i++;
+            }
         }
         return sb.toString();
     }
@@ -2056,18 +2067,25 @@ public class LeetCode {
     public int numDecodings(String s) {
         int n = s.length();
         int[] dp = new int[n + 1];//dp[i]表示从0到i-1的子字符串编码数
-        if (s.charAt(0) != '0') dp[1] = dp[0] = 1;
+        if (s.charAt(0) != '0') {
+            dp[1] = dp[0] = 1;
+        }
         for (int i = 2; i <= n; i++) {
             if (s.charAt(i - 1) == '0') {//以0结尾的字符串
                 if (s.charAt(i - 2) == '1' || s.charAt(i - 2) == '2')//倒数第二位如果是1或2
+                {
                     dp[i] = dp[i - 2];//比如“210”的编码数跟“2”一样
-                else return 0;//“230”无法编码
+                } else {
+                    return 0;//“230”无法编码
+                }
             } else {
                 dp[i] = dp[i - 1];//"201"与“20”
                 if (s.charAt(i - 2) != '0') {//倒数第二位为不为0
                     int t = 10 * (s.charAt(i - 2) - '0') + s.charAt(i - 1) - '0';
                     if (t <= 26)//后两位组成的数字可以编码
+                    {
                         dp[i] += dp[i - 2];//"221"的编码数等于“2”的编码数加上“22”编码数
+                    }
                     //“231”编码数等于“23”编码数
                 }
             }
@@ -2116,9 +2134,13 @@ public class LeetCode {
     public int numberOfArithmeticSlices(int[] A) {
         int res = 0;
         int add = 0;
-        for (int i = 2; i < A.length; i++)
-            if (A[i - 1] - A[i] == A[i - 2] - A[i - 1]) res += ++add;
-            else add = 0;
+        for (int i = 2; i < A.length; i++) {
+            if (A[i - 1] - A[i] == A[i - 2] - A[i - 1]) {
+                res += ++add;
+            } else {
+                add = 0;
+            }
+        }
         return res;
     }
 
@@ -2394,7 +2416,9 @@ public class LeetCode {
                     sb.append(stack.pop());
                 }
                 stack.pop();
-            } else sb.append(c);
+            } else {
+                sb.append(c);
+            }
         }
         while (!stack.isEmpty()) {
             sb.append(stack.pop());
@@ -2411,7 +2435,9 @@ public class LeetCode {
      * @return
      */
     public static int calculate3(String s) {
-        if (s.length() == 0) return 0;
+        if (s.length() == 0) {
+            return 0;
+        }
         char pre_op = '+';//当前数字之前的运算符
         int cur_num = 0;//当前数字
         Stack<Integer> stack = new Stack<>();
@@ -2422,9 +2448,15 @@ public class LeetCode {
             } else if (c == '(') {
                 int j = i, cnt = 0;
                 for (; i < s.length(); i++) {
-                    if (s.charAt(i) == '(') cnt++;
-                    if (s.charAt(i) == ')') cnt--;
-                    if (cnt == 0) break;
+                    if (s.charAt(i) == '(') {
+                        cnt++;
+                    }
+                    if (s.charAt(i) == ')') {
+                        cnt--;
+                    }
+                    if (cnt == 0) {
+                        break;
+                    }
                 }
                 cur_num = calculate3(s.substring(j + 1, i));
             }
@@ -2507,7 +2539,9 @@ public class LeetCode {
      */
     public static int calculate(String s) {
         //递归法
-        if (s.length() == 0) return 0;
+        if (s.length() == 0) {
+            return 0;
+        }
         int num = 0;
         char pre_op = '+';
         int res = 0;
@@ -2518,9 +2552,15 @@ public class LeetCode {
             } else if (c == '(') {
                 int j = i, cnt = 0;
                 for (; i < s.length(); i++) {
-                    if (s.charAt(i) == '(') cnt++;
-                    if (s.charAt(i) == ')') cnt--;
-                    if (cnt == 0) break;
+                    if (s.charAt(i) == '(') {
+                        cnt++;
+                    }
+                    if (s.charAt(i) == ')') {
+                        cnt--;
+                    }
+                    if (cnt == 0) {
+                        break;
+                    }
                 }
                 num = calculate(s.substring(j + 1, i));
             }
@@ -4263,12 +4303,19 @@ public class LeetCode {
                 int sum = nums[j] + nums[k];
                 if (sum == target) {
                     res.add(Arrays.asList(nums[i], nums[j], nums[k]));
-                    while (j < k && nums[j] == nums[j + 1]) ++j;//去重
-                    while (j < k && nums[k] == nums[k - 1]) --k;//去重
+                    while (j < k && nums[j] == nums[j + 1]) {
+                        ++j;//去重
+                    }
+                    while (j < k && nums[k] == nums[k - 1]) {
+                        --k;//去重
+                    }
                     j++;
                     k--;
-                } else if (sum < target) j++;
-                else k--;
+                } else if (sum < target) {
+                    j++;
+                } else {
+                    k--;
+                }
             }
         }
         return res;
@@ -5447,8 +5494,12 @@ public class LeetCode {
         while (x != 0) {
             int d = x % 10;
             x /= 10;
-            if (ans > Integer.MAX_VALUE / 10 || (ans == Integer.MAX_VALUE / 10 && d > 7)) return 0;
-            if (ans < Integer.MIN_VALUE / 10 || (ans == Integer.MIN_VALUE / 10 && d < -8)) return 0;
+            if (ans > Integer.MAX_VALUE / 10 || (ans == Integer.MAX_VALUE / 10 && d > 7)) {
+                return 0;
+            }
+            if (ans < Integer.MIN_VALUE / 10 || (ans == Integer.MIN_VALUE / 10 && d < -8)) {
+                return 0;
+            }
 
             ans = ans * 10 + d;
         }
