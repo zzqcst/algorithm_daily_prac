@@ -246,6 +246,43 @@ public class LeetCode {
         l.fourSum(new int[]{-3, -2, -1, 0, 0, 1, 2, 3}, 0);
     }
 
+    //区间加法
+    void rangeAddition(){
+        //第一行两个数字m和n，分别表示数字范围和区间数量
+        //加下来n行表示在n个区间上加1
+        //输入示例：
+        //10 2
+        //0 6
+        //3 6
+        //输出：
+        //1 1 1 2 2 2 2 0 0 0
+        Scanner scanner = new Scanner(System.in);
+        int range = scanner.nextInt();
+        int[] nums = new int[range];
+        int m = scanner.nextInt();
+        int[][] each = new int[m][2];
+        for (int i = 0; i < m; i++) {
+            each[i][0] = scanner.nextInt();
+            each[i][1] = scanner.nextInt();
+            nums[each[i][0]] += 1;
+            if (each[i][1] + 1 < nums.length) {
+                nums[each[i][1] + 1] -= 1;
+            }
+        }
+        int sum = 0;
+        for (int i = 0; i < range; i++) {
+            sum += nums[i];
+            nums[i] = sum;
+        }
+        for (int i = 0; i < range; i++) {
+            System.out.print(i+" ");
+        }
+        System.out.println();
+        for (int num : nums) {
+            System.out.print(num+" ");
+        }
+    }
+
     /**
      * 求生艇
      * 每次选最轻的和最重的一起坐，如果超了，最重的自己坐一条
