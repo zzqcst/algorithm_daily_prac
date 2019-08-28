@@ -243,7 +243,7 @@ public class LeetCode {
         //
         //        }
         LeetCode l = new LeetCode();
-        lengthOfLongestSubstring("pwwkew");
+        l.fourSum(new int[]{-3, -2, -1, 0, 0, 1, 2, 3}, 0);
     }
 
     /**
@@ -1568,46 +1568,40 @@ public class LeetCode {
      * @return
      */
     public List<List<Integer>> fourSum(int[] nums, int target) {
-        //固定两个数，找其它两个数
+        List<List<Integer>> ans = new ArrayList<>();
+        int len = nums.length;
+        if (nums == null || nums.length < 4)
+            return ans;
         Arrays.sort(nums);
-        List<List<Integer>> res = new ArrayList<>();
-        for (int i = 0; i <= nums.length - 4; i++) {//第一个数
-            //提前结束条件
-            if (i > 0 && nums[i] == nums[i - 1]) {//与上个数相同，结果会重复，跳过
+        for (int i = 0; i < len - 3; i++) {
+            if (i != 0 && nums[i] == nums[i - 1])
                 continue;
-            }
-            if (nums[i] + nums[i + 1] + nums[i + 2] + nums[i + 3] > target) {//最小的四个数已经大于target，直接结束
+            if (nums[i] + nums[i + 1] + nums[i + 2] + nums[i + 3] > target)
                 break;
-            }
-            if (nums[i] + nums[nums.length - 1] + nums[nums.length - 2] + nums[nums.length - 3] < target) {//
+            if (nums[i] + nums[len - 1] + nums[len - 2] + nums[len - 3] < target)
                 continue;
-            }
-            for (int j = i + 1; j <= nums.length - 3; j++) {//第二个数
-                int rest = target - nums[i] - nums[j];
-                int left = j + 1, right = nums.length - 1;
+            for (int j = i + 1; j < len - 2; j++) {
+                if (nums[i] + nums[j] + nums[j + 1] + nums[j + 2] > target)
+                    break;
+                if (j != i + 1 && nums[j] == nums[j - 1] || nums[i] + nums[j] + nums[len - 1] + nums[len - 2] < target)
+                    continue;
+                int left = j + 1;
+                int right = len - 1;
                 while (left < right) {
-                    if (nums[left] + nums[right] < rest) {
+                    int sum = nums[i] + nums[j] + nums[left] + nums[right];
+                    if (left != j + 1 && nums[left] == nums[left - 1] || sum < target) {
                         left++;
-                        continue;
-                    }
-                    if (nums[left] + nums[right] > rest) {
+                    } else if (right != len - 1 && nums[right] == nums[right + 1] || sum > target) {
                         right--;
-                        continue;
+                    } else {
+                        ans.add(Arrays.asList(nums[i], nums[j], nums[left], nums[right]));
+                        left++;
+                        right--;
                     }
-                    List<Integer> list = new ArrayList<>();
-                    list.add(nums[i]);
-                    list.add(nums[j]);
-                    list.add(nums[left]);
-                    list.add(nums[right]);
-                    if (!res.contains(list)) {
-                        res.add(list);
-                    }
-                    left++;
-                    right--;
                 }
             }
         }
-        return res;
+        return ans;
     }
 
     /**
