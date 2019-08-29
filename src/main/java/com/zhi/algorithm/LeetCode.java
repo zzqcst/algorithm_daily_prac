@@ -246,6 +246,146 @@ public class LeetCode {
         l.fourSum(new int[]{-3, -2, -1, 0, 0, 1, 2, 3}, 0);
     }
 
+    //n个员工m中语言，需要多少个翻译机
+//    public static void main(String[] args) {
+//        Scanner scanner = new Scanner(System.in);
+//        int n = scanner.nextInt();//n个人
+//        int m = scanner.nextInt();//m种语言
+//        int k = scanner.nextInt();//k种情况
+//        if (k == 0) {
+//            System.out.println(n);
+//            return;
+//        }
+//        int[] pre = new int[n + 1];
+//        int[][] map = new int[n + 1][m + 1];//map[i][j]第i个人会第j中语言
+//        for (int i = 0; i < n; i++) {
+//            pre[i + 1] = i + 1;
+//        }
+//        for (int i = 0; i < k; i++) {
+//            int a = scanner.nextInt();
+//            int b = scanner.nextInt();
+//            map[a][b] = 1;
+//        }
+//
+//        for (int i = 1; i <= m; i++) {
+//            for (int j = 1; j <= n; j++) {
+//                for (int l = 1; l <= n; l++) {
+//                    if (map[j][i] == map[l][i] && map[j][i] != 0) {//第j个和第l个人都会语言i
+//                        union(pre, j, l);
+//                    }
+//                }
+//            }
+//        }
+//        int ans = 0;
+//        for (int i = 1; i <= n; i++) {
+//            if (pre[i] == i) {
+//                ans++;
+//            }
+//        }
+//        System.out.println(ans - 1);
+//    }
+//
+//    static void union(int[] pre, int x, int y) {
+//        int a = find(pre, x);
+//        int b = find(pre, y);
+//        if (a != b) {
+//            pre[y] = a;
+//        }
+//    }
+//
+//    static int find(int[] pre, int x) {
+//        if (x == pre[x]) {
+//            return x;
+//        } else {
+//            return pre[x] = find(pre, pre[x]);
+//        }
+//    }
+
+    /**
+     * 最长公共字符串
+     *
+     * @param str1
+     * @param str2
+     * @return
+     */
+    private static int getCommonStrLength(String str1, String str2) {
+        int len1 = str1.length();
+        int len2 = str2.length();
+        int[][] dp = new int[len1 + 1][len2 + 1];//dp[i][j] 表示到str1[i-1]和str2[j-1]位置公共字符串长度
+        int max = 0;
+        for (int i = 1; i <= len1; i++) {
+            for (int j = 1; j <= len2; j++) {
+                if (str1.charAt(i - 1) == str2.charAt(j - 1)) {
+                    dp[i][j] = dp[i - 1][j - 1] + 1;
+                } else {
+                    dp[i][j] = 0;
+                }
+                if (dp[i][j] > max) {
+                    max = dp[i][j];
+                }
+            }
+        }
+        return max;
+    }
+
+
+    /**
+     * 最长公共子序列
+     * 图解：https://blog.csdn.net/hrn1216/article/details/51534607
+     *
+     * @param a
+     * @param b
+     * @return
+     */
+    public static int findLCS(String a, String b) {
+        int n = a.length();
+        int m = b.length();
+        int[][] dp = new int[n + 1][m + 1];//dp[i][j]表示a[i-1]结束的字符串和b[j-1]结束的字符串公共序列长度
+        int maxLen = 0;//记录最长公共序列的长度
+        StringBuilder sb = new StringBuilder();
+        //path[i][j] 表示到达i,j的位置的上一个位置在哪，1表示上一个位置是左上方，
+        //2表示上一个位置是上边，3表示上一个值位置是左边
+        int[][] path = new int[n + 1][m + 1];
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= m; j++) {
+                if (a.charAt(i - 1) == b.charAt(j - 1)) {
+                    dp[i][j] = dp[i - 1][j - 1] + 1;
+                    path[i][j] = 1;
+                } else if (dp[i - 1][j] > dp[i][j - 1]) {
+                    dp[i][j] = dp[i - 1][j];
+                    path[i][j] = 2;
+                } else {//dp[i - 1][j] > dp[i][j - 1]和dp[i - 1][j] == dp[i][j - 1]的情况都选择左边
+                    dp[i][j] = dp[i][j - 1];
+                    path[i][j] = 3;
+                }
+                if (dp[i][j] > maxLen) {
+                    sb.append(a.charAt(i - 1));
+                    maxLen = dp[i][j];
+                }
+            }
+        }
+
+        //输出路径
+        printLCS(path, a, b, n, m);
+        System.out.println();
+//        return sb.toString();//求最长公共序列返回sb.toString，只能得到其中一种
+        return dp[n][m];//求最大长度返回dp[n][m]
+    }
+
+    public static void printLCS(int[][] path, String a, String b, int i, int j) {
+        if (i == 0 || j == 0) {
+            return;
+        }
+        if (path[i][j] == 1) {
+            printLCS(path, a, b, i - 1, j - 1);
+            System.out.print(a.charAt(i - 1));
+        } else if (path[i][j] == 2) {
+            printLCS(path, a, b, i - 1, j);
+        } else {
+            printLCS(path, a, b, i, j - 1);
+        }
+    }
+
     /**
      * 两两交换链表中的节点
      *
@@ -1640,21 +1780,27 @@ public class LeetCode {
     public List<List<Integer>> fourSum(int[] nums, int target) {
         List<List<Integer>> ans = new ArrayList<>();
         int len = nums.length;
-        if (nums == null || nums.length < 4)
+        if (nums == null || nums.length < 4) {
             return ans;
+        }
         Arrays.sort(nums);
         for (int i = 0; i < len - 3; i++) {
-            if (i != 0 && nums[i] == nums[i - 1])
+            if (i != 0 && nums[i] == nums[i - 1]) {
                 continue;
-            if (nums[i] + nums[i + 1] + nums[i + 2] + nums[i + 3] > target)
+            }
+            if (nums[i] + nums[i + 1] + nums[i + 2] + nums[i + 3] > target) {
                 break;
-            if (nums[i] + nums[len - 1] + nums[len - 2] + nums[len - 3] < target)
+            }
+            if (nums[i] + nums[len - 1] + nums[len - 2] + nums[len - 3] < target) {
                 continue;
+            }
             for (int j = i + 1; j < len - 2; j++) {
-                if (nums[i] + nums[j] + nums[j + 1] + nums[j + 2] > target)
+                if (nums[i] + nums[j] + nums[j + 1] + nums[j + 2] > target) {
                     break;
-                if (j != i + 1 && nums[j] == nums[j - 1] || nums[i] + nums[j] + nums[len - 1] + nums[len - 2] < target)
+                }
+                if (j != i + 1 && nums[j] == nums[j - 1] || nums[i] + nums[j] + nums[len - 1] + nums[len - 2] < target) {
                     continue;
+                }
                 int left = j + 1;
                 int right = len - 1;
                 while (left < right) {
@@ -2818,6 +2964,29 @@ public class LeetCode {
         //-------------------------
         //输入: [10,9,2,5,3,7,101,18]
         //输出: 4
+
+//如果要求子序列是非递减的
+//        if (nums.length == 0) return 0;
+//        int[] s = new int[nums.length];
+//        int top = 0;
+//        s[top] = nums[0];
+//        for (int i = 1; i < nums.length; i++) {
+//            if (nums[i] >= s[top]) {//这里等号
+//                s[++top] = nums[i];
+//            } else {
+//                int lo = 0, hi = top;
+//                while (lo <= hi) {
+//                    int mid = (lo + hi) / 2;
+//                    if (s[mid] <= nums[i]) {//这里等号,否则替换的是相同的值
+//                        lo = mid + 1;
+//                    } else {
+//                        hi = mid - 1;
+//                    }
+//                }
+//                s[lo] = nums[i];
+//            }
+//        }
+//        return top + 1;
 
 
         if (nums.length < 1) {
@@ -5263,46 +5432,14 @@ public class LeetCode {
      * @return
      */
     private static String longestCommonPrefix(String[] strs) {
-        //        if (strs.length == 0) {
-        ////            return "";
-        ////        }
-        ////        char last = '-';
-        ////        int index = 0;
-        ////        boolean running = true;
-        ////        StringBuilder sb = new StringBuilder();
-        ////        while (running) {
-        ////            for (String str : strs) {
-        ////                if (str.length() == 0) {
-        ////                    return "";
-        ////                }
-        ////                if (index >= str.length()) {
-        ////                    running = false;
-        ////                    last = ' ';
-        ////                    break;
-        ////                }
-        ////                if (last != '-' && str.charAt(index) != last) {
-        ////                    running = false;
-        ////                    last = ' ';
-        ////                    break;
-        ////                }
-        ////                last = str.charAt(index);
-        ////            }
-        ////            if (last != ' ')
-        ////                sb.append(last);
-        ////            last = '-';
-        ////            index++;
-        ////        }
-        ////        return sb.toString();
         if (strs.length == 0) {
             return "";
         }
-
         String prefix = strs[0];
-
         for (int i = 1; i < strs.length; i++) {
             while (strs[i].indexOf(prefix) != 0) {//等于0时，表示匹配成功
                 prefix = prefix.substring(0, prefix.length() - 1);//若不匹配，每次将prefix最后一个字符去掉
-                if (prefix.compareTo("") == 0)//没有匹配的
+                if (prefix.equals(""))//没有匹配的
                 {
                     return "";
                 }
