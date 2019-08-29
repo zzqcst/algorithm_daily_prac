@@ -717,34 +717,37 @@ public class LeetCode {
      * @return
      */
     public ListNode reverseKGroup(ListNode head, int k) {
-        ArrayList<Integer> list = new ArrayList<>();
-        ListNode tmp = head;
-        int len = 0;
-        while (tmp != null) {
-            len++;
-            list.add(tmp.val);
-            tmp = tmp.next;
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+
+        ListNode pre = dummy;
+        ListNode end = dummy;
+
+        while (end.next != null) {
+            for (int i = 0; i < k && end != null; i++) end = end.next;
+            if (end == null) break;
+            ListNode start = pre.next;
+            ListNode next = end.next;
+            end.next = null;
+            pre.next = reverse(start);
+            start.next = next;
+            pre = start;
+
+            end = pre;
         }
-        int start = 0, end = k - 1;
-        while (end < len) {
-            int start_tmp = start;
-            int end_tmp = end;
-            while (start < end) {
-                int left = list.get(start);
-                list.set(start, list.get(end));
-                list.set(end, left);
-                start++;
-                end--;
-            }
-            start = start_tmp + k;
-            end = end_tmp + k;
+        return dummy.next;
+    }
+
+    private ListNode reverse(ListNode head) {//翻转链表
+        ListNode pre = null;
+        ListNode curr = head;
+        while (curr != null) {
+            ListNode next = curr.next;
+            curr.next = pre;
+            pre = curr;
+            curr = next;
         }
-        tmp = head;
-        for (int i = 0; i < len; i++) {
-            tmp.val = list.get(i);
-            tmp = tmp.next;
-        }
-        return head;
+        return pre;
     }
 
     /**
@@ -5379,10 +5382,10 @@ public class LeetCode {
         //非递归方法
 //        ListNode preNode = null;
 //        while (head != null) {
-//            ListNode temp = head.next;
+//            ListNode next = head.next;
 //            head.next = preNode;//将保存的上一个节点作为该节点的下一个节点
 //            preNode = head;//然后当前节点成为下次循环的上一个节点
-//            head = temp;
+//            head = next;
 //        }
 //        return preNode;
     }
