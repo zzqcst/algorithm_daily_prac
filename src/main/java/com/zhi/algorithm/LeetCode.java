@@ -246,6 +246,91 @@ public class LeetCode {
         l.fourSum(new int[]{-3, -2, -1, 0, 0, 1, 2, 3}, 0);
     }
 
+    /**
+     * 最长公共字符串
+     *
+     * @param str1
+     * @param str2
+     * @return
+     */
+    private static int getCommonStrLength(String str1, String str2) {
+        int len1 = str1.length();
+        int len2 = str2.length();
+        int[][] dp = new int[len1 + 1][len2 + 1];//dp[i][j] 表示到str1[i-1]和str2[j-1]位置公共字符串长度
+        int max = 0;
+        for (int i = 1; i <= len1; i++) {
+            for (int j = 1; j <= len2; j++) {
+                if (str1.charAt(i - 1) == str2.charAt(j - 1)) {
+                    dp[i][j] = dp[i - 1][j - 1] + 1;
+                } else {
+                    dp[i][j] = 0;
+                }
+                if (dp[i][j] > max) {
+                    max = dp[i][j];
+                }
+            }
+        }
+        return max;
+    }
+
+
+    /**
+     * 最长公共子序列
+     * 图解：https://blog.csdn.net/hrn1216/article/details/51534607
+     *
+     * @param a
+     * @param b
+     * @return
+     */
+    public static int findLCS(String a, String b) {
+        int n = a.length();
+        int m = b.length();
+        int[][] dp = new int[n + 1][m + 1];//dp[i][j]表示a[i-1]结束的字符串和b[j-1]结束的字符串公共序列长度
+        int maxLen = 0;//记录最长公共序列的长度
+        StringBuilder sb = new StringBuilder();
+        //path[i][j] 表示到达i,j的位置的上一个位置在哪，1表示上一个位置是左上方，
+        //2表示上一个位置是上边，3表示上一个值位置是左边
+        int[][] path = new int[n + 1][m + 1];
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= m; j++) {
+                if (a.charAt(i - 1) == b.charAt(j - 1)) {
+                    dp[i][j] = dp[i - 1][j - 1] + 1;
+                    path[i][j] = 1;
+                } else if (dp[i - 1][j] > dp[i][j - 1]) {
+                    dp[i][j] = dp[i - 1][j];
+                    path[i][j] = 2;
+                } else {//dp[i - 1][j] > dp[i][j - 1]和dp[i - 1][j] == dp[i][j - 1]的情况都选择左边
+                    dp[i][j] = dp[i][j - 1];
+                    path[i][j] = 3;
+                }
+                if (dp[i][j] > maxLen) {
+                    sb.append(a.charAt(i - 1));
+                    maxLen = dp[i][j];
+                }
+            }
+        }
+
+        //输出路径
+        printLCS(path, a, b, n, m);
+        System.out.println();
+//        return sb.toString();//求最长公共序列返回sb.toString，只能得到其中一种
+        return dp[n][m];//求最大长度返回dp[n][m]
+    }
+
+    public static void printLCS(int[][] path, String a, String b, int i, int j) {
+        if (i == 0 || j == 0) {
+            return;
+        }
+        if (path[i][j] == 1) {
+            printLCS(path, a, b, i - 1, j - 1);
+            System.out.print(a.charAt(i - 1));
+        } else if (path[i][j] == 2) {
+            printLCS(path, a, b, i - 1, j);
+        } else {
+            printLCS(path, a, b, i, j - 1);
+        }
+    }
+
     //区间加法
     void rangeAddition() {
         //第一行两个数字m和n，分别表示数字范围和区间数量
