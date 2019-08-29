@@ -247,7 +247,7 @@ public class LeetCode {
     }
 
     //区间加法
-    void rangeAddition(){
+    void rangeAddition() {
         //第一行两个数字m和n，分别表示数字范围和区间数量
         //加下来n行表示在n个区间上加1
         //输入示例：
@@ -275,11 +275,11 @@ public class LeetCode {
             nums[i] = sum;
         }
         for (int i = 0; i < range; i++) {
-            System.out.print(i+" ");
+            System.out.print(i + " ");
         }
         System.out.println();
         for (int num : nums) {
-            System.out.print(num+" ");
+            System.out.print(num + " ");
         }
     }
 
@@ -1607,21 +1607,27 @@ public class LeetCode {
     public List<List<Integer>> fourSum(int[] nums, int target) {
         List<List<Integer>> ans = new ArrayList<>();
         int len = nums.length;
-        if (nums == null || nums.length < 4)
+        if (nums == null || nums.length < 4) {
             return ans;
+        }
         Arrays.sort(nums);
         for (int i = 0; i < len - 3; i++) {
-            if (i != 0 && nums[i] == nums[i - 1])
+            if (i != 0 && nums[i] == nums[i - 1]) {
                 continue;
-            if (nums[i] + nums[i + 1] + nums[i + 2] + nums[i + 3] > target)
+            }
+            if (nums[i] + nums[i + 1] + nums[i + 2] + nums[i + 3] > target) {
                 break;
-            if (nums[i] + nums[len - 1] + nums[len - 2] + nums[len - 3] < target)
+            }
+            if (nums[i] + nums[len - 1] + nums[len - 2] + nums[len - 3] < target) {
                 continue;
+            }
             for (int j = i + 1; j < len - 2; j++) {
-                if (nums[i] + nums[j] + nums[j + 1] + nums[j + 2] > target)
+                if (nums[i] + nums[j] + nums[j + 1] + nums[j + 2] > target) {
                     break;
-                if (j != i + 1 && nums[j] == nums[j - 1] || nums[i] + nums[j] + nums[len - 1] + nums[len - 2] < target)
+                }
+                if (j != i + 1 && nums[j] == nums[j - 1] || nums[i] + nums[j] + nums[len - 1] + nums[len - 2] < target) {
                     continue;
+                }
                 int left = j + 1;
                 int right = len - 1;
                 while (left < right) {
@@ -5230,46 +5236,14 @@ public class LeetCode {
      * @return
      */
     private static String longestCommonPrefix(String[] strs) {
-        //        if (strs.length == 0) {
-        ////            return "";
-        ////        }
-        ////        char last = '-';
-        ////        int index = 0;
-        ////        boolean running = true;
-        ////        StringBuilder sb = new StringBuilder();
-        ////        while (running) {
-        ////            for (String str : strs) {
-        ////                if (str.length() == 0) {
-        ////                    return "";
-        ////                }
-        ////                if (index >= str.length()) {
-        ////                    running = false;
-        ////                    last = ' ';
-        ////                    break;
-        ////                }
-        ////                if (last != '-' && str.charAt(index) != last) {
-        ////                    running = false;
-        ////                    last = ' ';
-        ////                    break;
-        ////                }
-        ////                last = str.charAt(index);
-        ////            }
-        ////            if (last != ' ')
-        ////                sb.append(last);
-        ////            last = '-';
-        ////            index++;
-        ////        }
-        ////        return sb.toString();
         if (strs.length == 0) {
             return "";
         }
-
         String prefix = strs[0];
-
         for (int i = 1; i < strs.length; i++) {
             while (strs[i].indexOf(prefix) != 0) {//等于0时，表示匹配成功
                 prefix = prefix.substring(0, prefix.length() - 1);//若不匹配，每次将prefix最后一个字符去掉
-                if (prefix.compareTo("") == 0)//没有匹配的
+                if (prefix.equals(""))//没有匹配的
                 {
                     return "";
                 }
