@@ -246,8 +246,40 @@ public class LeetCode {
         l.fourSum(new int[]{-3, -2, -1, 0, 0, 1, 2, 3}, 0);
     }
 
+    /**
+     * 两两交换链表中的节点
+     *
+     * @param head
+     * @return
+     */
+    public ListNode swapPairs(ListNode head) {
+        //递归
+//        if (head == null || head.next == null) {
+//            return head;
+//        }
+//        //每次递归调用都会交换head和next
+//        ListNode next = head.next;
+//        head.next = swapPairs(next.next);
+//        next.next=head;
+//        return next;
+        //遍历法
+        ListNode pre = new ListNode(0);
+        pre.next = head;
+        ListNode tmp = pre;
+        while (tmp.next != null && tmp.next.next != null) {
+            ListNode start = tmp.next;
+            ListNode end = tmp.next.next;
+            start.next = end.next;
+            tmp.next = end;
+            end.next = start;
+            tmp = start;
+
+        }
+        return pre.next;
+    }
+
     //区间加法
-    void rangeAddition(){
+    void rangeAddition() {
         //第一行两个数字m和n，分别表示数字范围和区间数量
         //加下来n行表示在n个区间上加1
         //输入示例：
@@ -275,13 +307,14 @@ public class LeetCode {
             nums[i] = sum;
         }
         for (int i = 0; i < range; i++) {
-            System.out.print(i+" ");
+            System.out.print(i + " ");
         }
         System.out.println();
         for (int num : nums) {
-            System.out.print(num+" ");
+            System.out.print(num + " ");
         }
     }
+
 
     /**
      * 求生艇
@@ -5124,10 +5157,10 @@ public class LeetCode {
     private static ListNode mergeTwoLists(ListNode l1, ListNode l2) {
 //        ListNode res = null;
 //        if (list1 == null) {
-//            return list2;
+//            return list2;//返回剩下的l2
 //        }
 //        if (list2 == null) {
-//            return list1;
+//            return list1;//返回剩下的l1
 //        }
 //        if (list1.val <= list2.val) {
 //            res = list1;
