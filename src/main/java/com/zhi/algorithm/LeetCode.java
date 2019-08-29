@@ -246,6 +246,61 @@ public class LeetCode {
         l.fourSum(new int[]{-3, -2, -1, 0, 0, 1, 2, 3}, 0);
     }
 
+    //n个员工m中语言，需要多少个翻译机
+//    public static void main(String[] args) {
+//        Scanner scanner = new Scanner(System.in);
+//        int n = scanner.nextInt();//n个人
+//        int m = scanner.nextInt();//m种语言
+//        int k = scanner.nextInt();//k种情况
+//        if (k == 0) {
+//            System.out.println(n);
+//            return;
+//        }
+//        int[] pre = new int[n + 1];
+//        int[][] map = new int[n + 1][m + 1];//map[i][j]第i个人会第j中语言
+//        for (int i = 0; i < n; i++) {
+//            pre[i + 1] = i + 1;
+//        }
+//        for (int i = 0; i < k; i++) {
+//            int a = scanner.nextInt();
+//            int b = scanner.nextInt();
+//            map[a][b] = 1;
+//        }
+//
+//        for (int i = 1; i <= m; i++) {
+//            for (int j = 1; j <= n; j++) {
+//                for (int l = 1; l <= n; l++) {
+//                    if (map[j][i] == map[l][i] && map[j][i] != 0) {//第j个和第l个人都会语言i
+//                        union(pre, j, l);
+//                    }
+//                }
+//            }
+//        }
+//        int ans = 0;
+//        for (int i = 1; i <= n; i++) {
+//            if (pre[i] == i) {
+//                ans++;
+//            }
+//        }
+//        System.out.println(ans - 1);
+//    }
+//
+//    static void union(int[] pre, int x, int y) {
+//        int a = find(pre, x);
+//        int b = find(pre, y);
+//        if (a != b) {
+//            pre[y] = a;
+//        }
+//    }
+//
+//    static int find(int[] pre, int x) {
+//        if (x == pre[x]) {
+//            return x;
+//        } else {
+//            return pre[x] = find(pre, pre[x]);
+//        }
+//    }
+
     /**
      * 最长公共字符串
      *
@@ -2876,6 +2931,29 @@ public class LeetCode {
         //-------------------------
         //输入: [10,9,2,5,3,7,101,18]
         //输出: 4
+
+//如果要求子序列是非递减的
+//        if (nums.length == 0) return 0;
+//        int[] s = new int[nums.length];
+//        int top = 0;
+//        s[top] = nums[0];
+//        for (int i = 1; i < nums.length; i++) {
+//            if (nums[i] >= s[top]) {//这里等号
+//                s[++top] = nums[i];
+//            } else {
+//                int lo = 0, hi = top;
+//                while (lo <= hi) {
+//                    int mid = (lo + hi) / 2;
+//                    if (s[mid] <= nums[i]) {//这里等号,否则替换的是相同的值
+//                        lo = mid + 1;
+//                    } else {
+//                        hi = mid - 1;
+//                    }
+//                }
+//                s[lo] = nums[i];
+//            }
+//        }
+//        return top + 1;
 
 
         if (nums.length < 1) {
