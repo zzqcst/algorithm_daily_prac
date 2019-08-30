@@ -6053,20 +6053,20 @@ public class LeetCode {
     }
 
     /**
-     * 删除重复值
+     * 删除排序数组中的重复项
      *
      * @param nums
      * @return
      */
     private static int removeDuplicates(int[] nums) {
-        int i = 0;
-        for (int j = 1; j < nums.length; j++) {
-            if (nums[i] != nums[j]) {
-                i++;
-                nums[i] = nums[j];
+        int index = 0;//不重复数组的最后一个位置
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[index] != nums[i]) {//遇到与最后一个不同的数字时，添加到index后面，同时index+1
+                index++;
+                nums[index] = nums[i];
             }
         }
-        return i + 1;
+        return index + 1;
     }
 
     /**
