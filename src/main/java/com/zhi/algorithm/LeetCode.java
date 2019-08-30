@@ -246,6 +246,30 @@ public class LeetCode {
         l.fourSum(new int[]{-3, -2, -1, 0, 0, 1, 2, 3}, 0);
     }
 
+    /**
+     * 最长回文子序列
+     *
+     * @param s
+     * @return
+     */
+    public int longestPalindromeSubseq(String s) {
+        int n = s.length();
+        int[][] dp = new int[n][n];//dp[i][j]表示从第i个字符到第j个字符，回文子序列的最大长度
+        //s[i]==s[j]时，dp[i][j] = dp[i + 1][j - 1] + 2; 因此i的遍历需要从后到前
+        //s[i]!=s[j]时,dp[i][j] = Math.max(dp[i + 1][j], dp[i][j - 1]);
+        for (int i = n - 1; i >= 0; i--) {
+            dp[i][i] = 1;
+            for (int j = i + 1; j < n; j++) {
+                if (s.charAt(i) == s.charAt(j)) {
+                    dp[i][j] = dp[i + 1][j - 1] + 2;
+                } else {
+                    dp[i][j] = Math.max(dp[i + 1][j], dp[i][j - 1]);
+                }
+            }
+        }
+        return dp[0][n - 1];
+    }
+
     //n个员工m中语言，需要多少个翻译机
 //    public static void main(String[] args) {
 //        Scanner scanner = new Scanner(System.in);
@@ -724,8 +748,12 @@ public class LeetCode {
         ListNode end = dummy;
 
         while (end.next != null) {
-            for (int i = 0; i < k && end != null; i++) end = end.next;
-            if (end == null) break;
+            for (int i = 0; i < k && end != null; i++) {
+                end = end.next;
+            }
+            if (end == null) {
+                break;
+            }
             ListNode start = pre.next;
             ListNode next = end.next;
             end.next = null;
