@@ -380,36 +380,47 @@ public class JZofferPrac {
     }
 
     /**
-     * 如何得到一个数据流中的中位数？如果从数据流中读出奇数个数值，
-     * 那么中位数就是所有数值排序之后位于中间的数值。
-     * 如果从数据流中读出偶数个数值，那么中位数就是所有数值排序之后中间两个数的平均值。
-     * 我们使用Insert()方法读取数据流，使用GetMedian()方法获取当前读取数据的中位数。
+     * 数据流中的中位数,大根堆保存前半部分数字，小根堆保存后半部分数字
      *
      * @param totalRings
      */
-    ArrayList<Double> queue3 = new ArrayList<>();
+    PriorityQueue<Integer> big = new PriorityQueue<>(new Comparator<Integer>() {//大根堆
+        @Override
+        public int compare(Integer o1, Integer o2) {
+            return o2 - o1;
+        }
+    });
+    PriorityQueue<Integer> small = new PriorityQueue<>();//小根堆
+    int count = 0;
 
     public void Insert(Integer num) {
-        queue3.add(Double.valueOf(num));
+        count++;
+        if ((count & 1) != 1) {//数目为偶数个时
+            if (!big.isEmpty() && num < big.peek()) {
+                big.offer(num);
+                num = big.poll();
+            }
+            small.offer(num);
+        } else {//数目为奇数个时
+            if (!small.isEmpty() && num > small.peek()) {
+                small.offer(num);
+                num = small.poll();
+            }
+            big.offer(num);
+        }
     }
 
     public Double GetMedian() {
-        queue3.sort(new Comparator<Double>() {
-            @Override
-            public int compare(Double o1, Double o2) {
-                return (int) (o1 - o2);
-            }
-        });
-        int size = queue3.size();
-        int mid = size / 2;
-        if (size % 2 != 0) {//奇数
-            return queue3.get(mid);
-        } else {
-            int temp1 = mid - 1;
-            if (temp1 >= 0) {
-                return (double) ((queue3.get(mid) + queue3.get(temp1)) / 2);
-            } else return queue3.get(mid);
+        if (count == 0) {
+            return 0.0;
         }
+        double result;
+        if ((count & 1) == 1) {//奇数
+            result = big.peek();
+        } else {
+            result = (small.peek() + big.peek()) / 2.0;
+        }
+        return result;
     }
 
     /**
@@ -429,9 +440,15 @@ public class JZofferPrac {
     public TreeNode helper(TreeNode root) {
         TreeNode temp = null;
         if (root != null) {
-            if ((temp = helper(root.left)) != null) return temp;
-            if (--k == 0) return root;
-            if ((temp = helper(root.right)) != null) return temp;
+            if ((temp = helper(root.left)) != null) {
+                return temp;
+            }
+            if (--k == 0) {
+                return root;
+            }
+            if ((temp = helper(root.right)) != null) {
+                return temp;
+            }
 
         }
         return null;
@@ -445,8 +462,9 @@ public class JZofferPrac {
      * @return
      */
     String Serialize(TreeNode root) {
-        if (root == null)
+        if (root == null) {
             return "";
+        }
         StringBuilder sb = new StringBuilder();
         Serialize2(root, sb);
         return sb.toString();
@@ -465,8 +483,9 @@ public class JZofferPrac {
     int index = -1;
 
     TreeNode Deserialize(String str) {
-        if (str.length() == 0)
+        if (str.length() == 0) {
             return null;
+        }
         String[] strs = str.split(",");
         return Deserialize2(strs);
     }
@@ -1387,7 +1406,9 @@ public class JZofferPrac {
      * @return
      */
     private int InversePairsCore(int[] array, int[] copy, int low, int high) {
-        if (low == high) return 0;
+        if (low == high) {
+            return 0;
+        }
         int mid = (low + high) >> 1;
         int leftCount = InversePairsCore(array, copy, low, mid) % 1000000007;
         int rightCount = InversePairsCore(array, copy, mid + 1, high) % 1000000007;
