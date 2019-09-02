@@ -245,6 +245,64 @@ public class LeetCode {
         LeetCode l = new LeetCode();
         l.fourSum(new int[]{-3, -2, -1, 0, 0, 1, 2, 3}, 0);
     }
+    /**
+     * 移除元素
+     *
+     * @param nums
+     * @param val
+     * @return
+     */
+    public static int removeElement(int[] nums, int val) {
+        int i = 0;
+        int n = nums.length;
+        while (i < n) {
+            if (nums[i] == val) {
+                nums[i] = nums[n - 1];
+                n--;
+            } else {
+                i++;
+            }
+        }
+        return n;
+//        int i = 0;
+//        for (int j = 0; j < nums.length; j++) {
+//            if (nums[j] != val) {
+//                nums[i] = nums[j];
+//                i++;
+//            }
+//        }
+//        return i;
+    }
+
+    /**
+     * 最低公共父节点
+     *
+     * @param root
+     * @param first
+     * @param second 思路：
+     *               有两种情况，一是要找的这两个节点（p, q），在我遍历的这个节点（r）的两侧，那么我这个节点就是这
+     *               两个节点的最小公共父节点；二是节点在同一侧，则 r->left 或者 r->right 为 NULL,另一边返回p或者q，
+     *               那么另一边返回的就是他们的最小公共父节点。
+     *               递归有两个出口，一是没有找到p或者q，则返回NULL；二是只要碰到p或者q，就立刻返回。
+     * @return
+     */
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode first, TreeNode second) {
+        if (root == null) {
+            return root;
+        }
+        if (root == first || root == second) {
+            return root;
+        }
+        TreeNode left = lowestCommonAncestor(root.left, first, second);
+        TreeNode right = lowestCommonAncestor(root.right, first, second);
+        if (left == null) {//左边没找到，两个节点都在右边
+            return right;
+        }
+        if (right == null) {//右边没找到，两个节点在左边
+            return left;
+        }
+        return root;//左右都找到了，两个节点在两边，返回root
+    }
 
     //n个员工m中语言，需要多少个翻译机
 //    public static void main(String[] args) {
