@@ -245,6 +245,7 @@ public class LeetCode {
         LeetCode l = new LeetCode();
         l.fourSum(new int[]{-3, -2, -1, 0, 0, 1, 2, 3}, 0);
     }
+
     /**
      * 移除元素
      *
@@ -5009,40 +5010,31 @@ public class LeetCode {
      * @return
      */
     private static int rob(int[] nums) {
-        int[] dp = new int[nums.length];//dp[i]:到第i户的最高金额，dp[i]=max(dp[i-1],dp[i-2]+nums[i])
-        if (nums.length == 0) {
-            return 0;
+        //最优解法，只保存前两个状态即可
+        int preMax = 0, curMax = 0;
+        for (int i = 0; i < nums.length; i++) {
+            int tmp = curMax;
+            curMax = Math.max(preMax + nums[i], curMax);
+            preMax = tmp;
         }
-        if (nums.length == 1) {
-            return nums[0];
-        }
-        if (nums.length == 2) {
-            return Math.max(nums[0], nums[1]);
-        }
-        dp[0] = nums[0];
-        dp[1] = Math.max(nums[0], nums[1]);
-        for (int i = 2; i < nums.length; i++) {
-            dp[i] = Math.max(dp[i - 1], dp[i - 2] + nums[i]);
-        }
-        return dp[nums.length - 1];
+        return curMax;
+//        int[] dp = new int[nums.length];//dp[i]:到第i户的最高金额，dp[i]=max(dp[i-1],dp[i-2]+nums[i])
+//        if (nums.length == 0) {
+//            return 0;
+//        }
+//        if (nums.length == 1) {
+//            return nums[0];
+//        }
+//        if (nums.length == 2) {
+//            return Math.max(nums[0], nums[1]);
+//        }
+//        dp[0] = nums[0];
+//        dp[1] = Math.max(nums[0], nums[1]);
+//        for (int i = 2; i < nums.length; i++) {
+//            dp[i] = Math.max(dp[i - 1], dp[i - 2] + nums[i]);
+//        }
+//        return dp[nums.length - 1];
     }
-    //    private static int rob(int[] nums) {
-    //        if (nums.length == 0) {
-    //            return 0;
-    //        }
-    //        return getHighestRob(nums,nums.length-1);
-    //    }
-    //
-    //    private static int getHighestRob(int[] nums, int i) {
-    //        if (i == 1) {
-    //            return Math.max(nums[0], nums[1]);
-    //        }
-    //        if (i == 0) {
-    //            return nums[0];
-    //        }
-    //        //不抢劫i和抢劫i之间的最大值
-    //        return Math.max(getHighestRob(nums, i - 1), getHighestRob(nums, i - 2)+nums[i]);
-    //    }
 
     /**
      * 最大子序和
