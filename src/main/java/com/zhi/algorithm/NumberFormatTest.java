@@ -3,7 +3,7 @@ package com.zhi.algorithm;
 public class NumberFormatTest {
 
     public static void main(String[] args) {
-        System.out.println(formatInteger("111123"));
+        System.out.println(solve("一亿三千万"));
     }
 
     private static String formatInteger(String string) {
@@ -27,7 +27,14 @@ public class NumberFormatTest {
     }
 
     private static int solve(String s) {
-        int i = s.indexOf("万");
+        int i = s.indexOf("亿");
+        if (i != -1) {
+            int l = solve(s.substring(0, i));
+            int r = solve(s.substring(i + 1));
+            return l * 100000000 + r;
+        }
+
+        i = s.indexOf("万");
         if (i != -1) {
             int l = solve(s.substring(0, i));
             int r = solve(s.substring(i + 1));

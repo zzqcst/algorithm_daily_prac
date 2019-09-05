@@ -68,19 +68,19 @@ public class JZofferPrac {
 //            }
 //            System.out.println();
 //        }
-        ListNode n1 = new ListNode(1);
-        ListNode n2 = new ListNode(1);
-        ListNode n3 = new ListNode(3);
-        ListNode n4 = new ListNode(3);
-        ListNode n5 = new ListNode(4);
-        ListNode n6 = new ListNode(4);
-        ListNode n7 = new ListNode(5);
-        n1.next = n2;
-        n2.next = n3;
-        n3.next = n4;
-        n4.next = n5;
-        n5.next = n6;
-        n6.next = n7;
+//        ListNode n1 = new ListNode(1);
+//        ListNode n2 = new ListNode(1);
+//        ListNode n3 = new ListNode(3);
+//        ListNode n4 = new ListNode(3);
+//        ListNode n5 = new ListNode(4);
+//        ListNode n6 = new ListNode(4);
+//        ListNode n7 = new ListNode(5);
+//        n1.next = n2;
+//        n2.next = n3;
+//        n3.next = n4;
+//        n4.next = n5;
+//        n5.next = n6;
+//        n6.next = n7;
 //        n1 = p.deleteDuplication(n1);
 //        for (ArrayList<Integer> integers : p.Print(t1)) {
 //            for (Integer integer : integers) {
@@ -88,11 +88,7 @@ public class JZofferPrac {
 //            }
 //        }
 //        p.print1ToMaxOfNDigits(4);
-        ListNode node = p.ReverseList(n1);
-        while (node != null) {
-            System.out.println(node.val);
-            node = node.next;
-        }
+        p.FindGreatestSumOfSubArray(new int[]{1, 4, 7});
     }
 
 
@@ -425,6 +421,7 @@ public class JZofferPrac {
 
     /**
      * 给定一棵二叉搜索树，请找出其中的第k小的结点。例如， （5，3，7，2，4，6，8）    中，按结点数值大小顺序第三小结点的值为4。
+     * 二叉搜索树的第k大节点
      *
      * @param pRoot
      * @param k
@@ -978,28 +975,39 @@ public class JZofferPrac {
     }
 
     /**
-     * 每年六一儿童节,牛客都会准备一些小礼物去看望孤儿院的小朋友,今年亦是如此。
-     * HF作为牛客的资深元老,自然也准备了一些小游戏。
-     * 其中,有个游戏是这样的:首先,让小朋友们围成一个大圈。
-     * 然后,他随机指定一个数m,让编号为0的小朋友开始报数。
-     * 每次喊到m-1的那个小朋友要出列唱首歌,然后可以在礼品箱中任意的挑选礼物,并且不再回到圈中,
-     * 从他的下一个小朋友开始,继续0...m-1报数....这样下去....直到剩下最后一个小朋友,
-     * 可以不用表演,并且拿到牛客名贵的“名侦探柯南”典藏版(名额有限哦!!^_^)。
-     * 请你试着想下,哪个小朋友会得到这份礼品呢？(注：小朋友的编号是从0到n-1)
+     * 0-n-1这n个数字排成一圈，从数字0开始，每次从中删除第m个数字，求出最后一个剩下的数字
+     * <p>
+     * 圆圈中最后剩下的数字
      *
      * @param n
      * @param m
      * @return
      */
     public int LastRemaining_Solution(int n, int m) {
-        if (n < 1 || m < 1) {
-            return -1;
+        //规律解法，面试时无法推导出
+//        if (n < 1 || m < 1) {
+//            return -1;
+//        }
+//        int last = 0;
+//        for (int i = 2; i <= n; i++) {
+//            last = (last + m) % i;
+//        }
+//        return last;
+        if (n < 1 || m < 1) return -1;
+        int[] array = new int[n];
+        int i = -1, step = 0, count = n;
+        while (count > 0) {   //跳出循环时将最后一个元素也设置为了-1
+            i++;          //指向上一个被删除对象的下一个元素。
+            if (i >= n) i = 0;  //模拟环。
+            if (array[i] == -1) continue; //跳过被删除的对象。
+            step++;                     //记录已走过的。
+            if (step == m) {               //找到待删除的对象。
+                array[i] = -1;
+                step = 0;
+                count--;
+            }
         }
-        int last = 0;
-        for (int i = 2; i <= n; i++) {
-            last = (last + m) % i;
-        }
-        return last;
+        return i;//返回跳出循环时的i,即最后一个被设置为-1的元素
     }
 
     /**
@@ -1615,7 +1623,7 @@ public class JZofferPrac {
         int maxSum = Integer.MIN_VALUE;//最大的子数组和
         for (int i = 0; i < len; i++) {
             currentSum += array[i];
-            if (currentSum < array[i]) {
+            if (currentSum < array[i]) {//加完array[i]还小于array[i],说明之前currentSum<0
                 currentSum = array[i];
             }
             if (currentSum > maxSum) {
@@ -2577,13 +2585,15 @@ public class JZofferPrac {
      * @return
      */
     public int minNumberInRotateArray(int[] array) {
+        //二分法
         if (array.length == 0) {
             return 0;
         }
         int index1 = 0;
         int index2 = array.length - 1;
         int mid = 0;
-        while (array[index1] >= array[index2]) {
+        while (index1 < index2) {
+            //退出条件，index1和index2相遇
             if (index2 - index1 == 1) {
                 mid = index2;
                 break;
