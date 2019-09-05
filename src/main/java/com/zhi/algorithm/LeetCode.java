@@ -1086,6 +1086,7 @@ public class LeetCode {
     /**
      * leetcode 86
      * 分隔链表
+     * 分割链表
      *
      * @param head
      * @param x
@@ -5916,7 +5917,28 @@ public class LeetCode {
         //            for (int j = 0; j < nums.length; j++) {
         //                if (i == j) {
         //                    continue;
-        //                }
+        //                }        ListNode dummy = new ListNode(0);
+        //        ListNode first = dummy;
+        //        ListNode after_head = new ListNode(0);
+        //        ListNode second = after_head;
+        //
+        //        while (head != null) {
+        //            if (head.val <= m) {
+        //                first.next = head;
+        //                first = first.next;
+        //            } else {
+        //                second.next = head;
+        //                second = second.next;
+        //            }
+        //
+        //            head = head.next;
+        //        }
+        //
+        //        second.next = null;
+        //
+        //        first.next = after_head.next;
+        //
+        //        return dummy.next;
         //                if (nums[i] + nums[j] == target) {
         //                    res[0]=i;
         //                    res[1]=j;

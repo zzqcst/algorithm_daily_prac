@@ -188,6 +188,7 @@ public class EightSort {
     }
 
     private static int partition(int[] arr, int start, int end) {
+        //4,2,3,7,9,1
         int key = arr[start];
         while (start < end) {
             while (start < end && arr[end] >= key) {//从后往前找到一个比枢轴值小的，换到前面去

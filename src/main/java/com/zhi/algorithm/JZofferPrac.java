@@ -1273,15 +1273,15 @@ public class JZofferPrac {
     }
 
     private int getMaxDepth(TreeNode root, int depth) {
-        int temp = 0;
+        int left = 0;
         if (root == null) {
             return depth;
         }
 
-        temp = getMaxDepth(root.left, depth + 1);
+        left = getMaxDepth(root.left, depth + 1);
         depth = getMaxDepth(root.right, depth + 1);
 
-        return temp > depth ? temp : depth;
+        return left > depth ? left : depth;
     }
 
     /**
@@ -1934,6 +1934,7 @@ public class JZofferPrac {
     }
 
     /**
+     * 二叉树中和为某一值的路径
      * 输入一颗二叉树的跟节点和一个整数，打印出二叉树中结点值的和为输入整数的所有路径。
      * 路径定义为从树的根结点开始往下一直到叶结点所经过的结点形成一条路径。(注意: 在返回值的list中，数组长度大的数组靠前)
      *
@@ -1947,13 +1948,6 @@ public class JZofferPrac {
         if (root != null) {
             getPath(root, target, p, res);
         }
-        res.sort(new Comparator<ArrayList<Integer>>() {
-            @Override
-            public int compare(ArrayList<Integer> o1, ArrayList<Integer> o2) {
-
-                return o1.size() - o2.size();
-            }
-        });
         return res;
     }
 
@@ -1961,10 +1955,7 @@ public class JZofferPrac {
         p.add(root.val);
         boolean isLeaf = root.left == null && root.right == null;
         if (root.val == target && isLeaf) {
-            ArrayList<Integer> temp = new ArrayList<>();
-            for (Integer integer : p) {
-                temp.add(integer);
-            }
+            ArrayList<Integer> temp = new ArrayList<>(p);
             res.add(temp);
         }
         if (root.val < target) {
@@ -2000,23 +1991,27 @@ public class JZofferPrac {
      */
     private boolean isBST(int[] sequence, int start, int end) {
         int root = sequence[end];
-        int i = start;//i是右子树第一个元素下标
+        int i = start;
+        //二叉搜索树中左子树的节点的值小于根节点的值
         //找到比根节点值大的元素
         for (; i < end; i++) {
             if (sequence[i] > root) {
                 break;
             }
         }
-        int j = i;//没有右子树时，i的值为end,下面判断不会进行
+        //二叉搜索树中右子树节点的值大于根节点的值
+        int j = i;
         for (; j < end; j++) {//如果右子树某个元素小于根节点，说明不是二叉搜索树
             if (sequence[j] < root) {
                 return false;
             }
         }
+        //判断左子树是不是二叉搜索树
         boolean left = true;
         if (i > start) {
             left = isBST(sequence, start, i - 1);
         }
+        //判断右子树是不是二叉搜索树
         boolean right = true;
         if (i < end) {
             right = isBST(sequence, i, end - 1);
@@ -2343,12 +2338,11 @@ public class JZofferPrac {
         }
         ListNode first = head;
         ListNode second = head;
-        for (int i = 0; i < k - 1; i++) {
-            if (first.next != null) {//防止k大于链表的长度而产生异常
-                first = first.next;
-            } else {
+        while (k-- != 1) {
+            if (first.next == null) {//防止k大于链表的长度
                 return null;
             }
+            first = first.next;
         }
         while (first.next != null) {
             first = first.next;
@@ -2536,13 +2530,13 @@ public class JZofferPrac {
         if (target == 2) {
             return 2;
         }
-        int preisone = 2;
-        int preistwo = 1;
+        int preone = 2;//到达上一步台阶的方案数
+        int pretwo = 1;//到达前两步台阶的方案数
         int cur = 0;
         for (int i = 3; i <= target; i++) {
-            cur = preisone + preistwo;
-            preistwo = preisone;
-            preisone = cur;
+            cur = preone + pretwo;
+            pretwo = preone;
+            preone = cur;
         }
         return cur;
     }
