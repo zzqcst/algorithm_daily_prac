@@ -1,22 +1,132 @@
-    public int splitArray(int[] array, int m) {
-        int n = array.length;
-        int[][] f = new int[n + 1][m + 1];
-        int[] sub = new int[n + 1];
-        for (int i = 0; i <= n; i++) {
-            for (int j = 0; j <= m; j++) {
-                f[i][j] = Integer.MAX_VALUE;
-            }
-        }
-        for (int i = 0; i < n; i++) {
-            sub[i + 1] = sub[i] + array[i];
-        }
-        f[0][0] = 0;
-        for (int i = 1; i <= n; i++) {
-            for (int j = 1; j <= m; j++) {
-                for (int k = 0; k < i; k++) {
-                    f[i][j] = Math.min(f[i][j], Math.max(f[k][j - 1], sub[i] - sub[k]));
-                }
-            }
-        }
-        return f[n][m];
+package LRU;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Scanner;
+
+import org.w3c.dom.ls.LSInput;
+
+class LRUCache {
+
+    class Node {
+        String key;
+        String value;
+        Node prev;
+        Node next;
     }
+
+    /**
+     * 向双向链表加入新节点
+     * 加入到表头
+     */
+    private void addNode(Node node) {
+        node.prev = head;
+        node.next = head.next;
+        head.next.prev = node;
+        head.next = node;
+    }
+
+    /**
+     * 删除节点
+     */
+    private void removeNode(Node node) {
+        node.prev.next = node.next;
+        node.next.prev = node.prev;
+    }
+
+    /**
+     * 删除表尾节点
+     */
+    private Node popTail() {
+        Node node = tail.prev;
+        removeNode(node);
+        return node;
+    }
+
+    /**
+     * 移动到表头
+     * 1.删除原节点
+     * 2.在表头插入原节点
+     */
+    private void moveToHead(Node node) {
+        removeNode(node);
+        addNode(node);
+    }
+    private int capacity;
+    private int size;
+    private HashMap<String, Node> cache;
+    private Node head;
+    private Node tail;
+
+    public LRUCache(int capacity) {
+        this.capacity = capacity;
+        this.size = 0;
+        cache = new HashMap<>();
+        head = new Node();
+        tail = new Node();
+        head.next = tail;
+        tail.prev = head;
+    }
+
+    /**
+     * get()操作
+     * 如果key对应的value不存在，返回-1
+     * 如果存在，则获取值，并将节点移动到表头
+     */
+    public String get(String key) {
+        Node node = cache.get(key);
+        if (node == null) return null;
+        moveToHead(node);
+        return node.value;
+    }
+
+    /**
+     * put()操作
+     * 如果key不存在，则新建节点，将节点加入cache map，放置到表头，size+1
+     * 如果size>capacity，要去除表尾节点，并从cache中删除，size-1
+     * 如果key存在，将该节点的值更新，并移动到表头
+     */
+    public void put(String key, String value) {
+        Node node = cache.get(key);
+        if (node == null) {
+            node = new Node();
+            node.key = key;
+            node.value = value;
+            cache.put(key, node);
+            addNode(node);
+            size++;
+            if (size > capacity) {
+                Node del = popTail();
+                cache.remove(del.key);
+                size--;
+            }
+        } else {
+            node.value = value;
+            moveToHead(node);
+        }
+    }
+
+    public static void main(String[] args) {
+    	Scanner scanner = new Scanner(System.in);
+    	String number = scanner.nextLine();
+    	int N = Integer.valueOf(number);
+        LRUCache lruCache = new LRUCache(N);
+        ArrayList<String> list = new ArrayList<>();
+        String line = scanner.nextLine();
+        while(line!="\\W+") {
+        	list.add(line);
+        	
+        }
+        if(list.size()<=16) {
+	        for(int i=0;i<list.size();i++) {
+	        	String tmp = list.get(i);
+	        	String key = tmp.split(" ")[0];
+				String value = tmp.split(" ")[0];
+				lruCache.put(key, value);
+			}
+		}
+		System.out.println(lruCache.head);
+		System.out.println(lruCache.tail);
+
+	}
+}
+
