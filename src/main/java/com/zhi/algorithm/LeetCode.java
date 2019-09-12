@@ -248,6 +248,29 @@ public class LeetCode {
     }
 
     /**
+     * 分发糖果
+     *
+     * @param ratings
+     * @return
+     */
+    public int candy(int[] ratings) {
+        //我们先找从左到右满足最少的糖果，再找从右到左的，最后取两边都满足的值(就是最大值)。
+        if (ratings == null || ratings.length == 0) return 0;
+        int n = ratings.length;
+        int[] candy_nums = new int[n];
+        Arrays.fill(candy_nums, 1);
+        for (int i = 1; i < n; i++) {
+            if (ratings[i] > ratings[i - 1]) candy_nums[i] = candy_nums[i - 1] + 1;
+        }
+        for (int i = n - 1; i > 0; i--) {
+            if (ratings[i - 1] > ratings[i]) candy_nums[i - 1] = Math.max(candy_nums[i - 1], candy_nums[i] + 1);
+        }
+        int res = 0;
+        for (int i = 0; i < n; i++) res += candy_nums[i];
+        return res;
+    }
+
+    /**
      * 分割数组最大值
      *
      * @param nums
@@ -2458,25 +2481,30 @@ public class LeetCode {
      * @return
      */
     public int minPathSum(int[][] grid) {
-        int rows = grid.length;
-        if (rows == 0) {
-            return 0;
-        }
-        int cols = grid[0].length;
-        int[][] dp = new int[rows][cols];
-        dp[0][0] = grid[0][0];
-        for (int i = 1; i < rows; i++) {
-            dp[i][0] = dp[i - 1][0] + grid[i][0];
-        }
-        for (int i = 1; i < cols; i++) {
-            dp[0][i] = dp[0][i - 1] + grid[0][i];
-        }
-        for (int i = 1; i < rows; i++) {
-            for (int j = 1; j < cols; j++) {
-                dp[i][j] = Math.min(dp[i - 1][j], dp[i][j - 1]) + grid[i][j];
+        /**
+         * 当前单元格 (i,j)(i,j) 只能从左方单元格 (i-1,j)(i−1,j) 或上方单元格 (i,j-1)(i,j−1) 走到，
+         * 因此只需要考虑矩阵左边界和上边界。
+         * 走到当前单元格 (i,j) 的最小路径和 == “从左方单元格 (i−1,j) 与 从上方单元格(i,j−1) 走来的两个最小路
+         * 径和中较小的 ” + 当前单元格值 grid[i][j] 。具体分为以下 4 种情况
+         *
+         * 当左边和上边都不是矩阵边界时: 即当i!=0,j!=0时，dp[i][j]=min(dp[i-1][j],dp[i][j-1])+grid[i][j]
+         *
+         * 当只有左边是矩阵边界时：只能从上面来，即当i=0,j!=0时，dp[i][j]=dp[i][j-1]+grid[i][j]
+         *
+         * 当只有上面是矩阵边界时：只能从左边来，即当i!=0,j=0时，dp[i][j]=dp[i-1][j]+grid[i][j]
+         *
+         * 当左边和上边都是矩阵边界时：即当i=0,j=0,其实就是起点，dp[i][j]=grid[i][j]
+         *
+         */
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
+                if (i == 0 && j == 0) continue;
+                else if (i == 0) grid[i][j] = grid[i][j - 1] + grid[i][j];
+                else if (j == 0) grid[i][j] = grid[i - 1][j] + grid[i][j];
+                else grid[i][j] = Math.min(grid[i - 1][j], grid[i][j - 1]) + grid[i][j];
             }
         }
-        return dp[rows - 1][cols - 1];
+        return grid[grid.length - 1][grid[0].length - 1];
     }
 
     /**
@@ -3809,8 +3837,8 @@ public class LeetCode {
         //另一种解法
         /*
          *
-         * 初始：result:[]
-         * 遍历到1，result:[],[1]
+         * 初始：res:[]
+         * 遍历到1，res:[],[1]
          * 遍历到2：之前result的结果中都加入2，[],[1],[2].[1,2]
          * 遍历到3：之前result的结果中都加入3,......
          *
