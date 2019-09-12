@@ -243,7 +243,133 @@ public class LeetCode {
         //
         //        }
         LeetCode l = new LeetCode();
-        l.fourSum(new int[]{-3, -2, -1, 0, 0, 1, 2, 3}, 0);
+        int[] nums = {7, 2, 5, 10, 8};
+        l.splitArray(nums, 2);
+    }
+
+    /**
+     * 分发糖果
+     *
+     * @param ratings
+     * @return
+     */
+    public int candy(int[] ratings) {
+        //我们先找从左到右满足最少的糖果，再找从右到左的，最后取两边都满足的值(就是最大值)。
+        if (ratings == null || ratings.length == 0) return 0;
+        int n = ratings.length;
+        int[] candy_nums = new int[n];
+        Arrays.fill(candy_nums, 1);
+        for (int i = 1; i < n; i++) {
+            if (ratings[i] > ratings[i - 1]) candy_nums[i] = candy_nums[i - 1] + 1;
+        }
+        for (int i = n - 1; i > 0; i--) {
+            if (ratings[i - 1] > ratings[i]) candy_nums[i - 1] = Math.max(candy_nums[i - 1], candy_nums[i] + 1);
+        }
+        int res = 0;
+        for (int i = 0; i < n; i++) res += candy_nums[i];
+        return res;
+    }
+
+    /**
+     * 分割数组最大值
+     *
+     * @param nums
+     * @param m
+     * @return
+     */
+    public int splitArray(int[] nums, int m) {
+        //划分之后子数组最大值，大于数组中最大的一个元素，小于数组的总和
+        long l = 0;
+        long r = 0;
+        int n = nums.length;
+        //r是数组总和，l是数组中最大的值
+        for (int i = 0; i < n; i++) {
+            r += nums[i];
+            if (l < nums[i]) {
+                l = nums[i];
+            }
+        }
+        long ans = r;
+        while (l <= r) {
+            //求出中间值mid，计算子数组和不大于mid时，能划分出几个子数组
+            long mid = (l + r) >> 1;
+            long sum = 0;
+            int cnt = 1;//划分的子数组个数,初始值为1是因为，下面只在分割处加了1，分割1次，数组长度为2，所以初始值为1
+            for (int i = 0; i < n; i++) {
+                if (sum + nums[i] > mid) {
+                    cnt++;
+                    sum = nums[i];
+                } else {
+                    sum += nums[i];
+                }
+            }
+            if (cnt <= m) {//划分出来的子数组少于m个，说明mid值大了
+                ans = Math.min(ans, mid);
+                r = mid - 1;
+            } else {//划分出来的子数组多于m个，说明mid值小了
+                l = mid + 1;
+            }
+        }
+        return (int) ans;
+    }
+
+    /**
+     * 移除元素
+     *
+     * @param nums
+     * @param val
+     * @return
+     */
+    public static int removeElement(int[] nums, int val) {
+        int i = 0;
+        int n = nums.length;
+        while (i < n) {
+            if (nums[i] == val) {
+                nums[i] = nums[n - 1];
+                n--;
+            } else {
+                i++;
+            }
+        }
+        return n;
+//        int i = 0;
+//        for (int j = 0; j < nums.length; j++) {
+//            if (nums[j] != val) {
+//                nums[i] = nums[j];
+//                i++;
+//            }
+//        }
+//        return i;
+    }
+
+    /**
+     * 最低公共父节点
+     *
+     * @param root
+     * @param first
+     * @param second 思路：
+     *               有两种情况，一是要找的这两个节点（p, q），在我遍历的这个节点（r）的两侧，那么我这个节点就是这
+     *               两个节点的最小公共父节点；二是节点在同一侧，则 r->left 或者 r->right 为 NULL,另一边返回p或者q，
+     *               那么另一边返回的就是他们的最小公共父节点。
+     *               递归有两个出口，一是没有找到p或者q，则返回NULL；二是只要碰到p或者q，就立刻返回。
+     * @return
+     */
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode first, TreeNode second) {
+        if (root == null) {
+            return root;
+        }
+        if (root == first || root == second) {
+            return root;
+        }
+        TreeNode left = lowestCommonAncestor(root.left, first, second);
+        TreeNode right = lowestCommonAncestor(root.right, first, second);
+        if (left == null) {//左边没找到，两个节点都在右边
+            return right;
+        }
+        if (right == null) {//右边没找到，两个节点在左边
+            return left;
+        }
+        return root;//左右都找到了，两个节点在两边，返回root
     }
 
     /**
@@ -1027,6 +1153,7 @@ public class LeetCode {
     /**
      * leetcode 86
      * 分隔链表
+     * 分割链表
      *
      * @param head
      * @param x
@@ -1048,7 +1175,7 @@ public class LeetCode {
             head = head.next;
         }
         after.next = null;
-        before.next = afterHead.next;
+        before.next = afterHead.next;//将两个链表进行链接
         return beforeHead.next;
     }
 
@@ -2354,25 +2481,30 @@ public class LeetCode {
      * @return
      */
     public int minPathSum(int[][] grid) {
-        int rows = grid.length;
-        if (rows == 0) {
-            return 0;
-        }
-        int cols = grid[0].length;
-        int[][] dp = new int[rows][cols];
-        dp[0][0] = grid[0][0];
-        for (int i = 1; i < rows; i++) {
-            dp[i][0] = dp[i - 1][0] + grid[i][0];
-        }
-        for (int i = 1; i < cols; i++) {
-            dp[0][i] = dp[0][i - 1] + grid[0][i];
-        }
-        for (int i = 1; i < rows; i++) {
-            for (int j = 1; j < cols; j++) {
-                dp[i][j] = Math.min(dp[i - 1][j], dp[i][j - 1]) + grid[i][j];
+        /**
+         * 当前单元格 (i,j)(i,j) 只能从左方单元格 (i-1,j)(i−1,j) 或上方单元格 (i,j-1)(i,j−1) 走到，
+         * 因此只需要考虑矩阵左边界和上边界。
+         * 走到当前单元格 (i,j) 的最小路径和 == “从左方单元格 (i−1,j) 与 从上方单元格(i,j−1) 走来的两个最小路
+         * 径和中较小的 ” + 当前单元格值 grid[i][j] 。具体分为以下 4 种情况
+         *
+         * 当左边和上边都不是矩阵边界时: 即当i!=0,j!=0时，dp[i][j]=min(dp[i-1][j],dp[i][j-1])+grid[i][j]
+         *
+         * 当只有左边是矩阵边界时：只能从上面来，即当i=0,j!=0时，dp[i][j]=dp[i][j-1]+grid[i][j]
+         *
+         * 当只有上面是矩阵边界时：只能从左边来，即当i!=0,j=0时，dp[i][j]=dp[i-1][j]+grid[i][j]
+         *
+         * 当左边和上边都是矩阵边界时：即当i=0,j=0,其实就是起点，dp[i][j]=grid[i][j]
+         *
+         */
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
+                if (i == 0 && j == 0) continue;
+                else if (i == 0) grid[i][j] = grid[i][j - 1] + grid[i][j];
+                else if (j == 0) grid[i][j] = grid[i - 1][j] + grid[i][j];
+                else grid[i][j] = Math.min(grid[i - 1][j], grid[i][j - 1]) + grid[i][j];
             }
         }
-        return dp[rows - 1][cols - 1];
+        return grid[grid.length - 1][grid[0].length - 1];
     }
 
     /**
@@ -3705,8 +3837,8 @@ public class LeetCode {
         //另一种解法
         /*
          *
-         * 初始：result:[]
-         * 遍历到1，result:[],[1]
+         * 初始：res:[]
+         * 遍历到1，res:[],[1]
          * 遍历到2：之前result的结果中都加入2，[],[1],[2].[1,2]
          * 遍历到3：之前result的结果中都加入3,......
          *
@@ -4951,40 +5083,31 @@ public class LeetCode {
      * @return
      */
     private static int rob(int[] nums) {
-        int[] dp = new int[nums.length];//dp[i]:到第i户的最高金额，dp[i]=max(dp[i-1],dp[i-2]+nums[i])
-        if (nums.length == 0) {
-            return 0;
+        //最优解法，只保存前两个状态即可
+        int preMax = 0, curMax = 0;
+        for (int i = 0; i < nums.length; i++) {
+            int tmp = curMax;
+            curMax = Math.max(preMax + nums[i], curMax);
+            preMax = tmp;
         }
-        if (nums.length == 1) {
-            return nums[0];
-        }
-        if (nums.length == 2) {
-            return Math.max(nums[0], nums[1]);
-        }
-        dp[0] = nums[0];
-        dp[1] = Math.max(nums[0], nums[1]);
-        for (int i = 2; i < nums.length; i++) {
-            dp[i] = Math.max(dp[i - 1], dp[i - 2] + nums[i]);
-        }
-        return dp[nums.length - 1];
+        return curMax;
+//        int[] dp = new int[nums.length];//dp[i]:到第i户的最高金额，dp[i]=max(dp[i-1],dp[i-2]+nums[i])
+//        if (nums.length == 0) {
+//            return 0;
+//        }
+//        if (nums.length == 1) {
+//            return nums[0];
+//        }
+//        if (nums.length == 2) {
+//            return Math.max(nums[0], nums[1]);
+//        }
+//        dp[0] = nums[0];
+//        dp[1] = Math.max(nums[0], nums[1]);
+//        for (int i = 2; i < nums.length; i++) {
+//            dp[i] = Math.max(dp[i - 1], dp[i - 2] + nums[i]);
+//        }
+//        return dp[nums.length - 1];
     }
-    //    private static int rob(int[] nums) {
-    //        if (nums.length == 0) {
-    //            return 0;
-    //        }
-    //        return getHighestRob(nums,nums.length-1);
-    //    }
-    //
-    //    private static int getHighestRob(int[] nums, int i) {
-    //        if (i == 1) {
-    //            return Math.max(nums[0], nums[1]);
-    //        }
-    //        if (i == 0) {
-    //            return nums[0];
-    //        }
-    //        //不抢劫i和抢劫i之间的最大值
-    //        return Math.max(getHighestRob(nums, i - 1), getHighestRob(nums, i - 2)+nums[i]);
-    //    }
 
     /**
      * 最大子序和
@@ -5866,7 +5989,28 @@ public class LeetCode {
         //            for (int j = 0; j < nums.length; j++) {
         //                if (i == j) {
         //                    continue;
-        //                }
+        //                }        ListNode dummy = new ListNode(0);
+        //        ListNode first = dummy;
+        //        ListNode after_head = new ListNode(0);
+        //        ListNode second = after_head;
+        //
+        //        while (head != null) {
+        //            if (head.val <= m) {
+        //                first.next = head;
+        //                first = first.next;
+        //            } else {
+        //                second.next = head;
+        //                second = second.next;
+        //            }
+        //
+        //            head = head.next;
+        //        }
+        //
+        //        second.next = null;
+        //
+        //        first.next = after_head.next;
+        //
+        //        return dummy.next;
         //                if (nums[i] + nums[j] == target) {
         //                    res[0]=i;
         //                    res[1]=j;

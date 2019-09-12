@@ -68,19 +68,19 @@ public class JZofferPrac {
 //            }
 //            System.out.println();
 //        }
-        ListNode n1 = new ListNode(1);
-        ListNode n2 = new ListNode(1);
-        ListNode n3 = new ListNode(3);
-        ListNode n4 = new ListNode(3);
-        ListNode n5 = new ListNode(4);
-        ListNode n6 = new ListNode(4);
-        ListNode n7 = new ListNode(5);
-        n1.next = n2;
-        n2.next = n3;
-        n3.next = n4;
-        n4.next = n5;
-        n5.next = n6;
-        n6.next = n7;
+//        ListNode n1 = new ListNode(1);
+//        ListNode n2 = new ListNode(1);
+//        ListNode n3 = new ListNode(3);
+//        ListNode n4 = new ListNode(3);
+//        ListNode n5 = new ListNode(4);
+//        ListNode n6 = new ListNode(4);
+//        ListNode n7 = new ListNode(5);
+//        n1.next = n2;
+//        n2.next = n3;
+//        n3.next = n4;
+//        n4.next = n5;
+//        n5.next = n6;
+//        n6.next = n7;
 //        n1 = p.deleteDuplication(n1);
 //        for (ArrayList<Integer> integers : p.Print(t1)) {
 //            for (Integer integer : integers) {
@@ -88,11 +88,7 @@ public class JZofferPrac {
 //            }
 //        }
 //        p.print1ToMaxOfNDigits(4);
-        ListNode node = p.ReverseList(n1);
-        while (node != null) {
-            System.out.println(node.val);
-            node = node.next;
-        }
+        p.FindGreatestSumOfSubArray(new int[]{1, 4, 7});
     }
 
 
@@ -425,6 +421,7 @@ public class JZofferPrac {
 
     /**
      * 给定一棵二叉搜索树，请找出其中的第k小的结点。例如， （5，3，7，2，4，6，8）    中，按结点数值大小顺序第三小结点的值为4。
+     * 二叉搜索树的第k大节点
      *
      * @param pRoot
      * @param k
@@ -640,6 +637,7 @@ public class JZofferPrac {
     }
 
     /**
+     * 链表中环的入口节点
      * 给一个链表，若其中包含环，请找出该链表的环的入口结点，否则，输出null。
      *
      * @param pHead
@@ -978,28 +976,39 @@ public class JZofferPrac {
     }
 
     /**
-     * 每年六一儿童节,牛客都会准备一些小礼物去看望孤儿院的小朋友,今年亦是如此。
-     * HF作为牛客的资深元老,自然也准备了一些小游戏。
-     * 其中,有个游戏是这样的:首先,让小朋友们围成一个大圈。
-     * 然后,他随机指定一个数m,让编号为0的小朋友开始报数。
-     * 每次喊到m-1的那个小朋友要出列唱首歌,然后可以在礼品箱中任意的挑选礼物,并且不再回到圈中,
-     * 从他的下一个小朋友开始,继续0...m-1报数....这样下去....直到剩下最后一个小朋友,
-     * 可以不用表演,并且拿到牛客名贵的“名侦探柯南”典藏版(名额有限哦!!^_^)。
-     * 请你试着想下,哪个小朋友会得到这份礼品呢？(注：小朋友的编号是从0到n-1)
+     * 0-n-1这n个数字排成一圈，从数字0开始，每次从中删除第m个数字，求出最后一个剩下的数字
+     * <p>
+     * 圆圈中最后剩下的数字
      *
      * @param n
      * @param m
      * @return
      */
     public int LastRemaining_Solution(int n, int m) {
-        if (n < 1 || m < 1) {
-            return -1;
+        //规律解法，面试时无法推导出
+//        if (n < 1 || m < 1) {
+//            return -1;
+//        }
+//        int last = 0;
+//        for (int i = 2; i <= n; i++) {
+//            last = (last + m) % i;
+//        }
+//        return last;
+        if (n < 1 || m < 1) return -1;
+        int[] array = new int[n];
+        int i = -1, step = 0, count = n;
+        while (count > 0) {   //跳出循环时将最后一个元素也设置为了-1
+            i++;          //指向上一个被删除对象的下一个元素。
+            if (i >= n) i = 0;  //模拟环。
+            if (array[i] == -1) continue; //跳过被删除的对象。
+            step++;                     //记录已走过的。
+            if (step == m) {               //找到待删除的对象。
+                array[i] = -1;
+                step = 0;
+                count--;
+            }
         }
-        int last = 0;
-        for (int i = 2; i <= n; i++) {
-            last = (last + m) % i;
-        }
-        return last;
+        return i;//返回跳出循环时的i,即最后一个被设置为-1的元素
     }
 
     /**
@@ -1273,15 +1282,15 @@ public class JZofferPrac {
     }
 
     private int getMaxDepth(TreeNode root, int depth) {
-        int temp = 0;
+        int left = 0;
         if (root == null) {
             return depth;
         }
 
-        temp = getMaxDepth(root.left, depth + 1);
+        left = getMaxDepth(root.left, depth + 1);
         depth = getMaxDepth(root.right, depth + 1);
 
-        return temp > depth ? temp : depth;
+        return left > depth ? left : depth;
     }
 
     /**
@@ -1615,7 +1624,7 @@ public class JZofferPrac {
         int maxSum = Integer.MIN_VALUE;//最大的子数组和
         for (int i = 0; i < len; i++) {
             currentSum += array[i];
-            if (currentSum < array[i]) {
+            if (currentSum < array[i]) {//加完array[i]还小于array[i],说明之前currentSum<0
                 currentSum = array[i];
             }
             if (currentSum > maxSum) {
@@ -1934,6 +1943,7 @@ public class JZofferPrac {
     }
 
     /**
+     * 二叉树中和为某一值的路径
      * 输入一颗二叉树的跟节点和一个整数，打印出二叉树中结点值的和为输入整数的所有路径。
      * 路径定义为从树的根结点开始往下一直到叶结点所经过的结点形成一条路径。(注意: 在返回值的list中，数组长度大的数组靠前)
      *
@@ -1947,13 +1957,6 @@ public class JZofferPrac {
         if (root != null) {
             getPath(root, target, p, res);
         }
-        res.sort(new Comparator<ArrayList<Integer>>() {
-            @Override
-            public int compare(ArrayList<Integer> o1, ArrayList<Integer> o2) {
-
-                return o1.size() - o2.size();
-            }
-        });
         return res;
     }
 
@@ -1961,10 +1964,7 @@ public class JZofferPrac {
         p.add(root.val);
         boolean isLeaf = root.left == null && root.right == null;
         if (root.val == target && isLeaf) {
-            ArrayList<Integer> temp = new ArrayList<>();
-            for (Integer integer : p) {
-                temp.add(integer);
-            }
+            ArrayList<Integer> temp = new ArrayList<>(p);
             res.add(temp);
         }
         if (root.val < target) {
@@ -2000,23 +2000,27 @@ public class JZofferPrac {
      */
     private boolean isBST(int[] sequence, int start, int end) {
         int root = sequence[end];
-        int i = start;//i是右子树第一个元素下标
+        int i = start;
+        //二叉搜索树中左子树的节点的值小于根节点的值
         //找到比根节点值大的元素
         for (; i < end; i++) {
             if (sequence[i] > root) {
                 break;
             }
         }
-        int j = i;//没有右子树时，i的值为end,下面判断不会进行
+        //二叉搜索树中右子树节点的值大于根节点的值
+        int j = i;
         for (; j < end; j++) {//如果右子树某个元素小于根节点，说明不是二叉搜索树
             if (sequence[j] < root) {
                 return false;
             }
         }
+        //判断左子树是不是二叉搜索树
         boolean left = true;
         if (i > start) {
             left = isBST(sequence, start, i - 1);
         }
+        //判断右子树是不是二叉搜索树
         boolean right = true;
         if (i < end) {
             right = isBST(sequence, i, end - 1);
@@ -2343,12 +2347,11 @@ public class JZofferPrac {
         }
         ListNode first = head;
         ListNode second = head;
-        for (int i = 0; i < k - 1; i++) {
-            if (first.next != null) {//防止k大于链表的长度而产生异常
-                first = first.next;
-            } else {
+        while (k-- != 1) {
+            if (first.next == null) {//防止k大于链表的长度
                 return null;
             }
+            first = first.next;
         }
         while (first.next != null) {
             first = first.next;
@@ -2536,13 +2539,13 @@ public class JZofferPrac {
         if (target == 2) {
             return 2;
         }
-        int preisone = 2;
-        int preistwo = 1;
+        int preone = 2;//到达上一步台阶的方案数
+        int pretwo = 1;//到达前两步台阶的方案数
         int cur = 0;
         for (int i = 3; i <= target; i++) {
-            cur = preisone + preistwo;
-            preistwo = preisone;
-            preisone = cur;
+            cur = preone + pretwo;
+            pretwo = preone;
+            preone = cur;
         }
         return cur;
     }
@@ -2583,13 +2586,15 @@ public class JZofferPrac {
      * @return
      */
     public int minNumberInRotateArray(int[] array) {
+        //二分法
         if (array.length == 0) {
             return 0;
         }
         int index1 = 0;
         int index2 = array.length - 1;
         int mid = 0;
-        while (array[index1] >= array[index2]) {
+        while (index1 < index2) {
+            //退出条件，index1和index2相遇
             if (index2 - index1 == 1) {
                 mid = index2;
                 break;

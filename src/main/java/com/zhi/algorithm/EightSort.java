@@ -115,20 +115,25 @@ public class EightSort {
         }
     }
 
-    private static void adjustHeap(int[] arr, int i, int length) {
-        int temp = arr[i];
-        for (int j = i * 2 + 1; j < length; j = j * 2 + 1) {//从左子树（i*2+1）开始,然后下一颗树左子树
-            if (j + 1 < length && arr[j + 1] > arr[j]) {
+    /**
+     * @param arr 目标数组
+     * @param from 开始位置
+     * @param to 结束位置
+     */
+    private static void adjustHeap(int[] arr, int from, int to) {
+        int temp = arr[from];
+        for (int j = from * 2 + 1; j < to; j = j * 2 + 1) {//从左子树（i*2+1）开始,然后下一颗树左子树
+            if (j + 1 < to && arr[j + 1] > arr[j]) {
                 j++;
             }
             if (arr[j] > temp) {//找到比父节点大的，交换到父节点
-                arr[i] = arr[j];
-                i = j;
+                arr[from] = arr[j];
+                from = j;
             } else {
                 break;
             }
         }
-        arr[i] = temp;
+        arr[from] = temp;
     }
 
     /**
@@ -184,6 +189,7 @@ public class EightSort {
     }
 
     private static int partition(int[] arr, int start, int end) {
+        //4,2,3,7,9,1
         int key = arr[start];
         while (start < end) {
             while (start < end && arr[end] >= key) {//从后往前找到一个比枢轴值小的，换到前面去

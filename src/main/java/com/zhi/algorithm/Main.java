@@ -1,10 +1,10 @@
 package com.zhi.algorithm;
 
-public class Main {
-    /**
-     * @param args
-     */
-    public static void main(String[] args) {
+import java.util.Scanner;
 
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
     }
+
 }
