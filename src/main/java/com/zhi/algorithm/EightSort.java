@@ -8,10 +8,6 @@ import java.util.LinkedHashMap;
 public class EightSort {
     public static void main(String[] args) {
         int[] nums = {4, 5, 3, 2, 8, 7, 6, 9};
-        quickSort(nums);
-        for (int num : nums) {
-            System.out.print(num + " ");
-        }
     }
 
     /**
