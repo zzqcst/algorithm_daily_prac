@@ -240,16 +240,11 @@ public class JZofferPrac {
      * @return
      */
     public boolean hasPath(char[] matrix, int rows, int cols, char[] str) {
-        int n = 0;
-        if (str.length == 0) {
-            return false;
-        }
-        boolean res = false;
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                if (matrix[i * cols + j] == str[n]) {
-                    res = get(matrix, rows, cols, str, i, j, 0);
-                    if (res) {
+                if (matrix[i * cols + j] == str[0]) {
+                    boolean[] visited = new boolean[matrix.length];
+                    if (containsStr(matrix, i, j, rows, cols, str, 0, visited)) {
                         return true;
                     }
                 }
@@ -258,23 +253,22 @@ public class JZofferPrac {
         return false;
     }
 
-    private boolean get(char[] matrix, int row, int col, char[] str, int i, int j, int n) {
-        if (n == str.length) {
+    public boolean containsStr(char[] matrix, int i, int j, int rows, int cols, char[] str, int index, boolean[] visited) {
+        if (index == str.length) {
             return true;
         }
-        if (i < 0 || i >= row || j < 0 || j >= col) {
+        if (i < 0 || i >= rows || j < 0 || j >= cols) {
             return false;
         }
-
-        if (matrix[i * col + j] == str[n]) {
-            char temp = matrix[i * col + j];
-            matrix[i * col + j] = '$';
-            boolean res = get(matrix, row, col, str, i - 1, j, n + 1) || get(matrix, row, col, str, i + 1, j, n + 1)
-                    || get(matrix, row, col, str, i, j - 1, n + 1) || get(matrix, row, col, str, i, j + 1, n + 1);
-            if (!res) {
-                matrix[i * col + j] = temp;//恢复
-            }
-            return res;
+        if (visited[i * cols + j]) {
+            return false;
+        }
+        if (matrix[i * cols + j] == str[index]) {
+            visited[i * cols + j] = true;
+            return containsStr(matrix, i - 1, j, rows, cols, str, index + 1, visited) ||
+                    containsStr(matrix, i + 1, j, rows, cols, str, index + 1, visited) ||
+                    containsStr(matrix, i, j - 1, rows, cols, str, index + 1, visited) ||
+                    containsStr(matrix, i, j + 1, rows, cols, str, index + 1, visited);
         }
         return false;
     }
@@ -950,13 +944,19 @@ public class JZofferPrac {
 //            last = (last + m) % i;
 //        }
 //        return last;
-        if (n < 1 || m < 1) return -1;
+        if (n < 1 || m < 1) {
+            return -1;
+        }
         int[] array = new int[n];
         int i = -1, step = 0, count = n;
         while (count > 0) {   //跳出循环时将最后一个元素也设置为了-1
             i++;          //指向上一个被删除对象的下一个元素。
-            if (i >= n) i = 0;  //模拟环。
-            if (array[i] == -1) continue; //跳过被删除的对象。
+            if (i >= n) {
+                i = 0;  //模拟环。
+            }
+            if (array[i] == -1) {
+                continue; //跳过被删除的对象。
+            }
             step++;                     //记录已走过的。
             if (step == m) {               //找到待删除的对象。
                 array[i] = -1;
@@ -2180,70 +2180,45 @@ public class JZofferPrac {
      * @return
      */
     public ListNode Merge(ListNode list1, ListNode list2) {
-//        List<Integer> res = new ArrayList<>();
-//        while (list1 != null && list2 != null) {
-//            if (list1.val <= list2.val) {
-//                res.add(list1.val);
-//                list1 = list1.next;
-//            } else {
-//                res.add(list2.val);
-//                list2 = list2.next;
-//            }
-//        }
-//        while (list1 != null) {
-//            res.add(list1.val);
-//            list1 = list1.next;
-//        }
-//        while (list2 != null) {
-//            res.add(list2.val);
-//            list2 = list2.next;
-//        }
-//        ListNode node = null;
-//        ListNode temp = null;
-//        for (int i = 0; i < res.size(); i++) {
-//            if (node == null) {
-//                node = new ListNode(res.get(i));
-//                temp = node;
-//                continue;
-//            }
-//            ListNode l = new ListNode(res.get(i));
-//            temp.next = l;
-//            temp = temp.next;
-//
-//        }
-//        return node;
         if (list1 == null) {
             return list2;
         }
         if (list2 == null) {
             return list1;
         }
-        ListNode res = null;
         if (list1.val < list2.val) {
-            res = list1;
-            res.next = Merge(list1.next, list2);
+            list1.next = Merge(list1.next, list2);
+            return list1;
         } else {
-            res = list2;
-            res.next = Merge(list1, list2.next);
+            list2.next = Merge(list1, list2.next);
+            return list2;
         }
-        return res;
     }
 
     /**
+     * 反转链表
      * 输入一个链表，反转链表后，输出新链表的表头。
      *
      * @param head
      * @return
      */
     public ListNode ReverseList(ListNode head) {
-        if (head == null || head.next == null) {
-            return head;
+//        if (head == null || head.next == null) {
+//            return head;
+//        }
+//        ListNode newHead = ReverseList(head.next);
+//        //原本当前节点的下一个节点设为当前节点，即调换指向
+//        head.next.next = head;
+//        head.next = null;
+//        return newHead;
+        ListNode pre = null;
+        while (head != null) {
+            ListNode next = head.next;
+            head.next = pre;
+            pre = head;
+            head = next;
         }
-        ListNode newHead = ReverseList(head.next);
-        //原本当前节点的下一个节点设为当前节点，即调换指向
-        head.next.next = head;
-        head.next = null;
-        return newHead;
+        return pre;
     }
 
     /**
@@ -2254,25 +2229,6 @@ public class JZofferPrac {
      * @return
      */
     public ListNode FindKthToTail(ListNode head, int k) {
-        //使用栈的方式
-//        if (head == null) {
-//            return null;
-//        }
-//        Stack<ListNode> stack = new Stack<>();
-//        while (head != null) {
-//            stack.push(head);
-//            head = head.next;
-//        }
-//        while (true) {
-//            if (stack.isEmpty()) {
-//                return null;
-//            }
-//            if (k-- == 1) {
-//                return stack.pop();
-//            }
-//            stack.pop();
-//        }
-
         //双指针的方式，
         // 第一个指针比第二个指针多走k-1步，这样当第一个指针指向末尾节点时，
         // 第二个指针正好指向倒数第k个节点
@@ -2323,14 +2279,6 @@ public class JZofferPrac {
             }
         }
         System.arraycopy(res, 0, array, 0, len);
-        //O(n^2)
-//        for (int i = 0; i < array.length - 1; i++) {
-//            for (int j = 0; j < array.length - 1 - i; j++) {
-//                if (array[j] % 2 == 0 && array[j + 1] % 2 == 1) {
-//                    array[j] = array[j] + array[j + 1] - (array[j + 1] = array[j]);
-//                }
-//            }
-//        }
     }
 
     /**
@@ -2405,17 +2353,6 @@ public class JZofferPrac {
             count++;
         }
         return count;
-        //原数有多少位就计算多少次的方法
-        //将1与原数按位相与，每次计算之后，1左移一位
-//        int c = 0;
-//        int flag = 1;
-//        while (flag != 0) {
-//            if ((n & flag) != 0) {
-//                c++;
-//            }
-//            flag = flag << 1;
-//        }
-//        return c;
     }
 
     /**
@@ -2598,21 +2535,6 @@ public class JZofferPrac {
      * @return
      */
     private TreeNode construct(int[] pre, int[] in, int prefrom, int preto, int infrom, int into) {
-//        if (prefrom > preto || infrom > into) {
-//            return null;
-//        }
-//        TreeNode root = new TreeNode(pre[prefrom]);//根节点是前序遍历中第一个元素
-//        for (int i = infrom; i <= into; i++) {
-//            if (pre[prefrom] == in[i]) {
-//                //i是从rfrom开始的，所以左子树的元素个数为i-from
-//                int leftlen = i - infrom;//左子树长度
-//                //左子树的前序遍历是根节点后的leftlen个元素，即从prefrom+1到prefrom+leftlen
-//                //左子树的中序遍历是根节点i之前，从infrom到i-1的元素
-//                root.left = construct(pre, in, prefrom + 1, prefrom + leftlen, infrom, i - 1);
-//                root.right = construct(pre, in, prefrom + leftlen + 1, preto, i + 1, into);
-//            }
-//        }
-//        return root;
         if (prefrom > preto || infrom > into) {
             return null;
         }
@@ -2628,26 +2550,27 @@ public class JZofferPrac {
     }
 
     /**
+     * 从尾到头打印链表
      * 输入一个链表，按链表值从尾到头的顺序返回一个ArrayList。
      *
-     * @param listNode
+     * @param head
      * @return
      */
-    public ArrayList<Integer> printListFromTailToHead(ListNode listNode) {
-        //递归或栈都能实现
-        ArrayList<Integer> res = new ArrayList<Integer>();
-        getRes(listNode, res);
+    public ArrayList<Integer> printListFromTailToHead(ListNode head) {
+        //先反转链表再添加
+        ArrayList<Integer> res = new ArrayList<>();
+        ListNode pre = null;
+        while (head != null) {
+            ListNode next = head.next;
+            head.next = pre;
+            pre = head;
+            head = next;
+        }
+        while (pre != null) {
+            res.add(pre.val);
+            pre = pre.next;
+        }
         return res;
-    }
-
-    private void getRes(ListNode listNode, ArrayList<Integer> res) {
-        if (listNode == null) {
-            return;
-        }
-        if (listNode.next != null) {
-            getRes(listNode.next, res);
-        }
-        res.add(listNode.val);
     }
 
     /**
