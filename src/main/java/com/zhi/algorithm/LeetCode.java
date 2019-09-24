@@ -248,6 +248,46 @@ public class LeetCode {
     }
 
     /**
+     * 用队列实现栈
+     */
+    class MyStack {
+        Queue<Integer> queue1 = new LinkedList<>();
+        Queue<Integer> queue2 = new LinkedList<>();
+        int top;
+
+        public MyStack() {
+
+        }
+
+        public void push(int x) {
+            queue1.offer(x);
+            top = x;
+        }
+
+        public int pop() {
+            if (queue1.isEmpty()) {
+                while (!queue2.isEmpty()) {
+                    queue1.offer(queue2.poll());
+                }
+            }
+            int tmp = queue1.size() - 1;
+            while (tmp-- > 0) {
+                top = queue1.poll();
+                queue2.offer(top);
+            }
+            return queue1.poll();
+        }
+
+        public int top() {
+            return top;
+        }
+
+        public boolean empty() {
+            return queue2.isEmpty() && queue1.isEmpty();
+        }
+    }
+
+    /**
      * 分发糖果
      *
      * @param ratings

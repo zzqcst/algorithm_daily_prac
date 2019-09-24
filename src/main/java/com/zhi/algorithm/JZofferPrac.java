@@ -2067,25 +2067,16 @@ public class JZofferPrac {
      * @return
      */
     public boolean IsPopOrder(int[] pushA, int[] popA) {
-        if (pushA.length == 0 || popA.length == 0) {
-            return false;
-        }
         Stack<Integer> stack = new Stack<>();
-        int j = 0;
-        stack.push(pushA[j++]);//初始时栈内需要一个数
-        for (int i1 : popA) {//从弹出序列遍历
-            while (i1 != stack.peek()) {//如果要弹出的数字不在栈顶
-                if (j < pushA.length) {
-                    stack.push(pushA[j++]);//则向栈内压入数字，直到栈顶数字为要弹出的数字，或者数字已经全部进栈
-                } else {//已经全部进栈，则停止压入
-                    break;
-                }
-            }
-            if (i1 != stack.pop()) {//栈顶数字与要弹出的数字不一样，则返回false
-                return false;
+        int index = 0;
+        for (int i = 0; i < pushA.length; i++) {
+            stack.push(pushA[i]);
+            while (!stack.isEmpty() && stack.peek() == popA[index]) {
+                stack.pop();
+                index++;
             }
         }
-        return true;
+        return index == popA.length;
     }
 
 
@@ -2094,33 +2085,15 @@ public class JZofferPrac {
      *
      * @param node
      */
-    //使用优先队列保存有序数列
-    PriorityQueue<Integer> queue = new PriorityQueue<Integer>(new Comparator<Integer>() {
-        @Override
-        public int compare(Integer o1, Integer o2) {
-            return o1 - o2;
-        }
-    });
-
+    //一个栈保存所有数据，另一个栈保存这个深度下的最小值
     Stack<Integer> stack = new Stack<>();
     Stack<Integer> minstack = new Stack<>();
 
-    //    public void push2(int node) {
-//        queue.add(node);
-//        stack.push(node);
-//    }
     public void push2(int node) {
         stack.push(node);
-        if (minstack.size() == 0 || node < minstack.peek()) {
-            minstack.push(node);
-        } else {
-            minstack.push(minstack.peek());
-        }
+        minstack.push(minstack.isEmpty()||node < minstack.peek() ? node : minstack.peek());
     }
 
-    //    public void pop2() {
-//        queue.remove(stack.pop());
-//    }
     public void pop2() {
         stack.pop();
         minstack.pop();
@@ -2130,9 +2103,6 @@ public class JZofferPrac {
         return stack.peek();
     }
 
-    //    public int min() {
-//        return queue.peek();
-//    }
     public int min() {
         return minstack.peek();
     }
@@ -2153,7 +2123,7 @@ public class JZofferPrac {
         }
         int col = matrix[0].length;
         int start = 0;
-        while (col > start * 2 && row > start * 2) {
+        for (int i = 0; i * 2 < row && i * 2 < col; i++) {//注意终止条件
             printInCircle(matrix, start, res, col, row);
             start++;
         }
@@ -2163,22 +2133,21 @@ public class JZofferPrac {
     private void printInCircle(int[][] matrix, int start, ArrayList<Integer> res, int col, int row) {
         int endcol = col - 1 - start;//该圈的终止列
         int endrow = row - 1 - start;//该圈的终止行
-        for (int i = start; i <= endcol; i++) {//从左到右打印
+        for (int i = start; i <= endcol; i++) {//从左到右打印，从第一个打印到最后一个
             res.add(matrix[start][i]);
         }
-
-        if (start < endrow) {//从上到下打印，条件为终止行大于起始行
-            for (int i = start + 1; i <= endrow; i++) {
-                res.add(matrix[i][endcol]);
-            }
+        for (int i = start + 1; i <= endrow; i++) {//从上到下打印，从一列第二个打印到最后一个
+            res.add(matrix[i][endcol]);
         }
-        if (start < endcol && start < endrow) {//从右向左打印，条件为终止列大于起始列，终止行大于起始行
+        if (start < endrow) {//防止与从左向右打印重复
+            //从右向左打印，从一列倒数第二个打印到第一个
             for (int i = endcol - 1; i >= start; i--) {
                 res.add(matrix[endrow][i]);
             }
         }
 
-        if (start < endrow - 1 && start < endcol) {//从下到上打印，条件：终止行比起始行至少大2；终止列大于起始列
+        if (start < endcol) {//防止与从上向下打印重复
+            //从下到上打印，从一列倒数第二个打印到第二个
             for (int i = endrow - 1; i > start; i--) {
                 res.add(matrix[i][start]);
             }
