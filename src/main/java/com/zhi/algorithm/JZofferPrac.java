@@ -41,54 +41,8 @@ public class JZofferPrac {
     }
 
     public static void main(String[] args) {
-        JZofferPrac p = new JZofferPrac();
-//        TreeNode t1 = new TreeNode(8);
-//        TreeNode t2 = new TreeNode(6);
-//        TreeNode t3 = new TreeNode(3);
-//        TreeNode t4 = new TreeNode(1);
-//        TreeNode t5 = new TreeNode(7);
-//        TreeNode t6 = new TreeNode(7);
-//        TreeNode t7 = new TreeNode(5);
-//        t1.left = t2;
-//        t1.right = t3;
-//        t2.left = t4;
-//        t2.right = t5;
-//        t3.left = t6;
-//        t3.right = t7;
-//        TreeNode convert = p.Convert(t1);
-//        for (int i = 0; i < 7; i++) {
-//            System.out.print(convert.val+" ");
-//            convert=convert.right;
-//        }
-//
-//        ArrayList<ArrayList<Integer>> lists = p.FindPath(t1, 7);
-//        for (ArrayList<Integer> list : lists) {
-//            for (Integer integer : list) {
-//                System.out.print(integer + " ");
-//            }
-//            System.out.println();
-//        }
-//        ListNode n1 = new ListNode(1);
-//        ListNode n2 = new ListNode(1);
-//        ListNode n3 = new ListNode(3);
-//        ListNode n4 = new ListNode(3);
-//        ListNode n5 = new ListNode(4);
-//        ListNode n6 = new ListNode(4);
-//        ListNode n7 = new ListNode(5);
-//        n1.next = n2;
-//        n2.next = n3;
-//        n3.next = n4;
-//        n4.next = n5;
-//        n5.next = n6;
-//        n6.next = n7;
-//        n1 = p.deleteDuplication(n1);
-//        for (ArrayList<Integer> integers : p.Print(t1)) {
-//            for (Integer integer : integers) {
-//                System.out.print(integer + " ");
-//            }
-//        }
-//        p.print1ToMaxOfNDigits(4);
-        p.FindGreatestSumOfSubArray(new int[]{1, 4, 7});
+        JZofferPrac jz = new JZofferPrac();
+        jz.print1ToMaxOfNDigits(3);
     }
 
 
@@ -121,6 +75,8 @@ public class JZofferPrac {
 
     /**
      * 打印从1到最大的n位数
+     * <p>
+     * 例如：n=3,打印1-999
      *
      * @param n
      */
@@ -128,7 +84,7 @@ public class JZofferPrac {
         if (n <= 0) {
             return;
         }
-        char[] num = new char[n];
+        char[] num = new char[n];//如n=3时，num存储的值从000-999
         print1ToMaxNRec(num, 0);
     }
 
@@ -144,8 +100,8 @@ public class JZofferPrac {
             return;
         }
         for (int i = 0; i < 10; i++) {
-            num[index] = (char) (i + '0');
-            print1ToMaxNRec(num, index + 1);
+            num[index] = (char) (i + '0');//index位从0到9变化
+            print1ToMaxNRec(num, index + 1);//index+1位从0到9变化
         }
     }
 
@@ -1951,29 +1907,27 @@ public class JZofferPrac {
      * @param target
      * @return
      */
+    ArrayList<ArrayList<Integer>> res = new ArrayList<>();
+
     public ArrayList<ArrayList<Integer>> FindPath(TreeNode root, int target) {
-        ArrayList<ArrayList<Integer>> res = new ArrayList<>();
-        ArrayList<Integer> p = new ArrayList<>();
-        if (root != null) {
-            getPath(root, target, p, res);
+        if (root == null) {
+            return res;
         }
+        getPath(root, target, new ArrayList<>());
         return res;
     }
 
-    private void getPath(TreeNode root, int target, ArrayList<Integer> p, ArrayList<ArrayList<Integer>> res) {
-        p.add(root.val);
-        boolean isLeaf = root.left == null && root.right == null;
-        if (root.val == target && isLeaf) {
-            ArrayList<Integer> temp = new ArrayList<>(p);
-            res.add(temp);
+    private void getPath(TreeNode root, int target, ArrayList<Integer> p) {
+        if (root == null) {
+            return;
         }
-        if (root.val < target) {
-            if (root.left != null) {
-                getPath(root.left, target - root.val, p, res);
-            }
-            if (root.right != null) {
-                getPath(root.right, target - root.val, p, res);
-            }
+        target -= root.val;
+        p.add(root.val);
+        if (target == 0 && root.left == null && root.right == null) {
+            res.add(new ArrayList<>(p));
+        } else {
+            getPath(root.left, target, p);
+            getPath(root.right, target, p);
         }
         p.remove(p.size() - 1);
     }
@@ -1986,46 +1940,26 @@ public class JZofferPrac {
      * @return
      */
     public boolean VerifySquenceOfBST(int[] sequence) {
-        if (sequence.length == 0) {
-            return false;
-        }
-        return isBST(sequence, 0, sequence.length - 1);
+        if (sequence.length == 0) return false;
+        return verify(sequence, 0, sequence.length - 1);
     }
 
-    /**
-     * @param sequence 树的后序遍历序列
-     * @param start    开始下标
-     * @param end      终止下标
-     * @return
-     */
-    private boolean isBST(int[] sequence, int start, int end) {
-        int root = sequence[end];
+    public boolean verify(int[] sequence, int start, int rootidx) {
+        if (start > rootidx) {
+            return true;
+        }
         int i = start;
-        //二叉搜索树中左子树的节点的值小于根节点的值
-        //找到比根节点值大的元素
-        for (; i < end; i++) {
-            if (sequence[i] > root) {
+        for (; i < rootidx; i++) {
+            if (sequence[i] > sequence[rootidx]) {
                 break;
             }
         }
-        //二叉搜索树中右子树节点的值大于根节点的值
-        int j = i;
-        for (; j < end; j++) {//如果右子树某个元素小于根节点，说明不是二叉搜索树
-            if (sequence[j] < root) {
+        for (int j = i; j < rootidx; j++) {
+            if (sequence[j] < sequence[rootidx]) {
                 return false;
             }
         }
-        //判断左子树是不是二叉搜索树
-        boolean left = true;
-        if (i > start) {
-            left = isBST(sequence, start, i - 1);
-        }
-        //判断右子树是不是二叉搜索树
-        boolean right = true;
-        if (i < end) {
-            right = isBST(sequence, i, end - 1);
-        }
-        return left && right;
+        return verify(sequence, start, i - 1) && verify(sequence, i, rootidx - 1);
     }
 
     /**
