@@ -1304,32 +1304,33 @@ public class JZofferPrac {
     /**
      * 输入两个链表，找出它们的第一个公共结点。
      *
-     * @param pHead1
-     * @param pHead2
+     * @param node1
+     * @param node2
      * @return
      */
-    public ListNode FindFirstCommonNode(ListNode pHead1, ListNode pHead2) {
-        if (pHead1 == null || pHead2 == null) {
+    public ListNode FindFirstCommonNode(ListNode node1, ListNode node2) {
+        if (node1 == null || node2 == null) {
             return null;
         }
-        int len1 = getLen(pHead1);
-        int len2 = getLen(pHead2);
-        int steps = Math.abs(len1 - len2);
-        if (len1 > len2) {
-            while (steps-- != 0) {
-                pHead1 = pHead1.next;
-            }
-        } else {
-            while (steps-- != 0) {
-                pHead2 = pHead2.next;
-            }
+        int len1 = getLen(node1);
+        int len2 = getLen(node2);
+        int steps = len1 - len2;
+        ListNode longer = node1;
+        ListNode shorter = node2;
+        if (len1 < len2) {
+            longer = node2;
+            shorter = node1;
+            steps = len2 - len1;
         }
-        while (pHead1 != null && pHead2 != null) {
-            if (pHead1 == pHead2) {
-                return pHead1;
+        while (steps-->0){
+            longer = longer.next;
+        }
+        while (longer != null && shorter != null) {
+            if (longer == shorter) {
+                return longer;
             }
-            pHead1 = pHead1.next;
-            pHead2 = pHead2.next;
+            longer = longer.next;
+            shorter = shorter.next;
         }
         return null;
     }
@@ -1440,22 +1441,6 @@ public class JZofferPrac {
         return -1;
     }
 
-    public boolean isUgly(int num) {
-        if (num <= 0) {
-            return false;
-        }
-        while (num % 2 == 0) {
-            num /= 2;
-        }
-        while (num % 3 == 0) {
-            num /= 3;
-        }
-        while (num % 5 == 0) {
-            num /= 5;
-        }
-        return num == 1;
-    }
-
     /**
      * 把只包含质因子2、3和5的数称作丑数（Ugly Number）。
      * 例如6、8都是丑数，但14不是，因为它包含质因子7。 习惯上我们把1当做是第一个丑数。求按从小到大的顺序的第N个丑数。
@@ -1472,6 +1457,7 @@ public class JZofferPrac {
         int currUgIndex = 1;
         int preIndex2 = 0, preIndex3 = 0, preIndex5 = 0;//下标
         while (currUgIndex < index) {
+            //下一个丑数是三者中最小的
             int min = minInThree(uglyNums[preIndex2] * 2, uglyNums[preIndex3] * 3, uglyNums[preIndex5] * 5);
             uglyNums[currUgIndex] = min;
 
@@ -1505,68 +1491,45 @@ public class JZofferPrac {
      * @return
      */
     public String PrintMinNumber(int[] numbers) {
-        StringBuilder res = new StringBuilder();
-        if (numbers.length == 0) {
-            return res.toString();
-        }
-        String[] strs = new String[numbers.length];
-        for (int i = 0; i < numbers.length; i++) {
-            strs[i] = String.valueOf(numbers[i]);
-        }
-        Arrays.sort(strs, new Comparator<String>() {
+        PriorityQueue<String> queue = new PriorityQueue<>(new Comparator<String>() {
             @Override
             public int compare(String o1, String o2) {
                 return (o1 + o2).compareTo(o2 + o1);
             }
         });
-
-        for (String str : strs) {
-            res.append(str);
+        for (int i = 0; i < numbers.length; i++) {
+            queue.offer(String.valueOf(numbers[i]));
         }
-        return res.toString();
+        StringBuilder sb = new StringBuilder();
+        while (!queue.isEmpty()) {
+            sb.append(queue.poll());
+        }
+        return sb.toString();
     }
 
 
     /**
-     * 求出1~13的整数中1出现的次数,并算出100~1300的整数中1出现的次数？
-     * 为此他特别数了一下1~13中包含1的数字有1、10、11、12、13因此共出现6次,但是对于后面问题他就没辙了。
-     * ACMer希望你们帮帮他,并把问题更加普遍化,可以很快的求出任意非负整数区间中1出现的次数（从1 到 n 中1出现的次数）。
+     * 1-n整数中1出现的次数
+     * <p>
+     * 整数中1出现的次数
      *
      * @param n
      * @return
      */
     public int NumberOf1Between1AndN_Solution(int n) {
         int count = 0;
-        int factor = 1;
-        int lowerNum = 0;
-        int currNum = 0;//当前位的数字
-        int higherNum = 0;
-        while (n / factor != 0) {
-            lowerNum = n - (n / factor) * factor;//低位的数字，例如1234，factor=100时，计算出lowerNum=34
-            currNum = (n / factor) % 10;//当前位数字，例如1234，factor=100,currNum=2
-            higherNum = n / (factor * 10);//更高位数字，例如1234，factor=100,higerNum = 1
-            switch (currNum) {
-                case 0://当前位数字为0时，该位上出现1的次数由更高位决定，等于higherNum*factor
-                    count += higherNum * factor;
-                    break;
-                case 1://当前位数字为1时，受高位和低位影响，等于higherNum * factor + lowerNum + 1;
-                    count += higherNum * factor + lowerNum + 1;
-                    break;
-                default://当前位数字大于1，该位数字1个数由更高位决定等于(higherNum + 1) * factor
-                    count += (higherNum + 1) * factor;
-                    break;
-            }
-            factor *= 10;
+        for (int i = 1; i <= n; i *= 10) {
+            int a = n / i, b = n % i;
+            //之所以补8，是因为当百位为0，则a/10==(a+8)/10，
+            //当百位>=2，补8会产生进位位，效果等同于(a/10+1)
+            count += (a + 8) / 10 * i + ((a % 10 == 1) ? b + 1 : 0);
         }
         return count;
     }
 
     /**
-     * HZ偶尔会拿些专业问题来忽悠那些非计算机专业的同学。
-     * 今天测试组开完会后,他又发话了:在古老的一维模式识别中,常常需要计算连续子向量的最大和,当向量全为正数的时候,问题很好解决。
-     * 但是,如果向量中包含负数,是否应该包含某个负数,并期望旁边的正数会弥补它呢？
+     * 连续子数组最大和
      * 例如:{6,-3,-2,7,-15,1,2,2},连续子向量的最大和为8(从第0个开始,到第3个为止)。
-     * 一个数组，返回它的最大连续子序列的和，你会不会被他忽悠住？(子向量的长度至少是1)
      *
      * @param array
      * @return
@@ -1576,18 +1539,18 @@ public class JZofferPrac {
         if (len == 0) {
             return 0;
         }
-        int currentSum = 0;//累加的子数组和
-        int maxSum = Integer.MIN_VALUE;//最大的子数组和
-        for (int i = 0; i < len; i++) {
-            currentSum += array[i];
-            if (currentSum < array[i]) {//加完array[i]还小于array[i],说明之前currentSum<0
-                currentSum = array[i];
+        int sum = array[0];
+        int max = array[0];
+        for (int i = 1; i < array.length; i++) {
+            sum += array[i];
+            if (sum < array[i]) {
+                sum = array[i];
             }
-            if (currentSum > maxSum) {
-                maxSum = currentSum;
+            if (sum > max) {
+                max = sum;
             }
         }
-        return maxSum;
+        return max;
     }
 
     /**
@@ -1599,13 +1562,6 @@ public class JZofferPrac {
      */
     public ArrayList<Integer> GetLeastNumbers_Solution(int[] input, int k) {
         ArrayList<Integer> res = new ArrayList<>();
-//        if (input.length != 0 && k <= input.length) {
-//            Arrays.sort(input);
-//            for (int i = 0; i < k; i++) {
-//                res.add(input[i]);
-//            }
-//        }
-//        return res;
         int len = input.length;
         if (k > len || k <= 0) {
             return res;
@@ -1627,19 +1583,6 @@ public class JZofferPrac {
         return res;
     }
 
-    public void quickSort(int[] data, int start, int end) {
-        if (start == end) {
-            return;
-        }
-        int index = partition(data, start, end);
-        if (index > start) {
-            quickSort(data, start, index - 1);
-        }
-        if (index < end) {
-            quickSort(data, index + 1, end);
-        }
-    }
-
     private int partition(int[] arr, int start, int end) {
         int key = arr[start];
         while (start < end) {
@@ -1650,9 +1593,9 @@ public class JZofferPrac {
             while (start < end && arr[start] <= key) {//从前往后找到一个比枢轴值大的，换到后面去
                 start++;
             }
-            arr[end] = arr[start];//将枢轴值放到分割处
+            arr[end] = arr[start];
         }
-        arr[start] = key;
+        arr[start] = key;//将枢轴值放到分割处
         return start;//返回枢轴值的位置
     }
 
@@ -1671,28 +1614,6 @@ public class JZofferPrac {
      * @return
      */
     public int MoreThanHalfNum_Solution(int[] array) {
-        //哈希表保存每个数字的次数
-//        int count = array.length / 2;
-//        HashMap<Integer, Integer> record = new HashMap<>();
-//        for (int i = 0; i < array.length; i++) {
-//            if (!record.containsKey(array[i])) {
-//                record.put(array[i], 1);
-//            } else {
-//                record.put(array[i], record.get(array[i]) + 1);
-//                int sum = record.get(array[i]);
-//                if (sum > count) {
-//                    return array[i];
-//                }
-//            }
-//        }
-//        for (Map.Entry<Integer, Integer> entry : record.entrySet()) {
-//            if (entry.getValue() > count) {
-//                return entry.getKey();
-//            }
-//        }
-//        return 0;
-
-        //result是最后将count赋值1的数字
         if (array.length == 0) {
             return 0;
         }
@@ -1710,6 +1631,7 @@ public class JZofferPrac {
                 count--;
             }
         }
+        //再检查一遍是因为，例如[1,2,3,2,4,2,5,2,3]，防止没有超过一半的数时，最后一个被当做正确答案
         count = 0;
         for (int i = 0; i < array.length; i++) {
             if (result == array[i]) {
@@ -1730,50 +1652,28 @@ public class JZofferPrac {
      * @param str
      * @return
      */
+    ArrayList<String> permution = new ArrayList<>();
+
     public ArrayList<String> Permutation(String str) {
-        int len = str.length();
-        ArrayList<String> res = new ArrayList<>();
-        if (len == 0) {
-            return res;
+        if (str == null || str.length() == 0) {
+            return permution;
         }
-//        getPermutation(str, len, res, "");
-        getPermutation2(str, 0, res);
-        res.sort(new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                return o1.compareTo(o2);
-            }
-        });
-        return res;
+        getRes(str, "", new boolean[str.length()]);
+        return permution;
     }
 
-    private void getPermutation2(String str, int pos, ArrayList<String> res) {
-        if (!res.contains(str)) {
-            res.add(str);
-        }
-        for (int i = pos; i < str.length(); i++) {
-            char[] chars = str.toCharArray();
-            char current = chars[pos];
-            chars[pos] = chars[i];
-            chars[i] = current;
-            getPermutation2(new String(chars), pos + 1, res);
-        }
-    }
-
-    private void getPermutation(String str, int len, ArrayList<String> res, String current) {
-
-        if (current.length() == len) {
-            if (!res.contains(current)) {
-                res.add(current);
+    public void getRes(String str, String sb, boolean[] visited) {
+        if (sb.length() == str.length()) {
+            if (!permution.contains(sb)) {
+                permution.add(sb);
             }
             return;
         }
         for (int i = 0; i < str.length(); i++) {
-            char[] chars = str.toCharArray();
-            char curr = chars[i];
-            if ('#' != curr) {
-                chars[i] = '#';
-                getPermutation(new String(chars), len, res, current + curr);
+            if (!visited[i]) {
+                visited[i] = true;
+                getRes(str, sb + str.charAt(i), visited);
+                visited[i] = false;
             }
         }
     }
@@ -1782,55 +1682,33 @@ public class JZofferPrac {
      * 输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的双向链表。
      * 要求不能创建任何新的结点，只能调整树中结点指针的指向。
      *
-     * @param pRootOfTree
+     * @param root
      * @return
      */
-    public TreeNode Convert(TreeNode pRootOfTree) {
-        //通过中序遍历得到升序的节点队列
-//        if (pRootOfTree != null) {
-//            TreeNode head = null;
-//            Queue<TreeNode> queue = new LinkedList<>();
-//            getNodes(pRootOfTree, queue);
-//            head = queue.poll();
-//            TreeNode temp = head;
-//            while (!queue.isEmpty()) {//将队列中的节点重新连接
-//                TreeNode curr = queue.poll();
-//                temp.right = curr;
-//                curr.left = temp;
-//                temp = temp.right;
-//            }
-//            return head;
-//        }
-//        return null;
-        //递归的方法
-        if (pRootOfTree == null) {
-            return null;
+    public TreeNode Convert(TreeNode root) {
+        if (root == null) {
+            return root;
         }
         TreeNode last = null;//last是双向链表最后一个节点
-        last = convertNodes(pRootOfTree, last);
-        while (last != null && last.left != null) {
+        last = convert(root, last);
+        while (last.left != null) {
             last = last.left;
         }
         return last;
     }
 
-    private TreeNode convertNodes(TreeNode pRootOfTree, TreeNode last) {
-        if (pRootOfTree != null) {
-            if (pRootOfTree.left != null) {//找到左子树双向链表的最后一个节点
-                last = convertNodes(pRootOfTree.left, last);
-            }
-
-            //然后将左子树链表最后一个节点与当前节点互相连接
-            if (last != null) {
-                last.right = pRootOfTree;
-            }
-            pRootOfTree.left = last;
-
-            last = pRootOfTree;//当前节点成为新的链表最后节点
-
-            if (pRootOfTree.right != null) {//将目前最后一个节点与右子树连接
-                last = convertNodes(pRootOfTree.right, last);
-            }
+    public TreeNode convert(TreeNode node, TreeNode last) {
+        if (node.left != null) {//找到左子树双向链表的最后一个节点
+            last = convert(node.left, last);
+        }
+        //然后将左子树链表最后一个节点与当前节点互相连接
+        if (last != null) {
+            last.right = node;
+        }
+        node.left = last;
+        last = node;//当前节点成为新的链表最后节点
+        if (node.right != null) {//将目前最后一个节点与右子树连接
+            last = convert(node.right, node);
         }
         return last;
     }
@@ -1852,50 +1730,35 @@ public class JZofferPrac {
      */
     public RandomListNode Clone(RandomListNode pHead) {
         //分三步，克隆原来的节点；连接随机节点；连接克隆节点
-        CloneNodes(pHead);
-        ConnectRandomNodes(pHead);
-        return ReconnectNodes(pHead);
-    }
-
-    public void CloneNodes(RandomListNode head) {
-        //克隆每一个节点，并接在原节点后面
-        RandomListNode node = head;
-        while (node != null) {
-            RandomListNode cloned = new RandomListNode(node.label);
-            cloned.next = node.next;
-            cloned.random = null;
-            node.next = cloned;
-            node = cloned.next;
+        if (pHead == null) {
+            return pHead;
         }
-    }
-
-    public void ConnectRandomNodes(RandomListNode head) {
-        RandomListNode node = head;
-        while (node != null) {
-            RandomListNode cloned = node.next;
-            if (node.random != null) {
-                cloned.random = node.random.next;
+        RandomListNode curNode = pHead;
+        // 在每个节点后面插入克隆节点
+        while (curNode != null) {
+            RandomListNode newNode = new RandomListNode(curNode.label);
+            newNode.next = curNode.next;
+            curNode.next = newNode;
+            curNode = newNode.next;
+        }
+        curNode = pHead;
+        //复制random节点
+        while (curNode != null) {
+            if (curNode.random != null) {
+                //random.next是random的克隆节点
+                curNode.next.random = curNode.random.next;
             }
-            node = cloned.next;
+            curNode = curNode.next.next;
         }
-    }
-
-    public RandomListNode ReconnectNodes(RandomListNode head) {
-        RandomListNode node = head;
-        RandomListNode clonedHead = null;
-        RandomListNode clonedNode = null;
-        if (node != null) {
-            clonedHead = clonedNode = node.next;
-            node.next = clonedNode.next;
-            node = node.next;
+        // 拆分
+        curNode = pHead;
+        RandomListNode newStart = pHead.next;
+        while (curNode.next != null) {
+            RandomListNode nextNode = curNode.next;
+            curNode.next = nextNode.next;
+            curNode = nextNode;
         }
-        while (node != null) {
-            clonedNode.next = node.next;
-            clonedNode = clonedNode.next;
-            node.next = clonedNode.next;
-            node = node.next;
-        }
-        return clonedHead;
+        return newStart;
     }
 
     /**
@@ -1940,7 +1803,9 @@ public class JZofferPrac {
      * @return
      */
     public boolean VerifySquenceOfBST(int[] sequence) {
-        if (sequence.length == 0) return false;
+        if (sequence.length == 0) {
+            return false;
+        }
         return verify(sequence, 0, sequence.length - 1);
     }
 
@@ -2025,7 +1890,7 @@ public class JZofferPrac {
 
     public void push2(int node) {
         stack.push(node);
-        minstack.push(minstack.isEmpty()||node < minstack.peek() ? node : minstack.peek());
+        minstack.push(minstack.isEmpty() || node < minstack.peek() ? node : minstack.peek());
     }
 
     public void pop2() {
