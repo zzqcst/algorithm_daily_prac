@@ -247,6 +247,85 @@ public class LeetCode {
         l.splitArray(nums, 2);
     }
 
+    //美丽的项链
+    //https://www.nowcoder.com/questionTerminal/e7e0230b12de4239a7f547a01d731522?source=relative
+//    public static void main(String[] args) {
+//        Scanner scanner = new Scanner(System.in);
+//        while (scanner.hasNext()) {
+//            int n = scanner.nextInt();
+//            int m = scanner.nextInt();
+//            Node[] nodes = new Node[n];
+//            for (int i = 0; i < n; i++) {
+//                int start = scanner.nextInt();
+//                int end = scanner.nextInt();
+//                nodes[i] = new Node(start, end);
+//            }
+//            long[][] dp = new long[n + 1][m + 1];
+////            初始化，只有一种宝珠选择的情况
+//            for (int i = nodes[0].start; i <= nodes[0].end; i++) {
+//                dp[1][i] = 1;
+//            }
+//            for (int i = 2; i <= n; i++) {
+//                for (int j = 1; j <= m; j++) {
+////                    选择该宝珠，可以从最小数量变化到最大数量
+//                    for (int k = nodes[i - 1].start; k <= nodes[i - 1].end && j - k >= 0; k++) {
+//                        dp[i][j] += dp[i - 1][j - k];
+//                    }
+//                }
+//            }
+//            System.out.println(dp[n][m]);
+//        }
+//    }
+//
+//    private static class Node {
+//        int start, end;
+//
+//        public Node(int start, int end) {
+//            this.start = start;
+//            this.end = end;
+//        }
+//    }
+
+    /**
+     * 用队列实现栈
+     */
+    class MyStack {
+        Queue<Integer> queue1 = new LinkedList<>();
+        Queue<Integer> queue2 = new LinkedList<>();
+        int top;
+
+        public MyStack() {
+
+        }
+
+        public void push(int x) {
+            queue1.offer(x);
+            top = x;
+        }
+
+        public int pop() {
+            if (queue1.isEmpty()) {
+                while (!queue2.isEmpty()) {
+                    queue1.offer(queue2.poll());
+                }
+            }
+            int tmp = queue1.size() - 1;
+            while (tmp-- > 0) {
+                top = queue1.poll();
+                queue2.offer(top);
+            }
+            return queue1.poll();
+        }
+
+        public int top() {
+            return top;
+        }
+
+        public boolean empty() {
+            return queue2.isEmpty() && queue1.isEmpty();
+        }
+    }
+
     /**
      * 分发糖果
      *
