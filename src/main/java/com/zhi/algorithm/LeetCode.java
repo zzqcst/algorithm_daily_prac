@@ -57,7 +57,7 @@ public class LeetCode {
 
         @Override
         public String toString() {
-            return "Interval{" + "start=" + start + ", end=" + end + '}';
+            return "Interval{" + "min=" + start + ", max=" + end + '}';
         }
 
         Interval() {
@@ -520,6 +520,32 @@ public class LeetCode {
         System.out.println();
 //        return sb.toString();//求最长公共序列返回sb.toString，只能得到其中一种
         return dp[n][m];//求最大长度返回dp[n][m]
+    }
+
+    /**
+     * 最长公共子序列长度，压缩空间版
+     * @param t1
+     * @param t2
+     * @return
+     */
+    public static int longestCommonSubsequence(String t1, String t2) {
+        int a = t1.length();
+        int b = t2.length();
+        int[] dp = new int[b+1];
+        int up=0;
+        for (int i = 1; i < a + 1; i++) {
+            int leftUp =0;
+            for (int j = 1; j < b + 1; j++) {
+                up=dp[j];
+                if (t1.charAt(i-1)==t2.charAt(j-1)){
+                    dp[j]=leftUp+1;
+                }else {
+                    dp[j]=Math.max(up,dp[j-1]);
+                }
+                leftUp=up;
+            }
+        }
+        return dp[b];
     }
 
     public static void printLCS(int[][] path, String a, String b, int i, int j) {

@@ -21,7 +21,7 @@ public class TopologicalSort {
 
         Deque<Integer> deque = new ArrayDeque<>();
 
-        // start from nodes whose indegree are 0
+        // min from nodes whose indegree are 0
         for (int i = 0; i < n; i++) {
             if (inDegree[i] == 0) deque.offer(i);
         }
