@@ -2,11 +2,57 @@ package com.zhi.algorithm;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Stack;
 
 public class LeetCodeDaily {
     public static void main(String[] args) {
-        int[] a = {3, 3};
-        System.out.println(subarraysDivByK(a, 5));
+        System.out.println(decodeString("100[leetcode]"));
+    }
+
+    /**
+     * 394 字符串解码
+     * 每个字符入栈，遇到]出栈
+     * 由最里层向最外层解析
+     * @param s
+     * @return
+     */
+    public static String decodeString(String s) {
+        Stack<Character> stack = new Stack<>();
+        int i = 0;
+        StringBuilder str;
+        StringBuilder num;
+        StringBuilder tempRes;
+        while (i<s.length()){
+            if (s.charAt(i)!=']'){
+                stack.push(s.charAt(i++));
+                continue;
+            }
+            str = new StringBuilder();//存中括号中的字符串
+            while (stack.peek()!='['){
+                str.append(stack.pop());
+            }
+            str.reverse();
+            stack.pop();//弹出[
+            num = new StringBuilder();//存中括号外的数字
+            while (!stack.isEmpty()&&stack.peek()>='0'&&stack.peek()<='9') {
+                num.append(stack.pop());
+            }
+            num.reverse();
+            int times = Integer.parseInt(num.toString());
+            tempRes = new StringBuilder();//存数字和字符串解析后的结果
+            for (int j = 0; j < times; j++) {
+                tempRes.append(str.toString());
+            }
+            for (int j = 0; j < tempRes.length(); j++) {//解析后的重新入栈
+                stack.push(tempRes.charAt(j));
+            }
+            i++;
+        }
+        StringBuilder res = new StringBuilder();
+        while (!stack.isEmpty()){
+            res.append(stack.pop());
+        }
+        return res.reverse().toString();
     }
 
     /**
