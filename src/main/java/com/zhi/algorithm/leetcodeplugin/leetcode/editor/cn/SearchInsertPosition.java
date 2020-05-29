@@ -30,22 +30,22 @@ package com.zhi.algorithm.leetcodeplugin.leetcode.editor.cn;;
 
 public class SearchInsertPosition {
     public static void main(String[] args) {
-        Solution solution = new Solution();
+        Solution solution = new SearchInsertPosition().new Solution();
         int[] nums={1,3,8};
         System.out.println(solution.searchInsert(nums, 9));
     }
-}    
-//leetcode submit region begin(Prohibit modification and deletion)
-class Solution {
-    public int searchInsert(int[] nums, int target) {
-        int start =0,end=nums.length-1;
-        while (start<=end){ // 小于等于，注意
-            int mid = start+(end-start)/2;
-            if (target<nums[mid]) end=mid-1;
-            if (target>nums[mid]) start=mid+1;
-            if (target==nums[mid]) return mid;
+    //leetcode submit region begin(Prohibit modification and deletion)
+    class Solution {
+        public int searchInsert(int[] nums, int target) {
+            int start =0,end=nums.length-1;
+            while (start<=end){ // 小于等于，注意
+                int mid = start+(end-start)/2;
+                if (target<nums[mid]) end=mid-1;
+                if (target>nums[mid]) start=mid+1;
+                if (target==nums[mid]) return mid;
+            }
+            return start;
         }
-        return start;
     }
-}
 //leetcode submit region end(Prohibit modification and deletion)
+}
