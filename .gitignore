@@ -74,3 +74,4 @@ fabric.properties
 .idea/
 *.iml
 
+/src/main/java/com/zhi/algorithm/leetcodeplugin/leetcode/editor/cn/*.json

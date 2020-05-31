@@ -5454,15 +5454,15 @@ public class LeetCode {
         return true;
     }
 
-    private static boolean symmetric(TreeNode p, TreeNode q) {//也可用于判断两棵树是否相等
-        if (p == null && q == null) {
+    private static boolean symmetric(TreeNode left, TreeNode right) {//也可用于判断两棵树是否相等
+        if (left == null && right == null) {
             return true;
         }
-        if (p == null || q == null) {
+        if (left == null || right == null) {
             return false;
         }
 
-        return p.val == q.val && symmetric(p.right, q.left) && symmetric(p.left, q.right);
+        return left.val == right.val && symmetric(left.right, right.left) && symmetric(left.left, right.right);
     }
 
     /**
