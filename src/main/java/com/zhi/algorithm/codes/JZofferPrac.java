@@ -1,6 +1,6 @@
-package com.zhi.algorithm;
+package com.zhi.algorithm.codes;
 
-import com.zhi.algorithm.LeetCode.ListNode;
+import com.zhi.algorithm.codes.LeetCode.ListNode;
 
 import java.util.*;
 

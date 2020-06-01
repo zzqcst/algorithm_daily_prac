@@ -1,4 +1,4 @@
-package com.zhi.algorithm;
+package com.zhi.algorithm.codes;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;

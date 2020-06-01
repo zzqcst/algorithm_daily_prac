@@ -1,4 +1,4 @@
-package com.zhi.algorithm;
+package com.zhi.algorithm.codes;
 
 public class Main {
 

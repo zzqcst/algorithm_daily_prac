@@ -1,4 +1,4 @@
-package com.zhi.algorithm;
+package com.zhi.algorithm.codes;
 
 import java.awt.*;
 import java.io.File;

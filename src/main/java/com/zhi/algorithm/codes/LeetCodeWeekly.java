@@ -1,7 +1,6 @@
-package com.zhi.algorithm;
+package com.zhi.algorithm.codes;
 
 import java.util.*;
-import java.util.List;
 
 public class LeetCodeWeekly {
 

@@ -1,4 +1,4 @@
-package com.zhi.algorithm;
+package com.zhi.algorithm.codes;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;

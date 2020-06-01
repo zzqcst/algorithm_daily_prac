@@ -1,9 +1,8 @@
-package com.zhi.algorithm;
+package com.zhi.algorithm.codes;
 
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
-import java.util.Stack;
 
 public class Graph {
     int edgeNum;

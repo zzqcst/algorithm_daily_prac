@@ -1,4 +1,4 @@
-package com.zhi.algorithm;
+package com.zhi.algorithm.codes;
 
 import java.util.HashMap;
 import java.util.Map;
