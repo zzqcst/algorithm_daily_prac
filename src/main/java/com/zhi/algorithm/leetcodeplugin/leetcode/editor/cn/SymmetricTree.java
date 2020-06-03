@@ -1,7 +1,5 @@
 package com.zhi.algorithm.leetcodeplugin.leetcode.editor.cn;
 
-import org.apache.commons.collections4.functors.InstantiateFactory;
-
 ;import java.util.Stack;
 //给定一个二叉树，检查它是否是镜像对称的。 
 //
