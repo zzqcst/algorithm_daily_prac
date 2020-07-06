@@ -42,7 +42,7 @@ public class JZofferPrac {
 
     public static void main(String[] args) {
         JZofferPrac jz = new JZofferPrac();
-        jz.print1ToMaxOfNDigits(3);
+        System.out.println(jz.movingCount(3, 2, 2));
     }
 
 
@@ -100,8 +100,8 @@ public class JZofferPrac {
             return;
         }
         for (int i = 0; i < 10; i++) {
-            num[index] = (char) (i + '0');//index位从0到9变化
-            print1ToMaxNRec(num, index + 1);//index+1位从0到9变化
+            num[index] = (char) (i + '0');//index位从0到n
+            print1ToMaxNRec(num, index + 1);
         }
     }
 
@@ -230,7 +230,11 @@ public class JZofferPrac {
      * 请设计一个函数，用来判断在一个矩阵中是否存在一条包含某字符串所有字符的路径。
      * 路径可以从矩阵中的任意一个格子开始，每一步可以在矩阵中向左，向右，向上，向下移动一个格子。
      * 如果一条路径经过了矩阵中的某一个格子，则之后不能再次进入这个格子。
-     * 例如 a b c e s f c s a d e e 这样的3 X 4 矩阵中包含一条字符串"bcced"的路径，但是矩阵中不包含"abcb"路径，
+     * 例如
+     * a b c e
+     * s f c s
+     * a d e e
+     * 这样的3 X 4 矩阵中包含一条字符串"bcced"的路径，但是矩阵中不包含"abcb"路径，
      * 因为字符串的第一个字符b占据了矩阵中的第一行第二个格子之后，路径不能再次进入该格子。
      *
      * @param matrix
@@ -243,6 +247,7 @@ public class JZofferPrac {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 if (matrix[i * cols + j] == str[0]) {
+                    //从第一个匹配的字母开始回溯，每条回溯路径一个标记数组
                     boolean[] visited = new boolean[matrix.length];
                     if (containsStr(matrix, i, j, rows, cols, str, 0, visited)) {
                         return true;
@@ -384,20 +389,25 @@ public class JZofferPrac {
         return helper(root);
     }
 
+    //中序遍历
     public TreeNode helper(TreeNode root) {
         TreeNode temp = null;
         if (root != null) {
+            //第k个在左子树中，返回
             if ((temp = helper(root.left)) != null) {
                 return temp;
             }
+            //当前树根节点是第k个，返回
             if (--k == 0) {
                 return root;
             }
+            //第k个在右子树中，返回
             if ((temp = helper(root.right)) != null) {
                 return temp;
             }
 
         }
+        //不存在
         return null;
     }
 
