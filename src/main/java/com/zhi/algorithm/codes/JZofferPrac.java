@@ -10,9 +10,9 @@ import java.util.*;
  */
 public class JZofferPrac {
     public static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
+        public int val;
+        public TreeNode left;
+        public TreeNode right;
 
         TreeNode(int x) {
             val = x;
@@ -426,7 +426,7 @@ public class JZofferPrac {
         Serialize2(root, sb);
         return sb.toString();
     }
-
+    //前序遍历存储树，空节点用#代替
     void Serialize2(TreeNode root, StringBuilder sb) {
         if (root == null) {
             sb.append("#,");
@@ -471,6 +471,7 @@ public class JZofferPrac {
     ArrayList<ArrayList<Integer>> Print2(TreeNode pRoot) {
 
         ArrayList<ArrayList<Integer>> res = new ArrayList<>();
+        //使用队列
         Queue<TreeNode> queue = new LinkedList<>();
         if (pRoot != null) {
             queue.offer(pRoot);
@@ -494,7 +495,7 @@ public class JZofferPrac {
     }
 
     /**
-     * 请实现一个函数按照之字形打印二叉树，即第一行按照从左到右的顺序打印，第二层按照从右至左的顺序打印，第三行按照从左到右的顺序打印，其他行以此类推。
+     * 32 请实现一个函数按照之字形打印二叉树，即第一行按照从左到右的顺序打印，第二层按照从右至左的顺序打印，第三行按照从左到右的顺序打印，其他行以此类推。
      *
      * @param pRoot
      * @return

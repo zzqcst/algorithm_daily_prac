@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.*;
 import java.util.List;
+import com.zhi.algorithm.datastructure.TreeNode;
 
 public class LeetCode {
     static class Node {
@@ -30,16 +31,6 @@ public class LeetCode {
             val = x;
         }
 
-    }
-
-    public static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode(int x) {
-            val = x;
-        }
     }
 
     public static class TreeLinkNode {
@@ -334,18 +325,26 @@ public class LeetCode {
      */
     public int candy(int[] ratings) {
         //我们先找从左到右满足最少的糖果，再找从右到左的，最后取两边都满足的值(就是最大值)。
-        if (ratings == null || ratings.length == 0) return 0;
+        if (ratings == null || ratings.length == 0) {
+            return 0;
+        }
         int n = ratings.length;
         int[] candy_nums = new int[n];
         Arrays.fill(candy_nums, 1);
         for (int i = 1; i < n; i++) {
-            if (ratings[i] > ratings[i - 1]) candy_nums[i] = candy_nums[i - 1] + 1;
+            if (ratings[i] > ratings[i - 1]) {
+                candy_nums[i] = candy_nums[i - 1] + 1;
+            }
         }
         for (int i = n - 1; i > 0; i--) {
-            if (ratings[i - 1] > ratings[i]) candy_nums[i - 1] = Math.max(candy_nums[i - 1], candy_nums[i] + 1);
+            if (ratings[i - 1] > ratings[i]) {
+                candy_nums[i - 1] = Math.max(candy_nums[i - 1], candy_nums[i] + 1);
+            }
         }
         int res = 0;
-        for (int i = 0; i < n; i++) res += candy_nums[i];
+        for (int i = 0; i < n; i++) {
+            res += candy_nums[i];
+        }
         return res;
     }
 
@@ -2603,10 +2602,15 @@ public class LeetCode {
          */
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[0].length; j++) {
-                if (i == 0 && j == 0) continue;
-                else if (i == 0) grid[i][j] = grid[i][j - 1] + grid[i][j];
-                else if (j == 0) grid[i][j] = grid[i - 1][j] + grid[i][j];
-                else grid[i][j] = Math.min(grid[i - 1][j], grid[i][j - 1]) + grid[i][j];
+                if (i == 0 && j == 0) {
+                    continue;
+                } else if (i == 0) {
+                    grid[i][j] = grid[i][j - 1] + grid[i][j];
+                } else if (j == 0) {
+                    grid[i][j] = grid[i - 1][j] + grid[i][j];
+                } else {
+                    grid[i][j] = Math.min(grid[i - 1][j], grid[i][j - 1]) + grid[i][j];
+                }
             }
         }
         return grid[grid.length - 1][grid[0].length - 1];
