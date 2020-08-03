@@ -42,7 +42,8 @@ public class JZofferPrac {
 
     public static void main(String[] args) {
         JZofferPrac jz = new JZofferPrac();
-        System.out.println(jz.movingCount(3, 2, 2));
+        char[] matrix = new char[]{'A', 'B', 'C', 'E', 'S', 'F', 'E', 'S', 'A', 'D', 'E', 'E'};
+        System.out.println(jz.hasPath(matrix, 3, 4, "ABCESEEEFS".toCharArray()));
     }
 
 
@@ -268,14 +269,14 @@ public class JZofferPrac {
         if (visited[i * cols + j]) {
             return false;
         }
-        if (matrix[i * cols + j] == str[index]) {
-            visited[i * cols + j] = true;
-            return containsStr(matrix, i - 1, j, rows, cols, str, index + 1, visited) ||
-                    containsStr(matrix, i + 1, j, rows, cols, str, index + 1, visited) ||
-                    containsStr(matrix, i, j - 1, rows, cols, str, index + 1, visited) ||
-                    containsStr(matrix, i, j + 1, rows, cols, str, index + 1, visited);
-        }
-        return false;
+        if (matrix[i * cols + j] != str[index]) return false;
+        visited[i * cols + j] = true;
+        boolean res = containsStr(matrix, i - 1, j, rows, cols, str, index + 1, visited) ||
+                containsStr(matrix, i + 1, j, rows, cols, str, index + 1, visited) ||
+                containsStr(matrix, i, j - 1, rows, cols, str, index + 1, visited) ||
+                containsStr(matrix, i, j + 1, rows, cols, str, index + 1, visited);
+        visited[i * cols + j] = false;
+        return res;
     }
 
 
@@ -426,6 +427,7 @@ public class JZofferPrac {
         Serialize2(root, sb);
         return sb.toString();
     }
+
     //前序遍历存储树，空节点用#代替
     void Serialize2(TreeNode root, StringBuilder sb) {
         if (root == null) {
@@ -1333,7 +1335,7 @@ public class JZofferPrac {
             shorter = node1;
             steps = len2 - len1;
         }
-        while (steps-->0){
+        while (steps-- > 0) {
             longer = longer.next;
         }
         while (longer != null && shorter != null) {
