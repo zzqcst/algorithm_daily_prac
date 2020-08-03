@@ -27,28 +27,18 @@ package com.zhi.algorithm.leetcodeplugin.leetcode.editor.cn;
 // 注意：本题与主站 105 题重复：https://leetcode-cn.com/problems/construct-binary-tree-from-
 //preorder-and-inorder-traversal/ 
 // Related Topics 树 递归 
-// 👍 144 👎 0
+// 👍 146 👎 0
 
 import com.zhi.algorithm.datastructure.TreeNode;
-import com.zhi.algorithm.entity.Person;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Map;
-
-public class ZhongJianErChaShuLcof{
-  public static void main(String[] args) {
-       Solution solution = new ZhongJianErChaShuLcof().new Solution();
-        String a = "2021-07-23";
-      LocalDateTime l = LocalDateTime.now();
-      LocalDate parse = LocalDate.parse(a);
-      l=LocalDateTime.of(parse, LocalTime.of(0,0));
-      System.out.println(l);
-  }
-  //leetcode submit region begin(Prohibit modification and deletion)
+/**
+* @author zhi
+*/
+public class ZhongJianErChaShuLcof {
+    public static void main(String[] args) {
+        Solution solution = new ZhongJianErChaShuLcof().new Solution();
+    }
+//leetcode submit region begin(Prohibit modification and deletion)
 /**
  * Definition for a binary tree node.
  * public class TreeNode {
@@ -64,17 +54,16 @@ class Solution {
     }
 
     private TreeNode buildTreeReverse(int[] preorder, int[] inorder, int preStart, int preEnd, int inStart, int inEnd) {
+        if (preStart>preEnd) return null;
+        if (inStart>inEnd) return null;
         TreeNode root = new TreeNode(preorder[preStart]);
-        int leftCnt=0, rightCnt=0;
-        for (int i = inStart; i <=inEnd ; i++) {
-            if (inorder[i] == preorder[preStart]) {
-                leftCnt = i-preStart;
-                rightCnt = inEnd - i;
+        for (int i = inStart; i <= inEnd; i++) {
+            if (inorder[i]==preorder[preStart]){
+                root.left = buildTreeReverse(preorder, inorder, preStart+1, preStart+i-inStart, inStart, i-1);
+                root.right = buildTreeReverse(preorder, inorder, preStart+i-inStart+1, preEnd, i+1, inEnd);
                 break;
             }
         }
-        root.left = buildTreeReverse(preorder, inorder, preStart+1, preStart+leftCnt, inStart, inStart+leftCnt);
-//        root.right = buildTreeReverse(preorder, inorder, preStart + leftCnt +1, preEnd, inStart+leftCnt)
         return root;
     }
 }
