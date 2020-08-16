@@ -49,6 +49,7 @@ public class JZofferPrac {
 
     /**
      * 删除链表的节点
+     * 不需要前置节点的解法，下一个节点的值赋给查找到的节点，查找到的节点指向下一个节点的下一个节点，要注意删除的是尾结点的情况
      *
      * @param head
      * @param toDel
@@ -794,11 +795,17 @@ public class JZofferPrac {
             return false;
         }
 
+        if (strIndex == str.length) {
+            //字符串匹配完了，模式没到尾，只有剩余模式为一个或多个“字符*“这种形式才成立
+            if (pIndex + 1 < p.length && p[pIndex + 1] == '*') return matchCore(str, strIndex, p, pIndex + 2);
+            else return false;
+        }
+
         //模式的下一个字符是*，则讨论当前字符是否相同
         if (pIndex + 1 < p.length && p[pIndex + 1] == '*') {
             //当前字符相同，分三种情况
-            //注意strIndex != str.length，因为可能字符已经便利完，模式还遍历完
-            if (strIndex != str.length && (str[strIndex] == p[pIndex] || p[pIndex] == '.')) {
+            //注意strIndex != str.length，因为可能字符已经便利完，模式还没遍历完
+            if ((str[strIndex] == p[pIndex] || p[pIndex] == '.')) {
                 //字符串后移一位，模式后移两位，即匹配一个字符
                 return matchCore(str, strIndex + 1, p, pIndex + 2) ||
                         //字符串后移一位，模式不移动，即再匹配下一个
@@ -813,7 +820,7 @@ public class JZofferPrac {
 
         //字符串和模式的当前字符相同，则比较下一个字符
         //注意strIndex != str.length，因为可能字符已经便利完，模式还遍历完
-        if (strIndex != str.length && (str[strIndex] == p[pIndex] || (p[pIndex] == '.'))) {
+        if ((str[strIndex] == p[pIndex] || (p[pIndex] == '.'))) {
             return matchCore(str, strIndex + 1, p, pIndex + 1);
         }
         //模式下一个字符不是*，当前字符不匹配时，
