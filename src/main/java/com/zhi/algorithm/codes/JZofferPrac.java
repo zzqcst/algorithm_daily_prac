@@ -42,8 +42,7 @@ public class JZofferPrac {
 
     public static void main(String[] args) {
         JZofferPrac jz = new JZofferPrac();
-        char[] matrix = new char[]{'A', 'B', 'C', 'E', 'S', 'F', 'E', 'S', 'A', 'D', 'E', 'E'};
-        System.out.println(jz.hasPath(matrix, 3, 4, "ABCESEEEFS".toCharArray()));
+        System.out.println(jz.isNumeric("+".toCharArray()));
     }
 
 
@@ -720,35 +719,37 @@ public class JZofferPrac {
      * @return
      */
     public boolean isNumeric(char[] str) {
-        if (str.length == 0) {
-            return false;
-        }
-        int index = 0;
-        boolean num = index != (index = scanInteger(str, index));
-        if (index < str.length && str[index] == '.') {
-            index++;
-            num = index != (index = scanUnsignedInt(str, index)) || num;
-        }
-        if (index < str.length && (str[index] == 'e' || str[index] == 'E')) {
-            index++;
-            num = num && index != (index = scanInteger(str, index));
-        }
-        return num && index == str.length;
-    }
+        //标记是否遇到相应情况
+        boolean numSeen = false;
+        boolean dotSeen = false;
+        boolean eSeen = false;
 
-    public int scanUnsignedInt(char[] str, int start) {
-        while (start < str.length && str[start] >= '0' && str[start] <= '9') {
-            start++;
+        for (int i = 0; i < str.length; i++) {
+            if (str[i] >= '0' && str[i] <= '9') {
+                numSeen = true;
+            } else if (str[i] == '.') {
+                //.之前不能出现.或者e
+                if (dotSeen || eSeen) {
+                    return false;
+                }
+                dotSeen = true;
+            } else if (str[i] == 'e' || str[i] == 'E') {
+                //e之前不能出现e，必须出现数
+                if (eSeen || !numSeen) {
+                    return false;
+                }
+                eSeen = true;
+                numSeen = false;//重置numSeen，排除123e或者123e+的情况,确保e之后也出现数
+            } else if (str[i] == '-' || str[i] == '+') {
+                //+-出现在0位置或者e/E的后面第一个位置才是合法的
+                if (i != 0 && str[i - 1] != 'e' && str[i - 1] != 'E') {
+                    return false;
+                }
+            } else {//其他不合法字符
+                return false;
+            }
         }
-        return start;
-    }
-
-
-    public int scanInteger(char[] str, int start) {
-        if (start < str.length && (str[start] == '+' || str[start] == '-')) {
-            start++;
-        }
-        return scanUnsignedInt(str, start);
+        return numSeen;
     }
 
     /**
