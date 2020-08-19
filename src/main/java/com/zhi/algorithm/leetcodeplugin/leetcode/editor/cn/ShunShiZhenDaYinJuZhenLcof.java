@@ -27,59 +27,55 @@ package com.zhi.algorithm.leetcodeplugin.leetcode.editor.cn;
 // 注意：本题与主站 54 题相同：https://leetcode-cn.com/problems/spiral-matrix/ 
 // Related Topics 数组
 
-public class ShunShiZhenDaYinJuZhenLcof{
-  public static void main(String[] args) {
-       Solution solution = new ShunShiZhenDaYinJuZhenLcof().new Solution();
-       int[][] a=new int[][]{{1,2,3,4},{5,6,7,8},{9,10,11,12}};
-       solution.spiralOrder(a);
-  }
-  //leetcode submit region begin(Prohibit modification and deletion)
-class Solution {
-    public int[] spiralOrder(int[][] matrix) {
-        int row = matrix.length;
-        if (row==0) return new int[]{};
-        int col = matrix[0].length;
-        int[][] visited = new int[row][col];
-        int total = row*col;
-        int[] res = new int[total];
-        int k=0;
-        int top=0,right=col-1,bottom=row-1,left=0;
-        while (total>0){
-            for (int i = 0; i < col; i++) {//向右
-                if (visited[top][i]==1){
-                    continue;
-                }
-                res[k++]=matrix[top][i];
-                total--;
-                visited[top][i]=1;
-            }
-            for (int i = 0; i < row; i++) {//向下
-                if (visited[i][right]==1) continue;
-                res[k++]=matrix[i][right];
-                total--;
-                visited[i][right]=1;
-            }
-            for (int i = col-1; i >=0; i--) {//向左
-                if (visited[bottom][i]==1) continue;
-                res[k++] = matrix[bottom][i];
-                total--;
-                visited[bottom][i]=1;
-            }
+import org.apache.tools.ant.util.CollectionUtils;
 
-            for (int i = row-1; i>= 0; i--) {//向上
-                if (visited[i][left]==1) continue;
-                res[k++]=matrix[i][left];
-                total--;
-                visited[i][left]=1;
-            }
-            top++;
-            right--;
-            bottom--;
-            left++;
-        }
-        return res;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class ShunShiZhenDaYinJuZhenLcof {
+    public static void main(String[] args) {
+        Solution solution = new ShunShiZhenDaYinJuZhenLcof().new Solution();
+        int[][] a = new int[][]{{6, 9, 7}};
+        solution.spiralOrder(a);
     }
-}
+
+    //leetcode submit region begin(Prohibit modification and deletion)
+    class Solution {
+        public int[] spiralOrder(int[][] matrix) {
+            int rows = matrix.length;
+            if (rows == 0) {
+                return new int[0];
+            }
+            int cols = matrix[0].length;
+            int total = rows * cols;
+            int[] res = new int[total];
+            int left = 0, right = cols - 1, top = 0, bottom = rows - 1;
+            int index = 0;
+            //注意边界条件的控制
+            while (left <= right && top <= bottom) {
+                for (int i = left; i <= right; i++) {
+                    res[index++] = matrix[top][i];
+                }
+                for (int i = top + 1; i <= bottom; i++) {
+                    res[index++] = matrix[i][right];
+                }
+                if (bottom > top && left < right) {
+                    for (int i = right - 1; i >= left; i--) {
+                        res[index++] = matrix[bottom][i];
+                    }
+                    for (int i = bottom - 1; i > top; i--) {
+                        res[index++] = matrix[i][left];
+                    }
+                }
+                left++;
+                right--;
+                top++;
+                bottom--;
+            }
+            return res;
+        }
+    }
 //leetcode submit region end(Prohibit modification and deletion)
 
 }
