@@ -2000,19 +2000,15 @@ public class JZofferPrac {
         if (root1 == null || root2 == null) {
             return false;
         }
-        boolean res = false;
-        if (root1.val == root2.val) {
-            res = DoesHasSubtree(root1, root2);
+        //找到相同的根节点
+        if (root1.val == root2.val && DoesHasSubtree(root1, root2)) {
+            return true;
+        } else {
+            return HasSubtree(root1.left, root2) || HasSubtree(root1.right, root2);
         }
-        if (!res) {
-            res = HasSubtree(root1.left, root2);
-        }
-        if (!res) {
-            res = HasSubtree(root1.right, root2);
-        }
-        return res;
     }
 
+    //根节点相同时，比较左右字数是否相等
     private boolean DoesHasSubtree(TreeNode root1, TreeNode root2) {
         if (root2 == null) {//说明root2已经完整遍历完了，是root1的子树
             return true;
@@ -2020,10 +2016,7 @@ public class JZofferPrac {
         if (root1 == null) {//root2还没遍历完，root1已经没了，说明不是子树
             return false;
         }
-        if (root1.val != root2.val) {
-            return false;
-        }
-        return DoesHasSubtree(root1.left, root2.left) && DoesHasSubtree(root1.right, root2.right);
+        return root1.val == root2.val && DoesHasSubtree(root1.left, root2.left) && DoesHasSubtree(root1.right, root2.right);
     }
 
 
