@@ -33,19 +33,12 @@ import java.util.*;
 
 public class BaoHanMinhanShuDeZhanLcof {
     public static void main(String[] args) {
-        Solution solution = new BaoHanMinhanShuDeZhanLcof().new Solution();
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class MinStack {
         Stack<Integer> stack = new Stack<>();
-        Map<Integer, Integer> map = new HashMap<>();
-        PriorityQueue<Integer> priorityQueue = new PriorityQueue<>(new Comparator<Integer>() {
-            @Override
-            public int compare(Integer o1, Integer o2) {
-                return o1-o2;
-            }
-        });
+        Stack<Integer> minStack = new Stack<>();
 
         /**
          * initialize your data structure here.
@@ -56,13 +49,12 @@ public class BaoHanMinhanShuDeZhanLcof {
 
         public void push(int x) {
             stack.push(x);
-            priorityQueue.offer(x);
-            map.put(x,map.getOrDefault(x,0)+1);
+            minStack.push(minStack.isEmpty() ? x : minStack.peek() < x ? minStack.peek() : x);
         }
 
         public void pop() {
-            Integer pop = stack.pop();
-            if (pop!=null) map.put(pop, map.getOrDefault(pop,1)-1);
+            stack.pop();
+            minStack.pop();
         }
 
         public int top() {
@@ -70,12 +62,7 @@ public class BaoHanMinhanShuDeZhanLcof {
         }
 
         public int min() {
-            Integer poll = priorityQueue.peek();
-            while (map.get(poll)==0) {
-                priorityQueue.poll();
-                poll = priorityQueue.peek();
-            }
-            return poll;
+            return minStack.peek();
         }
     }
 
