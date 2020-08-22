@@ -1,6 +1,7 @@
 package com.zhi.algorithm.codes;
 
 import com.zhi.algorithm.codes.LeetCode.ListNode;
+import com.zhi.algorithm.datastructure.TreeNode;
 
 import java.util.*;
 
@@ -9,15 +10,6 @@ import java.util.*;
  * 剑指offer
  */
 public class JZofferPrac {
-    public static class TreeNode {
-        public int val;
-        public TreeNode left;
-        public TreeNode right;
-
-        TreeNode(int x) {
-            val = x;
-        }
-    }
 
     public class RandomListNode {
         int label;

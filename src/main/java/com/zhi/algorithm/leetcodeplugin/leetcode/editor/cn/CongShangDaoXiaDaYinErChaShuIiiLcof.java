@@ -41,68 +41,65 @@ import java.util.Stack;
 import com.zhi.algorithm.datastructure.TreeNode;
 import com.zhi.algorithm.util.DataConstructor;
 
-public class CongShangDaoXiaDaYinErChaShuIiiLcof{
-  public static void main(String[] args) {
-       Solution solution = new CongShangDaoXiaDaYinErChaShuIiiLcof().new Solution();
-      TreeNode root = DataConstructor.buildTreeFromString("[3,9,20,null,null,15,7]");
-      List<List<Integer>> lists = solution.levelOrder(root);
-      for (List<Integer> list : lists) {
-          for (Integer integer : list) {
-              System.out.print(integer+" ");
-          }
-          System.out.println();
-      }
-  }
-  //leetcode submit region begin(Prohibit modification and deletion)
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode(int x) { val = x; }
- * }
- */
-class Solution {
-    public List<List<Integer>> levelOrder(TreeNode root) {
-        List<List<Integer>> res = new ArrayList<>();
-        if (root==null) return res;
-        Stack<TreeNode>[] stacks = new Stack[2];
-        for (int i = 0; i < 2; i++) {
-            stacks[i]=new Stack<>();
-        }
-        int current = 0;
-        int next = 1;
-        stacks[current].push(root);
-        while (!stacks[current].isEmpty()) {
-            int size = stacks[current].size();
-            List<Integer> level = new ArrayList<>();
-            for (int i = 0; i < size; i++) {
-                TreeNode node = stacks[current].pop();
-                level.add(node.val);
-                if (current == 0) {
-                    if (node.left != null) {
-                        stacks[next].push(node.left);
-                    }
-                    if (node.right != null) {
-                        stacks[next].push(node.right);
-                    }
-                }else {
-                    if (node.right != null) {
-                        stacks[next].push(node.right);
-                    }
-                    if (node.left != null) {
-                        stacks[next].push(node.left);
+public class CongShangDaoXiaDaYinErChaShuIiiLcof {
+    public static void main(String[] args) {
+        Solution solution = new CongShangDaoXiaDaYinErChaShuIiiLcof().new Solution();
+        TreeNode root = DataConstructor.buildTreeFromString("[3,9,20,null,null,15,7]");
+        solution.levelOrder(root);
+    }
+    //leetcode submit region begin(Prohibit modification and deletion)
+
+    /**
+     * Definition for a binary tree node.
+     * public class TreeNode {
+     * int val;
+     * TreeNode left;
+     * TreeNode right;
+     * TreeNode(int x) { val = x; }
+     * }
+     */
+    class Solution {
+        public List<List<Integer>> levelOrder(TreeNode root) {
+            List<List<Integer>> res = new ArrayList<>();
+            if (root == null) {
+                return res;
+            }
+            Stack<TreeNode>[] stacks = new Stack[2];
+            for (int i = 0; i < 2; i++) {
+                stacks[i] = new Stack<TreeNode>();
+            }
+            int current = 0;
+            int next = 1;
+            stacks[current].add(root);
+            while (!stacks[current].isEmpty()) {
+                List<Integer> level = new ArrayList<>();
+                int size = stacks[current].size();
+                for (int i = 0; i < size; i++) {
+                    TreeNode pop = stacks[current].pop();
+                    level.add(pop.val);
+                    if (current == 0) {
+                        if (pop.left != null) {
+                            stacks[next].add(pop.left);
+                        }
+                        if (pop.right != null) {
+                            stacks[next].add(pop.right);
+                        }
+                    } else {
+                        if (pop.right != null) {
+                            stacks[next].add(pop.right);
+                        }
+                        if (pop.left != null) {
+                            stacks[next].add(pop.left);
+                        }
                     }
                 }
+                current = 1 - current;
+                next = 1 - next;
+                res.add(level);
             }
-            res.add(level);
-            current=1-current;
-            next=1-next;
+            return res;
         }
-        return res;
     }
-}
 //leetcode submit region end(Prohibit modification and deletion)
 
 }

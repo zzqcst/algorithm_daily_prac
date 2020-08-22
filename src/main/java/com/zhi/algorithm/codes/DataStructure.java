@@ -1,6 +1,8 @@
 package com.zhi.algorithm.codes;
 
 
+import com.zhi.algorithm.datastructure.TreeNode;
+
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -134,15 +136,7 @@ public class DataStructure {
 /**
  * 一般树节点
  */
-class TreeNode {
-    int data;
-    TreeNode leftChild;//左孩子节点
-    TreeNode rightSibling;//右兄弟节点
 
-    public TreeNode(int data) {
-        this.data = data;
-    }
-}
 
 
 /**

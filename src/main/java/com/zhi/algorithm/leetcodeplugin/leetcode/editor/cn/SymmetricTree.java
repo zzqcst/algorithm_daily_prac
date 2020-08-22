@@ -1,6 +1,8 @@
 package com.zhi.algorithm.leetcodeplugin.leetcode.editor.cn;
 
-;import java.util.Stack;
+;import com.zhi.algorithm.datastructure.TreeNode;
+
+import java.util.Stack;
 //给定一个二叉树，检查它是否是镜像对称的。 
 //
 // 
@@ -37,14 +39,6 @@ public class SymmetricTree {
         Solution solution = new SymmetricTree().new Solution();
     }
     //leetcode submit region begin(Prohibit modification and deletion)
-
-//  Definition for a binary tree node.
-  public class TreeNode {
-      int val;
-      TreeNode left;
-      TreeNode right;
-      TreeNode(int x) { val = x; }
-  }
 
 class Solution {
     public boolean isSymmetric(TreeNode root) {
