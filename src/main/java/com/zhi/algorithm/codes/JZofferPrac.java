@@ -1827,11 +1827,13 @@ public class JZofferPrac {
             return true;
         }
         int i = start;
+        //找到左子树的节点，从此节点到根节点都属于左子树
         for (; i < rootidx; i++) {
             if (sequence[i] > sequence[rootidx]) {
                 break;
             }
         }
+        //左子树节点都应大于根节点
         for (int j = i; j < rootidx; j++) {
             if (sequence[j] < sequence[rootidx]) {
                 return false;
