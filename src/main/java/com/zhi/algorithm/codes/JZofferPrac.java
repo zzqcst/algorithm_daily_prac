@@ -1659,36 +1659,41 @@ public class JZofferPrac {
     }
 
     /**
+     * 字符串的排列
      * 输入一个字符串,按字典序打印出该字符串中字符的所有排列。
      * 例如输入字符串abc,则打印出由字符a,b,c所能排列出来的所有字符串abc,acb,bac,bca,cab和cba。
      *
      * @param str
      * @return
      */
-    ArrayList<String> permution = new ArrayList<>();
+    java.util.List<String> res0 = new LinkedList<>();
+    char[] c;
 
-    public ArrayList<String> Permutation(String str) {
-        if (str == null || str.length() == 0) {
-            return permution;
-        }
-        getRes(str, "", new boolean[str.length()]);
-        return permution;
+    public String[] permutation(String s) {
+        c = s.toCharArray();
+        dfs(0);
+        return res0.toArray(new String[0]);
     }
 
-    public void getRes(String str, String sb, boolean[] visited) {
-        if (sb.length() == str.length()) {
-            if (!permution.contains(sb)) {
-                permution.add(sb);
-            }
+    void dfs(int x) {
+        if (x == c.length - 1) {
+            res0.add(String.valueOf(c)); // 添加排列方案
             return;
         }
-        for (int i = 0; i < str.length(); i++) {
-            if (!visited[i]) {
-                visited[i] = true;
-                getRes(str, sb + str.charAt(i), visited);
-                visited[i] = false;
-            }
+        HashSet<Character> set = new HashSet<>();
+        for (int i = x; i < c.length; i++) {
+            if (set.contains(c[i])) continue; // 重复，因此剪枝
+            set.add(c[i]);
+            swap(i, x); // 交换，将 c[i] 固定在第 x 位
+            dfs(x + 1); // 开启固定第 x + 1 位字符
+            swap(i, x); // 恢复交换
         }
+    }
+
+    void swap(int a, int b) {
+        char tmp = c[a];
+        c[a] = c[b];
+        c[b] = tmp;
     }
 
     /**
