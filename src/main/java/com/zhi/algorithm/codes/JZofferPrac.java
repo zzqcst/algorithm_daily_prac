@@ -1623,39 +1623,20 @@ public class JZofferPrac {
      * 例如输入一个长度为9的数组{1,2,3,2,2,2,5,4,2}。
      * 由于数字2在数组中出现了5次，超过数组长度的一半，因此输出2。如果不存在则输出0。
      *
-     * @param array
+     * @param nums
      * @return
      */
-    public int MoreThanHalfNum_Solution(int[] array) {
-        if (array.length == 0) {
-            return 0;
+    public int MoreThanHalfNum_Solution(int[] nums) {
+        //摩尔投票法
+        int x = 0, votes = 0, count = 0;
+        for (int num : nums) {
+            if (votes == 0) x = num;
+            votes += num == x ? 1 : -1;
         }
-        int half = array.length / 2;
-        //result初始值为第一个元素
-        int result = array[0];
-        int count = 1;
-        for (int i = 1; i < array.length; i++) {
-            if (array[i] == result) {//如果相同，次数加1
-                count++;
-            } else if (count == 0) {//次数归零了，重新赋值
-                result = array[i];
-                count = 1;
-            } else {
-                count--;
-            }
-        }
-        //再检查一遍是因为，例如[1,2,3,2,4,2,5,2,3]，防止没有超过一半的数时，最后一个被当做正确答案
-        count = 0;
-        for (int i = 0; i < array.length; i++) {
-            if (result == array[i]) {
-                count++;
-            }
-        }
-        //如果result次数大于一半，则即为要找的数字
-        if (count > half) {
-            return result;
-        }
-        return 0;
+        // 验证 x 是否为众数
+        for (int num : nums)
+            if (num == x) count++;
+        return count > nums.length / 2 ? x : 0; // 当无众数时返回 0
     }
 
     /**

@@ -41,29 +41,18 @@ public class ShuZuZhongChuXianCiShuChaoGuoYiBanDeShuZiLcof {
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         public int majorityElement(int[] array) {
-            if (array.length == 0) {
-                return 0;
+            int x = 0, votes = 0, count = 0;
+            for (int i : array) {
+                if (votes == 0) {
+                    x = i;
+                }
+                votes += x == i ? 1 : -1;
             }
             int half = array.length / 2;
-            int count = 1;
-            int result = array[0];
-            for (int i = 1; i < array.length; i++) {
-                if (result == array[i]) {
-                    count++;
-                } else if (count == 0) {
-                    result = array[i];
-                    count = 1;
-                } else {
-                    count--;
-                }
-            }
-            count = 0;
-            for (int i = 0; i < array.length; i++) {
-                if (result == array[i]) {
-                    count++;
-                    if (count > half) {
-                        return result;
-                    }
+            for (int i : array) {
+                if (i == x) count++;
+                if (count > half) {
+                    return x;
                 }
             }
             return 0;
