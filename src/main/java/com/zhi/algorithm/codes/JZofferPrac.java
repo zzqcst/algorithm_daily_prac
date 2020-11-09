@@ -1627,7 +1627,7 @@ public class JZofferPrac {
      * @return
      */
     public int MoreThanHalfNum_Solution(int[] nums) {
-        //摩尔投票法
+        //摩尔投票法，x是众数
         int x = 0, votes = 0, count = 0;
         for (int num : nums) {
             if (votes == 0) x = num;
