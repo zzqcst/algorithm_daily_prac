@@ -1,13 +1,14 @@
 package com.zhi.algorithm.codes;
 
+import com.zhi.algorithm.datastructure.TreeNode;
+
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.*;
 import java.util.List;
-import com.zhi.algorithm.datastructure.TreeNode;
+import java.util.Queue;
+import java.util.*;
 
 public class LeetCode {
     static class Node {
@@ -602,6 +603,7 @@ public class LeetCode {
 
     /**
      * 最长公共子序列长度，压缩空间版
+     *
      * @param t1
      * @param t2
      * @return
@@ -609,18 +611,18 @@ public class LeetCode {
     public static int longestCommonSubsequence(String t1, String t2) {
         int a = t1.length();
         int b = t2.length();
-        int[] dp = new int[b+1];
-        int up=0;
+        int[] dp = new int[b + 1];
+        int up = 0;
         for (int i = 1; i < a + 1; i++) {
-            int leftUp =0;
+            int leftUp = 0;
             for (int j = 1; j < b + 1; j++) {
-                up=dp[j];
-                if (t1.charAt(i-1)==t2.charAt(j-1)){
-                    dp[j]=leftUp+1;
-                }else {
-                    dp[j]=Math.max(up,dp[j-1]);
+                up = dp[j];
+                if (t1.charAt(i - 1) == t2.charAt(j - 1)) {
+                    dp[j] = leftUp + 1;
+                } else {
+                    dp[j] = Math.max(up, dp[j - 1]);
                 }
-                leftUp=up;
+                leftUp = up;
             }
         }
         return dp[b];

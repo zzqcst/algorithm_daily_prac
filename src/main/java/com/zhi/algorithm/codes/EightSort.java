@@ -1,7 +1,5 @@
 package com.zhi.algorithm.codes;
 
-import java.util.LinkedHashMap;
-
 /**
  * 八大排序算法
  */
@@ -116,9 +114,9 @@ public class EightSort {
     }
 
     /**
-     * @param arr 目标数组
+     * @param arr  目标数组
      * @param from 开始位置
-     * @param to 结束位置
+     * @param to   结束位置
      */
     private static void adjustHeap(int[] arr, int from, int to) {
         int temp = arr[from];
