@@ -1623,72 +1623,58 @@ public class JZofferPrac {
      * 例如输入一个长度为9的数组{1,2,3,2,2,2,5,4,2}。
      * 由于数字2在数组中出现了5次，超过数组长度的一半，因此输出2。如果不存在则输出0。
      *
-     * @param array
+     * @param nums
      * @return
      */
-    public int MoreThanHalfNum_Solution(int[] array) {
-        if (array.length == 0) {
-            return 0;
+    public int MoreThanHalfNum_Solution(int[] nums) {
+        //摩尔投票法，x是众数
+        int x = 0, votes = 0, count = 0;
+        for (int num : nums) {
+            if (votes == 0) x = num;
+            votes += num == x ? 1 : -1;
         }
-        int half = array.length / 2;
-        //result初始值为第一个元素
-        int result = array[0];
-        int count = 1;
-        for (int i = 1; i < array.length; i++) {
-            if (array[i] == result) {//如果相同，次数加1
-                count++;
-            } else if (count == 0) {//次数归零了，重新赋值
-                result = array[i];
-                count = 1;
-            } else {
-                count--;
-            }
-        }
-        //再检查一遍是因为，例如[1,2,3,2,4,2,5,2,3]，防止没有超过一半的数时，最后一个被当做正确答案
-        count = 0;
-        for (int i = 0; i < array.length; i++) {
-            if (result == array[i]) {
-                count++;
-            }
-        }
-        //如果result次数大于一半，则即为要找的数字
-        if (count > half) {
-            return result;
-        }
-        return 0;
+        // 验证 x 是否为众数
+        for (int num : nums)
+            if (num == x) count++;
+        return count > nums.length / 2 ? x : 0; // 当无众数时返回 0
     }
 
     /**
+     * 字符串的排列
      * 输入一个字符串,按字典序打印出该字符串中字符的所有排列。
      * 例如输入字符串abc,则打印出由字符a,b,c所能排列出来的所有字符串abc,acb,bac,bca,cab和cba。
      *
      * @param str
      * @return
      */
-    ArrayList<String> permution = new ArrayList<>();
+    java.util.List<String> res0 = new LinkedList<>();
+    char[] c;
 
-    public ArrayList<String> Permutation(String str) {
-        if (str == null || str.length() == 0) {
-            return permution;
-        }
-        getRes(str, "", new boolean[str.length()]);
-        return permution;
+    public String[] permutation(String s) {
+        c = s.toCharArray();
+        dfs(0);
+        return res0.toArray(new String[0]);
     }
 
-    public void getRes(String str, String sb, boolean[] visited) {
-        if (sb.length() == str.length()) {
-            if (!permution.contains(sb)) {
-                permution.add(sb);
-            }
+    void dfs(int x) {
+        if (x == c.length - 1) {
+            res0.add(String.valueOf(c)); // 添加排列方案
             return;
         }
-        for (int i = 0; i < str.length(); i++) {
-            if (!visited[i]) {
-                visited[i] = true;
-                getRes(str, sb + str.charAt(i), visited);
-                visited[i] = false;
-            }
+        HashSet<Character> set = new HashSet<>();
+        for (int i = x; i < c.length; i++) {
+            if (set.contains(c[i])) continue; // 重复，因此剪枝
+            set.add(c[i]);
+            swap(i, x); // 交换，将 c[i] 固定在第 x 位
+            dfs(x + 1); // 开启固定第 x + 1 位字符
+            swap(i, x); // 恢复交换
         }
+    }
+
+    void swap(int a, int b) {
+        char tmp = c[a];
+        c[a] = c[b];
+        c[b] = tmp;
     }
 
     /**

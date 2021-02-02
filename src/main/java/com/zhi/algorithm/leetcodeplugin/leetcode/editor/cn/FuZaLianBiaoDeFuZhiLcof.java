@@ -54,13 +54,19 @@ package com.zhi.algorithm.leetcodeplugin.leetcode.editor.cn;
 // Related Topics 链表 
 // 👍 83 👎 0
 
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * @author zhi
+ */
 public class FuZaLianBiaoDeFuZhiLcof {
     public static void main(String[] args) {
         Solution solution = new FuZaLianBiaoDeFuZhiLcof().new Solution();
+        solution.copyRandomList(new Node(1));
     }
 
-    // Definition for a Node.
-    class Node {
+    static class Node {
         int val;
         Node next;
         Node random;
@@ -71,14 +77,35 @@ public class FuZaLianBiaoDeFuZhiLcof {
             this.random = null;
         }
     }
-
     //leetcode submit region begin(Prohibit modification and deletion)
 
     class Solution {
         public Node copyRandomList(Node head) {
+            if (head == null) {
+                return head;
+            }
             Node tmp = head;
-
-            return head;
+            while (tmp != null) {
+                Node copy = new Node(tmp.val);
+                copy.next = tmp.next;
+                tmp.next = copy;
+                tmp = copy.next;
+            }
+            tmp = head;
+            while (tmp != null) {
+                if (tmp.random != null) {
+                    tmp.next.random = tmp.random.next;
+                }
+                tmp = tmp.next.next;
+            }
+            tmp = head;
+            Node newHead = head.next;
+            while (tmp.next != null) {
+                Node next = tmp.next;
+                tmp.next = next.next;
+                tmp = next;
+            }
+            return newHead;
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)

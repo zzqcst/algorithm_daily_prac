@@ -23,34 +23,47 @@ package com.zhi.algorithm.leetcodeplugin.leetcode.editor.cn;
 // 0 <= arr[i] <= 10000 
 // 
 // Related Topics 堆 分治算法 
-// 👍 145 👎 0
+// 👍 159 👎 0
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.PriorityQueue;
 
-public class ZuiXiaoDeKgeShuLcof{
-  public static void main(String[] args) {
-       Solution solution = new ZuiXiaoDeKgeShuLcof().new Solution();
-  }
-  //leetcode submit region begin(Prohibit modification and deletion)
-class Solution {
-    public int[] getLeastNumbers(int[] arr, int k) {
-        if (arr.length == 0) {
-            return new int[0];
-        }
-        PriorityQueue<Integer> pq = new PriorityQueue<>();
-        for (int i = 0; i < arr.length; i++) {
-            pq.offer(arr[i]);
-        }
-        int[] res = new int[k];
-        for (int i = 0; i < k; i++) {
-            if (pq.isEmpty()) {
-                break;
-            }
-            res[i] = pq.poll();
-        }
-        return res;
+/**
+ * @author zhi
+ */
+public class ZuiXiaoDeKgeShuLcof {
+    public static void main(String[] args) {
+        Solution solution = new ZuiXiaoDeKgeShuLcof().new Solution();
     }
-}
+
+    //leetcode submit region begin(Prohibit modification and deletion)
+    class Solution {
+        public int[] getLeastNumbers(int[] arr, int k) {
+            int[] vec = new int[k];
+            if (k == 0) { // 排除 0 的情况
+                return vec;
+            }
+            PriorityQueue<Integer> queue = new PriorityQueue<Integer>(new Comparator<Integer>() {
+                public int compare(Integer num1, Integer num2) {
+                    return num2 - num1;
+                }
+            });
+            for (int i = 0; i < k; ++i) {
+                queue.offer(arr[i]);
+            }
+            for (int i = k; i < arr.length; ++i) {
+                if (queue.peek() > arr[i]) {
+                    queue.poll();
+                    queue.offer(arr[i]);
+                }
+            }
+            for (int i = 0; i < k; ++i) {
+                vec[i] = queue.poll();
+            }
+            return vec;
+        }
+    }
 //leetcode submit region end(Prohibit modification and deletion)
 
 }
