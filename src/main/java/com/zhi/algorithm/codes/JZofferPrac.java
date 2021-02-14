@@ -1455,6 +1455,44 @@ public class JZofferPrac {
     }
 
     /**
+     * 数字序列中的某一位数字
+     * 数字序列：012345678910111213......
+     * @param n 序列中的第几位
+     * @return
+     */
+    public int findNthDigit(int n) {
+        long num = n;
+
+        long size = 1;
+        long max = 9;
+        //不用考虑0的情况，各个区间内下标从1开始
+        while (n > 0) {
+            //判断不在当前位数内
+            if (num - max * size > 0) {
+                num = num - max * size;
+                size++;
+                max = max * 10;
+            } else {
+                long count = num / size;
+                //从左往右第几个数字，从1开始
+                long left = num % size;
+                if (left == 0) {
+                    //left为0，表示上一个数的最后一位
+                    int actualNumber = (int) (Math.pow(10, size - 1) + count-1);
+                    return actualNumber % 10;
+                } else {
+                    int actualNumber = (int) (Math.pow(10, size - 1) + count);
+                    int rightRemove = (int) Math.pow(10, (size - left));
+                    //除以10取整，表示右移一位，right表示需要右移多少位，将目标数字放到个位，最后除以10取余得到个位，即目标数字
+                    return actualNumber / rightRemove % 10;
+                }
+            }
+        }
+
+        return 0;
+    }
+
+    /**
      * 把只包含质因子2、3和5的数称作丑数（Ugly Number）。
      * 例如6、8都是丑数，但14不是，因为它包含质因子7。 习惯上我们把1当做是第一个丑数。求按从小到大的顺序的第N个丑数。
      *
