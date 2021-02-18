@@ -75,3 +75,4 @@ fabric.properties
 *.iml
 
 /src/main/java/com/zhi/algorithm/leetcodeplugin/leetcode/editor/cn/*.json
+/src/main/java/com/zhi/algorithm/leetcodeplugin/leetcode/editor/cn/doc/
