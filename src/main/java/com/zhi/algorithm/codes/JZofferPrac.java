@@ -1316,6 +1316,7 @@ public class JZofferPrac {
 
     /**
      * 输入两个链表，找出它们的第一个公共结点。
+     * 见双指针法
      *
      * @param node1
      * @param node2
@@ -1398,12 +1399,14 @@ public class JZofferPrac {
         while (i >= low && j > mid) {
             if (array[i] > array[j]) {
                 copy[copyIndex--] = array[i--];
+                //后半部分数组从mid到j的数字和i位置的数字构成逆序对
                 count += j - mid;
                 if (count >= 1000000007)//数值过大求余
                 {
                     count %= 1000000007;
                 }
             } else {
+                //不构成逆序对
                 copy[copyIndex--] = array[j--];
             }
         }
