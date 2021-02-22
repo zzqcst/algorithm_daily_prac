@@ -26,10 +26,7 @@ package com.zhi.algorithm.leetcodeplugin.leetcode.editor.cn;
 // Related Topics 队列 Sliding Window 
 // 👍 187 👎 0
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class HuaDongChuangKouDeZuiDaZhiLcof {
     public static void main(String[] args) {
@@ -40,37 +37,21 @@ public class HuaDongChuangKouDeZuiDaZhiLcof {
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         public int[] maxSlidingWindow(int[] nums, int k) {
-            if (nums.length == 0 || k > nums.length) {
-                return new int[0];
-            }
-
+            if(nums.length == 0 || k == 0) return new int[0];
+            Deque<Integer> deque = new LinkedList<>();
             int[] res = new int[nums.length - k + 1];
-            Map<Integer, Integer> map = new HashMap<>();
-            PriorityQueue<Integer> queue = new PriorityQueue<>(new Comparator<Integer>() {
-                @Override
-                public int compare(Integer o1, Integer o2) {
-                    return o2 - o1;
+            for (int j = 0, i = 1 - k; j < nums.length; j++,i++) {
+                if (i > 0 && deque.peekFirst() == nums[i - 1]) {
+                    deque.removeFirst();
                 }
-            });
-            int i = 0, j = k - 1;
-            for (int l = i; l <= j; l++) {
-                queue.offer(nums[l]);
+                while (!deque.isEmpty() && deque.peekLast() < nums[j]) {
+                    deque.removeLast();
+                }
+                deque.addLast(nums[j]);
+                if (i >= 0) {
+                    res[i] = deque.peekFirst();
+                }
             }
-            while (true) {
-                while (map.get(queue.peek()) != null && map.get(queue.peek()) != 0) {
-                    map.put(queue.peek(), map.get(queue.peek()) - 1);
-                    queue.poll();
-                }
-                res[i] = queue.peek();
-                j++;
-                if (j >= nums.length) {
-                    break;
-                }
-                queue.offer(nums[j]);
-                map.put(nums[i], map.getOrDefault(nums[i], 0) + 1);
-                i++;
-            }
-
             return res;
         }
     }
