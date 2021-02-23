@@ -31,6 +31,7 @@ package com.zhi.algorithm.leetcodeplugin.leetcode.editor.cn;
 // Related Topics 栈 Sliding Window 
 // 👍 197 👎 0
 
+import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -41,21 +42,31 @@ public class DuiLieDeZuiDaZhiLcof {
     //leetcode submit region begin(Prohibit modification and deletion)
     class MaxQueue {
         Queue<Integer> queue = new LinkedList<>();
-        int max = -1;
+        Deque<Integer> deque = new LinkedList<>();
 
         public MaxQueue() {
 
         }
 
         public int max_value() {
-            return max;
+            if (deque.isEmpty()) {
+                return -1;
+            }
+            return deque.peekFirst();
         }
 
         public void push_back(int value) {
             queue.add(value);
+            while (!deque.isEmpty() && deque.peekLast() < value) {
+                deque.removeLast();
+            }
+            deque.addLast(value);
         }
 
         public int pop_front() {
+            if (!queue.isEmpty() && queue.peek().equals(deque.peekFirst())) {
+                deque.removeFirst();
+            }
             return queue.isEmpty() ? -1 : queue.poll();
         }
     }
