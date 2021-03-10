@@ -41,13 +41,15 @@ public class FanZhuanLianBiaoLcof {
      */
     class Solution {
         public ListNode reverseList(ListNode head) {
-            if (head == null || head.next == null) {
-                return head;
+            ListNode pre = null;
+            ListNode cur = head;
+            while (cur != null) {
+                ListNode next = cur.next;
+                cur.next = pre;
+                pre = cur;
+                cur = next;
             }
-            ListNode newHead = reverseList(head.next);
-            head.next.next = head;
-            head.next = null;
-            return newHead;
+            return pre;
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)

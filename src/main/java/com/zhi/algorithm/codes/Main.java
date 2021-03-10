@@ -1,9 +1,10 @@
 package com.zhi.algorithm.codes;
 
+import java.util.HashMap;
+
 public class Main {
     public static void main(String[] args) {
-        long millis = System.currentTimeMillis();
-        System.out.println(millis);
-        System.out.println(String.valueOf(millis % 100000));
+        HashMap<String, Integer> mpa = new HashMap<>();
+        mpa.put("a", 1);
     }
 }
