@@ -55,6 +55,7 @@ public class ZuiChangBuHanZhongFuZiFuDeZiZiFuChuanLcof {
             int res=0;
             for (int j = 0; j < s.length(); j++) {
                 if (map.get(s.charAt(j)) != null) {
+                    //使用max是因为i不能回去，例如abba，当i=1,j=3时，i不能等于0
                     i = Math.max(i, map.get(s.charAt(j)));
                 }
                 map.put(s.charAt(j), j);
