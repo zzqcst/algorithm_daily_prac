@@ -76,3 +76,4 @@ fabric.properties
 
 /src/main/java/com/zhi/algorithm/leetcodeplugin/leetcode/editor/cn/*.json
 /src/main/java/com/zhi/algorithm/leetcodeplugin/leetcode/editor/cn/doc/
+/src/main/java/**/*.md
