@@ -1,6 +1,7 @@
 package com.zhi.algorithm.util;
 
 import com.zhi.algorithm.codes.LeetCode;
+import com.zhi.algorithm.datastructure.ListNode;
 import com.zhi.algorithm.datastructure.TreeNode;
 
 import java.util.LinkedList;
@@ -61,5 +62,18 @@ public class DataConstructor {
             }
         }
         return root;
+    }
+
+    public static ListNode buildList(int[] a){
+        if (a.length == 0) {
+            return null;
+        }
+        ListNode head = new ListNode(0);
+        ListNode tmp = head;
+        for (int i : a) {
+            tmp.next = new ListNode(i);
+            tmp = tmp.next;
+        }
+        return head.next;
     }
 }
