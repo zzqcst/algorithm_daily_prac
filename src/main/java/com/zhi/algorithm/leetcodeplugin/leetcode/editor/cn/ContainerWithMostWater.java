@@ -58,6 +58,7 @@ public class ContainerWithMostWater {
             if (height.length <= 1) {
                 return 0;
             }
+            //双指针,i、j从两头向中间移动，计算每次移动后的面积，保存最大值，左边高度低，左边移动，右边高度低，右边移动
             int i = 0, j = height.length - 1;
             int max = 0;
             while (i < j) {
