@@ -197,9 +197,9 @@ public class EightSort {
             while (start < end && arr[start] <= key) {//从前往后找到一个比枢轴值大的，换到后面去
                 start++;
             }
-            arr[end] = arr[start];//将枢轴值放到分割处
+            arr[end] = arr[start];
         }
-        arr[start] = key;
+        arr[start] = key;//将枢轴值放到分割处
         return start;//返回枢轴值的位置
     }
 

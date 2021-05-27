@@ -34,12 +34,13 @@ public class XuanZhuanShuZuDeZuiXiaoShuZiLcof {
             int low = 0;
             int high = numbers.length - 1;
             while (low < high) {
-                int pivot = low + (high - low) / 2;
-                if (numbers[pivot] < numbers[high]) {
-                    high = pivot;
-                } else if (numbers[pivot] > numbers[high]) {
-                    low = pivot + 1;
+                int mid = low + (high - low) / 2;
+                if (numbers[mid] < numbers[high]) {
+                    high = mid;
+                } else if (numbers[mid] > numbers[high]) {
+                    low = mid + 1;
                 } else {
+                    //numbers[mid]==numbers[high] 不能确定mid在最小值左边还是右边
                     high -= 1;
                 }
             }
