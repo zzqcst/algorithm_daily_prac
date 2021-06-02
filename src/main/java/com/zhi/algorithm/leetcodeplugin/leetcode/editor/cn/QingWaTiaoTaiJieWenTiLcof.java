@@ -40,16 +40,13 @@ public class QingWaTiaoTaiJieWenTiLcof {
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         public int numWays(int n) {
-            if (n == 0) return 1;
-            if (n <= 3) return n;
-            int one = 2, two = 3;
-            int res = 0;
-            for (int i = 4; i <= n; i++) {
-                res = (one + two) % 1000_000_007;
-                one = two;
-                two = res;
+            int a = 1, b = 1, sum;
+            for(int i = 0; i < n; i++){
+                sum = (a + b) % 1000000007;
+                a = b;
+                b = sum;
             }
-            return res;
+            return a;
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)

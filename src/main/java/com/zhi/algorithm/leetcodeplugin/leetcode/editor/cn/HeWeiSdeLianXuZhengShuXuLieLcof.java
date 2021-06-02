@@ -40,41 +40,23 @@ public class HeWeiSdeLianXuZhengShuXuLieLcof {
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         public int[][] findContinuousSequence(int target) {
-            int small = 1, big = 2;
-            int mid = target / 2;
-            int sum = small + big;
-            List<List<Integer>> res = new ArrayList<>();
-            while (small <= mid) {
+            List<int[]> vec = new ArrayList<int[]>();
+            for (int l = 1, r = 2; l < r;) {
+                int sum = (l + r) * (r - l + 1) / 2;
                 if (sum == target) {
-                    res.add(getOneAns(small, big));
-                }
-                while (sum > target && small <= mid) {
-                    sum -= small;
-                    small++;
-                    if (sum == target) {
-                        res.add(getOneAns(small, big));
+                    int[] res = new int[r - l + 1];
+                    for (int i = l; i <= r; ++i) {
+                        res[i - l] = i;
                     }
+                    vec.add(res);
+                    l++;
+                } else if (sum < target) {
+                    r++;
+                } else {
+                    l++;
                 }
-                big++;
-                sum += big;
             }
-            int[][] ans = new int[res.size()][];
-            for (int i = 0; i < res.size(); i++) {
-                int[] temp = new int[res.get(i).size()];
-                for (int j = 0; j < res.get(i).size(); j++) {
-                    temp[j] = res.get(i).get(j);
-                }
-                ans[i] = temp;
-            }
-            return ans;
-        }
-
-        private List<Integer> getOneAns(int small, int big) {
-            List<Integer> list = new ArrayList<>();
-            for (int i = small; i <= big; i++) {
-                list.add(i);
-            }
-            return list;
+            return vec.toArray(new int[vec.size()][]);
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)

@@ -50,16 +50,18 @@ public class FanZhuanDanCiShunXuLcof {
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         public String reverseWords(String s) {
-            s = s.trim();
-            int i = s.length() - 1, j = s.length() - 1;
-            StringBuilder sb = new StringBuilder();
-            while (i >= 0) {
-                while (i >= 0 && s.charAt(i) != ' ') i--;
-                sb.append(s, i + 1, j + 1).append(" ");
-                while (i >= 0 && s.charAt(i) == ' ') i--;
-                j = i;
+            //从后到前找单词
+            s = s.trim(); // 删除首尾空格
+            int j = s.length() - 1, i = j;
+            StringBuilder res = new StringBuilder();
+            while(i >= 0) {
+                while(i >= 0 && s.charAt(i) != ' ') i--; // 搜索首个空格
+                res.append(s.substring(i + 1, j + 1) + " "); // 添加单词
+                while(i >= 0 && s.charAt(i) == ' ') i--; // 跳过单词间空格
+                j = i; // j 指向下个单词的尾字符
             }
-            return sb.toString().trim();
+            return res.toString().trim(); // 转化为字符串并返回
+
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)

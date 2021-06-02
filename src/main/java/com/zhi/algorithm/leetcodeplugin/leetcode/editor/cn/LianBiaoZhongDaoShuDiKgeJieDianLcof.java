@@ -33,19 +33,17 @@ public class LianBiaoZhongDaoShuDiKgeJieDianLcof {
      */
     class Solution {
         public ListNode getKthFromEnd(ListNode head, int k) {
-            ListNode fast = head, slow = head;
-            while (k > 1) {
-                if (fast == null) return null;
-                fast = fast.next;
-                k--;
+            ListNode former = head, latter = head;
+            for (int i = 0; i < k; i++)
+                former = former.next;
+            while (former != null) {
+                former = former.next;
+                latter = latter.next;
             }
-            while (fast.next != null) {
-                fast = fast.next;
-                slow = slow.next;
-            }
-            return slow;
+            return latter;
         }
     }
+
 //leetcode submit region end(Prohibit modification and deletion)
 
 }

@@ -44,6 +44,7 @@ class Solution {
                 if (nums[i] == nums[nums[i]]) {
                     return nums[i];
                 }
+                //把nums[i]放回对应的位置i上
                 nums[i]=nums[nums[i]] + nums[i] - (nums[nums[i]] = nums[i]);
             }
         }

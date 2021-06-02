@@ -41,7 +41,9 @@ public class YongLiangGeZhanShiXianDuiLieLcof {
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class CQueue {
+        //stack1接收加入的元素，为倒序
         private Stack<Integer> stack1 = new Stack<>();
+        //将stack1的元素导入stack2中，stack2从上到下是正序
         private Stack<Integer> stack2 = new Stack<>();
 
         public CQueue() {
@@ -54,6 +56,7 @@ public class YongLiangGeZhanShiXianDuiLieLcof {
 
         public int deleteHead() {
             if (!stack2.isEmpty()) {
+                //stack2的顶部元素就是队首元素
                 return stack2.pop();
             } else if (!stack1.isEmpty()) {
                 while (!stack1.isEmpty()) {
