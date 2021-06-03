@@ -62,6 +62,8 @@ public class RotateList {
                 iter = iter.next;
                 n++;
             }
+            //iter指向最后一个节点
+            //向右旋转k个，相当于指针移动n-k步
             int add = n - k % n;
             if (add == n) {
                 return head;
