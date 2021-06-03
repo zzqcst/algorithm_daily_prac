@@ -46,7 +46,7 @@ package com.zhi.algorithm.leetcodeplugin.leetcode.editor.cn;
 // 1 <= m, n <= 100 
 // 题目数据保证答案小于等于 2 * 109 
 // 
-// Related Topics 数组 动态规划 
+// Related Topics 数组 动态规划
 // 👍 1006 👎 0
 
 import java.util.Arrays;
