@@ -44,69 +44,75 @@ package com.zhi.algorithm.leetcodeplugin.leetcode.editor.cn;
 // 
 //
 // 进阶：你可以使用搜索剪枝的技术来优化解决方案，使其在 board 更大的情况下可以更快解决问题？ 
-// Related Topics 数组 回溯算法 
-// 👍 922 👎 0
+// Related Topics 数组 回溯算法
+// 👍 925 👎 0
 
-public class WordSearch{
-  public static void main(String[] args) {
-       Solution solution = new WordSearch().new Solution();
-  }
-  //leetcode submit region begin(Prohibit modification and deletion)
-  public class Solution {
+import com.zhi.algorithm.codes.LeetCode;
 
-      private final int[][] DIRECTIONS = {{-1, 0}, {0, -1}, {0, 1}, {1, 0}};
-      private int rows;
-      private int cols;
-      private int len;
-      private boolean[][] visited;
-      private char[] charArray;
-      private char[][] board;
+/**
+ * @author zhi
+ */
+public class WordSearch {
+    public static void main(String[] args) {
+        Solution solution = new WordSearch().new Solution();
+    }
 
-      public boolean exist(char[][] board, String word) {
-          rows = board.length;
-          if (rows == 0) {
-              return false;
-          }
-          cols = board[0].length;
-          visited = new boolean[rows][cols];
+    //leetcode submit region begin(Prohibit modification and deletion)
+    public class Solution {
 
-          this.len = word.length();
-          this.charArray = word.toCharArray();
-          this.board = board;
-          for (int i = 0; i < rows; i++) {
-              for (int j = 0; j < cols; j++) {
-                  if (dfs(i, j, 0)) {
-                      return true;
-                  }
-              }
-          }
-          return false;
-      }
+        private final int[][] DIRECTIONS = {{-1, 0}, {0, -1}, {0, 1}, {1, 0}};
+        private int rows;
+        private int cols;
+        private int len;
+        private boolean[][] visited;
+        private char[] charArray;
+        private char[][] board;
 
-      private boolean dfs(int x, int y, int begin) {
-          if (begin == len - 1) {
-              return board[x][y] == charArray[begin];
-          }
-          if (board[x][y] == charArray[begin]) {
-              visited[x][y] = true;
-              for (int[] direction : DIRECTIONS) {
-                  int newX = x + direction[0];
-                  int newY = y + direction[1];
-                  if (inArea(newX, newY) && !visited[newX][newY]) {
-                      if (dfs(newX, newY, begin + 1)) {
-                          return true;
-                      }
-                  }
-              }
-              visited[x][y] = false;
-          }
-          return false;
-      }
+        public boolean exist(char[][] board, String word) {
+            rows = board.length;
+            if (rows == 0) {
+                return false;
+            }
+            cols = board[0].length;
+            visited = new boolean[rows][cols];
 
-      private boolean inArea(int x, int y) {
-          return x >= 0 && x < rows && y >= 0 && y < cols;
-      }
-  }
+            this.len = word.length();
+            this.charArray = word.toCharArray();
+            this.board = board;
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < cols; j++) {
+                    if (dfs(i, j, 0)) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        private boolean dfs(int x, int y, int begin) {
+            if (begin == len - 1) {
+                return board[x][y] == charArray[begin];
+            }
+            if (board[x][y] == charArray[begin]) {
+                visited[x][y] = true;
+                for (int[] direction : DIRECTIONS) {
+                    int newX = x + direction[0];
+                    int newY = y + direction[1];
+                    if (inArea(newX, newY) && !visited[newX][newY]) {
+                        if (dfs(newX, newY, begin + 1)) {
+                            return true;
+                        }
+                    }
+                }
+                visited[x][y] = false;
+            }
+            return false;
+        }
+
+        private boolean inArea(int x, int y) {
+            return x >= 0 && x < rows && y >= 0 && y < cols;
+        }
+    }
 //leetcode submit region end(Prohibit modification and deletion)
 
 }

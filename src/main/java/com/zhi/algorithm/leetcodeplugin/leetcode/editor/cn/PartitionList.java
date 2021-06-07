@@ -28,19 +28,19 @@ package com.zhi.algorithm.leetcodeplugin.leetcode.editor.cn;
 // -100 <= Node.val <= 100 
 // -200 <= x <= 200 
 // 
-// Related Topics 链表 双指针 
-// 👍 408 👎 0
+// Related Topics 链表 双指针
+// 👍 409 👎 0
 
 import com.zhi.algorithm.datastructure.ListNode;
-import com.zhi.algorithm.util.DataConstructor;
 
+/**
+ * @author zhi
+ */
 public class PartitionList {
     public static void main(String[] args) {
         Solution solution = new PartitionList().new Solution();
-        ListNode listNode = DataConstructor.buildList(new int[]{1, 4, 3, 2, 5, 2});
-        solution.partition(listNode, 3);
     }
-    //leetcode submit region begin(Prohibit modification and deletion)
+//leetcode submit region begin(Prohibit modification and deletion)
 
     /**
      * Definition for singly-linked list.
@@ -54,25 +54,23 @@ public class PartitionList {
      */
     class Solution {
         public ListNode partition(ListNode head, int x) {
-            if (head == null || head.next == null) {
-                return head;
-            }
-            ListNode pre = null;
-            ListNode tmp = head;
-            while (tmp != null && tmp.next != null) {
-                if (tmp.next.val == x) {
-                    pre = tmp;
+            ListNode smallHead = new ListNode(0);
+            ListNode bigHead = new ListNode(0);
+            ListNode small = smallHead;
+            ListNode big = bigHead;
+            while (head != null) {
+                if (head.val < x) {
+                    small.next = head;
+                    small = small.next;
+                } else {
+                    big.next = head;
+                    big = big.next;
                 }
-                if (pre != null && tmp.next.val < x) {
-                    ListNode next = tmp.next;
-                    tmp.next = next.next;
-                    next.next = pre.next;
-                    pre.next = next;
-                    pre = pre.next;
-                }
-                tmp = tmp.next;
+                head = head.next;
             }
-            return head;
+            big.next = null;
+            small.next = bigHead.next;
+            return smallHead.next;
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)
