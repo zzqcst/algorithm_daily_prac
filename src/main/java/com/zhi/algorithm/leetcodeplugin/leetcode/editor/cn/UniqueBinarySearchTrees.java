@@ -40,6 +40,8 @@ public class UniqueBinarySearchTrees {
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         public int numTrees(int n) {
+            //以不同的数字i作为根节点，1...(i-1)为左子树, (i+1)...n为右子树，接着我们可以按照同样的方式递归构建左子树和右子树。
+            //https://leetcode-cn.com/problems/unique-binary-search-trees/solution/bu-tong-de-er-cha-sou-suo-shu-by-leetcode-solution/
             int[] G = new int[n + 1];
             G[0] = 1;
             G[1] = 1;
