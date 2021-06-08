@@ -35,41 +35,45 @@ package com.zhi.algorithm.leetcodeplugin.leetcode.editor.cn;
 
 import com.zhi.algorithm.datastructure.TreeNode;
 
-public class ValidateBinarySearchTree{
-  public static void main(String[] args) {
-       Solution solution = new ValidateBinarySearchTree().new Solution();
-  }
-  //leetcode submit region begin(Prohibit modification and deletion)
 /**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode() {}
- *     TreeNode(int val) { this.val = val; }
- *     TreeNode(int val, TreeNode left, TreeNode right) {
- *         this.val = val;
- *         this.left = left;
- *         this.right = right;
- *     }
- * }
+ * @author zhi
  */
-class Solution {
-    public boolean isValidBST(TreeNode root) {
-        return isValidBST(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+public class ValidateBinarySearchTree {
+    public static void main(String[] args) {
+        Solution solution = new ValidateBinarySearchTree().new Solution();
     }
+//leetcode submit region begin(Prohibit modification and deletion)
 
-    private boolean isValidBST(TreeNode root, int minValue, int maxValue) {
-        if (root == null) {
-            return true;
+    /**
+     * Definition for a binary tree node.
+     * public class TreeNode {
+     * int val;
+     * TreeNode left;
+     * TreeNode right;
+     * TreeNode() {}
+     * TreeNode(int val) { this.val = val; }
+     * TreeNode(int val, TreeNode left, TreeNode right) {
+     * this.val = val;
+     * this.left = left;
+     * this.right = right;
+     * }
+     * }
+     */
+    class Solution {
+        public boolean isValidBST(TreeNode root) {
+            return isValidBST(root, Long.MIN_VALUE, Long.MAX_VALUE);
         }
-        if (root.val <= minValue || root.val >= maxValue) {
-            return false;
+
+        private boolean isValidBST(TreeNode root, long minValue, long maxValue) {
+            if (root == null) {
+                return true;
+            }
+            if (root.val <= minValue || root.val >= maxValue) {
+                return false;
+            }
+            return isValidBST(root.left, minValue, root.val) && isValidBST(root.right, root.val, maxValue);
         }
-        return isValidBST(root.left, minValue, root.val) || isValidBST(root.right, root.val, maxValue);
     }
-}
 //leetcode submit region end(Prohibit modification and deletion)
 
 }
