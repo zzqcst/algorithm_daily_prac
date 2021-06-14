@@ -40,11 +40,13 @@ public class GenerateParentheses {
     class Solution {
         public List<String> generateParenthesis(int n) {
             List<String> res = new ArrayList<>();
+            //左括号右括号各有n个
             gen("", res, n, n);
             return res;
         }
 
         public void gen(String s, List<String> res, int left, int right) {
+            //匹配了左括号才能匹配右括号，即left总比right先减1
             if (left > right) {
                 return;
             }

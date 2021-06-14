@@ -56,8 +56,10 @@ public class MinimumPathSum {
                 dp[j] = dp[j - 1] + grid[0][j];
             }
             for (int i = 1; i < rows; i++) {
+                //每一行的第一个位置只能从上边过来
                 dp[0] = dp[0] + grid[i][0];
                 for (int j = 1; j < columns; j++) {
+                    //到当前位置有两种方式，从上边或者从左边，取最小的一个
                     dp[j] = Math.min(dp[j], dp[j - 1]) + grid[i][j];
                 }
             }

@@ -89,17 +89,17 @@ public class WordSearch {
             return false;
         }
 
-        private boolean dfs(int x, int y, int begin) {
-            if (begin == len - 1) {
-                return board[x][y] == charArray[begin];
+        private boolean dfs(int x, int y, int index) {
+            if (index == len - 1) {
+                return board[x][y] == charArray[index];
             }
-            if (board[x][y] == charArray[begin]) {
+            if (board[x][y] == charArray[index]) {
                 visited[x][y] = true;
                 for (int[] direction : DIRECTIONS) {
                     int newX = x + direction[0];
                     int newY = y + direction[1];
                     if (inArea(newX, newY) && !visited[newX][newY]) {
-                        if (dfs(newX, newY, begin + 1)) {
+                        if (dfs(newX, newY, index + 1)) {
                             return true;
                         }
                     }

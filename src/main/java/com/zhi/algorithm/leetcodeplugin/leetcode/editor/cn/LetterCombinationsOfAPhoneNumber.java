@@ -77,16 +77,15 @@ public class LetterCombinationsOfAPhoneNumber {
 
         public void backtrack(List<String> combinations, Map<Character, String> phoneMap, String digits, int index, StringBuffer combination) {
             if (index == digits.length()) {
-                combinations.add(combination.toString());
-            } else {
-                char digit = digits.charAt(index);
-                String letters = phoneMap.get(digit);
-                int lettersCount = letters.length();
-                for (int i = 0; i < lettersCount; i++) {
-                    combination.append(letters.charAt(i));
-                    backtrack(combinations, phoneMap, digits, index + 1, combination);
-                    combination.deleteCharAt(index);
-                }
+                combinations.add(new String(combination));
+                return;
+            }
+            char num = digits.charAt(index);
+            String letters = phoneMap.get(num);
+            for (int i = 0; i < letters.length(); i++) {
+                combination.append(letters.charAt(i));
+                backtrack(combinations, phoneMap, digits, index + 1, combination);
+                combination.deleteCharAt(index);
             }
         }
     }

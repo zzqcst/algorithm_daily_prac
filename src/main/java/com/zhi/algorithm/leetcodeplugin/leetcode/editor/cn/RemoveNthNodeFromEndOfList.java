@@ -63,12 +63,13 @@ public class RemoveNthNodeFromEndOfList {
          * @param n
          * @return 注意：使用头部哑节点，可以避免对头部节点的特殊判断
          * solution 1: 遍历一遍得到长度，倒数第n个，就是整数第len-n个，再遍历一遍删除
-         * solution 2: 双指针，first比second多走n步，second到达尾结点时，first指向的就是倒数第n个
+         * solution 2: 双指针，first比second多走n步，first到达尾结点时，second指向的就是倒数第n个
          */
         public ListNode removeNthFromEnd(ListNode head, int n) {
             ListNode dummy = new ListNode(0);
             dummy.next = head;
             ListNode first = head;
+            //first为null时，second指向目标node前一个
             ListNode second = dummy;
             //first比second多走n步
             for (int i = 0; i < n; ++i) {
@@ -79,8 +80,7 @@ public class RemoveNthNodeFromEndOfList {
                 second = second.next;
             }
             second.next = second.next.next;
-            ListNode ans = dummy.next;
-            return ans;
+            return dummy.next;
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)

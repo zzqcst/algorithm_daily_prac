@@ -69,13 +69,13 @@ public class SearchInRotatedSortedArray {
                     return mid;
                 }
                 //相较于二分法增加的判断，判断处于旋转数组的哪一部分
-                if (nums[0] <= nums[mid]) {
+                if (nums[0] <= nums[mid]) {//mid位于旋转数组前一部分
                     if (nums[0] <= target && target < nums[mid]) {
                         r = mid - 1;
                     } else {
                         l = mid + 1;
                     }
-                } else {
+                } else {//mid在旋转数组后一部分
                     if (nums[mid] < target && target <= nums[n - 1]) {
                         l = mid + 1;
                     } else {

@@ -42,7 +42,9 @@ public class GroupAnagrams {
                 }
                 StringBuilder sb = new StringBuilder();
                 for (int i = 0; i < 26; i++) {
-                    sb.append((char) (i + 'a')).append(count[i]);
+                    if (count[i] != 0) {
+                        sb.append((char) (i + 'a')).append(count[i]);
+                    }
                 }
                 List<String> each = map.getOrDefault(sb.toString(), new ArrayList<>());
                 each.add(str);

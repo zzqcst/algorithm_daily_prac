@@ -54,16 +54,20 @@ public class NextPermutation{
 class Solution {
       public void nextPermutation(int[] nums) {
           int i = nums.length - 2;
+          //从后往前寻找较小数，第一个顺序对(i,i+1)，满足nums[i]<nums[i+1],此时i+1...n是下降序列
           while (i >= 0 && nums[i] >= nums[i + 1]) {
               i--;
           }
           if (i >= 0) {
               int j = nums.length - 1;
+              //从后向前寻找较大数，由于i+1...n是下降序列，第一个大于nums[i]的是较大数
               while (j >= 0 && nums[i] >= nums[j]) {
                   j--;
               }
+              //交换两个数
               swap(nums, i, j);
           }
+          //把i位置之后的变为升序，由于i+1...n是下降序列，直接双指针交换
           reverse(nums, i + 1);
       }
 

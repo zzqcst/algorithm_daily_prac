@@ -57,12 +57,13 @@ public class FindFirstAndLastPositionOfElementInSortedArray {
             }
             return new int[]{-1, -1};
         }
-
+        //如果lower为true，则查找第一个大于等于target 的下标，否则查找第一个大于target 的下标。
         public int binarySearch(int[] nums, int target, boolean lower) {
             int left = 0, right = nums.length - 1, ans = nums.length;
             while (left <= right) {
                 int mid = (left + right) / 2;
-                if (nums[mid] > target || (lower && nums[mid] >= target)) {
+                if (nums[mid] > target || (lower && nums[mid] == target)) {
+                    //为true且num[mid]等于目标值时，不断缩小右边界，最后得到目标值得起始下标
                     right = mid - 1;
                     ans = mid;
                 } else {

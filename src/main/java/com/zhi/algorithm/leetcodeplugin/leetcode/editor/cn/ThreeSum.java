@@ -54,6 +54,7 @@ public class ThreeSum {
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         public List<List<Integer>> threeSum(int[] nums) {
+            //排序，固定第一个数num，双指针计算剩余两数和为-num
             Arrays.sort(nums);
             List<List<Integer>> res = new ArrayList<>();
             for (int i = 0; i < nums.length; i++) {
@@ -64,8 +65,8 @@ public class ThreeSum {
 
                 int j = i + 1, k = nums.length - 1;
                 while (j < k) {
-                    if (j > i + 1 && nums[j] == nums[j - 1]) {
-                        j++;
+                    if (k < nums.length - 1 && nums[k] == nums[k + 1]) {
+                        k--;
                         continue;
                     }
                     if (nums[j] + nums[k] < target) {
@@ -77,7 +78,7 @@ public class ThreeSum {
                     } else {
                         res.add(Arrays.asList(nums[i], nums[j], nums[k]));
                     }
-                    j++;
+                    k--;
 
                 }
             }

@@ -78,7 +78,7 @@ public class UniquePaths{
           Arrays.fill(dp, 1);
           for(int i = 1; i < m; ++i) {
               for(int j = 1; j < n; ++j) {
-                  //等式右边的 dp[j]是上一次计算后的，即左边的值，加上左边的dp[j-1]即为当前结果
+                  //等式右边的 dp[j]是上一次计算后的，即上边的值，加上左边的dp[j-1]即为当前结果
                   dp[j] = dp[j] + dp[j - 1];
               }
           }
