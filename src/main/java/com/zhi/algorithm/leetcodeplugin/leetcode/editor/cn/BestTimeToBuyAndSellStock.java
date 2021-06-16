@@ -35,14 +35,29 @@ package com.zhi.algorithm.leetcodeplugin.leetcode.editor.cn;
 // Related Topics 数组 动态规划 
 // 👍 1668 👎 0
 
-public class BestTimeToBuyAndSellStock{
-  public static void main(String[] args) {
-       Solution solution = new BestTimeToBuyAndSellStock().new Solution();
-  }
-  //leetcode submit region begin(Prohibit modification and deletion)
-class Solution {
+/**
+ * @author zhi
+ */
+public class BestTimeToBuyAndSellStock {
+    public static void main(String[] args) {
+        Solution solution = new BestTimeToBuyAndSellStock().new Solution();
+    }
 
-}
+    //leetcode submit region begin(Prohibit modification and deletion)
+    class Solution {
+        public int maxProfit(int[] prices) {
+            int minPrice = Integer.MAX_VALUE;
+            int res = 0;
+            for (int price : prices) {
+                if (price < minPrice) {
+                    minPrice = price;
+                    continue;
+                }
+                res = Math.max(res, price - minPrice);
+            }
+            return res;
+        }
+    }
 //leetcode submit region end(Prohibit modification and deletion)
 
 }
