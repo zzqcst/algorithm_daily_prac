@@ -23,26 +23,24 @@ package com.zhi.algorithm.leetcodeplugin.leetcode.editor.cn;
 // Related Topics 位运算 
 // 👍 478 👎 0
 
-public class HammingDistance{
-  public static void main(String[] args) {
-       Solution solution = new HammingDistance().new Solution();
-  }
-  //leetcode submit region begin(Prohibit modification and deletion)
-class Solution {
-      public int hammingDistance(int x, int y) {
-          int count = 0;
-          while (x != 0 || y != 0) {
-              int tempx = x & 1;
-              int tempy = y & 1;
-              if (tempx != tempy) {
-                  count++;
-              }
-              x >>>= 1;
-              y >>>= 1;
-          }
-          return count;
-      }
-}
+public class HammingDistance {
+    public static void main(String[] args) {
+        Solution solution = new HammingDistance().new Solution();
+    }
+
+    //leetcode submit region begin(Prohibit modification and deletion)
+    class Solution {
+        public int hammingDistance(int x, int y) {
+            int s = x ^ y, ret = 0;
+            while (s != 0) {
+                //x&(x-1)的操作每次会删除x最右边的1，最终循环次数就是1的个数
+                s &= s - 1;
+                ret++;
+            }
+            return ret;
+
+        }
+    }
 //leetcode submit region end(Prohibit modification and deletion)
 
 }
