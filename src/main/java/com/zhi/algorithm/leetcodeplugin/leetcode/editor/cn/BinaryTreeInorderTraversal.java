@@ -97,7 +97,6 @@ public class BinaryTreeInorderTraversal {
             }
             return res;
         }
-
 //    public List<Integer> inorderTraversal(TreeNode root) {
 //        List<Integer> res = new ArrayList<>();
 //        inorderTraversal(root, res);
