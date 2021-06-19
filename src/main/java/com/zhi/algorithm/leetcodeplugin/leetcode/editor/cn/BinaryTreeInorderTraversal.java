@@ -53,51 +53,70 @@ package com.zhi.algorithm.leetcodeplugin.leetcode.editor.cn;
 // Related Topics 栈 树 哈希表 
 // 👍 984 👎 0
 
+import com.zhi.algorithm.codes.LeetCode;
 import com.zhi.algorithm.datastructure.TreeNode;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-public class BinaryTreeInorderTraversal{
-  public static void main(String[] args) {
-       Solution solution = new BinaryTreeInorderTraversal().new Solution();
-  }
-  //leetcode submit region begin(Prohibit modification and deletion)
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode() {}
- *     TreeNode(int val) { this.val = val; }
- *     TreeNode(int val, TreeNode left, TreeNode right) {
- *         this.val = val;
- *         this.left = left;
- *         this.right = right;
- *     }
- * }
- */
-class Solution {
-    public List<Integer> inorderTraversal(TreeNode root) {
-        List<Integer> res = new ArrayList<>();
-        inorderTraversal(root, res);
-        return res;
+public class BinaryTreeInorderTraversal {
+    public static void main(String[] args) {
+        Solution solution = new BinaryTreeInorderTraversal().new Solution();
     }
+    //leetcode submit region begin(Prohibit modification and deletion)
 
-    private void inorderTraversal(TreeNode root, List<Integer> res) {
-        if (root == null) {
-            return;
+    /**
+     * Definition for a binary tree node.
+     * public class TreeNode {
+     * int val;
+     * TreeNode left;
+     * TreeNode right;
+     * TreeNode() {}
+     * TreeNode(int val) { this.val = val; }
+     * TreeNode(int val, TreeNode left, TreeNode right) {
+     * this.val = val;
+     * this.left = left;
+     * this.right = right;
+     * }
+     * }
+     */
+    class Solution {
+        public List<Integer> inorderTraversal(TreeNode root) {
+            List<Integer> res = new ArrayList<Integer>();
+            Stack<TreeNode> stack = new Stack<>();
+            while (root != null || !stack.isEmpty()) {
+                //一直将左子树节点入栈
+                while (root != null) {
+                    stack.push(root);
+                    root = root.left;
+                }
+                //左子树到底之后，弹出，得到左中的顺序
+                TreeNode node = stack.pop();
+                res.add(node.val);
+                //右子树继续这个过程，得到左中右的顺序
+                root = node.right;
+            }
+            return res;
         }
-        if (root.left != null) {
-            inorderTraversal(root.left, res);
-        }
-        res.add(root.val);
-        if (root.right != null) {
-            inorderTraversal(root.right, res);
-        }
+
+//    public List<Integer> inorderTraversal(TreeNode root) {
+//        List<Integer> res = new ArrayList<>();
+//        inorderTraversal(root, res);
+//        return res;
+//    }
+//
+//    private void inorderTraversal(TreeNode root, List<Integer> res) {
+//        if (root == null) {
+//            return;
+//        }
+//        if (root.left != null) {
+//            inorderTraversal(root.left, res);
+//        }
+//        res.add(root.val);
+//        if (root.right != null) {
+//            inorderTraversal(root.right, res);
+//        }
+//    }
     }
-}
 //leetcode submit region end(Prohibit modification and deletion)
 
 }
