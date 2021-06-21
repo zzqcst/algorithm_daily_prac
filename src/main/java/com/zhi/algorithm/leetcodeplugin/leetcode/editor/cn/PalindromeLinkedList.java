@@ -21,7 +21,6 @@ import com.zhi.algorithm.datastructure.ListNode;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
 /**
  * @author zhi

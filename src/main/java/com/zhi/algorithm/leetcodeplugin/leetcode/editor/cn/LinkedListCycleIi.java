@@ -57,50 +57,55 @@ package com.zhi.algorithm.leetcodeplugin.leetcode.editor.cn;
 // 👍 1025 👎 0
 
 import com.zhi.algorithm.datastructure.ListNode;
+import com.zhi.algorithm.util.DataConstructor;
 
-public class LinkedListCycleIi{
-  public static void main(String[] args) {
-       Solution solution = new LinkedListCycleIi().new Solution();
-  }
-  //leetcode submit region begin(Prohibit modification and deletion)
-/**
- * Definition for singly-linked list.
- * class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode(int x) {
- *         val = x;
- *         next = null;
- *     }
- * }
- */
-public class Solution {
-    public ListNode detectCycle(ListNode head) {
-        //当发现slow 与fast 相遇时，我们再额外使用一个指针
-        //ptr。起始，它指向链表头部；随后，它和slow 每次向后移动一个位置。最终，它们会在入环点相遇。
-        if (head == null) {
-            return null;
-        }
-        ListNode slow = head, fast = head;
-        while (fast != null) {
-            slow = slow.next;
-            if (fast.next != null) {
-                fast = fast.next.next;
-            } else {
+public class LinkedListCycleIi {
+    public static void main(String[] args) {
+        Solution solution = new LinkedListCycleIi().new Solution();
+        ListNode listNode = DataConstructor.buildList(new int[]{3, 2, 0, -4});
+        ListNode[] eachListNode = DataConstructor.getEachListNode(listNode);
+        eachListNode[3].next = eachListNode[1];
+        solution.detectCycle(listNode);
+    }
+    //leetcode submit region begin(Prohibit modification and deletion)
+
+    /**
+     * Definition for singly-linked list.
+     * class ListNode {
+     * int val;
+     * ListNode next;
+     * ListNode(int x) {
+     * val = x;
+     * next = null;
+     * }
+     * }
+     */
+    public class Solution {
+        public ListNode detectCycle(ListNode head) {
+            //当发现slow 与fast 相遇时，我们再额外使用一个指针
+            //ptr。起始，它指向链表头部；随后，它和slow 每次向后移动一个位置。最终，它们会在入环点相遇。
+            if (head == null) {
                 return null;
             }
-            if (fast == slow) {
-                ListNode ptr = head;
-                while (ptr != slow) {
-                    ptr = ptr.next;
-                    slow = slow.next;
+            ListNode slow = head, fast = head;
+            while (fast != null && fast.next != null) {
+                slow = slow.next;
+                fast = fast.next.next;
+                if (slow == fast) {
+                    break;
                 }
-                return ptr;
             }
+            if (fast == null || fast.next == null) {
+                return null;
+            }
+            ListNode tmp = head;
+            while (tmp != slow) {
+                tmp = tmp.next;
+                slow = slow.next;
+            }
+            return slow;
         }
-        return null;
     }
-}
 //leetcode submit region end(Prohibit modification and deletion)
 
 }

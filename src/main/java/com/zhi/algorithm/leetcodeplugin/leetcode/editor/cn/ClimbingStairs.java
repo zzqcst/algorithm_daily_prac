@@ -35,9 +35,9 @@ class Solution {
         if (n <= 3) {
             return n;
         }
-        int pre = 3;
         int prepre = 2;
-        int total =0;
+        int pre = 3;
+        int total = 0;
         for (int i = 4; i <= n; i++) {
             total = pre + prepre;
             prepre = pre;
