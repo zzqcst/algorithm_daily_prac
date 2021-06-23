@@ -68,12 +68,14 @@ public class SortColors {
             int head = 0, tail = nums.length - 1;
             int temp = 0;
             for (int i = 0; i <= tail; i++) {
+                //发现2，就交换到尾部，用while是因为后面元素还没遍历到，交换过来的可能还是2
                 while (i < tail && nums[i] == 2) {
                     temp = nums[i];
                     nums[i] = nums[tail];
                     nums[tail] = temp;
                     tail--;
                 }
+                //发现1，交换到头部,用if时因为是从头部遍历过来的，之前的0已经换到头部了
                 if (nums[i] == 0) {
                     temp = nums[i];
                     nums[i] = nums[head];
