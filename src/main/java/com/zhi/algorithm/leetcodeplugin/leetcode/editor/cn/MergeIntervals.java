@@ -48,26 +48,35 @@ public class MergeIntervals {
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         public int[][] merge(int[][] intervals) {
+            //按每个区间的起始值从小到大排序
             List<int[]> sorted = Arrays.stream(intervals).sorted(Comparator.comparingInt(a -> a[0])).collect(Collectors.toList());
             List<int[]> list = new ArrayList<>();
             int start = -1, end = -1;
+            //相邻的两个区间[a,b]和[c,d]
+            //若大小关系为[a,c,b,d]，则合并为[a,d]
+            //若大小关系为[a,c,d,b],则合并为[a,b]
+            //若大小关系为[a,b,c,d],则无法合并，还是两个区间
             for (int[] interval : sorted) {
                 if (start == -1 && end == -1) {
                     start = interval[0];
                     end = interval[1];
                     continue;
                 }
+                //[a,c,b,d]的情况
                 if (interval[0] >= start && interval[0] <= end && interval[1] > end) {
                     end = interval[1];
                 }
+                //剩余一种情况[a,c,d,b]则区间无变化，不用添加到结果中
+                //无法合并的情况
                 if (interval[0] > end) {
                     list.add(new int[]{start, end});
                     start = interval[0];
                     end = interval[1];
                 }
             }
+            //最终的一个区间
             list.add(new int[]{start, end});
-            return list.toArray(new int[][]{});
+            return list.toArray(new int[0][0]);
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)

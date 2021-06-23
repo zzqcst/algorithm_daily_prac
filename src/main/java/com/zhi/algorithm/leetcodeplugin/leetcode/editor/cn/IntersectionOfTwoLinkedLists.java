@@ -103,6 +103,7 @@ public class IntersectionOfTwoLinkedLists {
             if (headA == null || headB == null) {
                 return null;
             }
+            //两个指针遍历两个链表，遍历到尾部时，各指向对方的头部再次遍历，最终两个指针会在相交节点相遇
             ListNode pA = headA, pB = headB;
             while (pA != pB) {
                 pA = pA == null ? headB : pA.next;

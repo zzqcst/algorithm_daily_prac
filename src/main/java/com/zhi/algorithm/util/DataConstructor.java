@@ -4,7 +4,9 @@ import com.zhi.algorithm.codes.LeetCode;
 import com.zhi.algorithm.datastructure.ListNode;
 import com.zhi.algorithm.datastructure.TreeNode;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 import java.util.regex.Pattern;
 
@@ -75,5 +77,14 @@ public class DataConstructor {
             tmp = tmp.next;
         }
         return head.next;
+    }
+
+    public static ListNode[] getEachListNode(ListNode listNode) {
+        List<ListNode> list = new ArrayList<>();
+        while (listNode != null) {
+            list.add(listNode);
+            listNode = listNode.next;
+        }
+        return list.toArray(new ListNode[0]);
     }
 }

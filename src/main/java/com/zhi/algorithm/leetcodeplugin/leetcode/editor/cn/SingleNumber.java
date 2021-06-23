@@ -32,6 +32,7 @@ public class SingleNumber {
             if (nums.length == 1) {
                 return nums[0];
             }
+            //所有元素异或操作，最终得到的即不同的那个数字
             for (int i = 1; i < nums.length; i++) {
                 nums[0] ^= nums[i];
             }
