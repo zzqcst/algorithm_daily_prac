@@ -43,6 +43,7 @@ public class ShunShiZhenDaYinJuZhenLcof {
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         public int[] spiralOrder(int[][] matrix) {
+            //see leetcode54 螺旋矩阵
             if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
                 return new int[0];
             }
