@@ -48,7 +48,6 @@ package com.zhi.algorithm.leetcodeplugin.leetcode.editor.cn;
 
 public class PingHengErChaShuLcof {
     public static void main(String[] args) {
-
         Solution solution = new PingHengErChaShuLcof().new Solution();
     }
 
