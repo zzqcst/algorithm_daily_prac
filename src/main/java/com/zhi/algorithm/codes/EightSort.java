@@ -186,21 +186,27 @@ public class EightSort {
         }
     }
 
-    private static int partition(int[] arr, int start, int end) {
-        //4,2,3,7,9,1
-        int key = arr[start];
-        while (start < end) {
-            while (start < end && arr[end] >= key) {//从后往前找到一个比枢轴值小的，换到前面去
-                end--;
+    // 交换两个元素的位置
+    public static void swap(int[] arr, int i, int j) {
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+
+    private static int partition(int[] arr, int low, int high) {
+        int pivot = arr[high]; // 选最后一个数作为枢纽
+        int i = (low - 1); // 【low,i]内的数字是比pivot小的数
+
+        // 遍历枢纽数之前的数字，把比枢纽数小的放到前面，i是右边界
+        for (int j = low; j <= high - 1; j++) {
+            if (arr[j] <= pivot) {
+                i++;
+                swap(arr, i, j);
             }
-            arr[start] = arr[end];
-            while (start < end && arr[start] <= key) {//从前往后找到一个比枢轴值大的，换到后面去
-                start++;
-            }
-            arr[end] = arr[start];
         }
-        arr[start] = key;//将枢轴值放到分割处
-        return start;//返回枢轴值的位置
+        // [low,i]的数字比枢纽值小了，交换枢纽值到i+1的位置，完成分区
+        swap(arr, i + 1, high);
+        return (i + 1);
     }
 
     /**

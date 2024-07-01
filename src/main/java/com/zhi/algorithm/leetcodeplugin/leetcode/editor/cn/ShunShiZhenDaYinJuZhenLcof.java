@@ -27,7 +27,6 @@ package com.zhi.algorithm.leetcodeplugin.leetcode.editor.cn;
 // 注意：本题与主站 54 题相同：https://leetcode-cn.com/problems/spiral-matrix/ 
 // Related Topics 数组
 
-import org.apache.tools.ant.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
