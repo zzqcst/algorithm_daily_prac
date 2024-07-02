@@ -193,6 +193,7 @@ public class EightSort {
         arr[j] = temp;
     }
 
+    // 容易记住的partition
     private static int partition(int[] arr, int low, int high) {
         int pivot = arr[high]; // 选最后一个数作为枢纽
         int i = (low - 1); // 【low,i]内的数字是比pivot小的数
@@ -208,6 +209,23 @@ public class EightSort {
         swap(arr, i + 1, high);
         return (i + 1);
     }
+// 更快的partition
+//    private int partition(int[] arr, int start, int end) {
+//        //4,2,3,7,9,1
+//        int key = arr[start];
+//        while (start < end) {
+//            while (start < end && arr[end] >= key) {//从后往前找到一个比枢轴值小的，换到前面去
+//                end--;
+//            }
+//            arr[start] = arr[end];
+//            while (start < end && arr[start] <= key) {//从前往后找到一个比枢轴值大的，换到后面去
+//                start++;
+//            }
+//            arr[end] = arr[start];
+//        }
+//        arr[start] = key;//将枢轴值放到分割处
+//        return start;//返回枢轴值的位置
+//    }
 
     /**
      * 7.归并排序
